@@ -7,8 +7,12 @@ url <- 'https://www.nytimes.com/'
 webpage <- read_html(url)
 headline_data = html_nodes(webpage,'.story-heading , .single-rule+ 
                            .collection h6 , .story-heading a')
-headline_data = html_text(headline_data) #convert to readable text
-head(headline_data) #hmmm, I think it could work
+#headline_data = html_text(headline_data) #convert to readable text
+#head(headline_data) #hmmm, I think it could work
+
+#okay, so I can get the urls this way, but idk how to get rid of the other crap
+attr_data = html_attrs(headline_data) 
+attr_data
 
 #Let's try blurbs on Politics page
 url_nytpoli = 'https://www.nytimes.com/section/politics?action=click&pgtype=Homepage&region=TopBar&module=HPMiniNav&contentCollection=Politics&WT.nav=page'
