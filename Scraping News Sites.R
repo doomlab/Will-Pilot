@@ -1,7 +1,7 @@
 library(rvest)
 ##NY Times##
 #Specifying the url for desired website to be scrapped
-url <- 'https://www.nytimes.com/'
+url <- 'https://www.nytimes.com/section/politics'
 
 #Reading the HTML code from the website - headlines
 webpage <- read_html(url)
