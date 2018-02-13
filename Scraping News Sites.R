@@ -14,6 +14,10 @@ headline_data = html_nodes(webpage,'.story-heading , .single-rule+
 attr_data = html_attrs(headline_data) 
 attr_data
 
+urlslist = unlist(attr_data)
+urlslist = urlslist[grep("http", urlslist)]
+
+
 #Let's try blurbs on Politics page
 url_nytpoli = 'https://www.nytimes.com/section/politics?action=click&pgtype=Homepage&region=TopBar&module=HPMiniNav&contentCollection=Politics&WT.nav=page'
 webpage_nytpoli = read_html(url_nytpoli)
