@@ -5,7 +5,7 @@ url <- 'https://www.nytimes.com/section/politics'
 
 #Reading the HTML code from the website - headlines
 webpage <- read_html(url)
-headline_data = html_nodes(webpage,'.headline , .headline a')
+headline_data = html_nodes(webpage,'.story-link a, .story-body a')
 #headline_data = html_text(headline_data) #convert to readable text
 #head(headline_data) #hmmm, I think it could work
 
@@ -15,7 +15,23 @@ attr_data
 
 urlslist = unlist(attr_data)
 urlslist = urlslist[grep("http", urlslist)]
+urlslist
 
+###start a list
+NYtimeslist = vector("list", length(urlslist))
+
+##for loops
+for (i in 1:length(urlslist)){
+  
+  ##read in the URL
+  webpage <- read_html(urlslist[i])
+  
+  ##pull the specific text
+  headline_data = html_nodes(webpage,'story-body-text story-content')
+  
+  NYtimeslist[[i]] = headline_data
+  names(NYtimeslist)[[i]] = urlslist[i]
+    } ##end for loop
 
 #Let's try blurbs on Politics page
 url_nytpoli = 'https://www.nytimes.com/section/politics?action=click&pgtype=Homepage&region=TopBar&module=HPMiniNav&contentCollection=Politics&WT.nav=page'
