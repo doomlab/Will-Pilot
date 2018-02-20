@@ -5,8 +5,7 @@ url <- 'https://www.nytimes.com/section/politics'
 
 #Reading the HTML code from the website - headlines
 webpage <- read_html(url)
-headline_data = html_nodes(webpage,'.story-heading , .single-rule+ 
-                           .collection h6 , .story-heading a')
+headline_data = html_nodes(webpage,'.headline , .headline a')
 #headline_data = html_text(headline_data) #convert to readable text
 #head(headline_data) #hmmm, I think it could work
 
@@ -30,8 +29,16 @@ head(blurb_data) #same here
 url2 = 'https://www.npr.org/sections/politics/'
 webpage2 = read_html(url2)
 headline_data = html_nodes(webpage2,'.title a')
-headline_data = html_text(headline_data)
-head(headline_data) #Very nice. NPR Politics does not show a huge list on its front page
+#headline_data = html_text(headline_data)
+#head(headline_data) #Very nice. NPR Politics does not show a huge list on its front page
+
+#Los Localizadores Uniformes de Recursos (URLs)
+attr_data2 = html_attrs(headline_data) 
+attr_data2
+
+urlslist2 = unlist(attr_data2)
+urlslist2 = urlslist2[grep("http", urlslist2)]
+urlslist2
 
 #Y los blurbs...
 blurb_data = html_nodes(webpage2,'.teaser a')
