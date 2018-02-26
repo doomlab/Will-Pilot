@@ -27,8 +27,8 @@ for (i in 1:length(urlslist)){
   webpage <- read_html(urlslist[i])
   
   ##pull the specific text
-  headline_data = html_nodes(webpage,'story-body-text story-content')
-  
+  headline_data = html_nodes(webpage,'.story-content') #wait, what the hell is this?
+  #headline_data = html_nodes(webpage,'story-body story-body-1') #not working
   NYtimeslist[[i]] = headline_data
   names(NYtimeslist)[[i]] = urlslist[i]
     } ##end for loop
@@ -56,6 +56,8 @@ urlslist2 = unlist(attr_data2)
 urlslist2 = urlslist2[grep("http", urlslist2)]
 urlslist2
 
+headline_data2 = html_text(webpage,'#ad-mobilebackfill-wrap+ p , .inset2col+ p , p+ p')
+headline_data2 #huh, look at this. We are getting some text, but also much crap
 #Y los blurbs...
 blurb_data = html_nodes(webpage2,'.teaser a')
 blurb_data = html_text(blurb_data)
