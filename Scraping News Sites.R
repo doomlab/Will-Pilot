@@ -15,6 +15,7 @@ attr_data
 
 urlslist = unlist(attr_data)
 urlslist = urlslist[grep("http", urlslist)]
+urlslist = unique(urlslist)
 urlslist
 
 ###start a list
