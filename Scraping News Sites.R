@@ -28,8 +28,8 @@ for (i in 1:length(urlslist)){
   
   ##pull the specific text
   headline_data = html_nodes(webpage,'.story-content') #wait, what the hell is this?
-  #headline_data = html_nodes(webpage,'story-body story-body-1') #not working
-  NYtimeslist[[i]] = headline_data
+  text_data = html_text(headline_data)
+  NYtimeslist[[i]] = text_data
   names(NYtimeslist)[[i]] = urlslist[i]
     } ##end for loop
 
