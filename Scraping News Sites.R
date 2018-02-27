@@ -18,8 +18,10 @@ urlslist = urlslist[grep("http", urlslist)]
 urlslist = unique(urlslist)
 urlslist
 
-###start a list
-NYtimeslist = vector("list", length(urlslist))
+##start a data frame
+NYtimesDF = matrix(NA, nrow = length(urlslist), ncol = 3)
+colnames(NYtimesDF) = c("Source", "Url", "Text")
+NYtimesDF = as.data.frame(NYtimesDF)
 
 ##for loops
 for (i in 1:length(urlslist)){
@@ -27,12 +29,18 @@ for (i in 1:length(urlslist)){
   ##read in the URL
   webpage <- read_html(urlslist[i])
   
-  ##pull the specific text
-  headline_data = html_nodes(webpage,'.story-content') #wait, what the hell is this?
+  ##pull the specific nodes
+  headline_data = html_nodes(webpage,'.story-content') 
+  
+  ##pull the text
   text_data = html_text(headline_data)
-  NYtimeslist[[i]] = text_data
-  names(NYtimeslist)[[i]] = urlslist[i]
+  
+  ##save the data
+  NYtimesDF$Source[i] = "NY Times"
+  NYtimesDF$Url[i] = urlslist[i]
+  NYtimesDF$Text[i] = paste(text_data, collapse = "")
     } ##end for loop
+
 
 #Let's try blurbs on Politics page
 url_nytpoli = 'https://www.nytimes.com/section/politics?action=click&pgtype=Homepage&region=TopBar&module=HPMiniNav&contentCollection=Politics&WT.nav=page'
@@ -84,3 +92,20 @@ headline_data = html_text(headline_data)
 head(headline_data) #Their headlines often show up as disjointed sentence fragments, but that's how they really are
 
 #Breitbart apparently does not do blurbs on its homepage - probably too much nuance...
+
+##fix the above so they all look like NYtimesDF (with different names)
+
+##set your working directory
+#setwd("~/OneDrive - Missouri State University/RESEARCH/2 projects/Will-Pilot")
+
+##import the overalldata 
+overalldata = read.csv("overalldata.csv")
+
+##combine with new data (add the other DF names in here...)
+newdata = rbind(overalldata, NYtimesDF)
+
+##make the newdata unique in case of overlap across days
+newdata = unique(newdata)
+
+##write it back out
+write.csv(newdata, "overalldata.csv", row.names = F)
