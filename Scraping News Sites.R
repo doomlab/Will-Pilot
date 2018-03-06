@@ -91,7 +91,12 @@ attr_data3 = html_attrs(headline_data3)
 attr_data3
 
 urlslist3 = unlist(attr_data3)
-urlslist3 = urlslist3[grep("http", urlslist3)]
+##find all that are href
+urlslist3 = urlslist3[grep("http|.html", urlslist3)]
+##fix the ones without the leading foxnews.com
+urlslist3F = paste("http://www.foxnews.com", urlslist3[grep("^http", urlslist3, invert = T)], sep = "")
+urlslist3N = urlslist3[grep("^http", urlslist3)]
+urlslist3 = c(urlslist3N, urlslist3F)
 urlslist3 = unique(urlslist3)
 urlslist3
 
@@ -129,7 +134,12 @@ attr_data4 = html_attrs(headline_data4)
 attr_data4
 
 urlslist4 = unlist(attr_data4)
-urlslist4 = urlslist4[grep("http", urlslist4)]
+##find all that are href
+urlslist4 = urlslist4[grep("http|/big-government", urlslist4)]
+##fix the ones without the leading bb
+urlslist4F = paste("http://www.breitbart.com", urlslist4[grep("^http", urlslist4, invert = T)], sep = "")
+urlslist4N = urlslist4[grep("^http", urlslist4)]
+urlslist4 = c(urlslist4N, urlslist4F)
 urlslist4 = unique(urlslist4)
 urlslist4
 
@@ -142,7 +152,7 @@ BreitbartDF = as.data.frame(BreitbartDF)
 for (i in 1:length(urlslist4)){
   
   ##read in the URL
-  webpage <- read_html(urlslist4[i])
+  webpage4 <- read_html(urlslist4[i])
   
   ##pull the specific nodes
   headline_data4 = html_nodes(webpage4,'.entry-content p , h2') 
