@@ -75,7 +75,7 @@ for (i in 1:length(urlslist2)){
   text_data2 = html_text(headline_data2)
   
   ##save the data
-  NPR$Source[i] = "NPR"
+  NPRDF$Source[i] = "NPR"
   NPRDF$Url[i] = urlslist2[i]
   NPRDF$Text[i] = paste(text_data2, collapse = "")
 } ##end for loop
@@ -87,7 +87,7 @@ headline_data3 = html_nodes(webpage3, '.story- a , .article-list .title a')
 #headline_data = html_text(headline_data)
 head(headline_data3) #doesn't look bad, the output that is...
 
-attr_data3 = html_attrs(headline_data) 
+attr_data3 = html_attrs(headline_data3) 
 attr_data3
 
 urlslist3 = unlist(attr_data3)
@@ -122,7 +122,7 @@ for (i in 1:length(urlslist3)){
 url4 = 'http://www.breitbart.com/big-government/'
 webpage4 = read_html(url4)
 headline_data4 = html_nodes(webpage4, '.title a , #grid-block-0 span , #BBTrendUL a , #disqus-popularUL a , font')
-headline_data4 = html_text(headline_data4)
+#headline_data4 = html_text(headline_data4)
 head(headline_data4) 
 
 attr_data4 = html_attrs(headline_data4) 
