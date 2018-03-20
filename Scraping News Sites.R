@@ -168,7 +168,7 @@ for (i in 1:length(urlslist4)){
 ##fix the above so they all look like NYtimesDF (with different names)
 
 ##set your working directory
-#setwd("~/OneDrive - Missouri State University/RESEARCH/2 projects/Will-Pilot")
+setwd("~/OneDrive - Missouri State University/RESEARCH/2 projects/Will-Pilot")
 
 ##import the overalldata 
 overalldata = read.csv("overalldata.csv")
@@ -181,3 +181,19 @@ newdata = unique(newdata)
 
 ##write it back out
 write.csv(newdata, "overalldata.csv", row.names = F)
+
+##number of articles
+table(newdata$Source)
+
+##number of words
+library(ngram)
+newdata$Text = as.character(newdata$Text)
+for (i in 1:nrow(newdata)) {
+  
+  #newdata$writing[i] = preprocess(newdata$Text[i], case="lower", remove.punct=TRUE)
+  newdata$wordcount[i] = string.summary(newdata$Text[i])$words
+  
+}
+
+tapply(newdata$wordcount, newdata$Source, mean)
+tapply(newdata$wordcount, newdata$Source, sum)
