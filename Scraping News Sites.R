@@ -165,7 +165,44 @@ for (i in 1:length(urlslist4)){
   BreitbartDF$Url[i] = urlslist4[i]
   BreitbartDF$Text[i] = paste(text_data4, collapse = "")
 } ##end for loop
-##fix the above so they all look like NYtimesDF (with different names)
+
+#NPR Politics Archive page
+url5 = 'https://www.npr.org/sections/politics/archive'
+webpage5 = read_html(url5)
+headline_data5 = html_nodes(webpage5,'.title a')
+#headline_data = html_text(headline_data)
+#head(headline_data)
+
+#Los Localizadores Uniformes de Recursos (URLs)
+attr_data5 = html_attrs(headline_data5) 
+attr_data5
+
+urlslist5 = unlist(attr_data5)
+urlslist5 = urlslist5[grep("http", urlslist5)]
+urlslist5
+
+##start a data frame
+NPRArchiveDF = matrix(NA, nrow = length(urlslist5), ncol = 3)
+colnames(NPRArchiveDF) = c("Source", "Url", "Text")
+NPRArchiveDF = as.data.frame(NPRArchiveDF)
+
+##for loops
+for (i in 1:length(urlslist5)){
+  
+  ##read in the URL
+  webpage5 <- read_html(urlslist5[i])
+  
+  ##pull the specific nodes
+  headline_data5 = html_nodes(webpage5,'#storytext > p') 
+  
+  ##pull the text
+  text_data5 = html_text(headline_data5)
+  
+  ##save the data
+  NPRArchiveDF$Source[i] = "NPR Politics Archive"
+  NPRArchiveDF$Url[i] = urlslist5[i]
+  NPRArchiveDF$Text[i] = paste(text_data5, collapse = "")
+} ##end for loop
 
 ##set your working directory
 setwd("~/OneDrive - Missouri State University/RESEARCH/2 projects/Will-Pilot")
@@ -174,7 +211,7 @@ setwd("~/OneDrive - Missouri State University/RESEARCH/2 projects/Will-Pilot")
 overalldata = read.csv("overalldata.csv")
 
 ##combine with new data (add the other DF names in here...)
-newdata = rbind(overalldata, NYtimesDF, NPRDF, FoxDF, BreitbartDF)
+newdata = rbind(overalldata, NYtimesDF, NPRDF, FoxDF, BreitbartDF, NPRArchiveDF)
 
 ##make the newdata unique in case of overlap across days
 newdata = unique(newdata)
