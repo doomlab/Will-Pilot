@@ -83,15 +83,44 @@ for (i in 1:length(urlslist2)){
 ####Fox News####
 #Y ahora, el Fox News
 url3 = 'http://www.foxnews.com/politics.html'
+url3.1 = 'http://www.foxnews.com/category/politics/executive.html'
+url3.2 = 'http://www.foxnews.com/category/politics/senate.htm.html'
+url3.3 = 'http://www.foxnews.com/category/politics/house-representatives.html'
+url3.4 = 'http://www.foxnews.com/category/politics/judiciary.html'
+url3.5 = 'http://www.foxnews.com/category/politics/foreign-policy.html'
+url3.6 = 'http://www.foxnews.com/category/politics/elections.html'
 webpage3 = read_html(url3)
+webpage3.1 = read_html(url3.1)
+webpage3.2 = read_html(url3.2)
+webpage3.3 = read_html(url3.3)
+webpage3.4 = read_html(url3.4)
+webpage3.5 = read_html(url3.5)
+webpage3.6 = read_html(url3.6)
+
 headline_data3 = html_nodes(webpage3, '.story- a , .article-list .title a')
+headline_data3.1 = html_nodes(webpage3.1, '.story- a , .article-list .title a')
+headline_data3.2 = html_nodes(webpage3.2, '.story- a , .article-list .title a')
+headline_data3.3 = html_nodes(webpage3.3, '.story- a , .article-list .title a')
+headline_data3.4 = html_nodes(webpage3.4, '.story- a , .article-list .title a')
+headline_data3.5 = html_nodes(webpage3.5, '.story- a , .article-list .title a')
+headline_data3.6 = html_nodes(webpage3.6, '.story- a , .article-list .title a')
+
 #headline_data = html_text(headline_data)
 head(headline_data3) #doesn't look bad, the output that is...
 
 attr_data3 = html_attrs(headline_data3) 
+attr_data3.1 = html_attrs(headline_data3.1) 
+attr_data3.2 = html_attrs(headline_data3.2) 
+attr_data3.3 = html_attrs(headline_data3.3) 
+attr_data3.4 = html_attrs(headline_data3.4) 
+attr_data3.5 = html_attrs(headline_data3.5) 
+attr_data3.6 = html_attrs(headline_data3.6) 
+
 attr_data3
 
-urlslist3 = unlist(attr_data3)
+urlslist3 = c(unlist(attr_data3), unlist(attr_data3.1), 
+              unlist(attr_data3.2), unlist(attr_data3.3), 
+              unlist(attr_data3.4), unlist(attr_data3.5, attr_data3.6))
 ##find all that are href
 urlslist3 = urlslist3[grep("http|.html", urlslist3)]
 ##fix the ones without the leading foxnews.com
@@ -218,8 +247,8 @@ overalldata = read.csv("overalldata.csv")
 newdata = rbind(overalldata, NYtimesDF, NPRDF, FoxDF, BreitbartDF, NPRArchiveDF)
 
 #temp NPR updates
-newdata = newdata[ , -4]
-newdata = rbind(newdata, NPRArchiveDF)
+#newdata = newdata[ , -4]
+#newdata = rbind(newdata, NPRArchiveDF)
 
 #change politics archive to NPR, so we can eliminate dupes
 #newdata$Source[newdata$Source == "NPR Politics Archive"] = "NPR"
