@@ -199,7 +199,7 @@ for (i in 1:length(urlslist5)){
   text_data5 = html_text(headline_data5)
   
   ##save the data
-  NPRArchiveDF$Source[i] = "NPR Politics Archive"
+  NPRArchiveDF$Source[i] = "NPR"
   NPRArchiveDF$Url[i] = urlslist5[i]
   NPRArchiveDF$Text[i] = paste(text_data5, collapse = "")
 } ##end for loop
@@ -212,6 +212,9 @@ overalldata = read.csv("overalldata.csv")
 
 ##combine with new data (add the other DF names in here...)
 newdata = rbind(overalldata, NYtimesDF, NPRDF, FoxDF, BreitbartDF, NPRArchiveDF)
+
+#change politics archive to NPR, so we can eliminate dupes
+newdata$Source[newdata$Source == "NPR Politics Archive"] = "NPR"
 
 ##make the newdata unique in case of overlap across days
 newdata = unique(newdata)
