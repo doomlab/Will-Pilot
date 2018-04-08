@@ -215,6 +215,7 @@ newdata = rbind(overalldata, NYtimesDF, NPRDF, FoxDF, BreitbartDF, NPRArchiveDF)
 
 #change politics archive to NPR, so we can eliminate dupes
 newdata$Source[newdata$Source == "NPR Politics Archive"] = "NPR"
+newdata$Source = droplevels(newdata$Source)
 
 ##make the newdata unique in case of overlap across days
 newdata = unique(newdata)
