@@ -1,5 +1,5 @@
 library(rvest)
-##NY Times##
+####NY Times####
 #Specifying the url for desired website to be scrapped
 url <- 'https://www.nytimes.com/section/politics'
 
@@ -41,7 +41,7 @@ for (i in 1:length(urlslist)){
   NYtimesDF$Text[i] = paste(text_data, collapse = "")
     } ##end for loop
 
-
+####NPR original front page####
 #Bueno, aquí está la página politica de NPR
 url2 = 'https://www.npr.org/sections/politics/'
 webpage2 = read_html(url2)
@@ -80,6 +80,7 @@ for (i in 1:length(urlslist2)){
   NPRDF$Text[i] = paste(text_data2, collapse = "")
 } ##end for loop
 
+####Fox News####
 #Y ahora, el Fox News
 url3 = 'http://www.foxnews.com/politics.html'
 webpage3 = read_html(url3)
@@ -123,6 +124,7 @@ for (i in 1:length(urlslist3)){
   FoxDF$Text[i] = paste(text_data3, collapse = "")
 } ##end for loop
 
+####Breitbart####
 #Oh God, it's time to do Breitbart :(
 url4 = 'http://www.breitbart.com/big-government/'
 webpage4 = read_html(url4)
@@ -166,6 +168,7 @@ for (i in 1:length(urlslist4)){
   BreitbartDF$Text[i] = paste(text_data4, collapse = "")
 } ##end for loop
 
+####NPR Archive####
 #NPR Politics Archive page
 url5 = 'https://www.npr.org/sections/politics/archive'
 webpage5 = read_html(url5)
@@ -204,6 +207,7 @@ for (i in 1:length(urlslist5)){
   NPRArchiveDF$Text[i] = paste(text_data5, collapse = "")
 } ##end for loop
 
+####put together####
 ##set your working directory
 setwd("~/OneDrive - Missouri State University/RESEARCH/2 projects/Will-Pilot")
 
@@ -213,9 +217,13 @@ overalldata = read.csv("overalldata.csv")
 ##combine with new data (add the other DF names in here...)
 newdata = rbind(overalldata, NYtimesDF, NPRDF, FoxDF, BreitbartDF, NPRArchiveDF)
 
+#temp NPR updates
+newdata = newdata[ , -4]
+newdata = rbind(newdata, NPRArchiveDF)
+
 #change politics archive to NPR, so we can eliminate dupes
-newdata$Source[newdata$Source == "NPR Politics Archive"] = "NPR"
-newdata$Source = droplevels(newdata$Source)
+#newdata$Source[newdata$Source == "NPR Politics Archive"] = "NPR"
+#newdata$Source = droplevels(newdata$Source)
 
 ##make the newdata unique in case of overlap across days
 newdata = unique(newdata)
