@@ -42,7 +42,6 @@ for (i in 1:length(urlslist)){
     } ##end for loop
 
 ####NPR original front page####
-#Bueno, aquí está la página politica de NPR
 url2 = 'https://www.npr.org/sections/politics/'
 webpage2 = read_html(url2)
 headline_data2 = html_nodes(webpage2,'.title a')
@@ -81,7 +80,6 @@ for (i in 1:length(urlslist2)){
 } ##end for loop
 
 ####Fox News####
-#Y ahora, el Fox News
 url3 = 'http://www.foxnews.com/politics.html'
 url3.1 = 'http://www.foxnews.com/category/politics/executive.html'
 url3.2 = 'http://www.foxnews.com/category/politics/senate.htm.html'
@@ -154,7 +152,6 @@ for (i in 1:length(urlslist3)){
 } ##end for loop
 
 ####Breitbart####
-#Oh God, it's time to do Breitbart :(
 url4 = 'http://www.breitbart.com/big-government/'
 webpage4 = read_html(url4)
 headline_data4 = html_nodes(webpage4, '.title a , #grid-block-0 span , #BBTrendUL a , #disqus-popularUL a , font')
@@ -198,7 +195,6 @@ for (i in 1:length(urlslist4)){
 } ##end for loop
 
 ####NPR Archive####
-#NPR Politics Archive page
 url5 = 'https://www.npr.org/sections/politics/archive'
 webpage5 = read_html(url5)
 headline_data5 = html_nodes(webpage5,'.title a')
