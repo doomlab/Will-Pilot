@@ -271,4 +271,3 @@ for (i in 1:nrow(newdata)) {
 
 tapply(newdata$wordcount, newdata$Source, mean)
 tapply(newdata$wordcount, newdata$Source, sum)
-
