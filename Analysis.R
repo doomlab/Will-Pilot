@@ -48,7 +48,7 @@ for(i in 1:length(final)) {
 
 ##stem the words - do this second in the loop
   final$stemmed[i] = stemDocument(final$edited[i], language = "english")
-}
+} #Whoa!!! - why do the 'edited' and 'stemmed' column all have the exact same text?
 
 ##stem the original MFD stuff - separate loop on only the mfd data frame
 for(i in 1:nrow(original_mfd)) {
@@ -97,3 +97,30 @@ for(i in 1:nrow(original_mfd)) { #counting the number of matches
   #      ))
   }
 }
+
+
+##Playing with stemming
+#Check it out! Only 'adultery' stems to 'adulteri'
+stemDocument("adultery", language = "english")
+stemDocument("adulterous", language = "english")
+stemDocument("adulterer", language = "english")
+stemDocument("adulterous", language = "english")
+
+#sympathy - more weirdness
+stemDocument("sympathy", language = "english")
+stemDocument("sympathetic", language = "english")
+stemDocument("sympathies", language = "english")
+
+#abuse - seems to be consistent across several forms/conjugations
+stemDocument("abuse", language = "english")
+stemDocument("abusive", language = "english")
+stemDocument("abuser", language = "english")
+stemDocument("abused", language = "english")
+stemDocument("abusing", language = "english")
+
+#damage - consistent!!
+stemDocument("damages", language = "english")
+stemDocument("damaged", language = "english")
+stemDocument("damaging", language = "english")
+
+
