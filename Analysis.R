@@ -34,25 +34,66 @@ write.csv(final, "finaldata.csv")
 ##the amount of time people used the original MFD words
 original_mfd = read.csv("original_mfd.csv", stringsAsFactors = F)
 
+library(tm)
+library(ngram)
+
 #process the Text column (write a loop) - save processed text as a separate column
 for(i in 1:length(final)) {
   
-  preprocess(final$Text[i], #one value at a time
+  final$edited[i] = preprocess(final$Text[i], #one value at a time
            case = "lower", 
            remove.punct = TRUE,
            remove.numbers = FALSE, 
            fix.spacing = TRUE)
 
 ##stem the words - do this second in the loop
-stemDocument(final$Text[i], language = "english")
+  final$stemmed[i] = stemDocument(final$edited[i], language = "english")
 }
-##stem the original MFD stuff - separate loop on only the mfd data frame
-for(i in length(original_mfd)) { #counting the number of matches
-  grep("abuse", #put in the MFD stemmed word
-       unlist(strsplit(final$Text[i], " ") #separates out the text one at time
-              ))
-  grep("attack", #put in the MFD stemmed word
-       unlist(strsplit(final$Text[i], " ") #separates out the text one at time
-       )) #before I actually type out every last word, am I on the right track??
 
+##stem the original MFD stuff - separate loop on only the mfd data frame
+for(i in 1:nrow(original_mfd)) {
+  original_mfd$h2[i] = stemDocument(original_mfd$h2[i], language = "english")
+  original_mfd$f2[i] = stemDocument(original_mfd$f2[i], language = "english")
+  original_mfd$i2[i] = stemDocument(original_mfd$i2[i], language = "english")
+  original_mfd$a2[i] = stemDocument(original_mfd$a2[i], language = "english")
+  original_mfd$p2[i] = stemDocument(original_mfd$p2[i], language = "english")
+}
+
+#make a harm data frame
+saveh = matrix(NA, nrow = nrow(final), ncol = nrow(original_mfd))
+
+for(i in 1:nrow(original_mfd)) { #counting the number of matches
+  
+  for (r in 1:nrow(final)){
+    
+  if ( length(
+      grep(original_mfd$h2[i], #put in the MFD stemmed word
+         unlist(strsplit(final$stemmed[r], " ") #separates out the text one at time
+         ) ##close unlist
+         ) ##close grep
+  ) > 0 ) {
+    saveh[r,i] = length(grep(original_mfd$h2[i], #put in the MFD stemmed word
+                      unlist(strsplit(final$stemmed[r], " ") #separates out the text one at time
+                      ) ##close unlist
+    ) ##close grep
+    ) ##close length
+  } else {saveh[r,i] = 0 }
+    
+  
+  # grep(original_mfd$f2[i], #put in the MFD stemmed word
+  #      unlist(strsplit(final$stemmed[r], " ") #separates out the text one at time
+  #      ))
+  # 
+  # grep(original_mfd$i2[i], #put in the MFD stemmed word
+  #      unlist(strsplit(final$stemmed[r], " ") #separates out the text one at time
+  #      ))
+  # 
+  # grep(original_mfd$a2[i], #put in the MFD stemmed word
+  #      unlist(strsplit(final$stemmed[r], " ") #separates out the text one at time
+  #      ))
+  # 
+  # grep(original_mfd$p2[i], #put in the MFD stemmed word
+  #      unlist(strsplit(final$stemmed[r], " ") #separates out the text one at time
+  #      ))
+  }
 }
