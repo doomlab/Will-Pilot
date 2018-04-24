@@ -50,9 +50,9 @@ stemDocument(final$Text[i], language = "english")
 for(i in length(original_mfd)) { #counting the number of matches
   grep("abuse", #put in the MFD stemmed word
        unlist(strsplit(final$Text[i], " ") #separates out the text one at time
-              )),
+              ))
   grep("attack", #put in the MFD stemmed word
        unlist(strsplit(final$Text[i], " ") #separates out the text one at time
-       )), #before I actually type out every last word, am I on the right track??
+       )) #before I actually type out every last word, am I on the right track??
 
 }
