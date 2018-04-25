@@ -27,7 +27,11 @@ final = subset(nodis, URLS == FALSE)
 tapply(final$wordcount, final$Source, mean)
 tapply(final$wordcount, final$Source, sum)
 
-write.csv(final, "finaldata.csv")
+#write.csv(final, "finaldata.csv")
+
+####start here####
+final = read.csv("finaldata.csv", stringsAsFactors = F)
+final = na.omit(final) #one weird NA line
 
 ##figure out the percent of MFD words
 
@@ -38,7 +42,7 @@ library(tm)
 library(ngram)
 
 #process the Text column (write a loop) - save processed text as a separate column
-for(i in 1:length(final)) {
+for(i in 1:nrow(final)) {
   
   final$edited[i] = preprocess(final$Text[i], #one value at a time
            case = "lower", 
@@ -59,44 +63,35 @@ for(i in 1:nrow(original_mfd)) {
   original_mfd$p2[i] = stemDocument(original_mfd$p2[i], language = "english")
 }
 
-#make a harm data frame
-saveh = matrix(NA, nrow = nrow(final), ncol = nrow(original_mfd))
+final$hsum = NA
+final$fsum = NA
+final$isum = NA
+final$asum = NA
+final$psum = NA
 
-for(i in 1:nrow(original_mfd)) { #counting the number of matches
-  
-  for (r in 1:nrow(final)){
-    
-  if ( length(
-      grep(original_mfd$h2[i], #put in the MFD stemmed word
-         unlist(strsplit(final$stemmed[r], " ") #separates out the text one at time
-         ) ##close unlist
-         ) ##close grep
-  ) > 0 ) {
-    saveh[r,i] = length(grep(original_mfd$h2[i], #put in the MFD stemmed word
-                      unlist(strsplit(final$stemmed[r], " ") #separates out the text one at time
-                      ) ##close unlist
-    ) ##close grep
-    ) ##close length
-  } else {saveh[r,i] = 0 }
-    
-  
-  # grep(original_mfd$f2[i], #put in the MFD stemmed word
-  #      unlist(strsplit(final$stemmed[r], " ") #separates out the text one at time
-  #      ))
-  # 
-  # grep(original_mfd$i2[i], #put in the MFD stemmed word
-  #      unlist(strsplit(final$stemmed[r], " ") #separates out the text one at time
-  #      ))
-  # 
-  # grep(original_mfd$a2[i], #put in the MFD stemmed word
-  #      unlist(strsplit(final$stemmed[r], " ") #separates out the text one at time
-  #      ))
-  # 
-  # grep(original_mfd$p2[i], #put in the MFD stemmed word
-  #      unlist(strsplit(final$stemmed[r], " ") #separates out the text one at time
-  #      ))
-  }
+for (i in 1:nrow(final)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
+##find the rows that match the mfd list and sum and save
+final$hsum[i] = sum(temp$Freq[temp$Var1 %in% original_mfd$h2[original_mfd$h2 != ""]])
+final$fsum[i] = sum(temp$Freq[temp$Var1 %in% original_mfd$f2[original_mfd$f2 != ""]])
+final$isum[i] = sum(temp$Freq[temp$Var1 %in% original_mfd$i2[original_mfd$i2 != ""]])
+final$asum[i] = sum(temp$Freq[temp$Var1 %in% original_mfd$a2[original_mfd$a2 != ""]])
+final$psum[i] = sum(temp$Freq[temp$Var1 %in% original_mfd$p2[original_mfd$p2 != ""]])
 }
+
+final$hper = final$hsum / final$wordcount * 100
+final$fper = final$fsum / final$wordcount * 100
+final$iper = final$isum / final$wordcount * 100
+final$aper = final$asum / final$wordcount * 100
+final$pper = final$psum / final$wordcount * 100
+
+#let's look at the means
+tapply(final$hper, final$Source, mean)
+tapply(final$fper, final$Source, mean)
+tapply(final$iper, final$Source, mean)
+tapply(final$aper, final$Source, mean)
+tapply(final$pper, final$Source, mean)
 
 
 ##Playing with stemming
