@@ -38,6 +38,82 @@ final = na.omit(final) #one weird NA line
 ##the amount of time people used the original MFD words
 original_mfd = read.csv("original_mfd.csv", stringsAsFactors = F)
 
+##adding forms/conjugations of words to original_mfd
+#harm/care
+original_mfd[c(27:95),1] = c("abusive","abuser","abused","abusing",
+                             "sympathetic","sympathies","damaged",
+                             "damaging","attacked","attacking","attacker",
+                             "attacks","attackers", "benefits", "benefitted",
+                             "benefitting", "cares", "cared", "caring", "crushes",
+                             "crushing", "crushed", "dangerous", "defends", "defending",
+                             "defended", "detroys", "destroyed", "destroying",
+                             "fights", "fought", "fighting", "guards", "guarded",
+                             "guarding", "harms", "harmed", "harming", "hurts",
+                             "hurting", "kills", "killed", "killing", "preserves",
+                             "preserved", "preserving", "protects", "protected",
+                             "protecting", "protection", "ruins", "ruined", "ruining",
+                             "safely", "safer", "shelters", "sheltered", "sheltering",
+                             "spurns", "spurned", "spurning", "stomps", "stomped",
+                             "stomping", "suffers", "suffered", "suffering",
+                             "violence", "warring")
+                             
+#fairness/reciprocity
+original_mfd[c(20:64),2] = c("balances", "balanced", "balancing","biased",
+                             "biases", "discriminates", "discriminated",
+                             "discriminating", "discrimination", "equals",
+                             "equaled", "equaling", "equates", "equated",
+                             "equating", "evens", "evened", "evening",
+                             "excludes", "excluded", "excluding", "fairness",
+                             "favors", "favored", "favoring", "honesty",
+                             "impariality", "justice", "justifies", "justified",
+                             "justifying", "prefers", "preferred", "preferring",
+                             "prejudices", "prejudiced", "prejudicing", "reasons",
+                             "reasoned", "reasoning", "rights", "tolerates",
+                             "tolerated", "tolerating", "toleration")
+
+#ingroup/loyalty
+original_mfd[c(16:47),3] = c("collects", "collected", "collecting", "collective",
+                             "communities", "deceives", "deceived", "deceiving",
+                             "deception", "deceptions", "deserts", "deserted",
+                             "deserting", "desertion", "families", "fellows",
+                             "foreigners", "groups", "grouped", "grouping",
+                             "indviduals", "indvidualize", "individualized",
+                             "individualizing", "members", "nations", "sides",
+                             "togetherness", "traits", "unites", "united", "uniting")
+
+#authority/respect
+original_mfd[c(31:112),4] = c("abides", "abided", "abiding", "authorities",
+                              "classes", "classed", "classing", "command",
+                              "commanded", "commanding", "controls", "controlled",
+                              "controlling", "defects", "defected", "defecting",
+                              "defers", "deferred", "deferring", "deference",
+                              "defies", "defied", "defying", "defiance", "deserts",
+                              "deserted", "deserting", "desertion", "duties",
+                              "faiths", "fathers", "fathered", "fathering",
+                              "honors", "honored", "honoring", "laws", "leads",
+                              "leading", "mothers", "mothered", "mothering",
+                              "obeys", "obeyed", "obeying", "opposes", "opposed",
+                              "opposing", "orders", "ordered", "ordering", "permits",
+                              "permitted", "permitting", "positions", "positioned",
+                              "positioning", "preserves", "preserved", "preserving",
+                              "preservation", "protests", "protested", "protesting",
+                              "refuses", "refused", "refusing", "refusal", "respects",
+                              "respected", "respecting", "respectful", "reveres",
+                              "revered", "revering", "reverence", "serves", "served",
+                              "serving", "traditions", "traditional", "traits")
+
+#purity/sanctity
+original_mfd[c(21:60),5] = c("abstains", "abstained", "abstaining", "abstinence",
+                             "adulteries", "adulterous", "adulterer", "adulterers",
+                             "churches", "cleans", "cleaned", "cleaning", "cleanse",
+                             "cleanliness", "dirty", "diseases", "diseased", 
+                             "disgusts", "disgusted", "disgusting", "grossness",
+                             "innocence", "modesty", "preserves", "preserved",
+                             "preserving", "preservation", "promiscuity",
+                             "promiscuities", "purity", "rights", "ruins", "ruined",
+                             "ruining", "sacredness", "sickness", "sicknesses",
+                             "sins", "wholeness", "wholesome")
+##load libraries
 library(tm)
 library(ngram)
 
