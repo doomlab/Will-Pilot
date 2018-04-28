@@ -169,29 +169,91 @@ tapply(final$iper, final$Source, mean)
 tapply(final$aper, final$Source, mean)
 tapply(final$pper, final$Source, mean)
 
+##Attempt at MLM
+mlm_data = final[-c(2:8)]
+library(reshape)
+long_mlm = melt(mlm_data,
+                id = "X",
+                measured = c("hsum","fsum", 
+                             "isum", "asum",
+                             "psum","hper",
+                             "fper","iper",
+                             "aper","pper"))
+
+##set up the analysis
+library(nlme)
+#####intercept only model####
+##gls = generalized least squares
+##ML = maximum likelihood
+model1 = gls(value ~ 1, #DV ~ IV (which is only the intercept; is y-average diff than 0?)
+             data = long_mlm, 
+             method = "ML", 
+             na.action = "na.omit")
+summary(model1)
+
+####random intercept only model####
+##note we switched to LME function
+model2 = lme(value ~ 1, 
+             data = long_mlm, 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|X) #sets random intercept for each participant
+summary(model2) #note changed Value in output; also, 
+#Random effects tells how much intercept varies among Pps
+anova(model1, model2) #tests if necessary to nest; Yes, we need to do MLM
+
+####second level####
+model2.1 = lme(value ~ 1, 
+               data = long_mlm, 
+               method = "ML", 
+               na.action = "na.omit",
+               random = list(~1|X, ~1|variable))
+summary(model2.1)
+anova(model1, model2, model2.1) 
+
+####predictor model####
+model3 = lme(value ~ variable, #now we want to switch the 1 for IV of interest
+             data = long_mlm, 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|X)
+summary(model3)
+anova(model1, model2, model3)
+
+####random slopes####
+model4 = lme(value ~ variable,
+             data = long_mlm, 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~ variable|X, #random intercept AND random slope
+             control = lmeControl(msMaxIter = 200))
+summary(model4)
+anova(model1, model2, model3, model4)
+
+
 
 ##Playing with stemming
 #Check it out! Only 'adultery' stems to 'adulteri'
-stemDocument("adultery", language = "english")
-stemDocument("adulterous", language = "english")
-stemDocument("adulterer", language = "english")
-stemDocument("adulterous", language = "english")
-
-#sympathy - more weirdness
-stemDocument("sympathy", language = "english")
-stemDocument("sympathetic", language = "english")
-stemDocument("sympathies", language = "english")
-
-#abuse - seems to be consistent across several forms/conjugations
-stemDocument("abuse", language = "english")
-stemDocument("abusive", language = "english")
-stemDocument("abuser", language = "english")
-stemDocument("abused", language = "english")
-stemDocument("abusing", language = "english")
-
-#damage - consistent!!
-stemDocument("damages", language = "english")
-stemDocument("damaged", language = "english")
-stemDocument("damaging", language = "english")
+# stemDocument("adultery", language = "english")
+# stemDocument("adulterous", language = "english")
+# stemDocument("adulterer", language = "english")
+# stemDocument("adulterous", language = "english")
+# 
+# #sympathy - more weirdness
+# stemDocument("sympathy", language = "english")
+# stemDocument("sympathetic", language = "english")
+# stemDocument("sympathies", language = "english")
+# 
+# #abuse - seems to be consistent across several forms/conjugations
+# stemDocument("abuse", language = "english")
+# stemDocument("abusive", language = "english")
+# stemDocument("abuser", language = "english")
+# stemDocument("abused", language = "english")
+# stemDocument("abusing", language = "english")
+# 
+# #damage - consistent!!
+# stemDocument("damages", language = "english")
+# stemDocument("damaged", language = "english")
+# stemDocument("damaging", language = "english")
 
 
