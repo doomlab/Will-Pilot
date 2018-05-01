@@ -113,6 +113,9 @@ original_mfd[c(21:60),5] = c("abstains", "abstained", "abstaining", "abstinence"
                              "promiscuities", "purity", "rights", "ruins", "ruined",
                              "ruining", "sacredness", "sickness", "sicknesses",
                              "sins", "wholeness", "wholesome")
+
+##separate them into h low, h high until you have ten categories 
+
 ##load libraries
 library(tm)
 library(ngram)
@@ -149,11 +152,11 @@ for (i in 1:nrow(final)) {
 ##first make a table of a response, unlisting everything
 temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
 ##find the rows that match the mfd list and sum and save
-final$hsum[i] = sum(temp$Freq[temp$Var1 %in% original_mfd$h2[original_mfd$h2 != ""]])
-final$fsum[i] = sum(temp$Freq[temp$Var1 %in% original_mfd$f2[original_mfd$f2 != ""]])
-final$isum[i] = sum(temp$Freq[temp$Var1 %in% original_mfd$i2[original_mfd$i2 != ""]])
-final$asum[i] = sum(temp$Freq[temp$Var1 %in% original_mfd$a2[original_mfd$a2 != ""]])
-final$psum[i] = sum(temp$Freq[temp$Var1 %in% original_mfd$p2[original_mfd$p2 != ""]])
+final$hsum[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$h2[original_mfd$h2 != "" & original_mfd$h2 != "NA"])])
+final$fsum[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$f2[original_mfd$f2 != "" & original_mfd$f2 != "NA"])])
+final$isum[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$i2[original_mfd$i2 != "" & original_mfd$i2 != "NA"])])
+final$asum[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$a2[original_mfd$a2 != "" & original_mfd$a2 != "NA"])])
+final$psum[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$p2[original_mfd$p2 != "" & original_mfd$p2 != "NA"])])
 }
 
 final$hper = final$hsum / final$wordcount * 100
@@ -170,22 +173,23 @@ tapply(final$aper, final$Source, mean)
 tapply(final$pper, final$Source, mean)
 
 ##Attempt at MLM
-mlm_data = final[-c(2:8)]
+mlm_data = final[ , -c(3:13) ]
 library(reshape)
 long_mlm = melt(mlm_data,
-                id = "X",
-                measured = c("hsum","fsum", 
-                             "isum", "asum",
-                             "psum","hper",
-                             "fper","iper",
-                             "aper","pper"))
+                id = c("X", "Source"))
+colnames(long_mlm) = c("partno", "Source", "moraltype", "percent")
+long_mlm$lean = factor(long_mlm$Source,
+                       levels = names(table(long_mlm$Source)),
+                       labels = c("Conservative1", "Conservative",
+                                  "Liberal1", "Liberal"))
+long_mlm$lean = gsub("1", "", long_mlm$lean)
 
 ##set up the analysis
 library(nlme)
 #####intercept only model####
 ##gls = generalized least squares
 ##ML = maximum likelihood
-model1 = gls(value ~ 1, #DV ~ IV (which is only the intercept; is y-average diff than 0?)
+model1 = gls(percent ~ 1, #DV ~ IV (which is only the intercept; is y-average diff than 0?)
              data = long_mlm, 
              method = "ML", 
              na.action = "na.omit")
@@ -193,43 +197,41 @@ summary(model1)
 
 ####random intercept only model####
 ##note we switched to LME function
-model2 = lme(value ~ 1, 
+model2 = lme(percent ~ 1, 
              data = long_mlm, 
              method = "ML", 
              na.action = "na.omit",
-             random = ~1|X) #sets random intercept for each participant
+             random = ~1|partno) #sets random intercept for each participant
 summary(model2) #note changed Value in output; also, 
 #Random effects tells how much intercept varies among Pps
 anova(model1, model2) #tests if necessary to nest; Yes, we need to do MLM
 
-####second level####
-model2.1 = lme(value ~ 1, 
-               data = long_mlm, 
-               method = "ML", 
-               na.action = "na.omit",
-               random = list(~1|X, ~1|variable))
-summary(model2.1)
-anova(model1, model2, model2.1) 
-
 ####predictor model####
-model3 = lme(value ~ variable, #now we want to switch the 1 for IV of interest
+model3 = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
              data = long_mlm, 
              method = "ML", 
              na.action = "na.omit",
-             random = ~1|X)
+             random = ~1|partno)
 summary(model3)
 anova(model1, model2, model3)
 
-####random slopes####
-model4 = lme(value ~ variable,
+model3.1 = lme(percent ~ lean + moraltype, #now we want to switch the 1 for IV of interest
              data = long_mlm, 
              method = "ML", 
              na.action = "na.omit",
-             random = ~ variable|X, #random intercept AND random slope
-             control = lmeControl(msMaxIter = 200))
-summary(model4)
-anova(model1, model2, model3, model4)
+             random = ~1|partno)
+summary(model3.1)
 
+model3.2 = lme(percent ~ lean * moraltype, #now we want to switch the 1 for IV of interest
+               data = long_mlm, 
+               method = "ML", 
+               na.action = "na.omit",
+               random = ~1|partno)
+summary(model3.2)
+
+##create separate datasets for each moral foundation use subset
+
+##model 3 on each moral foundation separately 
 
 
 ##Playing with stemming
