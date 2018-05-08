@@ -153,12 +153,12 @@ original_mfd$f2hi[1:40] = c("balance", "constant", "equal", "equate", "even",
                       "balanced", "balancing",
                       "equals", "equaled", "equaling", "equates", "equated",
                       "equating", "evens", "evened", "evening","fairness",
-                      "honesty", "impariality", "justice", "justifies", 
+                      "honesty", "impartiality", "justice", "justifies", 
                       "justified", "justifying", "reasons",
                       "reasoned", "reasoning", "rights", "tolerates",
                       "tolerated", "tolerating", "toleration")
-original_mfd$f2lo[41:112] = NA
-original_mfd$f2lo[1:40] = c("bias", "discriminate", "exclude", "favor",
+original_mfd$f2lo[25:112] = NA
+original_mfd$f2lo[1:24] = c("bias", "discriminate", "exclude", "favor",
                       "prefer", "prejudice", "biased", "biases", "discriminates", 
                       "discriminated", "discriminating", "discrimination",
                       "excludes", "excluded", "excluding", 
@@ -246,33 +246,21 @@ for(i in 1:nrow(final)) {
 
 ##stem the words - do this second in the loop
   final$stemmed[i] = stemDocument(final$edited[i], language = "english")
-} #Whoa!!! - why do the 'edited' and 'stemmed' column all have the exact same text?
+} 
 
 ##stem the original MFD stuff - separate loop on only the mfd data frame
 for(i in 1:nrow(original_mfd)) {
- # original_mfd$h2[i] = stemDocument(original_mfd$h2[i], language = "english")
- # original_mfd$f2[i] = stemDocument(original_mfd$f2[i], language = "english")
- # original_mfd$i2[i] = stemDocument(original_mfd$i2[i], language = "english")
- # original_mfd$a2[i] = stemDocument(original_mfd$a2[i], language = "english")
- # original_mfd$p2[i] = stemDocument(original_mfd$p2[i], language = "english")
-  
-  original_mfd$h2hi[i] = stemDocument(original_mfd$h2[i], language = "english")
-  original_mfd$h2lo[i] = stemDocument(original_mfd$h2[i], language = "english")
-  original_mfd$f2hi[i] = stemDocument(original_mfd$f2[i], language = "english")
-  original_mfd$f2lo[i] = stemDocument(original_mfd$f2[i], language = "english")
-  original_mfd$i2hi[i] = stemDocument(original_mfd$i2[i], language = "english")
-  original_mfd$i2lo[i] = stemDocument(original_mfd$i2[i], language = "english")
-  original_mfd$a2hi[i] = stemDocument(original_mfd$a2[i], language = "english")
-  original_mfd$a2lo[i] = stemDocument(original_mfd$a2[i], language = "english")
-  original_mfd$p2hi[i] = stemDocument(original_mfd$p2[i], language = "english")
-  original_mfd$p2lo[i] = stemDocument(original_mfd$p2[i], language = "english")
+  original_mfd$h2hi[i] = stemDocument(original_mfd$h2hi[i], language = "english")
+  original_mfd$h2lo[i] = stemDocument(original_mfd$h2lo[i], language = "english")
+  original_mfd$f2hi[i] = stemDocument(original_mfd$f2hi[i], language = "english")
+  original_mfd$f2lo[i] = stemDocument(original_mfd$f2lo[i], language = "english")
+  original_mfd$i2hi[i] = stemDocument(original_mfd$i2hi[i], language = "english")
+  original_mfd$i2lo[i] = stemDocument(original_mfd$i2lo[i], language = "english")
+  original_mfd$a2hi[i] = stemDocument(original_mfd$a2hi[i], language = "english")
+  original_mfd$a2lo[i] = stemDocument(original_mfd$a2lo[i], language = "english")
+  original_mfd$p2hi[i] = stemDocument(original_mfd$p2hi[i], language = "english")
+  original_mfd$p2lo[i] = stemDocument(original_mfd$p2lo[i], language = "english")
 }
-
-# final$hsum = NA
-# final$fsum = NA
-# final$isum = NA
-# final$asum = NA
-# final$psum = NA
 
 final$hhisum = NA
 final$hlosum = NA
@@ -289,62 +277,47 @@ for (i in 1:nrow(final)) {
 ##first make a table of a response, unlisting everything
 temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
 ##find the rows that match the mfd list and sum and save
-final$hsum[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$h2[original_mfd$h2 != "" & original_mfd$h2 != "NA"])])
 final$hsumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$h2hi[original_mfd$h2hi != "" & original_mfd$h2hi != "NA"])])
 final$hsumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$h2lo[original_mfd$h2lo != "" & original_mfd$h2lo != "NA"])])
 
-final$fsum[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$f2[original_mfd$f2 != "" & original_mfd$f2 != "NA"])])
 final$fsumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$f2hi[original_mfd$f2hi != "" & original_mfd$f2hi != "NA"])])
 final$fsumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$f2lo[original_mfd$f2lo != "" & original_mfd$f2lo != "NA"])])
 
-final$isum[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$i2[original_mfd$i2 != "" & original_mfd$i2 != "NA"])])
 final$isumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$i2hi[original_mfd$i2hi != "" & original_mfd$i2hi != "NA"])])
 final$isumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$i2lo[original_mfd$i2lo != "" & original_mfd$i2lo != "NA"])])
 
-final$asum[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$a2[original_mfd$a2 != "" & original_mfd$a2 != "NA"])])
 final$asumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$a2hi[original_mfd$a2hi != "" & original_mfd$a2hi != "NA"])])
 final$asumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$a2lo[original_mfd$a2lo != "" & original_mfd$a2lo != "NA"])])
 
-final$psum[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$p2[original_mfd$p2 != "" & original_mfd$p2 != "NA"])])
 final$psumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$p2hi[original_mfd$p2hi != "" & original_mfd$p2hi != "NA"])])
 final$psumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$p2lo[original_mfd$p2lo != "" & original_mfd$p2lo != "NA"])])
 }
 
-final$hper = final$hsum / final$wordcount * 100
 final$hperhi = final$hsumhi / final$wordcount * 100
 final$hperlo = final$hsumlo / final$wordcount * 100
-final$fper = final$fsum / final$wordcount * 100
 final$fperhi = final$fsumhi / final$wordcount * 100
 final$fperlo = final$fsumlo / final$wordcount * 100
-final$iper = final$isum / final$wordcount * 100
 final$iperhi = final$isumhi / final$wordcount * 100
 final$iperlo = final$isumlo / final$wordcount * 100
-final$aper = final$asum / final$wordcount * 100
 final$aperhi = final$asumhi / final$wordcount * 100
 final$aperlo = final$asumlo / final$wordcount * 100
-final$pper = final$psum / final$wordcount * 100
 final$pperhi = final$psumhi / final$wordcount * 100
 final$pperlo = final$psumlo / final$wordcount * 100
+
 #let's look at the means
-tapply(final$hper, final$Source, mean)
 tapply(final$hperhi, final$Source, mean)
 tapply(final$hperlo, final$Source, mean)
-tapply(final$fper, final$Source, mean)
 tapply(final$fperhi, final$Source, mean)
 tapply(final$fperlo, final$Source, mean)
-tapply(final$iper, final$Source, mean)
 tapply(final$iperhi, final$Source, mean)
 tapply(final$iperlo, final$Source, mean)
-tapply(final$aper, final$Source, mean)
 tapply(final$aperhi, final$Source, mean)
 tapply(final$aperlo, final$Source, mean)
-tapply(final$pper, final$Source, mean)
 tapply(final$pperhi, final$Source, mean)
 tapply(final$pperlo, final$Source, mean)
 
-
 ##Attempt at MLM
-mlm_data = final[ , -c(3:48) ]
+mlm_data = final[ , -c(3:28) ]
 library(reshape)
 long_mlm = melt(mlm_data,
                 id = c("X", "Source"))
@@ -400,9 +373,15 @@ model3.2 = lme(percent ~ lean * moraltype, #now we want to switch the 1 for IV o
                random = ~1|partno)
 summary(model3.2)
 
-##create separate datasets for each moral foundation use subset
-
 ##model 3 on each moral foundation separately 
+model3h_hi = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
+             data = long_mlm[long_mlm$moraltype == "hperhi", ], 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|partno)
+summary(model3h_hi)
+tapply(long_mlm[long_mlm$moraltype == "hperhi", ]$percent,
+       long_mlm[long_mlm$moraltype == "hperhi", ]$lean, mean)
 
 
 ##Playing with stemming
