@@ -373,7 +373,8 @@ model3.2 = lme(percent ~ lean * moraltype, #now we want to switch the 1 for IV o
                random = ~1|partno)
 summary(model3.2)
 
-##model 3 on each moral foundation separately 
+##model 3 on each moral foundation separately
+#h_hi
 model3h_hi = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
              data = long_mlm[long_mlm$moraltype == "hperhi", ], 
              method = "ML", 
@@ -382,8 +383,87 @@ model3h_hi = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
 summary(model3h_hi)
 tapply(long_mlm[long_mlm$moraltype == "hperhi", ]$percent,
        long_mlm[long_mlm$moraltype == "hperhi", ]$lean, mean)
-
-
+#h_lo
+model3h_lo = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
+                 data = long_mlm[long_mlm$moraltype == "hperlo", ], 
+                 method = "ML", 
+                 na.action = "na.omit",
+                 random = ~1|partno)
+summary(model3h_lo)
+tapply(long_mlm[long_mlm$moraltype == "hperlo", ]$percent,
+       long_mlm[long_mlm$moraltype == "hperlo", ]$lean, mean)
+#f_hi
+model3f_hi = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
+                 data = long_mlm[long_mlm$moraltype == "fperhi", ], 
+                 method = "ML", 
+                 na.action = "na.omit",
+                 random = ~1|partno)
+summary(model3f_hi)
+tapply(long_mlm[long_mlm$moraltype == "fperhi", ]$percent,
+       long_mlm[long_mlm$moraltype == "fperhi", ]$lean, mean)
+#f_lo
+model3f_lo = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
+                 data = long_mlm[long_mlm$moraltype == "fperlo", ], 
+                 method = "ML", 
+                 na.action = "na.omit",
+                 random = ~1|partno)
+summary(model3f_lo)
+tapply(long_mlm[long_mlm$moraltype == "fperlo", ]$percent,
+       long_mlm[long_mlm$moraltype == "fperlo", ]$lean, mean)
+#i_hi
+model3i_hi = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
+                 data = long_mlm[long_mlm$moraltype == "iperhi", ], 
+                 method = "ML", 
+                 na.action = "na.omit",
+                 random = ~1|partno)
+summary(model3i_hi)
+tapply(long_mlm[long_mlm$moraltype == "iperhi", ]$percent,
+       long_mlm[long_mlm$moraltype == "iperhi", ]$lean, mean)
+#i_lo
+model3i_lo = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
+                 data = long_mlm[long_mlm$moraltype == "iperlo", ], 
+                 method = "ML", 
+                 na.action = "na.omit",
+                 random = ~1|partno)
+summary(model3i_lo)
+tapply(long_mlm[long_mlm$moraltype == "iperlo", ]$percent,
+       long_mlm[long_mlm$moraltype == "iperlo", ]$lean, mean)
+#a_hi
+model3a_hi = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
+                 data = long_mlm[long_mlm$moraltype == "aperhi", ], 
+                 method = "ML", 
+                 na.action = "na.omit",
+                 random = ~1|partno)
+summary(model3a_hi)
+tapply(long_mlm[long_mlm$moraltype == "aperhi", ]$percent,
+       long_mlm[long_mlm$moraltype == "aperhi", ]$lean, mean)
+#a_lo
+model3a_lo = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
+                 data = long_mlm[long_mlm$moraltype == "aperlo", ], 
+                 method = "ML", 
+                 na.action = "na.omit",
+                 random = ~1|partno)
+summary(model3a_lo)
+tapply(long_mlm[long_mlm$moraltype == "aperlo", ]$percent,
+       long_mlm[long_mlm$moraltype == "aperlo", ]$lean, mean)
+#p_hi
+model3p_hi = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
+                 data = long_mlm[long_mlm$moraltype == "pperhi", ], 
+                 method = "ML", 
+                 na.action = "na.omit",
+                 random = ~1|partno)
+summary(model3p_hi)
+tapply(long_mlm[long_mlm$moraltype == "pperhi", ]$percent,
+       long_mlm[long_mlm$moraltype == "pperhi", ]$lean, mean)
+#p_lo
+model3p_lo = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
+                 data = long_mlm[long_mlm$moraltype == "pperlo", ], 
+                 method = "ML", 
+                 na.action = "na.omit",
+                 random = ~1|partno)
+summary(model3p_lo)
+tapply(long_mlm[long_mlm$moraltype == "pperlo", ]$percent,
+       long_mlm[long_mlm$moraltype == "pperlo", ]$lean, mean)
 ##Playing with stemming
 #Check it out! Only 'adultery' stems to 'adulteri'
 # stemDocument("adultery", language = "english")
