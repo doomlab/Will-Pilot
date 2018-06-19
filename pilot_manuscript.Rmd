@@ -6,17 +6,15 @@ author:
   - name          : "William E. Padfield"
     affiliation   : "1"
     corresponding : yes    # Define only one corresponding author
-    address       : "Postal address"
+    address       : "901 S. National Ave, Springfield, MO, 65897"
     email         : "Padfield94@live.missouristate.edu"
   - name          : "Erin M. Buchanan, PhD."
-    affiliation   : "1,2"
+    affiliation   : "1"
 
 affiliation:
   - id            : "1"
     institution   : "Missouri State University"
-  - id            : "2"
-    institution   : "Konstanz Business School"
-
+  
 author_note: |
   Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
 
@@ -28,7 +26,7 @@ abstract: |
 keywords          : "keywords"
 wordcount         : "X"
 
-bibliography      : ["r-references.bib"]
+#bibliography      : ["r-references.bib"] #turn this off right now so it knits
 
 figsintext        : no
 figurelist        : no
@@ -47,9 +45,11 @@ library("papaja")
 
 # Method
 
-## Participants
-Political articles were scraped from the websites of four (*N* = 4) notable U.S. news sources. The sources were *The New York Times*, National Public Radio (NPR), *Fox News*, and *Breitbart*. They were selected for their widespread recognition and the fact they are easily categorized (by the general public) according to perceived political lean. In general, *The New York Times* and *NPR* are perceived by many to have a liberal bias or lean. In contrast, Fox News and Breitbart are believed to have a conservative bias or lean. Political articles in particular were identified and subsequently scraped by including the specific URL directing to each source's political content in the *R* script. For example, rather than scrape from nytimes.com, which would return undesired results (non-political features, reviews, etc.), we instead included nytimes.com/section/politics so that more or less exclusively political content was obtained.  
-Identification of the sources' poltical URLs presented a problem for two of the sources owing to complications with how their particular sites were structured. While in the multi-week process of scraping articles, we noticed word counts for NPR and *Fox News* were not growing at a similar pace as those from *The New York Times* and *Breitbart*. Upon investigation, we found another, more robust URL for polticial content from NPR: their poltics content "archive." The page structure on NPR's website was such that only a limited selection of articles is displayed to the user at a given time. Scraping both the archive and the normal politics page ensured we were obtaining most (if not all) new articles as they were published. We later ran a process in order to exclude any duplicate articles. *Fox News* presented a similar issue. We discovered *Fox News* utilized six URLs in addition to the regular politics page. These URLs led to pages containing content pertaining the U.S. Executive Branch, Senate, House of Representatives, Judicial Branch, foreign policy, and elections. Once again, duplicates were subsequently eliminated from any analyses.  
+## Sources
+
+Political articles were scraped from the websites of four notable U.S. news sources. The sources were *The New York Times*, *National Public Radio (NPR)*, *Fox News*, and *Breitbart*. They were selected for their widespread recognition and the fact they are easily categorized (by the general public) according to perceived political lean. In general, *The New York Times* and *NPR* are perceived by many to have a liberal bias or lean. In contrast, Fox News and Breitbart are believed to have a conservative bias or lean. Political articles in particular were identified and subsequently scraped by including the specific URL directing to each source's political content in the *R* script. For example, rather than scrape from nytimes.com, which would return undesired results (non-political features, reviews, etc.), we instead included nytimes.com/section/politics so that more or less exclusively political content was obtained.
+
+Identification of the sources' poltical URLs presented a problem for two of the sources owing to complications with how their particular sites were structured. While in the multi-week process of scraping articles, we noticed word counts for *NPR* and *Fox News* were not growing at a similar pace as those from *The New York Times* and *Breitbart*. Upon investigation, we found another, more robust URL for polticial content from NPR: their poltics content "archive." The page structure on NPR's website was such that only a limited selection of articles is displayed to the user at a given time. Scraping both the archive and the normal politics page ensured we were obtaining most (if not all) new articles as they were published. We later ran a process in order to exclude any duplicate articles. *Fox News* presented a similar issue. We discovered *Fox News* utilized six URLs in addition to the regular politics page. These URLs led to pages containing content pertaining the U.S. Executive Branch, Senate, House of Representatives, Judicial Branch, foreign policy, and elections. Once again, duplicates were subsequently eliminated from any analyses.  
 
 ## Material
 
@@ -365,7 +365,7 @@ final = na.omit(final) #one weird NA line
 
 ```
 
-```{r fix MFD, eval=FALSE, include=FALSE}
+```{r fix-MFD, eval=FALSE, include=FALSE}
 ##figure out the percent of MFD words
 
 ##the amount of time people used the original MFD words
@@ -566,7 +566,7 @@ original_mfd$p2lo[1:29] = c("adultery", "dirt", "disease", "disgust", "gross",
                       "sickness", "sicknesses", "sins")
 ```
 
-```{r process text, eval=FALSE, include=FALSE}
+```{r process-text, eval=FALSE, include=FALSE}
 ##load libraries
 library(tm)
 library(ngram)
