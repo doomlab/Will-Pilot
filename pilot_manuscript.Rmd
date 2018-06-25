@@ -54,6 +54,8 @@ Identification of the sources' poltical URLs presented a problem for two of the 
 ## Material
 
 ## Procedure
+Using the 'rvest' library in the statistical package *R*, we pulled body text for individual articles from each of the aforementioned sources (identified using CSS language) and compiled them into a dataset. Using this dataset, we identified word count and average word count per source. This process was run once daily starting on *DATE* until *DATE.* Starting on *DATE,* the process was run twice daily - once inthe morning and again in the evening. Data collection was terminated once 250,000 words per source was collected on *DATE.*  
+
 
 ```{r scraping, eval=FALSE, include=FALSE}
 library(rvest)
@@ -330,6 +332,7 @@ tapply(newdata$wordcount, newdata$Source, sum)
 
 ## Data analysis
 
+Once data collection ended, the text was scanned using the ngram package in *R*. This was done in order to remove articles that came through as blank text, as well as to eliminate text picked up from the Disqus commenting system used by certain websites. At this point, duplicate articles were discarded.
 ```{r data-cleanup, eval=FALSE, include=FALSE}
 ##pull in the data
 master = read.csv("overalldata.csv", stringsAsFactors = F)
@@ -364,7 +367,7 @@ final = read.csv("finaldata.csv", stringsAsFactors = F)
 final = na.omit(final) #one weird NA line
 
 ```
-
+In order to fully capture the evaluative power of the Moral Foundations Dictionary (MFD; *CITE*), forms and conjugations of words were added to the original MFD. For example, *abuse* was supplemented with *abusive*, *abuser*, *abused*, and *abusing.* Once additional word forms were added, the words making up each of the five foundations in the MFD were split among positive and negative dimensions (i.e. *abide* as a postive authority/respect word and *defect* as a negative authority/respect word).
 ```{r fix-MFD, eval=FALSE, include=FALSE}
 ##figure out the percent of MFD words
 
@@ -565,7 +568,7 @@ original_mfd$p2lo[1:29] = c("adultery", "dirt", "disease", "disgust", "gross",
                       "promiscuities", "ruins", "ruined","ruining", 
                       "sickness", "sicknesses", "sins")
 ```
-
+Once the MFD was separated along lines of positive and negative, the article text was processed using the "tm" and "ngram" packages in *R* in order to render the text in lowercase, remove punctuation, and fix spacing issues. The individual words were then reduced to their stems (i.e. *abused* was stemmed to *abus*). The same was done to the MFD words. The article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with a sum and percentage of their occurence.
 ```{r process-text, eval=FALSE, include=FALSE}
 ##load libraries
 library(tm)
@@ -652,7 +655,7 @@ tapply(final$aperlo, final$Source, mean)
 tapply(final$pperhi, final$Source, mean)
 tapply(final$pperlo, final$Source, mean)
 ```
-
+Usung the "nlme" library in *R*, a 2 X 5 multillevel model with news source as a random intercept was run. *IMMA NEED SOME HELP WITH HOW TO STRUCTURE THIS PART :)*
 ```{r mlm, eval=FALSE, include=FALSE}
 ##Attempt at MLM
 mlm_data = final[ , -c(3:28) ]
