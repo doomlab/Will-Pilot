@@ -42,7 +42,10 @@ output            : papaja::apa6_pdf
 ```{r load_packages, include = FALSE}
 library("papaja")
 ```
-
+# Introduction
+Talk about MFT, MFQ, MFD
+Talk about political discourse, nature of news media in 2018/Trump era
+This project brings the two together in holy matrimony.
 # Method
 
 ## Sources
@@ -332,7 +335,7 @@ tapply(newdata$wordcount, newdata$Source, sum)
 
 ## Data analysis
 
-Once data collection ended, the text was scanned using the ngram package in *R*. This was done in order to remove articles that came through as blank text, as well as to eliminate text picked up from the Disqus commenting system used by certain websites. At this point, duplicate articles were discarded.
+Once data collection ended, the text was scanned using the "ngram" package in *R*. This was done in order to remove articles that came through as blank text, as well as to eliminate text picked up from the Disqus commenting system used by certain websites. At this point, duplicate articles were discarded.
 ```{r data-cleanup, eval=FALSE, include=FALSE}
 ##pull in the data
 master = read.csv("overalldata.csv", stringsAsFactors = F)
@@ -655,7 +658,7 @@ tapply(final$aperlo, final$Source, mean)
 tapply(final$pperhi, final$Source, mean)
 tapply(final$pperlo, final$Source, mean)
 ```
-Usung the "nlme" library in *R*, a 2 X 5 multillevel model with news source as a random intercept was run. *IMMA NEED SOME HELP WITH HOW TO STRUCTURE THIS PART :)*
+Usung the "nlme" library in *R*, a 2 X 5 multillevel model with news source as a random intercept was run. First, an intercept-only model was run, followed by a random intercept model. Next, a predictor model with political lean predicting percent of MFD words, a model adding MFD category (i.e. "harm-positive," "harm-negative", etc.) as a predictor, and a model with the interaction of political lean and MFD category predicting percent were run. Finally, a series of 10 models were run with political lean predicting percent split into the 10 MFD categories.
 ```{r mlm, eval=FALSE, include=FALSE}
 ##Attempt at MLM
 mlm_data = final[ , -c(3:28) ]
@@ -808,9 +811,11 @@ tapply(long_mlm[long_mlm$moraltype == "pperlo", ]$percent,
 ```
 
 # Results
-
+NUMBERS!!!
 # Discussion
-
+How it turned out
+What to do for future project
+Argue: why is still a good thing to study??
 
 \newpage
 
