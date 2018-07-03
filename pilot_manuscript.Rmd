@@ -41,6 +41,7 @@ output            : papaja::apa6_pdf
 
 ```{r load_packages, include = FALSE}
 library("papaja")
+library(MuMIn)
 ```
 # Introduction
 Talk about MFT, MFQ, MFD
@@ -711,6 +712,7 @@ model3 = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
              random = ~1|partno)
 summary(model3)
 anova(model1, model2, model3)
+r.squaredGLMM(model3) #gives you two, report both
 
 model3.1 = lme(percent ~ lean + moraltype, #now we want to switch the 1 for IV of interest
              data = long_mlm, 
