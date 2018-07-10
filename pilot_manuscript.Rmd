@@ -336,7 +336,7 @@ tapply(newdata$wordcount, newdata$Source, sum)
 
 Once data collection ended, the text was scanned using the *ngram* package in *R* [@CITE_ngram]. This package includes a word count function, which was used to remove articles that came through as blank text, as well as to eliminate text picked up from the Disqus commenting system used by certain websites. At this point, duplicate articles were discarded.
 
-```{r data-cleanup, eval=FALSE, include=FALSE}
+```{r data-cleanup, eval=TRUE, include=FALSE}
 ##pull in the data
 master = read.csv("overalldata.csv", stringsAsFactors = F)
 
@@ -373,7 +373,7 @@ final = na.omit(final) #one weird NA line
 
 In order to fully capture the evaluative power of the Moral Foundations Dictionary (MFD; *CITE*), forms and conjugations of words were added to the original MFD. For example, *abuse* was supplemented with *abusive*, *abuser*, *abused*, and *abusing*. Once additional word forms were added, the words making up each of the five foundations in the MFD were split among positive and negative dimensions (i.e., *abide* as a postive authority/respect word and *defect* as a negative authority/respect word).
 
-```{r fix-MFD, eval=FALSE, include=FALSE}
+```{r fix-MFD, eval=TRUE, include=FALSE}
 ##figure out the percent of MFD words
 
 ##the amount of time people used the original MFD words
@@ -576,7 +576,7 @@ original_mfd$p2lo[1:29] = c("adultery", "dirt", "disease", "disgust", "gross",
 
 Once the MFD was separated along lines of positive and negative, the article text was processed using the *tm* and *ngram* packages in *R* in order to render the text in lowercase, remove punctuation, and fix spacing issues [@CITE_tm]. The individual words were then reduced to their stems (i.e., *abused* was stemmed to *abus*). The same procedure was applied to the MFD words, and the addition of multiple forms of each concept allowed for the capture of all versions of stemming that might occur given *tm*'s English stemmer function. The article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with a sum and percentage of their occurence.
 
-```{r process-text, eval=FALSE, include=FALSE}
+```{r process-text, eval=TRUE, include=FALSE}
 ##load libraries
 library(tm)
 library(ngram)
@@ -703,7 +703,7 @@ model2 = lme(percent ~ 1,
 summary(model2) #note changed Value in output; also, 
 #Random effects tells how much intercept varies among Pps
 anova(model1, model2) #tests if necessary to nest; Yes, we need to do MLM
-
+r.squaredGLMM(model2)
 ####predictor model####
 model3 = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
              data = long_mlm, 
@@ -720,14 +720,14 @@ model3.1 = lme(percent ~ lean + moraltype, #now we want to switch the 1 for IV o
              na.action = "na.omit",
              random = ~1|partno)
 summary(model3.1)
-
+r.squaredGLMM(model3.1)
 model3.2 = lme(percent ~ lean * moraltype, #now we want to switch the 1 for IV of interest
                data = long_mlm, 
                method = "ML", 
                na.action = "na.omit",
                random = ~1|partno)
 summary(model3.2)
-
+r.squaredGLMM(model3.2)
 ##model 3 on each moral foundation separately
 #h_hi
 model3h_hi = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
@@ -821,8 +821,52 @@ tapply(long_mlm[long_mlm$moraltype == "pperlo", ]$percent,
        long_mlm[long_mlm$moraltype == "pperlo", ]$lean, mean)
 ```
 
+
+```{r mlm table}
+##three models
+table = matrix(NA, nrow = 5, ncol = 10)
+colnames(table) = c("Model", "Degrees of Freedom", "AIC", "BIC", 
+                    "Log Likelihood", "R2m", "R2c", "Test", "L Ratio", "p-value")
+
+##stick in the information you need
+table[1, ] = c("Model 1", 2, 43610.91, 
+               43627.55, -21803.46, "", "",
+               "", "", "")
+
+table[2, ] = c("Model 2", 3, 43611.04, 
+               43636.01, -21802.52, 0.000, 0.004,
+               "Model 1 vs Model 2", 1.871644, 0.173)
+
+table[3, ] = c("Model 3", 4, 43604.33, 
+               43637.62, -21798.17, 0.0003, 0.0037,
+               "Model 2 vs. Model 3", 8.703020, 0.0032)
+
+table[4, ] = c("Model 3.1", 13, 37913.11, 
+               38021.30, -18943.55, 0.17, 0.19,
+               "Model 3 vs. Model 3.1", 5709.23, "< .001")
+
+table[5, ] = c("Model 3.2", 22, 37904.00, 
+              38087.09, -18930.00, 0.17, 0.19,
+               "Model 3.1 vs. Model 3.2", 27.11, 0.001)
+
+
+##print that sucker out
+library(knitr)
+kable(table)
+```
+
 # Results
-NUMBERS!!!
+Anymore screening/data prep here?
+
+Political lean of the news organization was used to predict the percent of words matching the Moral Foundations Dictionary. According to an analysis of variance (ANOVA) between the intercept-only model (Model 1) and the random intercept-only model (Model 2, *R2m* = 0.00, *R2c* = 0.004), there were no statistically significant differences (*F* = *?*, *p* = 0.17). There was a signficant difference between the random intercept-only model and the predictor model (Model 3, *R2m* = 0.0003, *R2c* = 0.0037), *F* = *?*, *p* = .003).  We found a significant difference between the two political leans (*b* = -0.018, *SE* = 0.006, *t*(3039) = -2.95, *p* = 0.003). Next, we added Moral Foundation Type as a predictor of percent to the third model (Model 3.1, *R2m* = 0.17, *R2c* = 0.19). The ANOVA revealed a significant difference between Models 3 and 3.1, *F* = *?*, *p* < .001)
+
+#Significance for, like, all of the little moral types. Put in table?
+
+Finally, we analyzed the interaction between political lean and Moral Foundation type as a preditor of percent (Model 3.2, *R2m* = 0.17, *R2c* = 0.19). Using ANOVA, we found a significant difference between Models 3.1 and 3.2, *F* = *?*, *p* = .001).
+
+#Again, lots of stuff here. Needs to be reported? Put in table?
+
+Comparisons between the models can be found in Table 1. 
 # Discussion
 How it turned out
 What to do for future project
