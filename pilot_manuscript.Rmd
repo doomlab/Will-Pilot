@@ -40,12 +40,16 @@ output            : papaja::apa6_pdf
 ---
 
 ```{r load_packages, include = FALSE}
-library("papaja")
+library("papaja") #R says this package doesn't exist in current version :/
 library(MuMIn)
 ```
 # Introduction
-Talk about MFT, MFQ, MFD
+Talk about MFT, MFQ, MFD (primer on moral psychology?)
+
+(Brief) primer on political research? 
+
 Talk about political discourse, nature of news media in 2018/Trump era
+
 This project brings the two together in holy matrimony.
 # Method
 
@@ -825,6 +829,8 @@ tapply(long_mlm[long_mlm$moraltype == "pperlo", ]$percent,
 ```{r mlm table}
 ##three models
 table = matrix(NA, nrow = 5, ncol = 10)
+
+##ARE ALL OF THESE COLUMNS NEEDED?? ALSO, ORDER?
 colnames(table) = c("Model", "Degrees of Freedom", "AIC", "BIC", 
                     "Log Likelihood", "R2m", "R2c", "Test", "L Ratio", "p-value")
 
@@ -856,7 +862,7 @@ kable(table)
 ```
 
 # Results
-Anymore screening/data prep here?
+Any more screening/data prep here?
 
 Political lean of the news organization was used to predict the percent of words matching the Moral Foundations Dictionary. According to an analysis of variance (ANOVA) between the intercept-only model (Model 1) and the random intercept-only model (Model 2, *R2m* = 0.00, *R2c* = 0.004), there were no statistically significant differences (*F* = *?*, *p* = 0.17). There was a signficant difference between the random intercept-only model and the predictor model (Model 3, *R2m* = 0.0003, *R2c* = 0.0037), *F* = *?*, *p* = .003).  We found a significant difference between the two political leans (*b* = -0.018, *SE* = 0.006, *t*(3039) = -2.95, *p* = 0.003). Next, we added Moral Foundation Type as a predictor of percent to the third model (Model 3.1, *R2m* = 0.17, *R2c* = 0.19). The ANOVA revealed a significant difference between Models 3 and 3.1, *F* = *?*, *p* < .001)
 
@@ -869,8 +875,12 @@ Finally, we analyzed the interaction between political lean and Moral Foundation
 Comparisons between the models can be found in Table 1. 
 # Discussion
 How it turned out
-What to do for future project
-Argue: why is still a good thing to study??
+
+Limitations of this one (no rationale behind choosing sources except "people say NPR's liberal??")
+
+What to do for future project (focus on one MF? Different sources? More sources?)
+
+Argue: why is still a good thing to study?? (probably something about current state of discourse, information, truth, "alternative facts," subjective reality - philosophical stuff)
 
 \newpage
 
