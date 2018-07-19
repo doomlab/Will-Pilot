@@ -8,7 +8,7 @@ author:
     corresponding : yes    # Define only one corresponding author
     address       : "901 S. National Ave, Springfield, MO, 65897"
     email         : "Padfield94@live.missouristate.edu"
-  - name          : "Erin M. Buchanan, PhD."
+  - name          : "Erin M. Buchanan, Ph.D."
     affiliation   : "1"
 
 affiliation:
@@ -42,6 +42,7 @@ output            : papaja::apa6_pdf
 ```{r load_packages, include = FALSE}
 library("papaja") #R says this package doesn't exist in current version :/
 library(MuMIn)
+knitr::opts_chunk$set(cache = TRUE)
 ```
 # Introduction
 Talk about MFT, MFQ, MFD (primer on moral psychology?)
@@ -55,13 +56,12 @@ This project brings the two together in holy matrimony.
 
 ## Sources
 
-Political articles were scraped from the websites of four notable U.S. news sources. The sources were *The New York Times*, *National Public Radio (NPR)*, *Fox News*, and *Breitbart*. They were selected for their widespread recognition and the fact they are easily categorized (by the general public) according to perceived political lean. In general, *The New York Times* and *NPR* are perceived by many to have a liberal bias or lean. In contrast, Fox News and Breitbart are believed to have a conservative bias or lean. Political articles in particular were identified and subsequently scraped by including the specific URL directing to each source's political content in the *R* script. For example, rather than scrape from nytimes.com, which would return undesired results (non-political features, reviews, etc.), we instead included nytimes.com/section/politics so that more or less exclusively political content was obtained.
+Political articles were scraped from the websites of four notable U.S. news sources. The sources were *The New York Times*, *National Public Radio (NPR)*, *Fox News*, and *Breitbart*. They were selected for their widespread recognition and the fact they are easily categorized (by the general public) according to perceived political lean. In general, *The New York Times* and *NPR* are perceived by many to have a liberal bias or lean. In contrast, Fox News and Breitbart are believed to have a conservative bias or lean. Political articles in particular were identified and subsequently scraped by including the specific URL directing to each source's political content in the *R* script. For example, rather than scrape from nytimes.com, which would return undesired results (non-political features, reviews, etc.), we instead included nytimes.com/section/politics so that more or less exclusively political content was obtained. All code for this manuscript can be found at OSF LINK, and the scripts are provided inline with this manuscript written with the *papaja* library [@Aust2017]. 
 
-Identification of the sources' poltical URLs presented a problem for two of the sources owing to complications with how their particular sites were structured. While in the multi-week process of scraping articles, we noticed word counts for *NPR* and *Fox News* were not growing at a similar pace as those from *The New York Times* and *Breitbart*. Upon investigation, we found another, more robust URL for polticial content from NPR: their poltics content "archive." The page structure on NPR's website was such that only a limited selection of articles is displayed to the user at a given time. Scraping both the archive and the normal politics page ensured we were obtaining most (if not all) new articles as they were published. We later ran a process in order to exclude any duplicate articles. *Fox News* presented a similar issue. We discovered *Fox News* utilized six URLs in addition to the regular politics page. These URLs led to pages containing content pertaining the U.S. Executive Branch, Senate, House of Representatives, Judicial Branch, foreign policy, and elections. Once again, duplicates were subsequently eliminated from any analyses.  
+Identification of the sources' political URLs presented a problem for two of the sources owing to complications with how their particular sites were structured. While in the multi-week process of scraping articles, we noticed word counts for *NPR* and *Fox News* were not growing at a similar pace as those from *The New York Times* and *Breitbart*. Upon investigation, we found another, more robust URL for political content from NPR: their politics content "archive." The page structure on NPR's website was such that only a limited selection of articles is displayed to the user at a given time. Scraping both the archive and the normal politics page ensured we were obtaining most (if not all) new articles as they were published. We later ran a process in order to exclude any duplicate articles. *Fox News* presented a similar issue. We discovered *Fox News* utilized six URLs in addition to the regular politics page. These URLs led to pages containing content pertaining the U.S. Executive Branch, Senate, House of Representatives, Judicial Branch, foreign policy, and elections. Once again, duplicates were subsequently eliminated from any analyses.  
 
-## Material
+## Materials
 
-## Procedure
 Using the *rvest* library in the statistical package *R*, we pulled body text for individual articles from each of the aforementioned sources (identified using CSS language) and compiled them into a dataset [@CITE_rvest]. Using this dataset, we identified word count and average word count per source. This process was run once daily starting on *DATE* until *DATE.* Starting on *DATE,* the process was run twice daily - once in the morning and again in the evening. Data collection was terminated once 250,000 words per source was collected on *DATE.*  
 
 ```{r scraping, eval=FALSE, include=FALSE}
@@ -375,7 +375,7 @@ final = na.omit(final) #one weird NA line
 
 ```
 
-In order to fully capture the evaluative power of the Moral Foundations Dictionary (MFD; *CITE*), forms and conjugations of words were added to the original MFD. For example, *abuse* was supplemented with *abusive*, *abuser*, *abused*, and *abusing*. Once additional word forms were added, the words making up each of the five foundations in the MFD were split among positive and negative dimensions (i.e., *abide* as a postive authority/respect word and *defect* as a negative authority/respect word).
+In order to fully capture the evaluative power of the Moral Foundations Dictionary (MFD; *CITE*), forms and conjugations of words were added to the original MFD. For example, *abuse* was supplemented with *abusive*, *abuser*, *abused*, and *abusing*. Once additional word forms were added, the words making up each of the five foundations in the MFD were split among positive and negative dimensions (i.e., *abide* as a positive authority/respect word and *defect* as a negative authority/respect word).
 
 ```{r fix-MFD, eval=TRUE, include=FALSE}
 ##figure out the percent of MFD words
@@ -578,7 +578,7 @@ original_mfd$p2lo[1:29] = c("adultery", "dirt", "disease", "disgust", "gross",
                       "sickness", "sicknesses", "sins")
 ```
 
-Once the MFD was separated along lines of positive and negative, the article text was processed using the *tm* and *ngram* packages in *R* in order to render the text in lowercase, remove punctuation, and fix spacing issues [@CITE_tm]. The individual words were then reduced to their stems (i.e., *abused* was stemmed to *abus*). The same procedure was applied to the MFD words, and the addition of multiple forms of each concept allowed for the capture of all versions of stemming that might occur given *tm*'s English stemmer function. The article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with a sum and percentage of their occurence.
+Once the MFD was separated along lines of positive and negative dimensions for each of the foundations, the article text was processed using the *tm* and *ngram* packages in *R* in order to render the text in lowercase, remove punctuation, and fix spacing issues [@CITE_tm]. The individual words were then reduced to their stems (i.e., *abused* was stemmed to *abus*). The same procedure was applied to the MFD words, and the addition of multiple forms of each concept allowed for the capture of all versions of stemming that might occur given *tm*'s English stemmer function. The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with a percentage of their occurrence. Therefore, for each article, the percentage of the number of *harm* (low end) and *care* (high end) related words were calculated and this process was repeated for each of the foundations. This procedure created ten percentages that were included as the dependent variable for the following analyses. 
 
 ```{r process-text, eval=TRUE, include=FALSE}
 ##load libraries
@@ -667,13 +667,7 @@ tapply(final$pperhi, final$Source, mean)
 tapply(final$pperlo, final$Source, mean)
 ```
 
-Using the *nlme* library in *R*, a 2 (Political Lean) by 5 (MFD area) multillevel model with news source as a random intercept was analyzed to control for correlated error between articles published in the same news source. An intercept-only model was compared to a random intercept model with the news sources as the random factor, and ...SAY HERE WHAT HAPPENED? PROB A TABLE OF THE MODEL #S. 
-
-#stopped here to ask questions 
-
-Next, a predictor model with political lean predicting percent of MFD words, a model adding MFD category (i.e. "harm-positive," "harm-negative", etc.) as a predictor, and a model with the interaction of political lean and MFD category predicting percent were run. Finally, a series of 10 models were run with political lean predicting percent split into the 10 MFD categories.
-
-```{r mlm, eval=FALSE, include=FALSE}
+```{r mlm-analyses, include = FALSE}
 ##Attempt at MLM
 mlm_data = final[ , -c(3:28) ]
 library(reshape)
@@ -688,6 +682,7 @@ long_mlm$lean = gsub("1", "", long_mlm$lean)
 
 ##set up the analysis
 library(nlme)
+
 #####intercept only model####
 ##gls = generalized least squares
 ##ML = maximum likelihood
@@ -696,6 +691,59 @@ model1 = gls(percent ~ 1, #DV ~ IV (which is only the intercept; is y-average di
              method = "ML", 
              na.action = "na.omit")
 summary(model1)
+
+```
+
+```{r model-table, results='asis', include=FALSE}
+tableprint = matrix(NA, nrow = 10, ncol = 10)
+
+
+##stuff you had before
+##three models
+table = matrix(NA, nrow = 5, ncol = 10)
+
+##ARE ALL OF THESE COLUMNS NEEDED?? ALSO, ORDER?
+colnames(table) = c("Model", "Degrees of Freedom", "AIC", "BIC", 
+                    "Log Likelihood", "R2m", "R2c", "Test", "L Ratio", "p-value")
+
+##stick in the information you need
+table[1, ] = c("Model 1", 2, 43610.91, 
+               43627.55, -21803.46, "", "",
+               "", "", "")
+
+table[2, ] = c("Model 2", 3, 43611.04, 
+               43636.01, -21802.52, 0.000, 0.004,
+               "Model 1 vs Model 2", 1.871644, 0.173)
+
+table[3, ] = c("Model 3", 4, 43604.33, 
+               43637.62, -21798.17, 0.0003, 0.0037,
+               "Model 2 vs. Model 3", 8.703020, 0.0032)
+
+table[4, ] = c("Model 3.1", 13, 37913.11, 
+               38021.30, -18943.55, 0.17, 0.19,
+               "Model 3 vs. Model 3.1", 5709.23, "< .001")
+
+table[5, ] = c("Model 3.2", 22, 37904.00, 
+              38087.09, -18930.00, 0.17, 0.19,
+               "Model 3.1 vs. Model 3.2", 27.11, 0.001)
+
+```
+
+# Results 
+
+To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nest structured of the data, which creates correlated error [@CITE_gelman]. First, an intercept only model was created using percent text overall as the dependent variable. Using the *nlme* library in *R* [@CITE_nlme], a model with the news source as the random intercept was analyzed to determine if it was necessary to control for correlated error. Table @\ref(tab:model-table) includes the model statistics for all models. 
+
+
+
+
+
+#stopped here to ask questions 
+
+Next, a predictor model with political lean predicting percent of MFD words, a model adding MFD category (i.e. "harm-positive," "harm-negative", etc.) as a predictor, and a model with the interaction of political lean and MFD category predicting percent were run. Finally, a series of 10 models were run with political lean predicting percent split into the 10 MFD categories.
+
+```{r mlm, eval=FALSE, include=FALSE}
+
+
 
 ####random intercept only model####
 ##note we switched to LME function
@@ -826,49 +874,14 @@ tapply(long_mlm[long_mlm$moraltype == "pperlo", ]$percent,
 ```
 
 
-```{r mlm table}
-##three models
-table = matrix(NA, nrow = 5, ncol = 10)
 
-##ARE ALL OF THESE COLUMNS NEEDED?? ALSO, ORDER?
-colnames(table) = c("Model", "Degrees of Freedom", "AIC", "BIC", 
-                    "Log Likelihood", "R2m", "R2c", "Test", "L Ratio", "p-value")
-
-##stick in the information you need
-table[1, ] = c("Model 1", 2, 43610.91, 
-               43627.55, -21803.46, "", "",
-               "", "", "")
-
-table[2, ] = c("Model 2", 3, 43611.04, 
-               43636.01, -21802.52, 0.000, 0.004,
-               "Model 1 vs Model 2", 1.871644, 0.173)
-
-table[3, ] = c("Model 3", 4, 43604.33, 
-               43637.62, -21798.17, 0.0003, 0.0037,
-               "Model 2 vs. Model 3", 8.703020, 0.0032)
-
-table[4, ] = c("Model 3.1", 13, 37913.11, 
-               38021.30, -18943.55, 0.17, 0.19,
-               "Model 3 vs. Model 3.1", 5709.23, "< .001")
-
-table[5, ] = c("Model 3.2", 22, 37904.00, 
-              38087.09, -18930.00, 0.17, 0.19,
-               "Model 3.1 vs. Model 3.2", 27.11, 0.001)
-
-
-##print that sucker out
-library(knitr)
-kable(table)
-```
-
-# Results
 Any more screening/data prep here?
 
-Political lean of the news organization was used to predict the percent of words matching the Moral Foundations Dictionary. According to an analysis of variance (ANOVA) between the intercept-only model (Model 1) and the random intercept-only model (Model 2, *R2m* = 0.00, *R2c* = 0.004), there were no statistically significant differences (*F* = *?*, *p* = 0.17). There was a signficant difference between the random intercept-only model and the predictor model (Model 3, *R2m* = 0.0003, *R2c* = 0.0037), *F* = *?*, *p* = .003).  We found a significant difference between the two political leans (*b* = -0.018, *SE* = 0.006, *t*(3039) = -2.95, *p* = 0.003). Next, we added Moral Foundation Type as a predictor of percent to the third model (Model 3.1, *R2m* = 0.17, *R2c* = 0.19). The ANOVA revealed a significant difference between Models 3 and 3.1, *F* = *?*, *p* < .001)
+Political lean of the news organization was used to predict the percent of words matching the Moral Foundations Dictionary. According to an analysis of variance (ANOVA) between the intercept-only model (Model 1) and the random intercept-only model (Model 2, *R2m* = 0.00, *R2c* = 0.004), there were no statistically significant differences (*F* = *?*, *p* = 0.17). There was a significant difference between the random intercept-only model and the predictor model (Model 3, *R2m* = 0.0003, *R2c* = 0.0037), *F* = *?*, *p* = .003).  We found a significant difference between the two political leans (*b* = -0.018, *SE* = 0.006, *t*(3039) = -2.95, *p* = 0.003). Next, we added Moral Foundation Type as a predictor of percent to the third model (Model 3.1, *R2m* = 0.17, *R2c* = 0.19). The ANOVA revealed a significant difference between Models 3 and 3.1, *F* = *?*, *p* < .001)
 
 #Significance for, like, all of the little moral types. Put in table?
 
-Finally, we analyzed the interaction between political lean and Moral Foundation type as a preditor of percent (Model 3.2, *R2m* = 0.17, *R2c* = 0.19). Using ANOVA, we found a significant difference between Models 3.1 and 3.2, *F* = *?*, *p* = .001).
+Finally, we analyzed the interaction between political lean and Moral Foundation type as a predictor of percent (Model 3.2, *R2m* = 0.17, *R2c* = 0.19). Using ANOVA, we found a significant difference between Models 3.1 and 3.2, *F* = *?*, *p* = .001).
 
 #Again, lots of stuff here. Needs to be reported? Put in table?
 
