@@ -40,7 +40,7 @@ output            : papaja::apa6_pdf
 ---
 
 ```{r load_packages, include = FALSE}
-library("papaja") #R says this package doesn't exist in current version :/
+library(papaja) #R says this package doesn't exist in current version :/
 library(MuMIn)
 knitr::opts_chunk$set(cache = TRUE)
 ```
@@ -871,6 +871,110 @@ model3p_lo = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
 summary(model3p_lo)
 tapply(long_mlm[long_mlm$moraltype == "pperlo", ]$percent,
        long_mlm[long_mlm$moraltype == "pperlo", ]$lean, mean)
+
+
+####NEW MODELS####
+
+##overall percent - no random intercept
+model4 = lme(percent ~ 1,
+             data = long_mlm, 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|partno) #How to get rid of intercept??
+summary(model4)
+r.squaredGLMM(model4)
+
+##overall percent - random intercept by source
+model4.1 = lme(percent ~ 1,
+             data = long_mlm, 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|Source)
+summary(model4.1)
+r.squaredGLMM(model4.1)
+
+##MFD category ~ lean 
+model5.1 = lme(percent ~ lean,
+             data = long_mlm[long_mlm$moraltype == "hperhi", ], 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|Source)
+summary(model5.1)
+r.squaredGLMM(model5.1)
+
+model5.2 = lme(percent ~ lean,
+             data = long_mlm[long_mlm$moraltype == "hperlo", ], 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|Source)
+summary(model5.2)
+r.squaredGLMM(model5.2)
+
+model5.3 = lme(percent ~ lean,
+             data = long_mlm[long_mlm$moraltype == "fperhi", ], 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|Source)
+summary(model5.3)
+r.squaredGLMM(model5.3)
+
+model5.4 = lme(percent ~ lean,
+             data = long_mlm[long_mlm$moraltype == "fperlo", ], 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|Source)
+summary(model5.4)
+r.squaredGLMM(model5.4)
+
+model5.5 = lme(percent ~ lean,
+             data = long_mlm[long_mlm$moraltype == "iperhi", ], 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|Source)
+summary(model5.5)
+r.squaredGLMM(model5.5)
+
+model5.6 = lme(percent ~ lean,
+             data = long_mlm[long_mlm$moraltype == "iperlo", ], 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|Source)
+summary(model5.6)
+r.squaredGLMM(model5.6)
+
+model5.7 = lme(percent ~ lean,
+             data = long_mlm[long_mlm$moraltype == "aperhi", ], 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|Source)
+summary(model5.7)
+r.squaredGLMM(model5.7)
+
+model5.8 = lme(percent ~ lean,
+             data = long_mlm[long_mlm$moraltype == "aperlo", ], 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|Source)
+summary(model5.8)
+r.squaredGLMM(model5.8)
+
+model5.9 = lme(percent ~ lean,
+             data = long_mlm[long_mlm$moraltype == "pperhi", ], 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|Source)
+summary(model5.9)
+r.squaredGLMM(model5.9)
+
+model5.10 = lme(percent ~ lean,
+             data = long_mlm[long_mlm$moraltype == "pperlo", ], 
+             method = "ML", 
+             na.action = "na.omit",
+             random = ~1|Source)
+summary(model5.10)
+r.squaredGLMM(model5.10)
+
+
 ```
 
 
