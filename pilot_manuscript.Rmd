@@ -40,8 +40,12 @@ output            : papaja::apa6_pdf
 ---
 
 ```{r load_packages, include = FALSE}
-library(papaja) #R says this package doesn't exist in current version :/
+library(papaja) 
 library(MuMIn)
+library(reshape)
+library(nlme)
+library(ggplot2)
+
 knitr::opts_chunk$set(cache = TRUE)
 ```
 # Introduction
@@ -667,10 +671,9 @@ tapply(final$pperhi, final$Source, mean)
 tapply(final$pperlo, final$Source, mean)
 ```
 
-```{r mlm-analyses, include = FALSE}
+```{r mlm-analyses, echo=FALSE, warning=FALSE, include = FALSE}
 ##Attempt at MLM
 mlm_data = final[ , -c(3:28) ]
-library(reshape)
 long_mlm = melt(mlm_data,
                 id = c("X", "Source"))
 colnames(long_mlm) = c("partno", "Source", "moraltype", "percent")
@@ -680,316 +683,197 @@ long_mlm$lean = factor(long_mlm$Source,
                                   "Liberal1", "Liberal"))
 long_mlm$lean = gsub("1", "", long_mlm$lean)
 
-##set up the analysis
-library(nlme)
-
 #####intercept only model####
 ##gls = generalized least squares
 ##ML = maximum likelihood
-model1 = gls(percent ~ 1, #DV ~ IV (which is only the intercept; is y-average diff than 0?)
+model1 = gls(percent ~ 1, 
              data = long_mlm, 
              method = "ML", 
              na.action = "na.omit")
 summary(model1)
 
-```
-
-```{r model-table, results='asis', include=FALSE}
-tableprint = matrix(NA, nrow = 10, ncol = 10)
-
-
-##stuff you had before
-##three models
-table = matrix(NA, nrow = 5, ncol = 10)
-
-##ARE ALL OF THESE COLUMNS NEEDED?? ALSO, ORDER?
-colnames(table) = c("Model", "Degrees of Freedom", "AIC", "BIC", 
-                    "Log Likelihood", "R2m", "R2c", "Test", "L Ratio", "p-value")
-
-##stick in the information you need
-table[1, ] = c("Model 1", 2, 43610.91, 
-               43627.55, -21803.46, "", "",
-               "", "", "")
-
-table[2, ] = c("Model 2", 3, 43611.04, 
-               43636.01, -21802.52, 0.000, 0.004,
-               "Model 1 vs Model 2", 1.871644, 0.173)
-
-table[3, ] = c("Model 3", 4, 43604.33, 
-               43637.62, -21798.17, 0.0003, 0.0037,
-               "Model 2 vs. Model 3", 8.703020, 0.0032)
-
-table[4, ] = c("Model 3.1", 13, 37913.11, 
-               38021.30, -18943.55, 0.17, 0.19,
-               "Model 3 vs. Model 3.1", 5709.23, "< .001")
-
-table[5, ] = c("Model 3.2", 22, 37904.00, 
-              38087.09, -18930.00, 0.17, 0.19,
-               "Model 3.1 vs. Model 3.2", 27.11, 0.001)
-
-```
-
-# Results 
-
-To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nest structured of the data, which creates correlated error [@CITE_gelman]. First, an intercept only model was created using percent text overall as the dependent variable. Using the *nlme* library in *R* [@CITE_nlme], a model with the news source as the random intercept was analyzed to determine if it was necessary to control for correlated error. Table @\ref(tab:model-table) includes the model statistics for all models. 
-
-
-
-
-
-#stopped here to ask questions 
-
-Next, a predictor model with political lean predicting percent of MFD words, a model adding MFD category (i.e. "harm-positive," "harm-negative", etc.) as a predictor, and a model with the interaction of political lean and MFD category predicting percent were run. Finally, a series of 10 models were run with political lean predicting percent split into the 10 MFD categories.
-
-```{r mlm, eval=FALSE, include=FALSE}
-
-
-
-####random intercept only model####
-##note we switched to LME function
-model2 = lme(percent ~ 1, 
+####overall percent - random intercept by source####
+model3 = lme(percent ~ 1,
              data = long_mlm, 
              method = "ML", 
              na.action = "na.omit",
-             random = ~1|partno) #sets random intercept for each participant
-summary(model2) #note changed Value in output; also, 
-#Random effects tells how much intercept varies among Pps
-anova(model1, model2) #tests if necessary to nest; Yes, we need to do MLM
-r.squaredGLMM(model2)
-####predictor model####
-model3 = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
-             data = long_mlm, 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|partno)
+             random = ~1|Source)
 summary(model3)
-anova(model1, model2, model3)
-r.squaredGLMM(model3) #gives you two, report both
+r.squaredGLMM(model3)
 
-model3.1 = lme(percent ~ lean + moraltype, #now we want to switch the 1 for IV of interest
-             data = long_mlm, 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|partno)
-summary(model3.1)
-r.squaredGLMM(model3.1)
-model3.2 = lme(percent ~ lean * moraltype, #now we want to switch the 1 for IV of interest
-               data = long_mlm, 
-               method = "ML", 
-               na.action = "na.omit",
-               random = ~1|partno)
-summary(model3.2)
-r.squaredGLMM(model3.2)
-##model 3 on each moral foundation separately
-#h_hi
-model3h_hi = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
+####separate models by type####
+##MFD category ~ lean 
+model4.1 = lme(percent ~ lean,
              data = long_mlm[long_mlm$moraltype == "hperhi", ], 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|partno)
-summary(model3h_hi)
-tapply(long_mlm[long_mlm$moraltype == "hperhi", ]$percent,
-       long_mlm[long_mlm$moraltype == "hperhi", ]$lean, mean)
-#h_lo
-model3h_lo = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
-                 data = long_mlm[long_mlm$moraltype == "hperlo", ], 
-                 method = "ML", 
-                 na.action = "na.omit",
-                 random = ~1|partno)
-summary(model3h_lo)
-tapply(long_mlm[long_mlm$moraltype == "hperlo", ]$percent,
-       long_mlm[long_mlm$moraltype == "hperlo", ]$lean, mean)
-#f_hi
-model3f_hi = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
-                 data = long_mlm[long_mlm$moraltype == "fperhi", ], 
-                 method = "ML", 
-                 na.action = "na.omit",
-                 random = ~1|partno)
-summary(model3f_hi)
-tapply(long_mlm[long_mlm$moraltype == "fperhi", ]$percent,
-       long_mlm[long_mlm$moraltype == "fperhi", ]$lean, mean)
-#f_lo
-model3f_lo = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
-                 data = long_mlm[long_mlm$moraltype == "fperlo", ], 
-                 method = "ML", 
-                 na.action = "na.omit",
-                 random = ~1|partno)
-summary(model3f_lo)
-tapply(long_mlm[long_mlm$moraltype == "fperlo", ]$percent,
-       long_mlm[long_mlm$moraltype == "fperlo", ]$lean, mean)
-#i_hi
-model3i_hi = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
-                 data = long_mlm[long_mlm$moraltype == "iperhi", ], 
-                 method = "ML", 
-                 na.action = "na.omit",
-                 random = ~1|partno)
-summary(model3i_hi)
-tapply(long_mlm[long_mlm$moraltype == "iperhi", ]$percent,
-       long_mlm[long_mlm$moraltype == "iperhi", ]$lean, mean)
-#i_lo
-model3i_lo = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
-                 data = long_mlm[long_mlm$moraltype == "iperlo", ], 
-                 method = "ML", 
-                 na.action = "na.omit",
-                 random = ~1|partno)
-summary(model3i_lo)
-tapply(long_mlm[long_mlm$moraltype == "iperlo", ]$percent,
-       long_mlm[long_mlm$moraltype == "iperlo", ]$lean, mean)
-#a_hi
-model3a_hi = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
-                 data = long_mlm[long_mlm$moraltype == "aperhi", ], 
-                 method = "ML", 
-                 na.action = "na.omit",
-                 random = ~1|partno)
-summary(model3a_hi)
-tapply(long_mlm[long_mlm$moraltype == "aperhi", ]$percent,
-       long_mlm[long_mlm$moraltype == "aperhi", ]$lean, mean)
-#a_lo
-model3a_lo = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
-                 data = long_mlm[long_mlm$moraltype == "aperlo", ], 
-                 method = "ML", 
-                 na.action = "na.omit",
-                 random = ~1|partno)
-summary(model3a_lo)
-tapply(long_mlm[long_mlm$moraltype == "aperlo", ]$percent,
-       long_mlm[long_mlm$moraltype == "aperlo", ]$lean, mean)
-#p_hi
-model3p_hi = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
-                 data = long_mlm[long_mlm$moraltype == "pperhi", ], 
-                 method = "ML", 
-                 na.action = "na.omit",
-                 random = ~1|partno)
-summary(model3p_hi)
-tapply(long_mlm[long_mlm$moraltype == "pperhi", ]$percent,
-       long_mlm[long_mlm$moraltype == "pperhi", ]$lean, mean)
-#p_lo
-model3p_lo = lme(percent ~ lean, #now we want to switch the 1 for IV of interest
-                 data = long_mlm[long_mlm$moraltype == "pperlo", ], 
-                 method = "ML", 
-                 na.action = "na.omit",
-                 random = ~1|partno)
-summary(model3p_lo)
-tapply(long_mlm[long_mlm$moraltype == "pperlo", ]$percent,
-       long_mlm[long_mlm$moraltype == "pperlo", ]$lean, mean)
-
-
-####NEW MODELS####
-
-##overall percent - no random intercept
-model4 = lme(percent ~ 1,
-             data = long_mlm, 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|partno) #How to get rid of intercept??
-summary(model4)
-r.squaredGLMM(model4)
-
-##overall percent - random intercept by source
-model4.1 = lme(percent ~ 1,
-             data = long_mlm, 
              method = "ML", 
              na.action = "na.omit",
              random = ~1|Source)
 summary(model4.1)
 r.squaredGLMM(model4.1)
 
-##MFD category ~ lean 
-model5.1 = lme(percent ~ lean,
-             data = long_mlm[long_mlm$moraltype == "hperhi", ], 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|Source)
-summary(model5.1)
-r.squaredGLMM(model5.1)
-
-model5.2 = lme(percent ~ lean,
+model4.2 = lme(percent ~ lean,
              data = long_mlm[long_mlm$moraltype == "hperlo", ], 
              method = "ML", 
              na.action = "na.omit",
              random = ~1|Source)
-summary(model5.2)
-r.squaredGLMM(model5.2)
+summary(model4.2)
+r.squaredGLMM(model4.2)
 
-model5.3 = lme(percent ~ lean,
+model4.3 = lme(percent ~ lean,
              data = long_mlm[long_mlm$moraltype == "fperhi", ], 
              method = "ML", 
              na.action = "na.omit",
              random = ~1|Source)
-summary(model5.3)
-r.squaredGLMM(model5.3)
+summary(model4.3)
+r.squaredGLMM(model4.3)
 
-model5.4 = lme(percent ~ lean,
+model4.4 = lme(percent ~ lean,
              data = long_mlm[long_mlm$moraltype == "fperlo", ], 
              method = "ML", 
              na.action = "na.omit",
              random = ~1|Source)
-summary(model5.4)
-r.squaredGLMM(model5.4)
+summary(model4.4)
+r.squaredGLMM(model4.4)
 
-model5.5 = lme(percent ~ lean,
+model4.5 = lme(percent ~ lean,
              data = long_mlm[long_mlm$moraltype == "iperhi", ], 
              method = "ML", 
              na.action = "na.omit",
              random = ~1|Source)
-summary(model5.5)
-r.squaredGLMM(model5.5)
+summary(model4.5)
+r.squaredGLMM(model4.5)
 
-model5.6 = lme(percent ~ lean,
+model4.6 = lme(percent ~ lean,
              data = long_mlm[long_mlm$moraltype == "iperlo", ], 
              method = "ML", 
              na.action = "na.omit",
              random = ~1|Source)
-summary(model5.6)
-r.squaredGLMM(model5.6)
+summary(model4.6)
+r.squaredGLMM(model4.6)
 
-model5.7 = lme(percent ~ lean,
+model4.7 = lme(percent ~ lean,
              data = long_mlm[long_mlm$moraltype == "aperhi", ], 
              method = "ML", 
              na.action = "na.omit",
              random = ~1|Source)
-summary(model5.7)
-r.squaredGLMM(model5.7)
+summary(model4.7)
+r.squaredGLMM(model4.7)
 
-model5.8 = lme(percent ~ lean,
+model4.8 = lme(percent ~ lean,
              data = long_mlm[long_mlm$moraltype == "aperlo", ], 
              method = "ML", 
              na.action = "na.omit",
              random = ~1|Source)
-summary(model5.8)
-r.squaredGLMM(model5.8)
+summary(model4.8)
+r.squaredGLMM(model4.8)
 
-model5.9 = lme(percent ~ lean,
+model4.9 = lme(percent ~ lean,
              data = long_mlm[long_mlm$moraltype == "pperhi", ], 
              method = "ML", 
              na.action = "na.omit",
              random = ~1|Source)
-summary(model5.9)
-r.squaredGLMM(model5.9)
+summary(model4.9)
+r.squaredGLMM(model4.9)
 
-model5.10 = lme(percent ~ lean,
+model4.10 = lme(percent ~ lean,
              data = long_mlm[long_mlm$moraltype == "pperlo", ], 
              method = "ML", 
              na.action = "na.omit",
              random = ~1|Source)
-summary(model5.10)
-r.squaredGLMM(model5.10)
-
+summary(model4.10)
+r.squaredGLMM(model4.10)
 
 ```
 
+```{r model-table, results='asis', echo=FALSE}
+tableprint = matrix(NA, nrow = 12, ncol = 7)
 
+colnames(tableprint) = c("Model", "AIC", "BIC", "$\\chi^2$", "$df$",
+                         "$R^2_m", "$R^2_c")
 
-Any more screening/data prep here?
+#put in each model set information
+#temp store model summary
+temp = summary(model1)
 
-Political lean of the news organization was used to predict the percent of words matching the Moral Foundations Dictionary. According to an analysis of variance (ANOVA) between the intercept-only model (Model 1) and the random intercept-only model (Model 2, *R2m* = 0.00, *R2c* = 0.004), there were no statistically significant differences (*F* = *?*, *p* = 0.17). There was a significant difference between the random intercept-only model and the predictor model (Model 3, *R2m* = 0.0003, *R2c* = 0.0037), *F* = *?*, *p* = .003).  We found a significant difference between the two political leans (*b* = -0.018, *SE* = 0.006, *t*(3039) = -2.95, *p* = 0.003). Next, we added Moral Foundation Type as a predictor of percent to the third model (Model 3.1, *R2m* = 0.17, *R2c* = 0.19). The ANOVA revealed a significant difference between Models 3 and 3.1, *F* = *?*, *p* < .001)
+#put in the information
+#entered a raw number here, as a reminder
+tableprint[1 , ] = c("Non-Random Intercept", temp$AIC, temp$BIC,
+                     temp$logLik, 30409, "-", "-")
 
-#Significance for, like, all of the little moral types. Put in table?
+temp = summary(model3)
+tableprint[2 , ] = c("Random Intercept", temp$AIC, temp$BIC,
+                     temp$logLik, temp$fixDF$terms, r.squaredGLMM(model3))
 
-Finally, we analyzed the interaction between political lean and Moral Foundation type as a predictor of percent (Model 3.2, *R2m* = 0.17, *R2c* = 0.19). Using ANOVA, we found a significant difference between Models 3.1 and 3.2, *F* = *?*, *p* = .001).
+temp = summary(model4.1)
+tableprint[3 , ] = c("Harm High", temp$AIC, temp$BIC,
+                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.1))
 
-#Again, lots of stuff here. Needs to be reported? Put in table?
+temp = summary(model4.2)
+tableprint[4 , ] = c("Harm Low", temp$AIC, temp$BIC,
+                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.2))
 
-Comparisons between the models can be found in Table 1. 
+temp = summary(model4.3)
+tableprint[5 , ] = c("Fairness High", temp$AIC, temp$BIC,
+                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.3))
+
+temp = summary(model4.4)
+tableprint[6 , ] = c("Fairness Low", temp$AIC, temp$BIC,
+                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.4))
+
+temp = summary(model4.5)
+tableprint[7 , ] = c("Ingroup High", temp$AIC, temp$BIC,
+                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.5))
+
+temp = summary(model4.6)
+tableprint[8 , ] = c("Ingroup Low", temp$AIC, temp$BIC,
+                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.6))
+
+temp = summary(model4.7)
+tableprint[9 , ] = c("Authority High", temp$AIC, temp$BIC,
+                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.7))
+
+temp = summary(model4.8)
+tableprint[10 , ] = c("Authority Low", temp$AIC, temp$BIC,
+                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.8))
+
+temp = summary(model4.9)
+tableprint[11 , ] = c("Purity High", temp$AIC, temp$BIC,
+                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.9))
+
+temp = summary(model4.10)
+tableprint[12 , ] = c("Purity Low", temp$AIC, temp$BIC,
+                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.10))
+#keep going
+
+#round and clean up
+tableprint[ , 2:4] = printnum(as.numeric(tableprint[ , 2:4]))
+tableprint[-1 , 6] = printp(as.numeric(tableprint[-1 , 6]))
+tableprint[-1 , 7] = printp(as.numeric(tableprint[-1 , 7]))
+
+apa_table.latex(as.data.frame(tableprint),
+          align = c("l", rep("c", 6)), 
+          caption = "MLM Model Statistics",
+          note = "Degrees of freedom indicate residual $df$ for each model.",
+          escape = FALSE
+ )
+```
+
+# Results 
+
+To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nest structured of the data, which creates correlated error [@CITE_gelman]. First, an intercept only model was created using percent text overall as the dependent variable. Using the *nlme* library in *R* [@CITE_nlme], a model with the news source as the random intercept was analyzed to determine if it was necessary to control for correlated error. Table @\ref(tab:model-table) includes the model statistics for all models. While the $\Delta\chi^2$(1) = `r printnum(anova(model1,model3)[,8][2]))`, *p* = `r printp(anova(model1,model3)[,9][2])` was not significant, all models were still structured with a random intercept by source to control for even a small amount of correlated error. 
+
+Next, predictor models with political lean predicting percent of MFD words was analyzed for each of the MFD categories separately (i.e., "harm-positive", "harm-negative", etc.). Coefficient values indicate the mean differences between conservative and liberal sources, and to help illustrate these differences, the overall means were plotted in Figure \@ref(fig:graph-means). For harm words, there was not a significant difference in the words indicating harm-negative *b* = `r printnum(summary(model4.1)$tTable[2,1])`, *t*(`r summary(model4.1)$tTable[2,3]`) = `r printnum(summary(model4.1)$tTable[2,4])`, *p* = `r printp(summary(model4.1)$tTable[2,5])` or harm-positive *b* = `r printnum(summary(model4.2)$tTable[2,1])`, *t*(`r summary(model4.2)$tTable[2,3]`) = `r printnum(summary(model4.2)$tTable[2,4])`, *p* = `r printp(summary(model4.2)$tTable[2,5])`.
+
+```{r graph-means, echo=FALSE}
+#make a ggplot here! :) 
+#put the categories on the bottom X
+#put the lean as the group
+#y is the percent
+#use the long_mlm dataset
+#i will make low and high happen as different panels
+
+```
+
 # Discussion
 How it turned out
 
