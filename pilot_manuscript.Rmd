@@ -863,6 +863,11 @@ apa_table.latex(as.data.frame(tableprint),
 To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nest structured of the data, which creates correlated error [@CITE_gelman]. First, an intercept only model was created using percent text overall as the dependent variable. Using the *nlme* library in *R* [@CITE_nlme], a model with the news source as the random intercept was analyzed to determine if it was necessary to control for correlated error. Table @\ref(tab:model-table) includes the model statistics for all models. While the $\Delta\chi^2$(1) = `r printnum(anova(model1,model3)[,8][2]))`, *p* = `r printp(anova(model1,model3)[,9][2])` was not significant, all models were still structured with a random intercept by source to control for even a small amount of correlated error. 
 
 Next, predictor models with political lean predicting percent of MFD words was analyzed for each of the MFD categories separately (i.e., "harm-positive", "harm-negative", etc.). Coefficient values indicate the mean differences between conservative and liberal sources, and to help illustrate these differences, the overall means were plotted in Figure \@ref(fig:graph-means). For harm words, there was not a significant difference in the words indicating harm-negative *b* = `r printnum(summary(model4.1)$tTable[2,1])`, *t*(`r summary(model4.1)$tTable[2,3]`) = `r printnum(summary(model4.1)$tTable[2,4])`, *p* = `r printp(summary(model4.1)$tTable[2,5])` or harm-positive *b* = `r printnum(summary(model4.2)$tTable[2,1])`, *t*(`r summary(model4.2)$tTable[2,3]`) = `r printnum(summary(model4.2)$tTable[2,4])`, *p* = `r printp(summary(model4.2)$tTable[2,5])`.
+For fair words, there was no signfificant difference in the words indicating fair-negative *b* = `r printnum(summary(model4.3)$tTable[2,1])`, *t*(`r summary(model4.3)$tTable[2,3]`) = `r printnum(summary(model4.3)$tTable[2,4])`, *p* = `r printp(summary(model4.3)$tTable[2,5])` or fair-positive *b* = `r printnum(summary(model4.4)$tTable[2,1])`, *t*(`r summary(model4.4)$tTable[2,3]`) = `r printnum(summary(model4.4)$tTable[2,4])`, *p* = `r printp(summary(model4.4)$tTable[2,5])`.
+For ingroup words, there was no signfificant difference in the words indicating ingroup-negative *b* = `r printnum(summary(model4.5)$tTable[2,1])`, *t*(`r summary(model4.5)$tTable[2,3]`) = `r printnum(summary(model4.5)$tTable[2,4])`, *p* = `r printp(summary(model4.5)$tTable[2,5])` or ingroup-positive *b* = `r printnum(summary(model4.6)$tTable[2,1])`, *t*(`r summary(model4.6)$tTable[2,3]`) = `r printnum(summary(model4.6)$tTable[2,4])`, *p* = `r printp(summary(model4.6)$tTable[2,5])`.
+For authority words, there was not a signfificant difference in the words indicating authority-negative *b* = `r printnum(summary(model4.7)$tTable[2,1])`, *t*(`r summary(model4.7)$tTable[2,3]`) = `r printnum(summary(model4.7)$tTable[2,4])`, *p* = `r printp(summary(model4.7)$tTable[2,5])` or authority-positive *b* = `r printnum(summary(model4.8)$tTable[2,1])`, *t*(`r summary(model4.8)$tTable[2,3]`) = `r printnum(summary(model4.8)$tTable[2,4])`, *p* = `r printp(summary(model4.8)$tTable[2,5])`.
+For purity words, there was a signfificant difference in the words indicating purity-negative *b* = `r printnum(summary(model4.9)$tTable[2,1])`, *t*(`r summary(model4.9)$tTable[2,3]`) = `r printnum(summary(model4.9)$tTable[2,4])`, *p* = `r printp(summary(model4.9)$tTable[2,5])`. There was no significant difference for purity-positive *b* = `r printnum(summary(model4.10)$tTable[2,1])`, *t*(`r summary(model4.10)$tTable[2,3]`) = `r printnum(summary(model4.10)$tTable[2,4])`, *p* = `r printp(summary(model4.10)$tTable[2,5])`.
+
 
 ```{r graph-means, echo=FALSE}
 #make a ggplot here! :) 
@@ -871,6 +876,36 @@ Next, predictor models with political lean predicting percent of MFD words was a
 #y is the percent
 #use the long_mlm dataset
 #i will make low and high happen as different panels
+
+long_mlm$moraltype = factor(long_mlm$moraltype, 
+                  levels=c("hperhi", "hperlo", "fperhi", "fperlo",
+                           "iperhi", "iperlo", "aperhi", "aperlo", "pperhi", "pperlo"),
+                  labels = c("Harm-positive", "Harm-negative", "Fair-positive",
+                             "Fair-negative", "Ingroup-positive", "Ingroup-negative",
+                             "Authority-positive", "Authority-negative", 
+                             "Purity-positive", "Purity-negative")) 
+cleanup = theme(panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(), 
+                panel.background = element_blank(), 
+                axis.line.x = element_line(color = "black"),
+                axis.line.y = element_line(color = "black"),
+                legend.key = element_rect(fill = "white"),
+                text = element_text(size = 15))
+overallgraph = ggplot(long_mlm, aes(moraltype, percent, fill = lean))
+overallgraph +
+  stat_summary(fun.y = mean,
+               geom = "bar",
+               position = "dodge") +
+  stat_summary(fun.data = mean_cl_normal,
+               geom = "errorbar", 
+               position = position_dodge(width = 0.90),
+               width = .2) +
+  xlab("Moral Category") +
+  ylab("Percent") + 
+  cleanup +
+  scale_fill_manual(name = "Political Lean", 
+                    labels = c("Liberal", "Conservative"),
+                    values = c("Light Gray", "Dark Gray"))
 
 ```
 
