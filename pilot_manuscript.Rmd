@@ -891,7 +891,24 @@ cleanup = theme(panel.grid.major = element_blank(),
                 axis.line.y = element_line(color = "black"),
                 legend.key = element_rect(fill = "white"),
                 text = element_text(size = 15))
-overallgraph = ggplot(long_mlm, aes(moraltype, percent, fill = lean))
+
+long_mlm$moral_foundation = long_mlm$moraltype
+long_mlm$moral_foundation = gsub("-positive", "", long_mlm$moral_foundation)
+long_mlm$moral_foundation = gsub("-negative", "", long_mlm$moral_foundation)
+
+long_mlm$valence = long_mlm$moraltype
+long_mlm$valence = gsub("Harm-positive", "Positive", long_mlm$valence)
+long_mlm$valence = gsub("Harm-negative", "Negative", long_mlm$valence)
+long_mlm$valence = gsub("Authority-positive", "Positive", long_mlm$valence)
+long_mlm$valence = gsub("Authority-negative", "Negative", long_mlm$valence)
+long_mlm$valence = gsub("Fair-positive", "Positive", long_mlm$valence)
+long_mlm$valence = gsub("Fair-negative", "Negative", long_mlm$valence)
+long_mlm$valence = gsub("Purity-positive", "Positive", long_mlm$valence)
+long_mlm$valence = gsub("Purity-negative", "Negative", long_mlm$valence)
+long_mlm$valence = gsub("Ingroup-positive", "Positive", long_mlm$valence)
+long_mlm$valence = gsub("Ingroup-negative", "Negative", long_mlm$valence)
+
+overallgraph = ggplot(long_mlm, aes(moral_foundation, percent, fill = lean))
 overallgraph +
   stat_summary(fun.y = mean,
                geom = "bar",
@@ -905,7 +922,9 @@ overallgraph +
   cleanup +
   scale_fill_manual(name = "Political Lean", 
                     labels = c("Liberal", "Conservative"),
-                    values = c("Light Gray", "Dark Gray"))
+                    values = c("Light Gray", "Dark Gray")) +
+  facet_grid(~valence) + 
+  NULL
 
 ```
 
