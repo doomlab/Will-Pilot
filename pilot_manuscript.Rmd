@@ -602,74 +602,98 @@ for(i in 1:nrow(final)) {
   final$stemmed[i] = stemDocument(final$edited[i], language = "english")
 } 
 
-##stem the original MFD stuff - separate loop on only the mfd data frame
-for(i in 1:nrow(original_mfd)) {
-  original_mfd$h2hi[i] = stemDocument(original_mfd$h2hi[i], language = "english")
-  original_mfd$h2lo[i] = stemDocument(original_mfd$h2lo[i], language = "english")
-  original_mfd$f2hi[i] = stemDocument(original_mfd$f2hi[i], language = "english")
-  original_mfd$f2lo[i] = stemDocument(original_mfd$f2lo[i], language = "english")
-  original_mfd$i2hi[i] = stemDocument(original_mfd$i2hi[i], language = "english")
-  original_mfd$i2lo[i] = stemDocument(original_mfd$i2lo[i], language = "english")
-  original_mfd$a2hi[i] = stemDocument(original_mfd$a2hi[i], language = "english")
-  original_mfd$a2lo[i] = stemDocument(original_mfd$a2lo[i], language = "english")
-  original_mfd$p2hi[i] = stemDocument(original_mfd$p2hi[i], language = "english")
-  original_mfd$p2lo[i] = stemDocument(original_mfd$p2lo[i], language = "english")
-}
+# ##stem the original MFD stuff - separate loop on only the mfd data frame
+# for(i in 1:nrow(original_mfd)) {
+#   original_mfd$h2hi[i] = stemDocument(original_mfd$h2hi[i], language = "english")
+#   original_mfd$h2lo[i] = stemDocument(original_mfd$h2lo[i], language = "english")
+#   original_mfd$f2hi[i] = stemDocument(original_mfd$f2hi[i], language = "english")
+#   original_mfd$f2lo[i] = stemDocument(original_mfd$f2lo[i], language = "english")
+#   original_mfd$i2hi[i] = stemDocument(original_mfd$i2hi[i], language = "english")
+#   original_mfd$i2lo[i] = stemDocument(original_mfd$i2lo[i], language = "english")
+#   original_mfd$a2hi[i] = stemDocument(original_mfd$a2hi[i], language = "english")
+#   original_mfd$a2lo[i] = stemDocument(original_mfd$a2lo[i], language = "english")
+#   original_mfd$p2hi[i] = stemDocument(original_mfd$p2hi[i], language = "english")
+#   original_mfd$p2lo[i] = stemDocument(original_mfd$p2lo[i], language = "english")
+# }
+# 
+# final$hhisum = NA
+# final$hlosum = NA
+# final$fhisum = NA
+# final$flosum = NA
+# final$ihisum = NA
+# final$ilosum = NA
+# final$ahisum = NA
+# final$alosum = NA
+# final$phisum = NA
+# final$plosum = NA
+# 
+# for (i in 1:nrow(final)) {
+# ##first make a table of a response, unlisting everything
+# temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
+# ##find the rows that match the mfd list and sum and save
+# final$hsumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$h2hi[original_mfd$h2hi != "" & original_mfd$h2hi != "NA"])])
+# final$hsumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$h2lo[original_mfd$h2lo != "" & original_mfd$h2lo != "NA"])])
+# 
+# final$fsumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$f2hi[original_mfd$f2hi != "" & original_mfd$f2hi != "NA"])])
+# final$fsumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$f2lo[original_mfd$f2lo != "" & original_mfd$f2lo != "NA"])])
+# 
+# final$isumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$i2hi[original_mfd$i2hi != "" & original_mfd$i2hi != "NA"])])
+# final$isumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$i2lo[original_mfd$i2lo != "" & original_mfd$i2lo != "NA"])])
+# 
+# final$asumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$a2hi[original_mfd$a2hi != "" & original_mfd$a2hi != "NA"])])
+# final$asumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$a2lo[original_mfd$a2lo != "" & original_mfd$a2lo != "NA"])])
+# 
+# final$psumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$p2hi[original_mfd$p2hi != "" & original_mfd$p2hi != "NA"])])
+# final$psumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$p2lo[original_mfd$p2lo != "" & original_mfd$p2lo != "NA"])])
+# }
+# 
+# final$hperhi = final$hsumhi / final$wordcount * 100
+# final$hperlo = final$hsumlo / final$wordcount * 100
+# final$fperhi = final$fsumhi / final$wordcount * 100
+# final$fperlo = final$fsumlo / final$wordcount * 100
+# final$iperhi = final$isumhi / final$wordcount * 100
+# final$iperlo = final$isumlo / final$wordcount * 100
+# final$aperhi = final$asumhi / final$wordcount * 100
+# final$aperlo = final$asumlo / final$wordcount * 100
+# final$pperhi = final$psumhi / final$wordcount * 100
+# final$pperlo = final$psumlo / final$wordcount * 100
+# 
+# #let's look at the means
+# tapply(final$hperhi, final$Source, mean)
+# tapply(final$hperlo, final$Source, mean)
+# tapply(final$fperhi, final$Source, mean)
+# tapply(final$fperlo, final$Source, mean)
+# tapply(final$iperhi, final$Source, mean)
+# tapply(final$iperlo, final$Source, mean)
+# tapply(final$aperhi, final$Source, mean)
+# tapply(final$aperlo, final$Source, mean)
+# tapply(final$pperhi, final$Source, mean)
+# tapply(final$pperlo, final$Source, mean)
+```
 
-final$hhisum = NA
-final$hlosum = NA
-final$fhisum = NA
-final$flosum = NA
-final$ihisum = NA
-final$ilosum = NA
-final$ahisum = NA
-final$alosum = NA
-final$phisum = NA
-final$plosum = NA
+```{r new_data, include = FALSE}
+#take final$stemmed column loop over this
+
+harm_final_data = data.frame("URL" = NA, "Source" = NA, "word" = NA, "Freq" = NA, "wordcount" = NA)
 
 for (i in 1:nrow(final)) {
 ##first make a table of a response, unlisting everything
 temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
-##find the rows that match the mfd list and sum and save
-final$hsumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$h2hi[original_mfd$h2hi != "" & original_mfd$h2hi != "NA"])])
-final$hsumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$h2lo[original_mfd$h2lo != "" & original_mfd$h2lo != "NA"])])
 
-final$fsumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$f2hi[original_mfd$f2hi != "" & original_mfd$f2hi != "NA"])])
-final$fsumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$f2lo[original_mfd$f2lo != "" & original_mfd$f2lo != "NA"])])
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(harmstuffthing$words[harmstuffthing$words != "" & harmstuffthing$words != "NA"])]
 
-final$isumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$i2hi[original_mfd$i2hi != "" & original_mfd$i2hi != "NA"])])
-final$isumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$i2lo[original_mfd$i2lo != "" & original_mfd$i2lo != "NA"])])
+#add to the dataset
+temp2$URL = final$Url[i]
+temp2$Source = final$Source[i]
+temp2$wordcount = final$wordcount[i]
 
-final$asumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$a2hi[original_mfd$a2hi != "" & original_mfd$a2hi != "NA"])])
-final$asumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$a2lo[original_mfd$a2lo != "" & original_mfd$a2lo != "NA"])])
-
-final$psumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$p2hi[original_mfd$p2hi != "" & original_mfd$p2hi != "NA"])])
-final$psumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$p2lo[original_mfd$p2lo != "" & original_mfd$p2lo != "NA"])])
+#bind with original
+harm_final_data = rbind(harm_final_data, temp2)
 }
 
-final$hperhi = final$hsumhi / final$wordcount * 100
-final$hperlo = final$hsumlo / final$wordcount * 100
-final$fperhi = final$fsumhi / final$wordcount * 100
-final$fperlo = final$fsumlo / final$wordcount * 100
-final$iperhi = final$isumhi / final$wordcount * 100
-final$iperlo = final$isumlo / final$wordcount * 100
-final$aperhi = final$asumhi / final$wordcount * 100
-final$aperlo = final$asumlo / final$wordcount * 100
-final$pperhi = final$psumhi / final$wordcount * 100
-final$pperlo = final$psumlo / final$wordcount * 100
-
-#let's look at the means
-tapply(final$hperhi, final$Source, mean)
-tapply(final$hperlo, final$Source, mean)
-tapply(final$fperhi, final$Source, mean)
-tapply(final$fperlo, final$Source, mean)
-tapply(final$iperhi, final$Source, mean)
-tapply(final$iperlo, final$Source, mean)
-tapply(final$aperhi, final$Source, mean)
-tapply(final$aperlo, final$Source, mean)
-tapply(final$pperhi, final$Source, mean)
-tapply(final$pperlo, final$Source, mean)
 ```
+
 
 ```{r mlm-analyses, echo=FALSE, warning=FALSE, include = FALSE}
 ##Attempt at MLM
