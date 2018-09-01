@@ -673,7 +673,7 @@ for(i in 1:nrow(final)) {
 
 ```{r new_data, include = FALSE}
 #take final$stemmed column loop over this
-
+#Harm
 harm_final_data = data.frame("URL" = NA, "Source" = NA, "word" = NA, "Freq" = NA, "wordcount" = NA)
 
 for (i in 1:nrow(final)) {
@@ -681,7 +681,7 @@ for (i in 1:nrow(final)) {
 temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
 
 #only pull the words in the dataset for each foundation
-temp2 = temp[temp$Var1 %in% unique(harmstuffthing$words[harmstuffthing$words != "" & harmstuffthing$words != "NA"])]
+temp2 = temp[temp$Var1 %in% unique(harm_all$words[harm_all$words != "" & harm_all$words != "NA"])]
 
 #add to the dataset
 temp2$URL = final$Url[i]
@@ -690,6 +690,82 @@ temp2$wordcount = final$wordcount[i]
 
 #bind with original
 harm_final_data = rbind(harm_final_data, temp2)
+}
+
+#Fair
+fair_final_data = data.frame("URL" = NA, "Source" = NA, "word" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(fair_all$words[fair_all$words != "" & fair_all$words != "NA"])]
+
+#add to the dataset
+temp2$URL = final$Url[i]
+temp2$Source = final$Source[i]
+temp2$wordcount = final$wordcount[i]
+
+#bind with original
+fair_final_data = rbind(fair_final_data, temp2)
+}
+
+#Ingroup
+ingroup_final_data = data.frame("URL" = NA, "Source" = NA, "word" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(ingroup_all$words[ingroup_all$words != "" & ingroup_all$words != "NA"])]
+
+#add to the dataset
+temp2$URL = final$Url[i]
+temp2$Source = final$Source[i]
+temp2$wordcount = final$wordcount[i]
+
+#bind with original
+ingroup_final_data = rbind(ingroup_final_data, temp2)
+}
+
+#Authority
+authority_final_data = data.frame("URL" = NA, "Source" = NA, "word" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(authority_all$words[authority_all$words != "" & authority_all$words != "NA"])]
+
+#add to the dataset
+temp2$URL = final$Url[i]
+temp2$Source = final$Source[i]
+temp2$wordcount = final$wordcount[i]
+
+#bind with original
+authority_final_data = rbind(authority_final_data, temp2)
+}
+
+#Purity
+purity_final_data = data.frame("URL" = NA, "Source" = NA, "word" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(purity_all$words[purity_all$words != "" & purity_all$words != "NA"])]
+
+#add to the dataset
+temp2$URL = final$Url[i]
+temp2$Source = final$Source[i]
+temp2$wordcount = final$wordcount[i]
+
+#bind with original
+purity_final_data = rbind(purity_final_data, temp2)
 }
 
 ```
