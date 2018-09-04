@@ -69,6 +69,7 @@ Identification of the sources' political URLs presented a problem for two of the
 Using the *rvest* library in the statistical package *R*, we pulled body text for individual articles from each of the aforementioned sources (identified using CSS language) and compiled them into a dataset [@CITE_rvest]. Using this dataset, we identified word count and average word count per source. This process was run once daily starting on *DATE* until *DATE.* Starting on *DATE,* the process was run twice daily - once in the morning and again in the evening. Data collection was terminated once 250,000 words per source was collected on *DATE.*  
 
 ```{r scraping, eval=FALSE, include=FALSE}
+
 library(rvest)
 ####NY Times####
 #Specifying the url for desired website to be scrapped
