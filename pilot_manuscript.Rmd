@@ -320,7 +320,7 @@ newdata = rbind(overalldata, NYtimesDF, NPRDF, FoxDF, BreitbartDF, NPRArchiveDF)
 newdata = unique(newdata)
 
 ##write it back out
-write.csv(newdata, "overalldata.csv", row.names = F)
+#write.csv(newdata, "overalldata.csv", row.names = F)
 
 ##number of articles
 table(newdata$Source)
@@ -463,123 +463,123 @@ original_mfd[c(21:60),5] = c("abstains", "abstained", "abstaining", "abstinence"
                              "ruining", "sacredness", "sickness", "sicknesses",
                              "sins", "wholeness", "wholesome")
 
-##separate them into h low, h high until you have ten categories 
-#harm/care
-original_mfd$h2hi[35:112] = NA 
-original_mfd$h2hi[1:34] = c("benefit", "care", "defend", "guard", "preserve",
-                      "protect", "safe", "shelter", "sympathetic",
-                      "sympathies", "benefits", "benefitted",
-                      "benefitting", "cares", "cared", "caring","defends", 
-                      "defending","defended", "guards", "guarded",
-                      "guarding","preserves",
-                      "preserved", "preserving", "protects", "protected",
-                      "protecting", "protection",  
-                      "safely", "safer", "shelters", 
-                      "sheltered", "sheltering")
-original_mfd$h2lo[61:112] = NA
-original_mfd$h2lo[1:60] = c("abuse", "attack", "cruel", "crush",
-                      "damage", "danger", "destroy", "fight", "harm",
-                      "hurt", "kill", "ruin", "spurn", "stomp", "suffer",
-                      "violent", "war","abusive",
-                      "abuser","abused","abusing","damaged",
-                      "damaging","attacked","attacking","attacker",
-                      "attacks","attackers","crushes",
-                      "crushing", "crushed", "dangerous","detroys", 
-                      "destroyed", "destroying",
-                      "fights", "fought", "fighting","harms", 
-                      "harmed", "harming", "hurts",
-                      "hurting", "kills", "killed", "killing",
-                      "ruins", "ruined", "ruining", "spurns", 
-                      "spurned", "spurning", "stomps", "stomped",
-                      "stomping", "suffers", "suffered", "suffering",
-                      "violence", "warring")
-
-#fairness/reciprocity
-original_mfd$f2hi[41:112] = NA
-original_mfd$f2hi[1:40] = c("balance", "constant", "equal", "equate", "even",
-                      "fair", "honest", "just", "justify", "reason",
-                      "right", "tolerate", "impartial", "balances", 
-                      "balanced", "balancing",
-                      "equals", "equaled", "equaling", "equates", "equated",
-                      "equating", "evens", "evened", "evening","fairness",
-                      "honesty", "impartiality", "justice", "justifies", 
-                      "justified", "justifying", "reasons",
-                      "reasoned", "reasoning", "rights", "tolerates",
-                      "tolerated", "tolerating", "toleration")
-original_mfd$f2lo[25:112] = NA
-original_mfd$f2lo[1:24] = c("bias", "discriminate", "exclude", "favor",
-                      "prefer", "prejudice", "biased", "biases", "discriminates", 
-                      "discriminated", "discriminating", "discrimination",
-                      "excludes", "excluded", "excluding", 
-                      "favors", "favored", "favoring", "prefers", "preferred", "preferring",
-                      "prejudices", "prejudiced", "prejudicing")
-
-#ingroup/loyalty
-original_mfd$i2hi[30:112] = NA
-original_mfd$i2hi[1:29] = c("collect", "community", "family", "fellow",
-                      "group", "member", "nation", "side", "together",
-                      "trait", "unite", "collects", 
-                      "collected", "collecting", "collective",
-                      "communities", "families", "fellows",
-                      "groups", "grouped", "grouping",
-                      "members", "nations", "sides",
-                      "togetherness", "traits", "unites", 
-                      "united", "uniting")
-original_mfd$i2lo[19:112] = NA 
-original_mfd$i2lo[1:18] = c("deceive", "desert", "foreign", "individual",
-                      "deceives", "deceived", "deceiving",
-                      "deception", "deceptions", "deserts", "deserted",
-                      "deserting", "desertion", "foreigners",
-                      "indviduals", "indvidualize", "individualized",
-                      "individualizing")
-
-#authority/respect
-original_mfd$a2hi[86:112] = NA
-original_mfd$a2hi[1:85] = c("abide", "authority", "class", "command",
-                      "control", "defer", "duty", "faith", "father", "honor",
-                      "law", "lead", "legal", "mother", "obey", 
-                      "order", "permit", "position", "preserve",
-                      "respect", "revere", "serve", "tradtition", "trait",
-                      "abides", "abided", "abiding", "authorities",
-                      "classes", "classed", "classing", "command",
-                      "commanded", "commanding", "controls", "controlled",
-                      "controlling","defers", "deferred", "deferring", "deference",
-                      "duties","faiths", "fathers", "fathered", "fathering",
-                      "honors", "honored", "honoring", "laws", "leads",
-                      "leading", "mothers", "mothered", "mothering",
-                      "obeys", "obeyed", "obeying", "orders", 
-                      "ordered", "ordering", "permits",
-                      "permitted", "permitting", "positions", "positioned",
-                      "positioning", "preserves", "preserved", "preserving",
-                      "preservation", "respects",
-                      "respected", "respecting", "respectful", "reveres",
-                      "revered", "revering", "reverence", "serves", "served",
-                      "serving", "traditions", "traditional", "traits")
-original_mfd$a2lo[28:112] = NA
-original_mfd$a2lo[1:27] = c("defect", "defy", "desert","oppose", 
-                      "protest", "refuse", "defects", "defected", 
-                      "defecting","defies", "defied", "defying", "defiance", "deserts",
-                      "deserted", "deserting", "desertion", "opposes", "opposed",
-                      "opposing", "protests", "protested", "protesting",
-                      "refuses", "refused", "refusing", "refusal")
-
-#purity/sanctity
-original_mfd$p2hi[32:112] = NA
-original_mfd$p2hi[1:31] = c("abstain", "church", "clean", "innocent", "modest",
-                      "preserve", "pure", "right", "sacred", "whole",
-                      "abstains", "abstained", "abstaining", "abstinence",
-                      "churches", "cleans", "cleaned", "cleaning", "cleanse",
-                      "cleanliness", "innocence", "modesty", "preserves", "preserved",
-                      "preserving", "preservation", "purity", "rights", 
-                      "sacredness", "wholeness", "wholesome")
-original_mfd$p2lo[30:112] = NA
-original_mfd$p2lo[1:29] = c("adultery", "dirt", "disease", "disgust", "gross",
-                      "promiscuous", "ruin", "sick", "sin", "trash",
-                      "adulteries", "adulterous", "adulterer", "adulterers",
-                      "dirty", "diseases", "diseased", "disgusts", 
-                      "disgusted", "disgusting", "grossness", "promiscuity",
-                      "promiscuities", "ruins", "ruined","ruining", 
-                      "sickness", "sicknesses", "sins")
+# ##separate them into h low, h high until you have ten categories 
+# #harm/care
+# original_mfd$h2hi[35:112] = NA 
+# original_mfd$h2hi[1:34] = c("benefit", "care", "defend", "guard", "preserve",
+#                       "protect", "safe", "shelter", "sympathetic",
+#                       "sympathies", "benefits", "benefitted",
+#                       "benefitting", "cares", "cared", "caring","defends", 
+#                       "defending","defended", "guards", "guarded",
+#                       "guarding","preserves",
+#                       "preserved", "preserving", "protects", "protected",
+#                       "protecting", "protection",  
+#                       "safely", "safer", "shelters", 
+#                       "sheltered", "sheltering")
+# original_mfd$h2lo[61:112] = NA
+# original_mfd$h2lo[1:60] = c("abuse", "attack", "cruel", "crush",
+#                       "damage", "danger", "destroy", "fight", "harm",
+#                       "hurt", "kill", "ruin", "spurn", "stomp", "suffer",
+#                       "violent", "war","abusive",
+#                       "abuser","abused","abusing","damaged",
+#                       "damaging","attacked","attacking","attacker",
+#                       "attacks","attackers","crushes",
+#                       "crushing", "crushed", "dangerous","detroys", 
+#                       "destroyed", "destroying",
+#                       "fights", "fought", "fighting","harms", 
+#                       "harmed", "harming", "hurts",
+#                       "hurting", "kills", "killed", "killing",
+#                       "ruins", "ruined", "ruining", "spurns", 
+#                       "spurned", "spurning", "stomps", "stomped",
+#                       "stomping", "suffers", "suffered", "suffering",
+#                       "violence", "warring")
+# 
+# #fairness/reciprocity
+# original_mfd$f2hi[41:112] = NA
+# original_mfd$f2hi[1:40] = c("balance", "constant", "equal", "equate", "even",
+#                       "fair", "honest", "just", "justify", "reason",
+#                       "right", "tolerate", "impartial", "balances", 
+#                       "balanced", "balancing",
+#                       "equals", "equaled", "equaling", "equates", "equated",
+#                       "equating", "evens", "evened", "evening","fairness",
+#                       "honesty", "impartiality", "justice", "justifies", 
+#                       "justified", "justifying", "reasons",
+#                       "reasoned", "reasoning", "rights", "tolerates",
+#                       "tolerated", "tolerating", "toleration")
+# original_mfd$f2lo[25:112] = NA
+# original_mfd$f2lo[1:24] = c("bias", "discriminate", "exclude", "favor",
+#                       "prefer", "prejudice", "biased", "biases", "discriminates", 
+#                       "discriminated", "discriminating", "discrimination",
+#                       "excludes", "excluded", "excluding", 
+#                       "favors", "favored", "favoring", "prefers", "preferred", "preferring",
+#                       "prejudices", "prejudiced", "prejudicing")
+# 
+# #ingroup/loyalty
+# original_mfd$i2hi[30:112] = NA
+# original_mfd$i2hi[1:29] = c("collect", "community", "family", "fellow",
+#                       "group", "member", "nation", "side", "together",
+#                       "trait", "unite", "collects", 
+#                       "collected", "collecting", "collective",
+#                       "communities", "families", "fellows",
+#                       "groups", "grouped", "grouping",
+#                       "members", "nations", "sides",
+#                       "togetherness", "traits", "unites", 
+#                       "united", "uniting")
+# original_mfd$i2lo[19:112] = NA 
+# original_mfd$i2lo[1:18] = c("deceive", "desert", "foreign", "individual",
+#                       "deceives", "deceived", "deceiving",
+#                       "deception", "deceptions", "deserts", "deserted",
+#                       "deserting", "desertion", "foreigners",
+#                       "indviduals", "indvidualize", "individualized",
+#                       "individualizing")
+# 
+# #authority/respect
+# original_mfd$a2hi[86:112] = NA
+# original_mfd$a2hi[1:85] = c("abide", "authority", "class", "command",
+#                       "control", "defer", "duty", "faith", "father", "honor",
+#                       "law", "lead", "legal", "mother", "obey", 
+#                       "order", "permit", "position", "preserve",
+#                       "respect", "revere", "serve", "tradtition", "trait",
+#                       "abides", "abided", "abiding", "authorities",
+#                       "classes", "classed", "classing", "command",
+#                       "commanded", "commanding", "controls", "controlled",
+#                       "controlling","defers", "deferred", "deferring", "deference",
+#                       "duties","faiths", "fathers", "fathered", "fathering",
+#                       "honors", "honored", "honoring", "laws", "leads",
+#                       "leading", "mothers", "mothered", "mothering",
+#                       "obeys", "obeyed", "obeying", "orders", 
+#                       "ordered", "ordering", "permits",
+#                       "permitted", "permitting", "positions", "positioned",
+#                       "positioning", "preserves", "preserved", "preserving",
+#                       "preservation", "respects",
+#                       "respected", "respecting", "respectful", "reveres",
+#                       "revered", "revering", "reverence", "serves", "served",
+#                       "serving", "traditions", "traditional", "traits")
+# original_mfd$a2lo[28:112] = NA
+# original_mfd$a2lo[1:27] = c("defect", "defy", "desert","oppose", 
+#                       "protest", "refuse", "defects", "defected", 
+#                       "defecting","defies", "defied", "defying", "defiance", "deserts",
+#                       "deserted", "deserting", "desertion", "opposes", "opposed",
+#                       "opposing", "protests", "protested", "protesting",
+#                       "refuses", "refused", "refusing", "refusal")
+# 
+# #purity/sanctity
+# original_mfd$p2hi[32:112] = NA
+# original_mfd$p2hi[1:31] = c("abstain", "church", "clean", "innocent", "modest",
+#                       "preserve", "pure", "right", "sacred", "whole",
+#                       "abstains", "abstained", "abstaining", "abstinence",
+#                       "churches", "cleans", "cleaned", "cleaning", "cleanse",
+#                       "cleanliness", "innocence", "modesty", "preserves", "preserved",
+#                       "preserving", "preservation", "purity", "rights", 
+#                       "sacredness", "wholeness", "wholesome")
+# original_mfd$p2lo[30:112] = NA
+# original_mfd$p2lo[1:29] = c("adultery", "dirt", "disease", "disgust", "gross",
+#                       "promiscuous", "ruin", "sick", "sin", "trash",
+#                       "adulteries", "adulterous", "adulterer", "adulterers",
+#                       "dirty", "diseases", "diseased", "disgusts", 
+#                       "disgusted", "disgusting", "grossness", "promiscuity",
+#                       "promiscuities", "ruins", "ruined","ruining", 
+#                       "sickness", "sicknesses", "sins")
 ```
 
 Once the MFD was separated along lines of positive and negative dimensions for each of the foundations, the article text was processed using the *tm* and *ngram* packages in *R* in order to render the text in lowercase, remove punctuation, and fix spacing issues [@CITE_tm]. The individual words were then reduced to their stems (i.e., *abused* was stemmed to *abus*). The same procedure was applied to the MFD words, and the addition of multiple forms of each concept allowed for the capture of all versions of stemming that might occur given *tm*'s English stemmer function. The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with a percentage of their occurrence. Therefore, for each article, the percentage of the number of *harm* (low end) and *care* (high end) related words were calculated and this process was repeated for each of the foundations. This procedure created ten percentages that were included as the dependent variable for the following analyses. 
@@ -672,16 +672,19 @@ for(i in 1:nrow(final)) {
 ```
 
 ```{r new_data, include = FALSE}
-#take final$stemmed column loop over this
-#Harm
-harm_final_data = data.frame("URL" = NA, "Source" = NA, "word" = NA, "Freq" = NA, "wordcount" = NA)
+
+###harm
+#read in the harm total words from the mtmm project
+harm_all = read.csv("harm_words_total.csv", stringsAsFactors = F)
+
+harm_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
 for (i in 1:nrow(final)) {
 ##first make a table of a response, unlisting everything
 temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
 
 #only pull the words in the dataset for each foundation
-temp2 = temp[temp$Var1 %in% unique(harm_all$words[harm_all$words != "" & harm_all$words != "NA"])]
+temp2 = temp[temp$Var1 %in% unique(harm_all$words[harm_all$words != "" & harm_all$words != "NA" & !is.na(harm_all$words)]), ]
 
 #add to the dataset
 temp2$URL = final$Url[i]
