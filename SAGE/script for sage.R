@@ -474,4 +474,5 @@ overallgraph +
   ylab("Percent") + 
   cleanup +
   facet_grid(~MoralFoundation) + 
+  scale_fill_manual(values = c("grey20", "grey40", "grey60", "grey80")) +
   NULL
