@@ -673,6 +673,12 @@ for(i in 1:nrow(final)) {
 ```
 
 ```{r new_data, include = FALSE}
+##open the Warriner data for later
+warriner = read.csv("BRM-emot-submit.csv", stringsAsFactors = F) #want v.mean.sum
+
+for(i in 1:nrow(warriner)) {
+  warriner$Word2[i] = stemDocument(warriner$Word[i], language = "english")
+} 
 
 ###harm
 #read in the harm total words from the mtmm project
@@ -687,6 +693,11 @@ temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
 #only pull the words in the dataset for each foundation
 temp2 = temp[temp$Var1 %in% unique(harm_all$words[harm_all$words != "" & harm_all$words != "NA" & !is.na(harm_all$words)]), ]
 
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
 #add to the dataset
 temp2$URL = final$Url[i]
 temp2$Source = final$Source[i]
@@ -695,6 +706,17 @@ temp2$wordcount = final$wordcount[i]
 #bind with original
 harm_final_data = rbind(harm_final_data, temp2)
 }
+
+#pull in the data from Warriner 
+library(expss)
+harm_final_data$valence = vlookup(harm_final_data$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+#table(harm_final_data$Var1[is.na(harm_final_data$valence) & harm_final_data$Freq > 0])
+#fought, safer, spurn
 
 #Fair
 fair_all = read.csv("fair_words_total.csv", stringsAsFactors = F)
@@ -707,6 +729,11 @@ temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
 
 #only pull the words in the dataset for each foundation
 temp2 = temp[temp$Var1 %in% unique(fair_all$words[fair_all$words != "" & fair_all$words != "NA" & !is.na(fair_all$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
 
 #add to the dataset
 temp2$URL = final$Url[i]
@@ -729,6 +756,11 @@ temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
 #only pull the words in the dataset for each foundation
 temp2 = temp[temp$Var1 %in% unique(ingroup_all$words[ingroup_all$words != "" & ingroup_all$words != "NA" & !is.na(ingroup_all$words)]), ]
 
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
 #add to the dataset
 temp2$URL = final$Url[i]
 temp2$Source = final$Source[i]
@@ -749,6 +781,11 @@ temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
 
 #only pull the words in the dataset for each foundation
 temp2 = temp[temp$Var1 %in% unique(authority_all$words[authority_all$words != "" & authority_all$words != "NA" & !is.na(authority_all$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
 
 #add to the dataset
 temp2$URL = final$Url[i]
@@ -771,6 +808,11 @@ temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
 #only pull the words in the dataset for each foundation
 temp2 = temp[temp$Var1 %in% unique(purity_all$words[purity_all$words != "" & purity_all$words != "NA" & !is.na(purity_all$words)]), ]
 
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
 #add to the dataset
 temp2$URL = final$Url[i]
 temp2$Source = final$Source[i]
@@ -782,6 +824,13 @@ purity_final_data = rbind(purity_final_data, temp2)
 
 ```
 
+```{r descriptives, include = FALSE}
+#summarize the dataset so that you have the total and percent for each foundation
+
+#report descriptive statistics of the foundations
+
+#note that a big problem is the valence of the words 
+```
 
 ```{r mlm-analyses, echo=FALSE, warning=FALSE, include = FALSE}
 ##Attempt at MLM
