@@ -744,6 +744,10 @@ temp2$wordcount = final$wordcount[i]
 fair_final_data = rbind(fair_final_data, temp2)
 }
 
+#figure out stupid words
+#table(fair_final_data$Var1[is.na(fair_final_data$valence) & fair_final_data$Freq > 0])
+#fought, safer, spurn
+
 #Ingroup
 ingroup_all = read.csv("ingroup_words_total.csv", stringsAsFactors = F)
 
