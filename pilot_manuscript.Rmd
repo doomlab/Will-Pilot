@@ -49,7 +49,19 @@ library(ggplot2)
 knitr::opts_chunk$set(cache = TRUE)
 ```
 # Introduction
-Talk about MFT, MFQ, MFD (primer on moral psychology?)
+
+Something clever to start 
+
+##Moral Foundations Theory
+
+Jonathan Haidt and Jesse Graham formulated Moral Foundations Theory as a method by which to capture the entirety of humans' moral domain. The researchers argued older theories of moral psychology were focused primarly on issues of justice, fairness, and caring - indvidually focused foundations of morality that align with the beliefs of political liberals [@Haidt2007]. In other words, moral psychology ignored the valid moral foundations of conservatives. Moral Foundations Theory (MFT) holds that people's moral domain can be mapped by quantifying their endorsement of five moral foundations: *harm/care*, *fairness/reciprocity*, *ingroup/loyalty*, *authority/respect*, and *purity/sanctity* [@Haidt2007]. 
+
+The researchers settled on these specific foundations after the completion of a literature survey of research in anthropology and evolutionary psychology [@GILLIGAN1991]. *LET'S CHECK THIS CITATION IN MENDELEY*!.The first two foundations (*harm/care* and *fairness/reciprocity*) are termed the "individualizing foundations," as they are centered on the concerns of individuals rather than groups. *Harm/care* represents an endorsement of compassion and kindness, while opposing cruelty and harm. *Fairness/reciprocity* represents concerns centered on guaranteeing individual rights as well as justice and equality among all people. The other three foundations (*ingroup/loyalty*, *authority/respct*, and *purity/sanctity*) are the "binding" foundations, owing to their focus on group-related concerns, rather than those of individuals. *Ingroup/loyalty* represents endorsements of patriotism and heroism and discourages nonconformity and dissent. *Authority/respect* represents an endorsement of social hierarchies and traditions while denigrating disobedience. Finally, *purity/sanctity* represents concerns regarding chastity and piety, while discouraging vices and indulgences, including lust, avarice, and gluttony [@Haidt2007]. Liberals tend to endorse the individualizing foundations more than conservatives. Endorsements for the three binding foundations, however, are lower than conservatives. Conservatives, on the other hand, tend to endorse all five foundations equally, implying they base judments (at least partially) on each foundation [@Graham2009].
+
+
+##Moral Foundations Dictionary
+
+In order to capture language's role in moral and political reasoning, @Graham2009 formulated the Moral Foundations Dictionary (MFD) in order to capture moral reasoning and justification as used in speech and text. The MFD is composed of 259 words, with around 50 words assigned to each of the five foundations. The researchers created a preliminary list of words that they believed would be associated with the five foundations. Then, using the Linguistic Inquiry and Word Count (LIWC; @Pennebaker2007) computer program, they analyzed transcripts of liberal and conservative Christian sermons in order to obtain frequencies of the occurrence of words from the researchers' initial list. The researchers manually checked the results from LIWC in order to make sure the results make sense given the contexts and rhetorical devices used in the sermons. Similar to previous research on Moral Foundations Theory, liberal ministers used *harm*, *fairness*, and *ingroup* words more often than conservative ministers. Conversely, conservative ministers used *authority* and *purity* words more often than liberal ministers. However, conservative ministers did not use *ingroup/loyalty* words more than liberals. Rather, liberal ministers used words pertaining to *ingroup/loyalty*, but in contexts that promote rebellion and independence - causes *opposite* to positive endorsements of that foundation [@Graham2009].  
 
 (Brief) primer on political research? 
 
