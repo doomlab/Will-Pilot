@@ -48,7 +48,6 @@ library(ggplot2)
 
 knitr::opts_chunk$set(cache = TRUE)
 ```
-# Introduction
 
 Something clever to start 
 
@@ -68,6 +67,7 @@ In order to capture language's role in moral and political reasoning, @Graham200
 Talk about political discourse, nature of news media in 2018/Trump era
 
 This project brings the two together in holy matrimony.
+
 # Method
 
 ## Sources
@@ -692,7 +692,8 @@ for(i in 1:nrow(warriner)) {
   warriner$Word2[i] = stemDocument(warriner$Word[i], language = "english")
 } 
 
-###harm
+####harm####
+
 #read in the harm total words from the mtmm project
 harm_all = read.csv("harm_words_total.csv", stringsAsFactors = F)
 
@@ -727,10 +728,13 @@ harm_final_data$valence = vlookup(harm_final_data$Var1, #index in original data
                                   "Word2") #what's the matching index
 
 #figure out stupid words
-#table(harm_final_data$Var1[is.na(harm_final_data$valence) & harm_final_data$Freq > 0])
+table(harm_final_data$Var1[is.na(harm_final_data$valence) & harm_final_data$Freq > 0])
 #fought, safer, spurn
+harm_final_data$valence[harm_final_data$Var1 == "fought"] = warriner$V.Mean.Sum[warriner$Word2 == "fight"]
+harm_final_data$valence[harm_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
+#no spurn avaliable
 
-#Fair
+####Fair####
 fair_all = read.csv("fair_words_total.csv", stringsAsFactors = F)
 
 fair_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
@@ -756,9 +760,16 @@ temp2$wordcount = final$wordcount[i]
 fair_final_data = rbind(fair_final_data, temp2)
 }
 
+fair_final_data$valence = vlookup(fair_final_data$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
 #figure out stupid words
-#table(fair_final_data$Var1[is.na(fair_final_data$valence) & fair_final_data$Freq > 0])
-#fought, safer, spurn
+table(fair_final_data$Var1[is.na(fair_final_data$valence) & fair_final_data$Freq > 0])
+#just plagiar safer
+fair_final_data$valence[fair_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
+#nothing for just or plagiarism
 
 #Ingroup
 ingroup_all = read.csv("ingroup_words_total.csv", stringsAsFactors = F)
@@ -786,6 +797,18 @@ temp2$wordcount = final$wordcount[i]
 ingroup_final_data = rbind(ingroup_final_data, temp2)
 }
 
+ingroup_final_data$valence = vlookup(ingroup_final_data$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(ingroup_final_data$Var1[is.na(ingroup_final_data$valence) & ingroup_final_data$Freq > 0])
+#backstabb  benedict      best      fals   indvidu      juda    knight      true
+ingroup_final_data$valence[ingroup_final_data$Var1 == "fals"] = warriner$V.Mean.Sum[warriner$Word2 == "FALSE"]
+ingroup_final_data$valence[ingroup_final_data$Var1 == "indvidu"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "individu"])
+ingroup_final_data$valence[ingroup_final_data$Var1 == "true"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "TRUE"])
+
 #Authority
 authority_all = read.csv("authority_words_total.csv", stringsAsFactors = F)
 
@@ -812,10 +835,23 @@ temp2$wordcount = final$wordcount[i]
 authority_final_data = rbind(authority_final_data, temp2)
 }
 
+authority_final_data$valence = vlookup(authority_final_data$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(authority_final_data$Var1[is.na(authority_final_data$valence) & authority_final_data$Freq > 0])
+#  abov behind   gase higher  older  taken 
+authority_final_data$valence[authority_final_data$Var1 == "gase"] = warriner$V.Mean.Sum[warriner$Word2 == "gas"]
+authority_final_data$valence[authority_final_data$Var1 == "higher"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "high"])
+authority_final_data$valence[authority_final_data$Var1 == "older"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "old"])
+authority_final_data$valence[authority_final_data$Var1 == "taken"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "take"])
+
 #Purity
 purity_all = read.csv("purity_words_total.csv", stringsAsFactors = F)
 
-purity_final_data = data.frame("URL" = NA, "Source" = NA, "word" = NA, "Freq" = NA, "wordcount" = NA)
+purity_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
 for (i in 1:nrow(final)) {
 ##first make a table of a response, unlisting everything
@@ -838,6 +874,17 @@ temp2$wordcount = final$wordcount[i]
 purity_final_data = rbind(purity_final_data, temp2)
 }
 
+purity_final_data$valence = vlookup(purity_final_data$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(purity_final_data$Var1[is.na(purity_final_data$valence) & purity_final_data$Freq > 0])
+#befor christian     jesus      mari      none    sacred    someon      true     women 
+purity_final_data$valence[purity_final_data$Var1 == "sacred"] = warriner$V.Mean.Sum[warriner$Word2 == "sacr"]
+purity_final_data$valence[purity_final_data$Var1 == "true"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "TRUE"])
+purity_final_data$valence[purity_final_data$Var1 == "women"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "woman"])
 ```
 
 ```{r descriptives, include = FALSE}
