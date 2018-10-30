@@ -701,6 +701,7 @@ for(i in 1:nrow(final)) {
 ```{r new_data, include = FALSE}
 ##open the Warriner data for later
 warriner = read.csv("BRM-emot-submit.csv", stringsAsFactors = F) #want v.mean.sum
+warriner$V.Mean.Sum = scale(warriner$V.Mean.Sum)
 
 for(i in 1:nrow(warriner)) {
   warriner$Word2[i] = stemDocument(warriner$Word[i], language = "english")
@@ -910,16 +911,31 @@ purity_final_data$valence[purity_final_data$Var1 == "women"] = mean(warriner$V.M
 ```
 
 ```{r update-mlm, include = FALSE}
-
 #harm_final_data clean up
-harm_final_data$percent = harm_final_data$Freq / harm_final_data$wordcount *100
-harm_final_data$lean = factor(harm_final_data$Source, 
-                              levels = names(table(harm_final_data$Source)),
-                              labels = c("Conservative1", "Conservative",
-                                  "Liberal1", "Liberal"))
-harm_final_data$lean = gsub("1", "", harm_final_data$lean)
+#multiply by frequency and create percentage
+harm_final_data$weight = harm_final_data$Freq * harm_final_data$valence / harm_final_data$wordcount * 100
 
-harm_final_data$weighted = harm_final_data$percent*harm_final_data$valence
+#flatten down to sum by article 
+harm_final_temp = aggregate(harm_final_data$weight, 
+          by = list(harm_final_data$URL),
+          FUN = sum, na.rm = T)
+colnames(harm_final_temp) = c("URL", "MFDweight")
+
+harm_final_temp$lean[grepl("nytimes.com", harm_final_temp$URL) |
+                       grepl("npr.org", harm_final_temp$URL)] = "Liberal"
+harm_final_temp$lean[grepl("breitbart.com", harm_final_temp$URL) |
+                       grepl("foxnews.com", harm_final_temp$URL)] = "Conservative"
+
+harm_final_temp$Source[grepl("nytimes.com", harm_final_temp$URL)] = "NY Times"
+harm_final_temp$Source[grepl("npr.org", harm_final_temp$URL)] = "NPR"
+harm_final_temp$Source[grepl("foxnews.com", harm_final_temp$URL)] = "Fox"
+harm_final_temp$Source[grepl("breitbart.com", harm_final_temp$URL)] = "Breitbart"
+
+harm_model = lme(MFDweight ~ lean, 
+                 data = harm_final_temp, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
 
 #boring models first
 
