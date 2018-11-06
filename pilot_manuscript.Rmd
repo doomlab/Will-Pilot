@@ -68,9 +68,10 @@ For *harm/care*, the definition of the foundation as well as its name clearly di
 
 When considering the issue of positive versus negative valence in MFD words, the question of how texts are analyzed vis-a-vis the MFD remains. How can raw percentage of MFD word occurence capture the valence and focus of the writer or speaker? If 2% of a politician's speech features positive words (i.e. "benefit" and "defend") from the MFD *harm/care* list, how can researchers be sure the level and nature of the speaker's "endorsement" of the foundation equals that of another politician whose speech contained negatively connoted MFD words from the *harm/care* list? They would have equal endorsements as far as the numbers are concerned, but the words used and focus given are on opposite sides of the *harm/care* spectrum.
 
-This issue is compounded by the fact the Moral Foundations Questionnaire and its subscales assume endorsement lies on a continuum.
+This issue is compounded by the fact the Moral Foundations Questionnaire (MFQ) and its subscales assume endorsement lies on a continuum. One item under the *fairness/reciprocity* judgment subscale reads, "Justice is the most important requirement for a society" [@GILLIGAN1991]. The survey respondent must select a number on a scale from 1 to 6 indicating responses spanning "strongly disagree" at 1 to "strongly agree" at 6. While the scales in the MFQ do not represent true valence as it pertains to individual words, it does allow for a greater degree of specificity in terms of an individual's endorsement of a particular moral foundation. When a respondent selects a 4 for the aforementioned MFQ statement, they clearly are indicating they "slightly agree" with the statement [@GILLIGAN1991]. This specificity is not present in most analyses involving the MFD and percent occurence, unless they also take into account the valence of the words used in the text or speech of interest.   
 
 ##Valence
+
 
 ## News Media and Politics
 
