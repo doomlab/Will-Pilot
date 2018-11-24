@@ -1,6 +1,6 @@
 ---
 title             : "Moral Foundations of U.S. Political News Organizations"
-shorttitle        : "MORAL FOUNDATIONS OF U.S. NEWS"
+shorttitle        : "MORAL NEWS"
 
 author: 
   - name          : "William E. Padfield"
@@ -45,6 +45,7 @@ library(MuMIn)
 library(reshape)
 library(nlme)
 library(ggplot2)
+library(expss)
 
 knitr::opts_chunk$set(cache = TRUE)
 ```
@@ -382,7 +383,7 @@ tapply(newdata$wordcount, newdata$Source, sum)
 
 Once data collection ended, the text was scanned using the *ngram* package in *R* [@CITE_ngram]. This package includes a word count function, which was used to remove articles that came through as blank text, as well as to eliminate text picked up from the Disqus commenting system used by certain websites. At this point, duplicate articles were discarded.
 
-```{r data-cleanup, eval=TRUE, include=FALSE}
+```{r data-cleanup, eval=FALSE, include=FALSE}
 ##pull in the data
 master = read.csv("overalldata.csv", stringsAsFactors = F)
 
@@ -409,220 +410,19 @@ final = subset(nodis, URLS == FALSE)
 tapply(final$wordcount, final$Source, mean)
 tapply(final$wordcount, final$Source, sum)
 
-#write.csv(final, "finaldata.csv")
-
-####start here####
-final = read.csv("finaldata.csv", stringsAsFactors = F)
-final = na.omit(final) #one weird NA line
+write.csv(final, "finaldata.csv")
 
 ```
 
 In order to fully capture the evaluative power of the Moral Foundations Dictionary (MFD; *CITE*), forms and conjugations of words were added to the original MFD. For example, *abuse* was supplemented with *abusive*, *abuser*, *abused*, and *abusing*. Once additional word forms were added, the words making up each of the five foundations in the MFD were split among positive and negative dimensions (i.e., *abide* as a positive authority/respect word and *defect* as a negative authority/respect word).
 
-```{r fix-MFD, eval=TRUE, include=FALSE}
-##figure out the percent of MFD words
-
-##the amount of time people used the original MFD words
-original_mfd = read.csv("original_mfd.csv", stringsAsFactors = F)
-
-##adding forms/conjugations of words to original_mfd
-#harm/care
-original_mfd[c(27:95),1] = c("abusive","abuser","abused","abusing",
-                             "sympathetic","sympathies","damaged",
-                             "damaging","attacked","attacking","attacker",
-                             "attacks","attackers", "benefits", "benefitted",
-                             "benefitting", "cares", "cared", "caring", "crushes",
-                             "crushing", "crushed", "dangerous", "defends", "defending",
-                             "defended", "detroys", "destroyed", "destroying",
-                             "fights", "fought", "fighting", "guards", "guarded",
-                             "guarding", "harms", "harmed", "harming", "hurts",
-                             "hurting", "kills", "killed", "killing", "preserves",
-                             "preserved", "preserving", "protects", "protected",
-                             "protecting", "protection", "ruins", "ruined", "ruining",
-                             "safely", "safer", "shelters", "sheltered", "sheltering",
-                             "spurns", "spurned", "spurning", "stomps", "stomped",
-                             "stomping", "suffers", "suffered", "suffering",
-                             "violence", "warring")
-                             
-#fairness/reciprocity
-original_mfd[c(20:64),2] = c("balances", "balanced", "balancing","biased",
-                             "biases", "discriminates", "discriminated",
-                             "discriminating", "discrimination", "equals",
-                             "equaled", "equaling", "equates", "equated",
-                             "equating", "evens", "evened", "evening",
-                             "excludes", "excluded", "excluding", "fairness",
-                             "favors", "favored", "favoring", "honesty",
-                             "impariality", "justice", "justifies", "justified",
-                             "justifying", "prefers", "preferred", "preferring",
-                             "prejudices", "prejudiced", "prejudicing", "reasons",
-                             "reasoned", "reasoning", "rights", "tolerates",
-                             "tolerated", "tolerating", "toleration")
-
-#ingroup/loyalty
-original_mfd[c(16:47),3] = c("collects", "collected", "collecting", "collective",
-                             "communities", "deceives", "deceived", "deceiving",
-                             "deception", "deceptions", "deserts", "deserted",
-                             "deserting", "desertion", "families", "fellows",
-                             "foreigners", "groups", "grouped", "grouping",
-                             "indviduals", "indvidualize", "individualized",
-                             "individualizing", "members", "nations", "sides",
-                             "togetherness", "traits", "unites", "united", "uniting")
-
-#authority/respect
-original_mfd[c(31:112),4] = c("abides", "abided", "abiding", "authorities",
-                              "classes", "classed", "classing", "command",
-                              "commanded", "commanding", "controls", "controlled",
-                              "controlling", "defects", "defected", "defecting",
-                              "defers", "deferred", "deferring", "deference",
-                              "defies", "defied", "defying", "defiance", "deserts",
-                              "deserted", "deserting", "desertion", "duties",
-                              "faiths", "fathers", "fathered", "fathering",
-                              "honors", "honored", "honoring", "laws", "leads",
-                              "leading", "mothers", "mothered", "mothering",
-                              "obeys", "obeyed", "obeying", "opposes", "opposed",
-                              "opposing", "orders", "ordered", "ordering", "permits",
-                              "permitted", "permitting", "positions", "positioned",
-                              "positioning", "preserves", "preserved", "preserving",
-                              "preservation", "protests", "protested", "protesting",
-                              "refuses", "refused", "refusing", "refusal", "respects",
-                              "respected", "respecting", "respectful", "reveres",
-                              "revered", "revering", "reverence", "serves", "served",
-                              "serving", "traditions", "traditional", "traits")
-
-#purity/sanctity
-original_mfd[c(21:60),5] = c("abstains", "abstained", "abstaining", "abstinence",
-                             "adulteries", "adulterous", "adulterer", "adulterers",
-                             "churches", "cleans", "cleaned", "cleaning", "cleanse",
-                             "cleanliness", "dirty", "diseases", "diseased", 
-                             "disgusts", "disgusted", "disgusting", "grossness",
-                             "innocence", "modesty", "preserves", "preserved",
-                             "preserving", "preservation", "promiscuity",
-                             "promiscuities", "purity", "rights", "ruins", "ruined",
-                             "ruining", "sacredness", "sickness", "sicknesses",
-                             "sins", "wholeness", "wholesome")
-
-# ##separate them into h low, h high until you have ten categories 
-# #harm/care
-# original_mfd$h2hi[35:112] = NA 
-# original_mfd$h2hi[1:34] = c("benefit", "care", "defend", "guard", "preserve",
-#                       "protect", "safe", "shelter", "sympathetic",
-#                       "sympathies", "benefits", "benefitted",
-#                       "benefitting", "cares", "cared", "caring","defends", 
-#                       "defending","defended", "guards", "guarded",
-#                       "guarding","preserves",
-#                       "preserved", "preserving", "protects", "protected",
-#                       "protecting", "protection",  
-#                       "safely", "safer", "shelters", 
-#                       "sheltered", "sheltering")
-# original_mfd$h2lo[61:112] = NA
-# original_mfd$h2lo[1:60] = c("abuse", "attack", "cruel", "crush",
-#                       "damage", "danger", "destroy", "fight", "harm",
-#                       "hurt", "kill", "ruin", "spurn", "stomp", "suffer",
-#                       "violent", "war","abusive",
-#                       "abuser","abused","abusing","damaged",
-#                       "damaging","attacked","attacking","attacker",
-#                       "attacks","attackers","crushes",
-#                       "crushing", "crushed", "dangerous","detroys", 
-#                       "destroyed", "destroying",
-#                       "fights", "fought", "fighting","harms", 
-#                       "harmed", "harming", "hurts",
-#                       "hurting", "kills", "killed", "killing",
-#                       "ruins", "ruined", "ruining", "spurns", 
-#                       "spurned", "spurning", "stomps", "stomped",
-#                       "stomping", "suffers", "suffered", "suffering",
-#                       "violence", "warring")
-# 
-# #fairness/reciprocity
-# original_mfd$f2hi[41:112] = NA
-# original_mfd$f2hi[1:40] = c("balance", "constant", "equal", "equate", "even",
-#                       "fair", "honest", "just", "justify", "reason",
-#                       "right", "tolerate", "impartial", "balances", 
-#                       "balanced", "balancing",
-#                       "equals", "equaled", "equaling", "equates", "equated",
-#                       "equating", "evens", "evened", "evening","fairness",
-#                       "honesty", "impartiality", "justice", "justifies", 
-#                       "justified", "justifying", "reasons",
-#                       "reasoned", "reasoning", "rights", "tolerates",
-#                       "tolerated", "tolerating", "toleration")
-# original_mfd$f2lo[25:112] = NA
-# original_mfd$f2lo[1:24] = c("bias", "discriminate", "exclude", "favor",
-#                       "prefer", "prejudice", "biased", "biases", "discriminates", 
-#                       "discriminated", "discriminating", "discrimination",
-#                       "excludes", "excluded", "excluding", 
-#                       "favors", "favored", "favoring", "prefers", "preferred", "preferring",
-#                       "prejudices", "prejudiced", "prejudicing")
-# 
-# #ingroup/loyalty
-# original_mfd$i2hi[30:112] = NA
-# original_mfd$i2hi[1:29] = c("collect", "community", "family", "fellow",
-#                       "group", "member", "nation", "side", "together",
-#                       "trait", "unite", "collects", 
-#                       "collected", "collecting", "collective",
-#                       "communities", "families", "fellows",
-#                       "groups", "grouped", "grouping",
-#                       "members", "nations", "sides",
-#                       "togetherness", "traits", "unites", 
-#                       "united", "uniting")
-# original_mfd$i2lo[19:112] = NA 
-# original_mfd$i2lo[1:18] = c("deceive", "desert", "foreign", "individual",
-#                       "deceives", "deceived", "deceiving",
-#                       "deception", "deceptions", "deserts", "deserted",
-#                       "deserting", "desertion", "foreigners",
-#                       "indviduals", "indvidualize", "individualized",
-#                       "individualizing")
-# 
-# #authority/respect
-# original_mfd$a2hi[86:112] = NA
-# original_mfd$a2hi[1:85] = c("abide", "authority", "class", "command",
-#                       "control", "defer", "duty", "faith", "father", "honor",
-#                       "law", "lead", "legal", "mother", "obey", 
-#                       "order", "permit", "position", "preserve",
-#                       "respect", "revere", "serve", "tradtition", "trait",
-#                       "abides", "abided", "abiding", "authorities",
-#                       "classes", "classed", "classing", "command",
-#                       "commanded", "commanding", "controls", "controlled",
-#                       "controlling","defers", "deferred", "deferring", "deference",
-#                       "duties","faiths", "fathers", "fathered", "fathering",
-#                       "honors", "honored", "honoring", "laws", "leads",
-#                       "leading", "mothers", "mothered", "mothering",
-#                       "obeys", "obeyed", "obeying", "orders", 
-#                       "ordered", "ordering", "permits",
-#                       "permitted", "permitting", "positions", "positioned",
-#                       "positioning", "preserves", "preserved", "preserving",
-#                       "preservation", "respects",
-#                       "respected", "respecting", "respectful", "reveres",
-#                       "revered", "revering", "reverence", "serves", "served",
-#                       "serving", "traditions", "traditional", "traits")
-# original_mfd$a2lo[28:112] = NA
-# original_mfd$a2lo[1:27] = c("defect", "defy", "desert","oppose", 
-#                       "protest", "refuse", "defects", "defected", 
-#                       "defecting","defies", "defied", "defying", "defiance", "deserts",
-#                       "deserted", "deserting", "desertion", "opposes", "opposed",
-#                       "opposing", "protests", "protested", "protesting",
-#                       "refuses", "refused", "refusing", "refusal")
-# 
-# #purity/sanctity
-# original_mfd$p2hi[32:112] = NA
-# original_mfd$p2hi[1:31] = c("abstain", "church", "clean", "innocent", "modest",
-#                       "preserve", "pure", "right", "sacred", "whole",
-#                       "abstains", "abstained", "abstaining", "abstinence",
-#                       "churches", "cleans", "cleaned", "cleaning", "cleanse",
-#                       "cleanliness", "innocence", "modesty", "preserves", "preserved",
-#                       "preserving", "preservation", "purity", "rights", 
-#                       "sacredness", "wholeness", "wholesome")
-# original_mfd$p2lo[30:112] = NA
-# original_mfd$p2lo[1:29] = c("adultery", "dirt", "disease", "disgust", "gross",
-#                       "promiscuous", "ruin", "sick", "sin", "trash",
-#                       "adulteries", "adulterous", "adulterer", "adulterers",
-#                       "dirty", "diseases", "diseased", "disgusts", 
-#                       "disgusted", "disgusting", "grossness", "promiscuity",
-#                       "promiscuities", "ruins", "ruined","ruining", 
-#                       "sickness", "sicknesses", "sins")
-```
-
 Once the MFD was separated along lines of positive and negative dimensions for each of the foundations, the article text was processed using the *tm* and *ngram* packages in *R* in order to render the text in lowercase, remove punctuation, and fix spacing issues [@CITE_tm]. The individual words were then reduced to their stems (i.e., *abused* was stemmed to *abus*). The same procedure was applied to the MFD words, and the addition of multiple forms of each concept allowed for the capture of all versions of stemming that might occur given *tm*'s English stemmer function. The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with a percentage of their occurrence. Therefore, for each article, the percentage of the number of *harm* (low end) and *care* (high end) related words were calculated and this process was repeated for each of the foundations. This procedure created ten percentages that were included as the dependent variable for the following analyses. 
 
-```{r process-text, eval=TRUE, include=FALSE}
+```{r stem_text, eval=TRUE, include=FALSE}
+
+final = read.csv("finaldata.csv", stringsAsFactors = F)
+final = na.omit(final) #one weird NA line
+
 ##load libraries
 library(tm)
 library(ngram)
@@ -640,76 +440,9 @@ for(i in 1:nrow(final)) {
   final$stemmed[i] = stemDocument(final$edited[i], language = "english")
 } 
 
-# ##stem the original MFD stuff - separate loop on only the mfd data frame
-# for(i in 1:nrow(original_mfd)) {
-#   original_mfd$h2hi[i] = stemDocument(original_mfd$h2hi[i], language = "english")
-#   original_mfd$h2lo[i] = stemDocument(original_mfd$h2lo[i], language = "english")
-#   original_mfd$f2hi[i] = stemDocument(original_mfd$f2hi[i], language = "english")
-#   original_mfd$f2lo[i] = stemDocument(original_mfd$f2lo[i], language = "english")
-#   original_mfd$i2hi[i] = stemDocument(original_mfd$i2hi[i], language = "english")
-#   original_mfd$i2lo[i] = stemDocument(original_mfd$i2lo[i], language = "english")
-#   original_mfd$a2hi[i] = stemDocument(original_mfd$a2hi[i], language = "english")
-#   original_mfd$a2lo[i] = stemDocument(original_mfd$a2lo[i], language = "english")
-#   original_mfd$p2hi[i] = stemDocument(original_mfd$p2hi[i], language = "english")
-#   original_mfd$p2lo[i] = stemDocument(original_mfd$p2lo[i], language = "english")
-# }
-# 
-# final$hhisum = NA
-# final$hlosum = NA
-# final$fhisum = NA
-# final$flosum = NA
-# final$ihisum = NA
-# final$ilosum = NA
-# final$ahisum = NA
-# final$alosum = NA
-# final$phisum = NA
-# final$plosum = NA
-# 
-# for (i in 1:nrow(final)) {
-# ##first make a table of a response, unlisting everything
-# temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
-# ##find the rows that match the mfd list and sum and save
-# final$hsumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$h2hi[original_mfd$h2hi != "" & original_mfd$h2hi != "NA"])])
-# final$hsumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$h2lo[original_mfd$h2lo != "" & original_mfd$h2lo != "NA"])])
-# 
-# final$fsumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$f2hi[original_mfd$f2hi != "" & original_mfd$f2hi != "NA"])])
-# final$fsumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$f2lo[original_mfd$f2lo != "" & original_mfd$f2lo != "NA"])])
-# 
-# final$isumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$i2hi[original_mfd$i2hi != "" & original_mfd$i2hi != "NA"])])
-# final$isumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$i2lo[original_mfd$i2lo != "" & original_mfd$i2lo != "NA"])])
-# 
-# final$asumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$a2hi[original_mfd$a2hi != "" & original_mfd$a2hi != "NA"])])
-# final$asumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$a2lo[original_mfd$a2lo != "" & original_mfd$a2lo != "NA"])])
-# 
-# final$psumhi[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$p2hi[original_mfd$p2hi != "" & original_mfd$p2hi != "NA"])])
-# final$psumlo[i] = sum(temp$Freq[temp$Var1 %in% unique(original_mfd$p2lo[original_mfd$p2lo != "" & original_mfd$p2lo != "NA"])])
-# }
-# 
-# final$hperhi = final$hsumhi / final$wordcount * 100
-# final$hperlo = final$hsumlo / final$wordcount * 100
-# final$fperhi = final$fsumhi / final$wordcount * 100
-# final$fperlo = final$fsumlo / final$wordcount * 100
-# final$iperhi = final$isumhi / final$wordcount * 100
-# final$iperlo = final$isumlo / final$wordcount * 100
-# final$aperhi = final$asumhi / final$wordcount * 100
-# final$aperlo = final$asumlo / final$wordcount * 100
-# final$pperhi = final$psumhi / final$wordcount * 100
-# final$pperlo = final$psumlo / final$wordcount * 100
-# 
-# #let's look at the means
-# tapply(final$hperhi, final$Source, mean)
-# tapply(final$hperlo, final$Source, mean)
-# tapply(final$fperhi, final$Source, mean)
-# tapply(final$fperlo, final$Source, mean)
-# tapply(final$iperhi, final$Source, mean)
-# tapply(final$iperlo, final$Source, mean)
-# tapply(final$aperhi, final$Source, mean)
-# tapply(final$aperlo, final$Source, mean)
-# tapply(final$pperhi, final$Source, mean)
-# tapply(final$pperlo, final$Source, mean)
 ```
 
-```{r new_data, include = FALSE}
+```{r stem_warriner, include = FALSE}
 ##open the Warriner data for later
 warriner = read.csv("BRM-emot-submit.csv", stringsAsFactors = F) #want v.mean.sum
 warriner$V.Mean.Sum = scale(warriner$V.Mean.Sum)
@@ -717,9 +450,9 @@ warriner$V.Mean.Sum = scale(warriner$V.Mean.Sum)
 for(i in 1:nrow(warriner)) {
   warriner$Word2[i] = stemDocument(warriner$Word[i], language = "english")
 } 
+```
 
-####harm####
-
+```{r create_datasets_harm, include=FALSE}
 #read in the harm total words from the mtmm project
 harm_all = read.csv("harm_words_total.csv", stringsAsFactors = F)
 
@@ -747,7 +480,6 @@ harm_final_data = rbind(harm_final_data, temp2)
 }
 
 #pull in the data from Warriner 
-library(expss)
 harm_final_data$valence = vlookup(harm_final_data$Var1, #index in original data
                                   warriner, #where's the stuff you want to put in
                                   "V.Mean.Sum", #what column is the stuff you want
@@ -759,8 +491,9 @@ table(harm_final_data$Var1[is.na(harm_final_data$valence) & harm_final_data$Freq
 harm_final_data$valence[harm_final_data$Var1 == "fought"] = warriner$V.Mean.Sum[warriner$Word2 == "fight"]
 harm_final_data$valence[harm_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
 #no spurn avaliable
+```
 
-####Fair####
+```{r create_datasets_fair, include=FALSE}
 fair_all = read.csv("fair_words_total.csv", stringsAsFactors = F)
 
 fair_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
@@ -796,8 +529,9 @@ table(fair_final_data$Var1[is.na(fair_final_data$valence) & fair_final_data$Freq
 #just plagiar safer
 fair_final_data$valence[fair_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
 #nothing for just or plagiarism
+```
 
-#Ingroup
+```{r create_datasets_ingroup, include=FALSE}
 ingroup_all = read.csv("ingroup_words_total.csv", stringsAsFactors = F)
 
 ingroup_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
@@ -834,8 +568,9 @@ table(ingroup_final_data$Var1[is.na(ingroup_final_data$valence) & ingroup_final_
 ingroup_final_data$valence[ingroup_final_data$Var1 == "fals"] = warriner$V.Mean.Sum[warriner$Word2 == "FALSE"]
 ingroup_final_data$valence[ingroup_final_data$Var1 == "indvidu"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "individu"])
 ingroup_final_data$valence[ingroup_final_data$Var1 == "true"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "TRUE"])
+```
 
-#Authority
+```{r create_datasets_authority, include=FALSE}
 authority_all = read.csv("authority_words_total.csv", stringsAsFactors = F)
 
 authority_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
@@ -873,8 +608,9 @@ authority_final_data$valence[authority_final_data$Var1 == "gase"] = warriner$V.M
 authority_final_data$valence[authority_final_data$Var1 == "higher"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "high"])
 authority_final_data$valence[authority_final_data$Var1 == "older"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "old"])
 authority_final_data$valence[authority_final_data$Var1 == "taken"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "take"])
+```
 
-#Purity
+```{r create_datasets_purity, include=FALSE}
 purity_all = read.csv("purity_words_total.csv", stringsAsFactors = F)
 
 purity_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
@@ -921,8 +657,8 @@ purity_final_data$valence[purity_final_data$Var1 == "women"] = mean(warriner$V.M
 #note that a big problem is the valence of the words 
 ```
 
-```{r update-mlm, include = FALSE}
-#harm_final_data clean up
+```{r analysis_harm, include = FALSE}
+#final_data clean up
 #multiply by frequency and create percentage
 harm_final_data$weight = harm_final_data$Freq * harm_final_data$valence / harm_final_data$wordcount * 100
 
@@ -947,287 +683,128 @@ harm_model = lme(MFDweight ~ lean,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
-
-#boring models first
-
-#final model
-modelfinal = lme(percent ~ valence*lean,
-                 data = harm_final_data,
-                 method = "ML", 
-                 na.action = "na.omit", 
-                 random = list(~1|Var1, ~1|Source))
-summary(modelfinal)
-
-with(harm_final_data, tapply(percent, list(lean), mean))
-with(harm_final_data, tapply(valence, list(lean), mean, na.rm = T))
-with(harm_final_data, tapply(weighted, list(lean), mean, na.rm = T))
-
-modelfinal = lme(weighted ~ lean,
-                 data = harm_final_data,
-                 method = "ML", 
-                 na.action = "na.omit", 
-                 random = list(~1|Var1, ~1|Source))
-summary(modelfinal)
-
+summary(harm_model)
 ```
 
+```{r analysis_fair, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+fair_final_data$weight = fair_final_data$Freq * fair_final_data$valence / fair_final_data$wordcount * 100
 
-```{r mlm-analyses, echo=FALSE, warning=FALSE, include = FALSE}
-##Attempt at MLM
-mlm_data = final[ , -c(3:28) ]
-long_mlm = melt(mlm_data,
-                id = c("X", "Source"))
-colnames(long_mlm) = c("partno", "Source", "moraltype", "percent")
-long_mlm$lean = factor(long_mlm$Source,
-                       levels = names(table(long_mlm$Source)),
-                       labels = c("Conservative1", "Conservative",
-                                  "Liberal1", "Liberal"))
-long_mlm$lean = gsub("1", "", long_mlm$lean)
+#flatten down to sum by article 
+fair_final_temp = aggregate(fair_final_data$weight, 
+          by = list(fair_final_data$URL),
+          FUN = sum, na.rm = T)
+colnames(fair_final_temp) = c("URL", "MFDweight")
 
-#####intercept only model####
-##gls = generalized least squares
-##ML = maximum likelihood
-model1 = gls(percent ~ 1, 
-             data = long_mlm, 
-             method = "ML", 
-             na.action = "na.omit")
-summary(model1)
+fair_final_temp$lean[grepl("nytimes.com", fair_final_temp$URL) |
+                       grepl("npr.org", fair_final_temp$URL)] = "Liberal"
+fair_final_temp$lean[grepl("breitbart.com", fair_final_temp$URL) |
+                       grepl("foxnews.com", fair_final_temp$URL)] = "Conservative"
 
-####overall percent - random intercept by source####
-model3 = lme(percent ~ 1,
-             data = long_mlm, 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|Source)
-summary(model3)
-r.squaredGLMM(model3)
+fair_final_temp$Source[grepl("nytimes.com", fair_final_temp$URL)] = "NY Times"
+fair_final_temp$Source[grepl("npr.org", fair_final_temp$URL)] = "NPR"
+fair_final_temp$Source[grepl("foxnews.com", fair_final_temp$URL)] = "Fox"
+fair_final_temp$Source[grepl("breitbart.com", fair_final_temp$URL)] = "Breitbart"
 
-####separate models by type####
-##MFD category ~ lean 
-model4.1 = lme(percent ~ lean,
-             data = long_mlm[long_mlm$moraltype == "hperhi", ], 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|Source)
-summary(model4.1)
-r.squaredGLMM(model4.1)
-
-model4.2 = lme(percent ~ lean,
-             data = long_mlm[long_mlm$moraltype == "hperlo", ], 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|Source)
-summary(model4.2)
-r.squaredGLMM(model4.2)
-
-model4.3 = lme(percent ~ lean,
-             data = long_mlm[long_mlm$moraltype == "fperhi", ], 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|Source)
-summary(model4.3)
-r.squaredGLMM(model4.3)
-
-model4.4 = lme(percent ~ lean,
-             data = long_mlm[long_mlm$moraltype == "fperlo", ], 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|Source)
-summary(model4.4)
-r.squaredGLMM(model4.4)
-
-model4.5 = lme(percent ~ lean,
-             data = long_mlm[long_mlm$moraltype == "iperhi", ], 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|Source)
-summary(model4.5)
-r.squaredGLMM(model4.5)
-
-model4.6 = lme(percent ~ lean,
-             data = long_mlm[long_mlm$moraltype == "iperlo", ], 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|Source)
-summary(model4.6)
-r.squaredGLMM(model4.6)
-
-model4.7 = lme(percent ~ lean,
-             data = long_mlm[long_mlm$moraltype == "aperhi", ], 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|Source)
-summary(model4.7)
-r.squaredGLMM(model4.7)
-
-model4.8 = lme(percent ~ lean,
-             data = long_mlm[long_mlm$moraltype == "aperlo", ], 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|Source)
-summary(model4.8)
-r.squaredGLMM(model4.8)
-
-model4.9 = lme(percent ~ lean,
-             data = long_mlm[long_mlm$moraltype == "pperhi", ], 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|Source)
-summary(model4.9)
-r.squaredGLMM(model4.9)
-
-model4.10 = lme(percent ~ lean,
-             data = long_mlm[long_mlm$moraltype == "pperlo", ], 
-             method = "ML", 
-             na.action = "na.omit",
-             random = ~1|Source)
-summary(model4.10)
-r.squaredGLMM(model4.10)
-
+fair_model = lme(MFDweight ~ lean, 
+                 data = fair_final_temp, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(fair_model)
 ```
 
-```{r model-table, results='asis', echo=FALSE}
-tableprint = matrix(NA, nrow = 12, ncol = 7)
+```{r analysis_ingroup, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+ingroup_final_data$weight = ingroup_final_data$Freq * ingroup_final_data$valence / ingroup_final_data$wordcount * 100
 
-colnames(tableprint) = c("Model", "AIC", "BIC", "$\\chi^2$", "$df$",
-                         "$R^2_m", "$R^2_c")
+#flatten down to sum by article 
+ingroup_final_temp = aggregate(ingroup_final_data$weight, 
+          by = list(ingroup_final_data$URL),
+          FUN = sum, na.rm = T)
+colnames(ingroup_final_temp) = c("URL", "MFDweight")
 
-#put in each model set information
-#temp store model summary
-temp = summary(model1)
+ingroup_final_temp$lean[grepl("nytimes.com", ingroup_final_temp$URL) |
+                       grepl("npr.org", ingroup_final_temp$URL)] = "Liberal"
+ingroup_final_temp$lean[grepl("breitbart.com", ingroup_final_temp$URL) |
+                       grepl("foxnews.com", ingroup_final_temp$URL)] = "Conservative"
 
-#put in the information
-#entered a raw number here, as a reminder
-tableprint[1 , ] = c("Non-Random Intercept", temp$AIC, temp$BIC,
-                     temp$logLik, 30409, "-", "-")
+ingroup_final_temp$Source[grepl("nytimes.com", ingroup_final_temp$URL)] = "NY Times"
+ingroup_final_temp$Source[grepl("npr.org", ingroup_final_temp$URL)] = "NPR"
+ingroup_final_temp$Source[grepl("foxnews.com", ingroup_final_temp$URL)] = "Fox"
+ingroup_final_temp$Source[grepl("breitbart.com", ingroup_final_temp$URL)] = "Breitbart"
 
-temp = summary(model3)
-tableprint[2 , ] = c("Random Intercept", temp$AIC, temp$BIC,
-                     temp$logLik, temp$fixDF$terms, r.squaredGLMM(model3))
+ingroup_model = lme(MFDweight ~ lean, 
+                 data = ingroup_final_temp, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(ingroup_model)
+```
 
-temp = summary(model4.1)
-tableprint[3 , ] = c("Harm High", temp$AIC, temp$BIC,
-                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.1))
+```{r analysis_authority, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+authority_final_data$weight = authority_final_data$Freq * authority_final_data$valence / authority_final_data$wordcount * 100
 
-temp = summary(model4.2)
-tableprint[4 , ] = c("Harm Low", temp$AIC, temp$BIC,
-                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.2))
+#flatten down to sum by article 
+authority_final_temp = aggregate(authority_final_data$weight, 
+          by = list(authority_final_data$URL),
+          FUN = sum, na.rm = T)
+colnames(authority_final_temp) = c("URL", "MFDweight")
 
-temp = summary(model4.3)
-tableprint[5 , ] = c("Fairness High", temp$AIC, temp$BIC,
-                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.3))
+authority_final_temp$lean[grepl("nytimes.com", authority_final_temp$URL) |
+                       grepl("npr.org", authority_final_temp$URL)] = "Liberal"
+authority_final_temp$lean[grepl("breitbart.com", authority_final_temp$URL) |
+                       grepl("foxnews.com", authority_final_temp$URL)] = "Conservative"
 
-temp = summary(model4.4)
-tableprint[6 , ] = c("Fairness Low", temp$AIC, temp$BIC,
-                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.4))
+authority_final_temp$Source[grepl("nytimes.com", authority_final_temp$URL)] = "NY Times"
+authority_final_temp$Source[grepl("npr.org", authority_final_temp$URL)] = "NPR"
+authority_final_temp$Source[grepl("foxnews.com", authority_final_temp$URL)] = "Fox"
+authority_final_temp$Source[grepl("breitbart.com", authority_final_temp$URL)] = "Breitbart"
 
-temp = summary(model4.5)
-tableprint[7 , ] = c("Ingroup High", temp$AIC, temp$BIC,
-                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.5))
+authority_model = lme(MFDweight ~ lean, 
+                 data = authority_final_temp, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(authority_model)
+```
 
-temp = summary(model4.6)
-tableprint[8 , ] = c("Ingroup Low", temp$AIC, temp$BIC,
-                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.6))
+```{r analysis_purity, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+purity_final_data$weight = purity_final_data$Freq * purity_final_data$valence / purity_final_data$wordcount * 100
 
-temp = summary(model4.7)
-tableprint[9 , ] = c("Authority High", temp$AIC, temp$BIC,
-                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.7))
+#flatten down to sum by article 
+purity_final_temp = aggregate(purity_final_data$weight, 
+          by = list(purity_final_data$URL),
+          FUN = sum, na.rm = T)
+colnames(purity_final_temp) = c("URL", "MFDweight")
 
-temp = summary(model4.8)
-tableprint[10 , ] = c("Authority Low", temp$AIC, temp$BIC,
-                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.8))
+purity_final_temp$lean[grepl("nytimes.com", purity_final_temp$URL) |
+                       grepl("npr.org", purity_final_temp$URL)] = "Liberal"
+purity_final_temp$lean[grepl("breitbart.com", purity_final_temp$URL) |
+                       grepl("foxnews.com", purity_final_temp$URL)] = "Conservative"
 
-temp = summary(model4.9)
-tableprint[11 , ] = c("Purity High", temp$AIC, temp$BIC,
-                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.9))
+purity_final_temp$Source[grepl("nytimes.com", purity_final_temp$URL)] = "NY Times"
+purity_final_temp$Source[grepl("npr.org", purity_final_temp$URL)] = "NPR"
+purity_final_temp$Source[grepl("foxnews.com", purity_final_temp$URL)] = "Fox"
+purity_final_temp$Source[grepl("breitbart.com", purity_final_temp$URL)] = "Breitbart"
 
-temp = summary(model4.10)
-tableprint[12 , ] = c("Purity Low", temp$AIC, temp$BIC,
-                     temp$logLik, temp$fixDF$terms[1], r.squaredGLMM(model4.10))
-#keep going
-
-#round and clean up
-tableprint[ , 2:4] = printnum(as.numeric(tableprint[ , 2:4]))
-tableprint[-1 , 6] = printp(as.numeric(tableprint[-1 , 6]))
-tableprint[-1 , 7] = printp(as.numeric(tableprint[-1 , 7]))
-
-apa_table.latex(as.data.frame(tableprint),
-          align = c("l", rep("c", 6)), 
-          caption = "MLM Model Statistics",
-          note = "Degrees of freedom indicate residual $df$ for each model.",
-          escape = FALSE
- )
+purity_model = lme(MFDweight ~ lean, 
+                 data = purity_final_temp, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(purity_model)
 ```
 
 # Experiment 1 results 
 
-To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nest structured of the data, which creates correlated error [@CITE_gelman]. First, an intercept only model was created using percent text overall as the dependent variable. Using the *nlme* library in *R* [@CITE_nlme], a model with the news source as the random intercept was analyzed to determine if it was necessary to control for correlated error. Table @\ref(tab:model-table) includes the model statistics for all models. While the $\Delta\chi^2$(1) = `r printnum(anova(model1,model3)[,8][2]))`, *p* = `r printp(anova(model1,model3)[,9][2])` was not significant, all models were still structured with a random intercept by source to control for even a small amount of correlated error. 
-
-Next, predictor models with political lean predicting percent of MFD words was analyzed for each of the MFD categories separately (i.e., "harm-positive", "harm-negative", etc.). Coefficient values indicate the mean differences between conservative and liberal sources, and to help illustrate these differences, the overall means were plotted in Figure \@ref(fig:graph-means). For harm words, there was not a significant difference in the words indicating harm-negative *b* = `r printnum(summary(model4.1)$tTable[2,1])`, *t*(`r summary(model4.1)$tTable[2,3]`) = `r printnum(summary(model4.1)$tTable[2,4])`, *p* = `r printp(summary(model4.1)$tTable[2,5])` or harm-positive *b* = `r printnum(summary(model4.2)$tTable[2,1])`, *t*(`r summary(model4.2)$tTable[2,3]`) = `r printnum(summary(model4.2)$tTable[2,4])`, *p* = `r printp(summary(model4.2)$tTable[2,5])`.
-For fair words, there was no signfificant difference in the words indicating fair-negative *b* = `r printnum(summary(model4.3)$tTable[2,1])`, *t*(`r summary(model4.3)$tTable[2,3]`) = `r printnum(summary(model4.3)$tTable[2,4])`, *p* = `r printp(summary(model4.3)$tTable[2,5])` or fair-positive *b* = `r printnum(summary(model4.4)$tTable[2,1])`, *t*(`r summary(model4.4)$tTable[2,3]`) = `r printnum(summary(model4.4)$tTable[2,4])`, *p* = `r printp(summary(model4.4)$tTable[2,5])`.
-For ingroup words, there was no signfificant difference in the words indicating ingroup-negative *b* = `r printnum(summary(model4.5)$tTable[2,1])`, *t*(`r summary(model4.5)$tTable[2,3]`) = `r printnum(summary(model4.5)$tTable[2,4])`, *p* = `r printp(summary(model4.5)$tTable[2,5])` or ingroup-positive *b* = `r printnum(summary(model4.6)$tTable[2,1])`, *t*(`r summary(model4.6)$tTable[2,3]`) = `r printnum(summary(model4.6)$tTable[2,4])`, *p* = `r printp(summary(model4.6)$tTable[2,5])`.
-For authority words, there was not a signfificant difference in the words indicating authority-negative *b* = `r printnum(summary(model4.7)$tTable[2,1])`, *t*(`r summary(model4.7)$tTable[2,3]`) = `r printnum(summary(model4.7)$tTable[2,4])`, *p* = `r printp(summary(model4.7)$tTable[2,5])` or authority-positive *b* = `r printnum(summary(model4.8)$tTable[2,1])`, *t*(`r summary(model4.8)$tTable[2,3]`) = `r printnum(summary(model4.8)$tTable[2,4])`, *p* = `r printp(summary(model4.8)$tTable[2,5])`.
-For purity words, there was a signfificant difference in the words indicating purity-negative *b* = `r printnum(summary(model4.9)$tTable[2,1])`, *t*(`r summary(model4.9)$tTable[2,3]`) = `r printnum(summary(model4.9)$tTable[2,4])`, *p* = `r printp(summary(model4.9)$tTable[2,5])`. There was no significant difference for purity-positive *b* = `r printnum(summary(model4.10)$tTable[2,1])`, *t*(`r summary(model4.10)$tTable[2,3]`) = `r printnum(summary(model4.10)$tTable[2,4])`, *p* = `r printp(summary(model4.10)$tTable[2,5])`.
-
-
-```{r graph-means, echo=FALSE}
-#make a ggplot here! :) 
-#put the categories on the bottom X
-#put the lean as the group
-#y is the percent
-#use the long_mlm dataset
-#i will make low and high happen as different panels
-
-long_mlm$moraltype = factor(long_mlm$moraltype, 
-                  levels=c("hperhi", "hperlo", "fperhi", "fperlo",
-                           "iperhi", "iperlo", "aperhi", "aperlo", "pperhi", "pperlo"),
-                  labels = c("Harm-positive", "Harm-negative", "Fair-positive",
-                             "Fair-negative", "Ingroup-positive", "Ingroup-negative",
-                             "Authority-positive", "Authority-negative", 
-                             "Purity-positive", "Purity-negative")) 
-cleanup = theme(panel.grid.major = element_blank(), 
-                panel.grid.minor = element_blank(), 
-                panel.background = element_blank(), 
-                axis.line.x = element_line(color = "black"),
-                axis.line.y = element_line(color = "black"),
-                legend.key = element_rect(fill = "white"),
-                text = element_text(size = 15))
-
-long_mlm$moral_foundation = long_mlm$moraltype
-long_mlm$moral_foundation = gsub("-positive", "", long_mlm$moral_foundation)
-long_mlm$moral_foundation = gsub("-negative", "", long_mlm$moral_foundation)
-
-long_mlm$valence = long_mlm$moraltype
-long_mlm$valence = gsub("Harm-positive", "Positive", long_mlm$valence)
-long_mlm$valence = gsub("Harm-negative", "Negative", long_mlm$valence)
-long_mlm$valence = gsub("Authority-positive", "Positive", long_mlm$valence)
-long_mlm$valence = gsub("Authority-negative", "Negative", long_mlm$valence)
-long_mlm$valence = gsub("Fair-positive", "Positive", long_mlm$valence)
-long_mlm$valence = gsub("Fair-negative", "Negative", long_mlm$valence)
-long_mlm$valence = gsub("Purity-positive", "Positive", long_mlm$valence)
-long_mlm$valence = gsub("Purity-negative", "Negative", long_mlm$valence)
-long_mlm$valence = gsub("Ingroup-positive", "Positive", long_mlm$valence)
-long_mlm$valence = gsub("Ingroup-negative", "Negative", long_mlm$valence)
-
-overallgraph = ggplot(long_mlm, aes(moral_foundation, percent, fill = lean))
-overallgraph +
-  stat_summary(fun.y = mean,
-               geom = "bar",
-               position = "dodge") +
-  stat_summary(fun.data = mean_cl_normal,
-               geom = "errorbar", 
-               position = position_dodge(width = 0.90),
-               width = .2) +
-  xlab("Moral Category") +
-  ylab("Percent") + 
-  cleanup +
-  scale_fill_manual(name = "Political Lean", 
-                    labels = c("Liberal", "Conservative"),
-                    values = c("Light Gray", "Dark Gray")) +
-  facet_grid(~valence) + 
-  NULL
-
-```
+To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nested structured of the data, which creates correlated error [@CITE_gelman]. Using the *nlme* library in *R* [@CITE_nlme], each foundation's weighted percentage was predicated by the political lean of the news soource, using the individual news sources as a random intercept to control for the structure of the data.
 
 # Method - Experiment 2
 
