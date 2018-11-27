@@ -46,6 +46,7 @@ library(reshape)
 library(nlme)
 library(ggplot2)
 library(expss)
+library(MOTE)
 
 knitr::opts_chunk$set(cache = TRUE)
 ```
@@ -83,9 +84,9 @@ In order to source a large number of lemmas for affective ratings, the researche
 
 The researchers noted several points of interest upon observing ratings. First, they found that valence and dominance ratings had a negative skew, indicating more words elicited feelings of happiness and control than their respective opposites. Also, when examining the relationship between valence and arousal ratings, the researchers found a U-shaped relationship. This indicates words with high degrees of positivity and negativity elicited higher arousal [@Warriner2013]. These observations along with the now-greatly expanded list of affective norms has been applied to several lines of inquiry in psycholinguistics.
 
-@Warriner2014 *WE NEED THIS IN MENDELEY* utilized the new affective norms list in order to investigate the validity of the Pollyanna hypothesis, or the prevalence of a generally optimistic outlook in humans as reflected in langauge. The researchers were able to conclude the existence of a greater number of positive-valence English words in the list of 13,915 lemmas. Additionally, after observing token frequency in a number of text corpora, including SUBTLEX-US, COCA, BNC, TASA, and HAL, the researchers found that words with postive valence were also used more frequently [@Warriner2014]. While the researchers concede the possiblility of an acquiensence bias in ratings as a possible explanation for the observed positivity bias, this investigation represents one application of the @Warriner2013 list in emotional studies.
+@Warriner2014 utilized the new affective norms list in order to investigate the validity of the Pollyanna hypothesis, or the prevalence of a generally optimistic outlook in humans as reflected in langauge. The researchers were able to conclude the existence of a greater number of positive-valence English words in the list of 13,915 lemmas. Additionally, after observing token frequency in a number of text corpora, including SUBTLEX-US, COCA, BNC, TASA, and HAL, the researchers found that words with postive valence were also used more frequently [@Warriner2014]. While the researchers concede the possiblility of an acquiensence bias in ratings as a possible explanation for the observed positivity bias, this investigation represents one application of the @Warriner2013 list in emotional studies.
 
-One cognition-based study investigates the relationship between emotion and response latencies in word recognition. @Kuperman2014 *WE NEED THIS IN MENDELEY* sought to use the @Warriner2013 norms to fill in the knowledge gaps regarding variance in word recognition. The researchers drew several conclusions regarding emotion and word recognition (specifically in naming and lexical decision tasks). First, @Kuperman2014 found higher response latencies in negative-valence words, lower response latencies in neutral words, and even lower response latencies in words with positive valence. The researchers also concluded that words causing higher arousal tend to have higher response latencies than less-arousing words. They found valence had a stronger effect on recognition than arousal (both effects were independent, not interactive). They found an interaction between emotion and word frequency such that valence and arousal are more effective on lower frequency words than high frequency words. Finally, @Kuperman2014 found a greater effect for lexical decision tasks than for naming tasks. This research serves as further evidence that the @Warriner2014 list can be used for research inquiries both within and without the field of psycholinguistics. 
+One cognition-based study investigates the relationship between emotion and response latencies in word recognition. @Kuperman2014 sought to use the @Warriner2013 norms to fill in the knowledge gaps regarding variance in word recognition. The researchers drew several conclusions regarding emotion and word recognition (specifically in naming and lexical decision tasks). First, @Kuperman2014 found higher response latencies in negative-valence words, lower response latencies in neutral words, and even lower response latencies in words with positive valence. The researchers also concluded that words causing higher arousal tend to have higher response latencies than less-arousing words. They found valence had a stronger effect on recognition than arousal (both effects were independent, not interactive). They found an interaction between emotion and word frequency such that valence and arousal are more effective on lower frequency words than high frequency words. Finally, @Kuperman2014 found a greater effect for lexical decision tasks than for naming tasks. This research serves as further evidence that the @Warriner2014 list can be used for research inquiries both within and without the field of psycholinguistics. 
 
 In the present studies, the researchers used the 2013 Warriner list in order to denote the valence of the words appearing in the news articles scraped from the internet. Valence was considered as another independent variable and its relationship with the words comprising the Moral Foundations Dictionary were of chief interest to the researchers. The valence was used as a means to determine whether individiual words in the MFD represented more positive aspects of their respective foundation or if they denoted a more negative aspect of the foundation. Incorporating word valence into a study involving the MFD is meant to alleviate some of the issues regarding the aforementioned ambiguity regarding the words in the Moral Foundations Dictionary.
 
@@ -111,7 +112,9 @@ Talk about political discourse, nature of news media in 2018/Trump era/Kavanaugh
 
 This project brings the two together in holy matrimony.
 
-# Method - Experiment 1
+# Experiment 1 
+
+# Method
 
 ## Sources
 
@@ -434,7 +437,6 @@ write.csv(final, "finaldata.csv")
 In order to fully capture the evaluative power of the Moral Foundations Dictionary (MFD; *CITE*), forms and conjugations of words were added to the original MFD. For example, *abuse* was supplemented with *abusive*, *abuser*, *abused*, and *abusing*. Once additional word forms were added, the words making up each of the five foundations in the MFD were split among positive and negative dimensions (i.e., *abide* as a positive authority/respect word and *defect* as a negative authority/respect word).
 
 Once the MFD was separated along lines of positive and negative dimensions for each of the foundations, the article text was processed using the *tm* and *ngram* packages in *R* in order to render the text in lowercase, remove punctuation, and fix spacing issues [@CITE_tm]. The individual words were then reduced to their stems (i.e., *abused* was stemmed to *abus*). The same procedure was applied to the MFD words, and the addition of multiple forms of each concept allowed for the capture of all versions of stemming that might occur given *tm*'s English stemmer function. The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with a percentage of their occurrence. Therefore, for each article, the percentage of the number of *harm* (low end) and *care* (high end) related words were calculated and this process was repeated for each of the foundations. This procedure created ten percentages that were included as the dependent variable for the following analyses. 
-
 ```{r stem_text, eval=TRUE, include=FALSE}
 
 final = read.csv("finaldata.csv", stringsAsFactors = F)
@@ -819,28 +821,63 @@ purity_model = lme(MFDweight ~ lean,
 summary(purity_model)
 ```
 
-# Experiment 1 results 
+# Results
 
 To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nested structured of the data, which creates correlated error [@CITE_gelman]. Using the *nlme* library in *R* [@CITE_nlme], each foundation's weighted percentage was predicated by the political lean of the news soource, using the individual news sources as a random intercept to control for the structure of the data.
 
-# Method - Experiment 2
+```{r exp1-table, results = 'asis', echo = F}
+#MFD, mean, sd, mean, sd, t, p, d
+tableprint = matrix(NA, ncol = 8, nrow = 5)
+colnames(tableprint) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d")
+
+#calculate d
+harm_d = d.ind.t(m1 = mean(harm_final_temp$MFDweight[harm_final_temp$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(harm_final_temp$MFDweight[harm_final_temp$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(harm_final_temp$MFDweight[harm_final_temp$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(harm_final_temp$MFDweight[harm_final_temp$lean == "Liberal"], na.rm = T),
+                 n1 = length(harm_final_temp$MFDweight[harm_final_temp$lean == "Conservative"]),
+                 n2 = length(harm_final_temp$MFDweight[harm_final_temp$lean == "Liberal"]),
+                 a = .05)
+
+#put in the numbers
+tableprint[1, ] = c("Harm", harm_d$M1, harm_d$sd1, harm_d$M2, harm_d$sd1, 
+                    summary(harm_model)$tTable[2,4], summary(harm_model)$tTable[2,5],
+                    harm_d$d)
+
+
+tableprint[ , c(2:6, 8)] = printnum(as.numeric(tableprint[ , c(2:6, 8)]))
+tableprint[ , 7] = printp(as.numeric(tableprint[ , 7]))
+```
+# Discussion 
+
+# Experiment 2
+
+Kav stuff here 
+
+# Method
 
 ## Sources
 Experiment 2 largely followed the same method as Experiment 1. Political articles specifically referring to Brett Kavanaugh and his Supreme Court confirmation hearing were scraped
 
 ## Materials
 
+Expected material stuff
+- we are going to pick liberal and conservative sources from that thing document linked stuff
+- list those here:
+
+- pick a specific date range we want to pull articles from 
+- list that here: here's when the stuff was happening and so picked two weeks before and after 
+
 ## Data analysis
+
+How you would run the data analysis 
 
 # Experiment 2 results
 
 # Discussion
 
-## Experiment 1
+# Conclusions 
 
-## Experiment 2
-
-## General discussion
 How it turned out
 
 Limitations of this one (no rationale behind choosing sources except "people say NPR's liberal??")
