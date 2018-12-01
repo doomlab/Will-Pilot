@@ -432,7 +432,7 @@ Using the @Warriner2013 dictionary, the words making up each of the five foundat
 
 DESCRIBE MTMM NEW STUFF HERE? Basically, words found through that project were imported and added to each foundation, with reduncies removed at the end.
 
-The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with a percentage of their occurrence and their valence. Therefore, for each article, the percentage of the number of *harm/care* words occurring in the articles were calculated and this process was repeated for each of the foundations. This procedure created five percentages that were included as the dependent variable for the following analyses. 
+The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with their valence and a percentage of their occurrence. Therefore, for each article, the percentage of the number of *harm/care* words occurring in the articles were calculated, and this process was repeated for each of the foundations. This procedure created five percentages that were included as the dependent variable for the following analyses. 
 ```{r stem_text, eval=TRUE, include=FALSE}
 
 final = read.csv("finaldata.csv", stringsAsFactors = F)
@@ -666,9 +666,22 @@ purity_final_data$valence[purity_final_data$Var1 == "women"] = mean(warriner$V.M
 
 ```{r descriptives, include = FALSE}
 #summarize the dataset so that you have the total and percent for each foundation
-
+summary(harm_final_data)
+summary(fair_final_data)
+summary(ingroup_final_data)
+summary(authority_final_data)
+summary(purity_final_data)
 #report descriptive statistics of the foundations
-
+mean(harm_final_data$valence)
+sd(harm_final_data$valence)
+mean(fair_final_data$valence)
+sd(fair_final_data$valence)
+mean(ingroup_final_data$valence)
+sd(ingroup_final_data$valence)
+mean(authority_final_data$valence)
+sd(authority_final_data$valence)
+mean(purity_final_data$valence)
+sd(purity_final_data$valence)
 #note that a big problem is the valence of the words 
 ```
 
@@ -827,6 +840,7 @@ tableprint = matrix(NA, ncol = 8, nrow = 5)
 colnames(tableprint) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d")
 
 #calculate d
+#harm
 harm_d = d.ind.t(m1 = mean(harm_final_temp$MFDweight[harm_final_temp$lean == "Conservative"], na.rm = T), 
                  m2 = mean(harm_final_temp$MFDweight[harm_final_temp$lean == "Liberal"], na.rm = T),
                  sd1 = sd(harm_final_temp$MFDweight[harm_final_temp$lean == "Conservative"], na.rm = T),
@@ -835,11 +849,58 @@ harm_d = d.ind.t(m1 = mean(harm_final_temp$MFDweight[harm_final_temp$lean == "Co
                  n2 = length(harm_final_temp$MFDweight[harm_final_temp$lean == "Liberal"]),
                  a = .05)
 
+#fair
+fair_d = d.ind.t(m1 = mean(fair_final_temp$MFDweight[fair_final_temp$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(fair_final_temp$MFDweight[fair_final_temp$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(fair_final_temp$MFDweight[fair_final_temp$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(fair_final_temp$MFDweight[fair_final_temp$lean == "Liberal"], na.rm = T),
+                 n1 = length(fair_final_temp$MFDweight[fair_final_temp$lean == "Conservative"]),
+                 n2 = length(fair_final_temp$MFDweight[fair_final_temp$lean == "Liberal"]),
+                 a = .05)
+
+#ingroup
+ingroup_d = d.ind.t(m1 = mean(ingroup_final_temp$MFDweight[ingroup_final_temp$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(ingroup_final_temp$MFDweight[ingroup_final_temp$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(ingroup_final_temp$MFDweight[ingroup_final_temp$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(ingroup_final_temp$MFDweight[ingroup_final_temp$lean == "Liberal"], na.rm = T),
+                 n1 = length(ingroup_final_temp$MFDweight[ingroup_final_temp$lean == "Conservative"]),
+                 n2 = length(ingroup_final_temp$MFDweight[ingroup_final_temp$lean == "Liberal"]),
+                 a = .05)
+
+#authority
+authority_d = d.ind.t(m1 = mean(authority_final_temp$MFDweight[authority_final_temp$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(authority_final_temp$MFDweight[authority_final_temp$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(authority_final_temp$MFDweight[authority_final_temp$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(authority_final_temp$MFDweight[authority_final_temp$lean == "Liberal"], na.rm = T),
+                 n1 = length(authority_final_temp$MFDweight[authority_final_temp$lean == "Conservative"]),
+                 n2 = length(authority_final_temp$MFDweight[authority_final_temp$lean == "Liberal"]),
+                 a = .05)
+
+#purity
+purity_d = d.ind.t(m1 = mean(purity_final_temp$MFDweight[purity_final_temp$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(purity_final_temp$MFDweight[purity_final_temp$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(purity_final_temp$MFDweight[purity_final_temp$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(purity_final_temp$MFDweight[purity_final_temp$lean == "Liberal"], na.rm = T),
+                 n1 = length(purity_final_temp$MFDweight[purity_final_temp$lean == "Conservative"]),
+                 n2 = length(purity_final_temp$MFDweight[purity_final_temp$lean == "Liberal"]),
+                 a = .05)
+
 #put in the numbers
-tableprint[1, ] = c("Harm", harm_d$M1, harm_d$sd1, harm_d$M2, harm_d$sd1, 
+tableprint[1, ] = c("Harm/Care", harm_d$M1, harm_d$sd1, harm_d$M2, harm_d$sd1, 
                     summary(harm_model)$tTable[2,4], summary(harm_model)$tTable[2,5],
                     harm_d$d)
-
+tableprint[2, ] = c("Fairness/Reciprocity", fair_d$M1, fair_d$sd1, fair_d$M2, fair_d$sd1, 
+                    summary(fair_model)$tTable[2,4], summary(fair_model)$tTable[2,5],
+                    fair_d$d)
+tableprint[3, ] = c("Ingroup/Loyalty", ingroup_d$M1, ingroup_d$sd1, ingroup_d$M2, ingroup_d$sd1, 
+                    summary(ingroup_model)$tTable[2,4], summary(ingroup_model)$tTable[2,5],
+                    ingroup_d$d)
+tableprint[4, ] = c("Authority/Respect", authority_d$M1, authority_d$sd1, authority_d$M2, authority_d$sd1, 
+                    summary(authority_model)$tTable[2,4], summary(authority_model)$tTable[2,5],
+                    authority_d$d)
+tableprint[5, ] = c("Purity/Sanctity", purity_d$M1, purity_d$sd1, purity_d$M2, purity_d$sd1, 
+                    summary(purity_model)$tTable[2,4], summary(purity_model)$tTable[2,5],
+                    purity_d$d)
 
 tableprint[ , c(2:6, 8)] = printnum(as.numeric(tableprint[ , c(2:6, 8)]))
 tableprint[ , 7] = printp(as.numeric(tableprint[ , 7]))
@@ -852,7 +913,7 @@ tableprint[ , 7] = printp(as.numeric(tableprint[ , 7]))
 
 In the wake of Justice Anthony Kennedy's retirement from the Supreme Court of the United States, President Donald Trump nominated Brett Kavanaugh as the new Associate Justice. Kavanaugh was previously on the U.S. Court of Appeals for the District of Columbia. The Senate Judiciary Committee began his confirmation hearing on September 4, 2018 [@CITE_CONGRESSIONAL_RECORD]. Following allegations of sexual assault by high school classmate Dr. Christine Blasey Ford, the committee postponed its vote on whether or not to open the confirmation to the entire Senate. 
 
-On September 27, the committee questioned Dr. Ford before commencing a second round of questioning for Judge Kavanaugh [@CITE_CONGRESSIONAL_RECORD]. During the intervening weeks between hearings, two more women came forward with two separate allegations of sexual assault on the part of Kavanaugh. According to Nielsen reports, more than 20 million people watched the September 27 proceedings on television. This figure does not take into account viewers who watched online, nor does it account for viewers outside the United States. On September 28, the Senate Judiciary Committee voted to send the nomination to the Senate floor. Senator Jeff Flake of Arizona, however, lobbied for a week-long FBI investigation on Kavanaugh and the allegations facing him, which the committee, and later the President, approved. The investigation concluded with no significant findings. The Senate voted 50-48 to approve Kavanaugh's appointment on October 6, 2018 [@CITE_CONGRESSIONAL_RECORD].
+On September 27, the committee questioned Dr. Ford before commencing a second round of questioning for Judge Kavanaugh [@CITE_CONGRESSIONAL_RECORD]. During the intervening weeks between hearings, two more women came forward with two separate allegations of sexual assault on the part of Kavanaugh. According to Nielsen reports, more than 20 million people watched the September 27 proceedings on television [@CITE_NIELSEN]. This figure does not take into account viewers who watched online, nor does it account for viewers outside the United States. On September 28, the Senate Judiciary Committee voted to send the nomination to the Senate floor. Senator Jeff Flake of Arizona, however, lobbied for a week-long FBI investigation on Kavanaugh and the allegations facing him, which the committee, and later the President, approved. The investigation concluded with no significant findings. The Senate voted 50-48 to approve Kavanaugh's appointment on October 6, 2018 [@CITE_CONGRESSIONAL_RECORD].
 
 The Kavanaugh nomination, confirmation hearing, and eventual swearing-in, as well as the news media's coverage of all three events, feature many moral dimensions that likely differ depending on one's morals. On one side of the debate, Kavanaugh's Supreme Court tenure presents a prime oppurtunity to bring morality back into interpretation of the Constitution. Kavanaugh's confirmation creates a conservative stronghold among the justices on the court. Commentators have noted this might help advance a judicial agenda that backpedals certain rights previously upheld by the Supreme Court, including abortion and gay marriage - social issues challenged by their opponents at least partially on moral grounds. On the other side of the debate, the assault allegations have energized Kavanaugh's opponents to advocate for his rejection from the court owing to misdeeds resulting from Kavanaugh's own alleged lack of morals. Additionally, the moral duty of the Senate as the upper chamber in the U.S. legislature has been scrutinized in public discourse with respect to its handling of the assualt allegations vis-a-vis Kavanaugh's confirmation. 
 
