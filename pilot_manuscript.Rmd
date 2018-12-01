@@ -99,13 +99,7 @@ The use of language both to express and further an ideological goal has been doc
 
 @Druckman2004 also cited research from Iyengar and Kinder (1987) suggesting the news media affected perceptions of President Jimmy Carter's competence by emphasizing (read: priming) issues related to energy, defense, and the economy. This implies news media may affect perception of politicians based on where the media places emphasis. Other research into news media suggests certain media outlets, at least indirectly, may have an effect on the voting records of representatives in Congress [@Clinton2014]. Specifically, the researchers identified a pattern of declining support for President Bill Clinton's policies chiefly among Republicans in the House of Representatives after the Fox News Channel began broadcasting on cable and satellite systems in their respective districts. As Fox News was, at the time of its launch in 1996, the only outwardly ideological national news network, the reserachers were able to track its spread across the country and observe voting records of members of Congress both before and after Fox News' arrival [@Clinton2014]. The researchers concluded that members of Congress, excluding those newly elected at the time of Fox News Channel's emergence, attempted to anticipate resultant conservative-leaning shifts among their constituents by bolstering their conservative voting record before the next election [@Clinton2014].
 
-##Kavanaugh Supreme Court Hearing
 
-In the wake of Justice Anthony Kennedy's retirement from the Supreme Court of the United States, President Donald Trump nominated Brett Kavanaugh as the new Associate Justice. Kavanaugh was previously on the U.S. Court of Appeals for the District of Columbia. The Senate Judiciary Committee began his confirmation hearing on September 4, 2018 [@CITE_CONGRESSIONAL_RECORD]. Following allegations of sexual assault by high school classmate Dr. Christine Blasey Ford, the committee postponed its vote on whether or not to open the confirmation to the entire Senate. 
-
-On September 27, the committee questioned Dr. Ford before commencing a second round of questioning for Judge Kavanaugh [@CITE_CONGRESSIONAL_RECORD]. During the intervening weeks between hearings, two more women came forward with two separate allegations of sexual assault on the part of Kavanaugh. According to Nielsen reports, more than 20 million people watched the September 27 proceedings on television. This figure does not take into account viewers who watched online, nor does it account for viewers outside the United States. On September 28, the Senate Judiciary Committee voted to send the nomination to the Senate floor. Senator Jeff Flake of Arizona, however, lobbied for a week-long FBI investigation on Kavanaugh and the allegations facing him, which the committee, and later the President, approved. The investigation concluded with no significant findings. The Senate voted 50-48 to approve Kavanaugh's appointment on October 6, 2018 [@CITE_CONGRESSIONAL_RECORD].
-
-The Kavanaugh nomination, confirmation hearing, and eventual swearing-in, as well as the news media's coverage of all three events, feature many moral dimensions that likely differ depending on one's morals. On one side of the debate, Kavanaugh's Supreme Court tenure presents a prime oppurtunity to bring morality back into interpretation of the Constitution. Kavanaugh's confirmation creates a conservative stronghold among the justices on the court. Commentators have noted this might help advance a judicial agenda that backpedals certain rights previously upheld by the Supreme Court, including abortion and gay marriage - social issues challenged by their opponents at least partially on moral grounds. On the other side of the debate, the assault allegations have energized Kavanaugh's opponents to advocate for his rejection from the court owing to misdeeds resulting from Kavanaugh's own alleged lack of morals. Additionally, the moral duty of the Senate as the upper chamber in the U.S. legislature has been scrutinized in public discourse with respect to its handling of the assualt allegations vis-a-vis Kavanaugh's confirmation.
 
 
 Talk about political discourse, nature of news media in 2018/Trump era/Kavanaugh
@@ -434,9 +428,11 @@ write.csv(final, "finaldata.csv")
 
 ```
 
-In order to fully capture the evaluative power of the Moral Foundations Dictionary (MFD; *CITE*), forms and conjugations of words were added to the original MFD. For example, *abuse* was supplemented with *abusive*, *abuser*, *abused*, and *abusing*. Once additional word forms were added, the words making up each of the five foundations in the MFD were split among positive and negative dimensions (i.e., *abide* as a positive authority/respect word and *defect* as a negative authority/respect word).
+Using the @Warriner2013 dictionary, the words making up each of the five foundations in the MFD were assigned their respective valence value. Once the MFD words' valences were added to the dataset, the article text was processed using the *tm* and *ngram* packages in *R* in order to render the text in lowercase, remove punctuation, and fix spacing issues [@CITE_tm]. The individual words were then reduced to their stems (i.e., *abused* was stemmed to *abus*). The same procedure was applied to the MFD words and the words in the @Warriner2013 dataset. 
 
-Once the MFD was separated along lines of positive and negative dimensions for each of the foundations, the article text was processed using the *tm* and *ngram* packages in *R* in order to render the text in lowercase, remove punctuation, and fix spacing issues [@CITE_tm]. The individual words were then reduced to their stems (i.e., *abused* was stemmed to *abus*). The same procedure was applied to the MFD words, and the addition of multiple forms of each concept allowed for the capture of all versions of stemming that might occur given *tm*'s English stemmer function. The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with a percentage of their occurrence. Therefore, for each article, the percentage of the number of *harm* (low end) and *care* (high end) related words were calculated and this process was repeated for each of the foundations. This procedure created ten percentages that were included as the dependent variable for the following analyses. 
+DESCRIBE MTMM NEW STUFF HERE? Basically, words found through that project were imported and added to each foundation, with reduncies removed at the end.
+
+The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with a percentage of their occurrence and their valence. Therefore, for each article, the percentage of the number of *harm/care* words occurring in the articles were calculated and this process was repeated for each of the foundations. This procedure created five percentages that were included as the dependent variable for the following analyses. 
 ```{r stem_text, eval=TRUE, include=FALSE}
 
 final = read.csv("finaldata.csv", stringsAsFactors = F)
@@ -852,7 +848,13 @@ tableprint[ , 7] = printp(as.numeric(tableprint[ , 7]))
 
 # Experiment 2
 
-Kav stuff here 
+##Kavanaugh Supreme Court Hearing
+
+In the wake of Justice Anthony Kennedy's retirement from the Supreme Court of the United States, President Donald Trump nominated Brett Kavanaugh as the new Associate Justice. Kavanaugh was previously on the U.S. Court of Appeals for the District of Columbia. The Senate Judiciary Committee began his confirmation hearing on September 4, 2018 [@CITE_CONGRESSIONAL_RECORD]. Following allegations of sexual assault by high school classmate Dr. Christine Blasey Ford, the committee postponed its vote on whether or not to open the confirmation to the entire Senate. 
+
+On September 27, the committee questioned Dr. Ford before commencing a second round of questioning for Judge Kavanaugh [@CITE_CONGRESSIONAL_RECORD]. During the intervening weeks between hearings, two more women came forward with two separate allegations of sexual assault on the part of Kavanaugh. According to Nielsen reports, more than 20 million people watched the September 27 proceedings on television. This figure does not take into account viewers who watched online, nor does it account for viewers outside the United States. On September 28, the Senate Judiciary Committee voted to send the nomination to the Senate floor. Senator Jeff Flake of Arizona, however, lobbied for a week-long FBI investigation on Kavanaugh and the allegations facing him, which the committee, and later the President, approved. The investigation concluded with no significant findings. The Senate voted 50-48 to approve Kavanaugh's appointment on October 6, 2018 [@CITE_CONGRESSIONAL_RECORD].
+
+The Kavanaugh nomination, confirmation hearing, and eventual swearing-in, as well as the news media's coverage of all three events, feature many moral dimensions that likely differ depending on one's morals. On one side of the debate, Kavanaugh's Supreme Court tenure presents a prime oppurtunity to bring morality back into interpretation of the Constitution. Kavanaugh's confirmation creates a conservative stronghold among the justices on the court. Commentators have noted this might help advance a judicial agenda that backpedals certain rights previously upheld by the Supreme Court, including abortion and gay marriage - social issues challenged by their opponents at least partially on moral grounds. On the other side of the debate, the assault allegations have energized Kavanaugh's opponents to advocate for his rejection from the court owing to misdeeds resulting from Kavanaugh's own alleged lack of morals. Additionally, the moral duty of the Senate as the upper chamber in the U.S. legislature has been scrutinized in public discourse with respect to its handling of the assualt allegations vis-a-vis Kavanaugh's confirmation. 
 
 # Method
 
@@ -864,9 +866,49 @@ Experiment 2 largely followed the same method as Experiment 1. Political article
 Expected material stuff
 - we are going to pick liberal and conservative sources from that thing document linked stuff
 - list those here:
+  Sources used by LIBERALS (according to the document thing):
+  The New Yorker
+  Slate
+  The Daily Show (is it wise to use satirical news for this??)
+  The Guardian
+  Al Jazeera America
+  NPR
+  New York Times
+  Buzzfeed
+  PBS
+  BBC
+  Huffington Post
+  Washington Post
+  The Economist
+  Politico
+  MSNBC
+  CNN
+  NBC News
+  CBS News
+  Google News
+  Bloomberg
+  ABC News
+  USA TODAY
+  
+  Sources used by CONSERVATIVES:
+  Fox News
+  Drudge Report
+  Breitbart
+  Rush Limbaugh Show
+  The Blaze
+  Sean Hannity
+  Glenn Beck (does he still report "news"??)
 
 - pick a specific date range we want to pull articles from 
-- list that here: here's when the stuff was happening and so picked two weeks before and after 
+- list that here: 
+
+START DATE: September 13, 2018
+
+(September 27, 2018: Ford and Kavanaugh testimony before Senate Judiciary Committee)
+
+END DATE: October 11, 2018
+
+here's when the stuff was happening and so picked two weeks before and after 
 
 ## Data analysis
 
