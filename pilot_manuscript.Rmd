@@ -51,15 +51,14 @@ library(MOTE)
 knitr::opts_chunk$set(cache = TRUE)
 ```
 
-Morality is prevalent/important
+In the United States, today's media landscape affords consumers a multitude of options for obtaining political news. Since the advent of cable news networks and the World Wide Web in the last decades of the twentieth century, consumers have gained access to an ever-expanding menagerie of news sources, many of which can be called up via a simple click, touch, or swipe. Concurrent with this growth in available news sources, concerns regarding political bias in news reporting have entered public consciousness. For example, commentators argue that networks including Fox News Channel and MSNBC communicate political news from a conservative and liberal slant respectively. These purported biases have been a cause for concern given the potential for incomplete or inaccurate news reporting potentially resulting from these biases. In a media environment where consumers are fed news content that algorithms predict they will like (based on user-generated data) in addition to cable news, there exists the possibility consumers only see news content that comports to their worldview.  
+
+Btw, morality is intrinsically linked with politics; i.e. Morality is prevalent/important
 
 Domain of philosophers
 
 Then psychologists (more on that later)
 
-Btw, it's intrinsically linked with politics
-
-Lots of partisan media choices today = different appeals to audience's moral concerns?
 
 ## Moral Foundations Theory
 
