@@ -116,10 +116,11 @@ The use of language both to express and further an ideological goal has been doc
 # Experiment 1 
 
 # Method
+For Experiment 1, the researchers approached the methodology with the intention to answer a method question. That is, this portion of the current research was conducted in order to solidify the best method by which to analyze political news text under the Moral Foundations Theory framework. The researchers hypothesized the news sources genrally perceived as liberal leaning (*NPR* and *The New York Times*) would contain MFD words and valences indicating endorsements of the individualizing moral foundations (*harm/care* and *fairness/reciprocity*). Additionally, the researchers hypothesized the two sources generally perceived to be conservative leaning (*Fox News* and *Breitbart*) would feature MFD words and valences indicating equal endorsement of all five foundations.
 
 ## Sources
 
-Political articles were scraped from the websites of four notable U.S. news sources. The sources were *The New York Times*, *National Public Radio (NPR)*, *Fox News*, and *Breitbart*. They were selected for their widespread recognition and the fact they are easily categorized (by the general public) according to perceived political lean. In general, *The New York Times* and *NPR* are perceived by many to have a liberal bias or lean. In contrast, Fox News and Breitbart are believed to have a conservative bias or lean. Political articles in particular were identified and subsequently scraped by including the specific URL directing to each source's political content in the *R* script. For example, rather than scrape from nytimes.com, which would return undesired results (non-political features, reviews, etc.), we instead included nytimes.com/section/politics so that more or less exclusively political content was obtained. All code for this manuscript can be found at OSF LINK, and the scripts are provided inline with this manuscript written with the *papaja* library [@Aust2017]. 
+Political articles were scraped from the websites of four notable U.S. news sources. The sources were *The New York Times*, *National Public Radio (NPR)*, *Fox News*, and *Breitbart*. They were selected for their widespread recognition and the fact they are easily categorized (by the general public) according to perceived political lean. In general, *The New York Times* and *NPR* are perceived by many to have a liberal bias or lean. In contrast, Fox News and Breitbart are believed to have a conservative bias or lean [@Mitchell2014]. Political articles in particular were identified and subsequently scraped by including the specific URL directing to each source's political content in the *R* script. For example, rather than scrape from nytimes.com, which would return undesired results (non-political features, reviews, etc.), we instead included nytimes.com/section/politics so that more or less exclusively political content was obtained. All code for this manuscript can be found at OSF LINK, and the scripts are provided inline with this manuscript written with the *papaja* library [@Aust2017]. 
 
 Identification of the sources' political URLs presented a problem for two of the sources owing to complications with how their particular sites were structured. While in the multi-week process of scraping articles, we noticed word counts for *NPR* and *Fox News* were not growing at a similar pace as those from *The New York Times* and *Breitbart*. Upon investigation, we found another, more robust URL for political content from NPR: their politics content "archive." The page structure on NPR's website was such that only a limited selection of articles is displayed to the user at a given time. Scraping both the archive and the normal politics page ensured we were obtaining most (if not all) new articles as they were published. We later ran a process in order to exclude any duplicate articles. *Fox News* presented a similar issue. We discovered *Fox News* utilized six URLs in addition to the regular politics page. These URLs led to pages containing content pertaining the U.S. Executive Branch, Senate, House of Representatives, Judicial Branch, foreign policy, and elections. Once again, duplicates were subsequently eliminated from any analyses.  
 
@@ -435,11 +436,11 @@ write.csv(final, "finaldata.csv")
 
 ```
 
-Using the @Warriner2013 dictionary, the words making up each of the five foundations in the MFD were assigned their respective valence value. Once the MFD words' valences were added to the dataset, the article text was processed using the *tm* and *ngram* packages in *R* in order to render the text in lowercase, remove punctuation, and fix spacing issues [@CITE_tm]. The individual words were then reduced to their stems (i.e., *abused* was stemmed to *abus*). The same procedure was applied to the MFD words and the words in the @Warriner2013 dataset. 
+The article text was processed using the *tm* and *ngram* packages in *R* in order to render the text in lowercase, remove punctuation, and fix spacing issues [@CITE_tm]. The individual words were then reduced to their stems (i.e., *abused* was stemmed to *abus*). The same procedure was applied to the MFD words and the words in the @Warriner2013 dataset. Using the @Warriner2013 dictionary, the words making up each of the five foundations in the MFD were assigned their respective valence value.   
 
 DESCRIBE MTMM NEW STUFF HERE? Basically, words found through that project were imported and added to each foundation, with reduncies removed at the end.
 
-The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with their valence and a percentage of their occurrence. Therefore, for each article, the percentage of the number of *harm/care* words occurring in the articles were calculated, and this process was repeated for each of the foundations. This procedure created five percentages that were included as the dependent variable for the following analyses. 
+The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with their valence and a percentage of their occurrence. Therefore, for each article, the percentage of the number of *harm/care* words occurring in the articles were calculated, and this process was repeated for each of the foundations. This procedure created five percentages that were included as the dependent variable for the following analyses. It should be noted the valence scores for the MFD words were *z*-scored, so negative valence scores are possible.
 
 ```{r stem_text, eval=TRUE, include=FALSE}
 
@@ -924,6 +925,9 @@ apa_table(tableprint,
 ```
 # Discussion 
 
+
+
+
 # Experiment 2
 
 ## Kavanaugh Supreme Court Hearing
@@ -934,7 +938,7 @@ On September 27, the committee questioned Dr. Ford before commencing a second ro
 
 The Kavanaugh nomination, confirmation hearing, and eventual swearing-in, as well as the news media's coverage of all three events, feature many moral dimensions that likely differ depending on one's morals. On one side of the debate, Kavanaugh's Supreme Court tenure presents a prime oppurtunity to bring morality back into interpretation of the Constitution. Kavanaugh's confirmation creates a conservative stronghold among the justices on the court. Commentators have noted this might help advance a judicial agenda that backpedals certain rights previously upheld by the Supreme Court, including abortion and gay marriage - social issues challenged by their opponents at least partially on moral grounds. On the other side of the debate, the assault allegations have energized Kavanaugh's opponents to advocate for his rejection from the court owing to misdeeds resulting from Kavanaugh's own alleged lack of morals. Additionally, the moral duty of the Senate as the upper chamber in the U.S. legislature has been scrutinized in public discourse with respect to its handling of the assualt allegations vis-a-vis Kavanaugh's confirmation. 
 
-For Experiment 2, the researchers hypothesized that news sources perceived as liberal will exhibit positive endorsements of the individualizing moral foundations (*harm/care* and *fairness/reciprocity*) in their articles reporting on the Kavanaugh confirmation hearing. News sources perceived as conservative are hypothesized to positively endorse all five foundations equally in their coverage of the Kavanaugh hearing. The reasearchers tested the hypothesis by analyzing the content scraped from news sources' web pages during the two weeks Kavanaugh's confirmation was prominent in the news. The content will be analyzed for valence and moral alignment under Moral Foundations Theory.
+In contrast to Experiment 1, the reserachers approached Experiment 2 with the intention to confirm the method employed was valid for the analysis of the scaped text as well as for any inferences drawn from the analyses. For Experiment 2, the researchers hypothesized that news sources perceived as liberal will exhibit positive endorsements of the individualizing moral foundations (*harm/care* and *fairness/reciprocity*) in their articles reporting on the Kavanaugh confirmation hearing. News sources perceived as conservative are hypothesized to positively endorse all five foundations equally in their coverage of the Kavanaugh hearing. The reasearchers tested the hypothesis by analyzing the content scraped from news sources' web pages during the two weeks Kavanaugh's confirmation was prominent in the news. The content will be analyzed for valence and moral alignment under Moral Foundations Theory.
 
 # Method
 
@@ -946,29 +950,13 @@ Experiment 2 largely followed the same method as Experiment 1. Political article
 Expected material stuff
 - we are going to pick liberal and conservative sources from that thing document linked stuff
 - list those here:
-  Sources used by LIBERALS (according to the document thing):
-  The New Yorker
+  Sources used by LIBERALS:
+  MSNBC
   Slate
-  The Daily Show (is it wise to use satirical news for this??)
-  The Guardian
-  Al Jazeera America
+  Huffington Post
   NPR
   New York Times
-  Buzzfeed
-  PBS
-  BBC
-  Huffington Post
-  Washington Post
-  The Economist
   Politico
-  MSNBC
-  CNN
-  NBC News
-  CBS News
-  Google News
-  Bloomberg
-  ABC News
-  USA TODAY
   
   Sources used by CONSERVATIVES:
   Fox News
@@ -977,10 +965,25 @@ Expected material stuff
   Rush Limbaugh Show
   The Blaze
   Sean Hannity
+  
+  DROPPED:
   Glenn Beck (does he still report "news"??)
-
-- pick a specific date range we want to pull articles from 
-- list that here: 
+  The Daily Show (is it wise to use satirical news for this??) - Answer = Nope
+  The Guardian (not American)
+  The New Yorker
+  Al Jazeera America
+  Buzzfeed
+  PBS
+  BBC
+  Washington Post
+  The Economist
+  CNN
+  NBC News
+  CBS News
+  Google News
+  Bloomberg
+  ABC News
+  USA TODAY
 
 START DATE: September 13, 2018
 
