@@ -843,6 +843,10 @@ summary(purity_model)
 
 To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nested structured of the data, which creates correlated error [@CITE_gelman]. Using the *nlme* library in *R* [@CITE_nlme], each foundation's weighted percentage was predicated by the political lean of the news soource, using the individual news sources as a random intercept to control for the structure of the data.
 
+The multilevel model did not indicate the presence of any significant or practical effect of political lean for any of the five moral foundations. The strongest effect size was observed for the *authority/respect* foundation, but the effect was in the opposite direction from what was originally hypothesized - liberal sources tended to use more *authority/respect* words than did conservative sources. Descriptive and test statistics, *p*-values and effect sizes (Cohen's *d*) can be found in Table 1.
+
+
+
 ```{r exp1-table, results = 'asis', echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
 tableprint = matrix(NA, ncol = 8, nrow = 5)
@@ -924,7 +928,11 @@ apa_table(tableprint,
           )
 ```
 # Discussion 
+What we found - nothing really, even some disconfirming evidence, but it wasn't sig and eff size was small.
 
+Why it might not have worked (focus too broad??)
+
+Well, this was exploratory anyway, so lets firm up the method and try another way. How about a polarizing and morally-focused singular issue?? Which leads us to Experiment 2, in which we hope to confirm the method!! 
 
 
 
