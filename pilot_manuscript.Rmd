@@ -928,13 +928,12 @@ apa_table(tableprint,
           )
 ```
 # Discussion 
-What we found - nothing really, even some disconfirming evidence, but it wasn't sig and eff size was small.
 
-Why it might not have worked (focus too broad??)
+The results obtained in Experiment 1 did not confirm the hypothesis. The researchers found little compelling evidence of an effect of partisan lean on MFD endorsement. The strongest effect found was for the *authority/respect* foundation owing to the fact its Cohen's *d* value was greater than the other four foundations. However, the effect was in the opposite direction of that which was hypothesized. Specifically, the results indicated that liberal leaning sources demonstrated higher endorsement of that foundation than convservatives. This is contrary not only to the research hypothesis for Experiment 1 but also to previous findings in Moral Foundations Theory research. It should be noted, however, the effect size was small and the relationship was not found to be statistically significant. 
 
-Well, this was exploratory anyway, so lets firm up the method and try another way. How about a polarizing and morally-focused singular issue?? Which leads us to Experiment 2, in which we hope to confirm the method!! 
+Upon speculation, the researchers identified one possible reason for why the resuls were unable to confirm the hypothesis. The selection of the broad and amorphous topic of "political news" may have led to the scraping of large numbers of articles with little to no moral-centric content. Rather, many articles may have been, for example, simple reporting on congressional procedures that would leave little room for the use of moral language let alone words from the Moral Foundations Dictionary. In short, the range of topics covered in Experiment 1 was likely too broad. The possibility exists that a tighter focus on one political issue or event, especially one that (on the surface) has a stronger relationship with morality might be more illuminating for research in moral language in news media.
 
-
+Owing to the exploratory nature of Experiment 1, the researchers were afforded the opportunity to consider changes to the method to be utilized in Experiment 2. The researchers identified two primary changes in methodology that were subsequently employed in Experiment 2. First, the researchers elected to include more news sources for web scraping and analysis in addition to the four used in Experiment 1. Second, the reserachers chose to focus their data collection efforts exclusively on one event in U.S. politics: the nomination and confirmation of Justice Brett Kavanaugh to the U.S. Supreme Court. In Experiment 2, the reserachers sought to confirm the usefulness and validity of the method as well as test a similar hypothesis as Experiment 1.
 
 # Experiment 2
 
