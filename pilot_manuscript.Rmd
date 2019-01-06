@@ -950,9 +950,11 @@ In contrast to Experiment 1, the reserachers approached Experiment 2 with the in
 # Method
 
 ## Sources
-Experiment 2 largely followed the same method as Experiment 1. Political articles specifically referring to Brett Kavanaugh and his Supreme Court confirmation hearing were scraped
+Articles pertaining to the Brett Kavanaugh Supreme Court nomination and confirmation were scraped from the websites of 12 U.S. news sources. These sources were selected woting to their favorability among political partisans according to @Mitchell2014. The sources favored by liberals were *The New York Times*, *National Public Radio (NPR)*, *MSNBC*, *Slate*, *Huffington Post*, and *Politico* [@Mitchell2014]. The sources favored by conservatives included *Fox News*, *Breitbart*, *The Drudge Report*, *The Rush Limbaugh Show*, *The Blaze*, and *Sean Hannity*. Political articles referencing Brett Kavanaugh's nominatino process were identified and subsequently scraped by including the URL for each source's coverage of the nomination in the *R* script. All code for this manuscript can be found at OSF LINK, and the scripts are provided inline with this manuscript written with the *papaja* library [@Aust2017].
 
 ## Materials
+
+Using the *rvest* library in the statistical package *R*, we pulled body text for individual articles from each of the following 12 sources (identified using CSS language): *The New York Times*, *National Public Radio (NPR)*, *MSNBC*, *Slate*, *Huffington Post*, *Politico*, *Fox News*, *Breitbart*, *The Drudge Report*, *The Rush Limbaugh Show*, *The Blaze*, and *Sean Hannity*. We compiled the articles into a dataset [@CITE_rvest]. Using this dataset, we identified word count and average word count per source. This process was run for articles pertaining to Kavanaugh's nomination that were published between September 13, 2018 and October 11, 2018 inclusive. This date range was selected in reference to the widely-publicized and viewed nomination hearing on September 27, 2018. We set the start date at September 13 (two weeks before the hearing) and the end date at October 11 (two weeks after the hearing) so that we could capture a large amount of data (roughly one month) during which Kavanaugh's nomination was at its peak saturation in news coverage.
 
 Expected material stuff
 - we are going to pick liberal and conservative sources from that thing document linked stuff
@@ -967,7 +969,7 @@ Expected material stuff
   
   Sources used by CONSERVATIVES:
   Fox News
-  Drudge Report
+  Drudge Report *HEY! THIS IS MOSTLY AN AGGREGATOR!!! IS IT STILL OK?*
   Breitbart
   Rush Limbaugh Show
   The Blaze
