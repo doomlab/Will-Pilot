@@ -1004,7 +1004,13 @@ here's when the stuff was happening and so picked two weeks before and after
 
 ## Data analysis
 
-How you would run the data analysis 
+As in Experiment 1, the text was scanned using the *ngram* package in *R* at the conclusion of data collection [@CITE_ngram]. Using the package's word count function, articles that came through as blank text were removed, as well as text scraped from the Disqus commenting system. Duplicate articles were subsequently discarded.
+
+Using the *tm* and *ngram* packages in *R*, the researchers processed the text in order to convert it to lowercase, fix spacing anomalies, and remove punctuation [@CITE_tm]. Each individual word was reduced to its stem (i.e., *diseased* was stemmed to *diseas*). Once again, the same procedure was applied to the MFD words and the words in the @Warriner2013 dataset. Using the @Warriner2013 dictionary, the words in the MFD were assigned their valence value.   
+
+DESCRIBE MTMM NEW STUFF HERE? Basically, words found through that project were imported and added to each foundation, with redundancies removed at the end.
+
+Words from the source article words were then compiled into a dataset where they were paired up with the MFD words (where applicable) as wel as their percent occurrence and valence. At the end of this process, the percentage of the number of words from each moral foundation appearing in the articles was computed. This procedure created five percentages serving as the dependent variable for the multilevel model. Valence scores for the MFD words were *z*-scored, allowing for the possibility of negative valence scores.
 
 # Experiment 2 results
 
