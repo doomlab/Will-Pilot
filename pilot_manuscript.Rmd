@@ -845,8 +845,6 @@ To analyze if news sources adhered to differences in word use based on their tar
 
 The multilevel model did not indicate the presence of any significant or practical effect of political lean for any of the five moral foundations. The strongest effect size was observed for the *authority/respect* foundation, but the effect was in the opposite direction from what was originally hypothesized - liberal sources tended to use more *authority/respect* words than did conservative sources. Descriptive and test statistics, *p*-values and effect sizes (Cohen's *d*) can be found in Table 1.
 
-
-
 ```{r exp1-table, results = 'asis', echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
 tableprint = matrix(NA, ncol = 8, nrow = 5)
@@ -927,6 +925,7 @@ apa_table(tableprint,
           align = c("l", rep("c", 7))
           )
 ```
+
 # Discussion 
 
 The results obtained in Experiment 1 did not confirm the hypothesis. The researchers found little compelling evidence of an effect of partisan lean on MFD endorsement. The strongest effect found was for the *authority/respect* foundation owing to the fact its Cohen's *d* value was greater than the other four foundations. However, the effect was in the opposite direction of that which was hypothesized. Specifically, the results indicated that liberal leaning sources demonstrated higher endorsement of that foundation than convservatives. This is contrary not only to the research hypothesis for Experiment 1 but also to previous findings in Moral Foundations Theory research. It should be noted, however, the effect size was small and the relationship was not found to be statistically significant. 
@@ -950,6 +949,7 @@ In contrast to Experiment 1, the reserachers approached Experiment 2 with the in
 # Method
 
 ## Sources
+
 Articles pertaining to the Brett Kavanaugh Supreme Court nomination and confirmation were scraped from the websites of 12 U.S. news sources. These sources were selected woting to their favorability among political partisans according to @Mitchell2014. The sources favored by liberals were *The New York Times*, *National Public Radio (NPR)*, *MSNBC*, *Slate*, *Huffington Post*, and *Politico* [@Mitchell2014]. The sources favored by conservatives included *Fox News*, *Breitbart*, *The Drudge Report*, *The Rush Limbaugh Show*, *The Blaze*, and *Sean Hannity*. Political articles referencing Brett Kavanaugh's nominatino process were identified and subsequently scraped by including the URL for each source's coverage of the nomination in the *R* script. All code for this manuscript can be found at OSF LINK, and the scripts are provided inline with this manuscript written with the *papaja* library [@Aust2017].
 
 ## Materials
