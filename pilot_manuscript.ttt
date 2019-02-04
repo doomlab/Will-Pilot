@@ -3,7 +3,7 @@
 [tbp]
 \begin{center}
 \begin{threeparttable}
-\caption{\label{tab:exp1-table}stuff at the top}
+\caption{\label{tab:exp1-table}Experiment 1 Results - Multilevel Model}
 \begin{tabular}{lccccccc}
 \toprule
 Foundation & $M_C$ & $SD_C$ & $M_L$ & $SD_L$ & $t$ & $p$ & $d$\\
@@ -17,7 +17,7 @@ Purity/Sanctity & 1.11 & 1.48 & 1.27 & 1.48 & 2.37 & .141 & -0.09\\
 \addlinespace
 \end{tabular}
 \begin{tablenotes}[para]
-\normalsize{\textit{Note.} something useful here}
+\normalsize{\textit{Note.} For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively}
 \end{tablenotes}
 \end{threeparttable}
 \end{center}
