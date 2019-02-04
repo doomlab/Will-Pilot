@@ -127,6 +127,7 @@ Therefore, the current study sought to combine both methods related questions an
 # Experiment 1 
 
 # Method
+
 For Experiment 1, the researchers approached the study with the intention to answer a method question. That is, this portion of the current research was conducted in order to solidify the best method by which to analyze political news text under the Moral Foundations Theory framework while also alleviating some of the aforementioned valence problem observed in the Moral Foundations Dictionary. The researchers hypothesized the news sources genrally perceived as liberal leaning (*NPR* and *The New York Times*) would contain MFD words and valences indicating endorsements of the individualizing moral foundations (*harm/care* and *fairness/reciprocity*). Additionally, the researchers hypothesized the two sources generally perceived to be conservative leaning (*Fox News* and *Breitbart*) would feature MFD words and valences indicating equal endorsement of all five foundations.
 
 ## Sources
@@ -975,7 +976,9 @@ As in Experiment 1, the text was scanned with *ngram*. Again, blank articles, te
 
 Using the *tm* and *ngram* packages in *R*, the researchers processed the text in order to convert it to lowercase, fix spacing anomalies, and remove punctuation [@Feinerer2017]. Each individual word was reduced to its stem (i.e., *diseased* was stemmed to *diseas*). Once again, the same procedure was applied to the MFD words and the words in the @Warriner2013 dataset. Using the @Warriner2013 dictionary, the words in the MFD were assigned their respective valence. The researchers obtained the words' percent occurence in the text. Once again, percents were multiplied by *z*-scored valence and categorized into their proper MFD category.
 
-# Experiment 2 results
+# Experiment 2 
+
+## Results
 
 # Discussion
 
