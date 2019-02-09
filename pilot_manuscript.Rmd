@@ -23,7 +23,8 @@ author_note: |
   William Padfield is a master's degree candidate in psychology at Missouri State University. This thesis partially fulfills the requirements for the Master of Science degree in Psychology.
 
 abstract: |
-  Enter abstract here. Each new line herein must be indented, like this line.
+
+  The media ecosystem has grown, and political opinions have diverged such that there are competing conceptions of objective truth. Commentators often point to political biases in news coverage as a catalyst for this political divide. The Moral Foundations Dictionary (MFD) facilitates identification of ideological leanings in text through frequency of the occurrence of certain words. Through web scraping, the researchers extracted articles from popular news sources' websites, calculated MFD word frequencies, and identified words' respective valences. This process attempts to uncover news outlets' positive or negative endorsements of certain moral dimensions concomitant with a particular ideology. In Experiment 1, the researchers gathered poltical articles from four sources. They were unable to reveal significant differences in moral or political endorsements, but they solidified the method to be employed in further research. In Experiment 2, the researchers will expand their number of sources to 10 and will analyze articles that pertain to the 2018 confirmation hearings of U.S. Supreme Court Justice Brett Kavanaugh. This topic was selected due to the moral disputes associated with his nomination.  
   
 keywords          : "politics, morality, psycholinguistics"
 
@@ -138,7 +139,7 @@ Identification of the sources' political URLs presented a problem for two of the
 
 ## Materials
 
-Using the *rvest* library in the statistical package *R*, we pulled body text for individual articles from each of the aforementioned sources (identified using CSS language) and compiled them into a dataset [@CITE_rvest]. Using this dataset, we identified word count and average word count per source. This process was run once daily starting on *DATE* until *DATE.* Starting on *DATE,* the process was run twice daily - once in the morning and again in the evening. Data collection was terminated once 250,000 words per source was collected on *DATE.*  
+Using the *rvest* library in the statistical package *R*, we pulled body text for individual articles from each of the aforementioned sources (identified using CSS language) and compiled them into a dataset [@CITE_rvest]. Using this dataset, we identified word count and average word count per source. This process was run once daily starting in February 2018 until March 2018. Starting in mid-March 2018, the process was run twice daily - once in the morning and again in the evening. Data collection was terminated once 250,000 words per source was collected in April 2018.  
 
 ```{r scraping, eval=FALSE, include=FALSE}
 
