@@ -18,7 +18,6 @@ affiliation:
     instituation  : "Harrisburg University of Science and Technology"
   
 author_note: |
-  Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
 
   William Padfield is a master's degree candidate in psychology at Missouri State University. This thesis partially fulfills the requirements for the Master of Science degree in Psychology.
 
@@ -139,7 +138,7 @@ Identification of the sources' political URLs presented a problem for two of the
 
 ## Materials
 
-Using the *rvest* library in the statistical package *R*, we pulled body text for individual articles from each of the aforementioned sources (identified using CSS language) and compiled them into a dataset [@CITE_rvest]. Using this dataset, we identified word count and average word count per source. This process was run once daily starting in February 2018 until March 2018. Starting in mid-March 2018, the process was run twice daily - once in the morning and again in the evening. Data collection was terminated once 250,000 words per source was collected in April 2018.  
+Using the *rvest* library in the statistical package *R*, we pulled body text for individual articles from each of the aforementioned sources (identified using CSS language) and compiled them into a dataset [@Wickham2016]. Using this dataset, we identified word count and average word count per source. This process was run once daily starting in February 2018 until March 2018. Starting in mid-March 2018, the process was run twice daily - once in the morning and again in the evening. Data collection was terminated once 250,000 words per source was collected in April 2018.  
 
 ```{r scraping, eval=FALSE, include=FALSE}
 
