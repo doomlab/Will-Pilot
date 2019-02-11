@@ -15,11 +15,11 @@ affiliation:
   - id            : "1"
     institution   : "Missouri State University"
   - id            : "2"
-    instituation  : "Harrisburg University of Science and Technology"
+    institution  : "Harrisburg University of Science and Technology"
   
 author_note: |
 
-  William Padfield is a master's degree candidate in psychology at Missouri State University. This thesis partially fulfills the requirements for the Master of Science degree in Psychology.
+  William Padfield is a master's degree candidate in Psychology at Missouri State University. This thesis partially fulfills the requirements for the Master of Science degree in Psychology.
 
 abstract: |
 
