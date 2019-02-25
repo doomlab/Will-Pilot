@@ -962,6 +962,54 @@ In contrast to Experiment 1, the researchers approached Experiment 2 with the in
 
 # Method
 
+```{r NYTimes, eval = F, include = F}
+
+library(rvest)
+####NY Times####
+#Specifying the url for desired website to be scrapped
+url <- 'https://www.nytimes.com/search?endDate=20181011&query=kavanaugh&sort=best&startDate=20180913'
+
+#Reading the HTML code from the website - headlines
+webpage <- read_html(url)
+headline_data = html_nodes(webpage,'a')
+
+attr_data = html_attrs(headline_data) 
+attr_data
+
+urlslist = unlist(attr_data)
+urlslist = urlslist[grep(".html", urlslist)]
+urlslist = unique(urlslist)
+urlslist
+
+#paste NY on front
+urlslist = paste("https://www.nytimes.com", urlslist, sep = "")
+
+##start a data frame
+NYtimesDF = matrix(NA, nrow = length(urlslist), ncol = 3)
+colnames(NYtimesDF) = c("Source", "Url", "Text")
+NYtimesDF = as.data.frame(NYtimesDF)
+
+##for loops
+for (i in 1:length(urlslist)){
+  
+  ##read in the URL
+  webpage <- read_html(urlslist[i])
+  
+  ##pull the specific nodes
+  headline_data = html_nodes(webpage,'.StoryBodyCompanionColumn') 
+  
+  ##pull the text
+  text_data = html_text(headline_data)
+  
+  ##save the data
+  NYtimesDF$Source[i] = "NY Times"
+  NYtimesDF$Url[i] = urlslist[i]
+  NYtimesDF$Text[i] = paste(text_data, collapse = "")
+    } ##end for loop
+
+```
+
+
 ## Sources
 
 Articles pertaining to the Brett Kavanaugh Supreme Court nomination and confirmation were scraped from the websites of 12 U.S. news sources. These sources were selected owing to their favorability among political partisans according to @Mitchell2014. The sources favored by liberals were *The New York Times*, *National Public Radio (NPR)*, *Slate*, *Huffington Post*, and *Politico* [@Mitchell2014]. The sources favored by conservatives included *Fox News*, *Breitbart*, *The Rush Limbaugh Show*, *The Blaze*, and *Sean Hannity*. Political articles referencing Brett Kavanaugh's nomination process were identified and subsequently scraped by including the URL for each source's coverage of the nomination in the *R* script. All code for this manuscript can be found at https://osf.io/5kpj7/, and the scripts, again written with the *papaja* library in *R*, are provided inline with this manuscript [@Aust2017].
