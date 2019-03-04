@@ -1,9 +1,6 @@
 library(rvest)
 library(RSelenium)
 
-##go here
-##http://selenium-release.storage.googleapis.com/3.9/selenium-server-standalone-3.9.1.jar
-
 ##an example to show you what's happening
 rD <- rsDriver()
 remDr <- rD[["client"]]
@@ -13,8 +10,7 @@ remDr$close()
 rD[["server"]]$stop()
 ##end example
 
-
-##fox example
+##NY times example
 rD <- rsDriver()
 remDr <- rD[["client"]]
 
@@ -25,13 +21,15 @@ url <- 'https://www.nytimes.com/search?endDate=20181011&query=kavanaugh&sort=bes
 remDr$navigate(url)
 
 #click the button 
+#don't change class name
+#right click --> inspect element 
 webElem <- remDr$findElement(using = 'class name',"css-1t62hi8")
 
 #with 752 results at 10 per page we need
 #752 - 10 original = 742 / 10 per click = 75 clicks
 
 for (i in 1:5) { #change this to 75 later
-webElem$clickElement()
+  webElem$clickElement()
   Sys.sleep(runif(1, 1, 5))
 }
 

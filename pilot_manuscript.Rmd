@@ -1010,22 +1010,30 @@ for (i in 1:length(urlslist)){
 ```
 
 ````{r NPR, eval = F, include = F}
-url2 = 'https://www.npr.org/search?query=kavanaugh&page=1'
-webpage2 = read_html(url2)
-headline_data2 = html_nodes(webpage2,'.title .ais-Highlight-nonHighlighted')
+urlslist_final = c()
 
-#URLs
-attr_data2 = html_attrs(headline_data2) 
-attr_data2
-
-urlslist2 = unlist(attr_data2)
-urlslist2 = urlslist2[grep("http", urlslist2)]
-urlslist2
+##loop through the page number at the end until done with ~1000 / 20 = 50
+for (i in 1:2){ ##change this to 50
+  url2 = paste0('https://www.npr.org/search?query=kavanaugh&page=', i)
+  webpage2 = read_html(url2)
+  headline_data2 = html_nodes(webpage2,'.title')
+  
+  #URLs
+  attr_data2 = html_attrs(headline_data2) 
+  urlslist2 = unlist(attr_data2)
+  urlslist2 = urlslist2[grep("http", urlslist2)]
+  
+  #add them to an overall
+  urlslist_final = c(urlslist_final, urlslist2)
+  
+  Sys.sleep(runif(1, 1, 5))
+}
 
 ##start a data frame
-NPRDF = matrix(NA, nrow = length(urlslist2), ncol = 3)
+NPRDF = matrix(NA, nrow = length(urlslist_final), ncol = 3)
 colnames(NPRDF) = c("Source", "Url", "Text")
 NPRDF = as.data.frame(NPRDF)
+
 
 ##for loops
 for (i in 1:length(urlslist2)){
@@ -1043,6 +1051,7 @@ for (i in 1:length(urlslist2)){
   NPRDF$Source[i] = "NPR"
   NPRDF$Url[i] = urlslist2[i]
   NPRDF$Text[i] = paste(text_data2, collapse = "")
+  Sys.sleep(runif(1, 1, 5))
 } ##end for loop
 ```
 
