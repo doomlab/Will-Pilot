@@ -1123,7 +1123,7 @@ for (i in 1:length(urlslist4)){
   text_data4 = html_text(headline_data4)
   
   ##save the data
-  HuffPoDF$Source[i] = "Huffington Post"
+  HuffpoDF$Source[i] = "Huffington Post"
   HuffpoDF$Url[i] = urlslist4[i]
   HuffpoDF$Text[i] = paste(text_data4, collapse = "")
 } ##end for loop
@@ -1167,7 +1167,7 @@ for (i in 1:length(urlslist5)){
 ```
 
 ````{r Fox News, eval = F, include = F}
-url6 = 'https://www.foxnews.com/search-results/search?q=kavanaugh&ss=fn&sort=latest&start=0'
+url6 = 'https://www.foxnews.com/search-results/search?q=kavanaugh&ss=fn&min_date=2018-09-13&max_date=2018-10-11&start=0'
 webpage6 = read_html(url6)
 headline_data6 = html_nodes(webpage6, 'h3 .ng-binding')
 
@@ -1202,7 +1202,7 @@ for (i in 1:length(urlslist6)){
 ```
 
 ````{r Breitbart, eval = F, include = F}
-url7 = 'http://www.breitbart.com/big-government/'
+url7 = 'https://www.breitbart.com/search/?s=kavanaugh#gsc.tab=0&gsc.q=kavanaugh&gsc.page=1'
 webpage7 = read_html(url7)
 headline_data7 = html_nodes(webpage7, '.gs-title')
 
@@ -1210,7 +1210,7 @@ attr_data7 = html_attrs(headline_data7)
 attr_data7
 
 urlslist7 = unlist(attr_data7)
-urlslist7 = urlslist4[grep(urlslist7)]
+urlslist7 = urlslist7[grep(urlslist7)]
 
 ##start a data frame
 BreitbartDF = matrix(NA, nrow = length(urlslist7), ncol = 3)
@@ -1239,6 +1239,7 @@ for (i in 1:length(urlslist7)){
 ````{r Rush Limbaugh, eval = F, include = F}
 url8 = 'https://www.rushlimbaugh.com/?s=kavanaugh&is_v=1'
 webpage8 = read_html(url8)
+#headline_data8 = html_nodes(webpage8, 'a')    trying something different
 headline_data8 = html_nodes(webpage8, '.ais-hits--content a')
 
 attr_data8 = html_attrs(headline_data8) 
@@ -1308,7 +1309,7 @@ for (i in 1:length(urlslist9)){
 ```
 
 ````{r Sean Hannity, eval = F, include = F}
-url10 = 'https://www.theblaze.com/search/?q=kavanaugh'
+url10 = 'https://www.hannity.com/'
 webpage10 = read_html(url10)
 headline_data10 = html_nodes(webpage10, '.gs-title')
 
