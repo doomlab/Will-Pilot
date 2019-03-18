@@ -384,7 +384,7 @@ for (i in 1:length(urlslist5)){
 setwd("~/OneDrive - Missouri State University/RESEARCH/2 projects/Will-Pilot")
 
 ##import the overalldata 
-overalldata = read.csv("overalldata.csv")
+overalldata = read.csv("exp1_data/overalldata.csv")
 
 ##combine with new data (add the other DF names in here...)
 newdata = rbind(overalldata, NYtimesDF, NPRDF, FoxDF, BreitbartDF, NPRArchiveDF)
@@ -427,7 +427,7 @@ Once data collection ended, the text was scanned using the *ngram* package in *R
 
 ```{r data-cleanup, eval=FALSE, include=FALSE}
 ##pull in the data
-master = read.csv("overalldata.csv", stringsAsFactors = F)
+master = read.csv("exp1_data/overalldata.csv", stringsAsFactors = F)
 
 ##get rid of the blank stuff
 library(ngram)
@@ -464,7 +464,7 @@ The source article words were compiled into a dataset where they were matched up
 
 ```{r stem_text, eval=TRUE, include=FALSE}
 
-final = read.csv("finaldata.csv", stringsAsFactors = F)
+final = read.csv("exp1_data/finaldata.csv", stringsAsFactors = F)
 final = na.omit(final) #one weird NA line
 
 ##load libraries
@@ -488,7 +488,7 @@ for(i in 1:nrow(final)) {
 
 ```{r stem_warriner, include = FALSE}
 ##open the Warriner data for later
-warriner = read.csv("BRM-emot-submit.csv", stringsAsFactors = F) #want v.mean.sum
+warriner = read.csv("exp1_data/BRM-emot-submit.csv", stringsAsFactors = F) #want v.mean.sum
 warriner$V.Mean.Sum = scale(warriner$V.Mean.Sum)
 
 for(i in 1:nrow(warriner)) {
@@ -498,7 +498,7 @@ for(i in 1:nrow(warriner)) {
 
 ```{r create_datasets_harm, include=FALSE}
 #read in the harm total words from the mtmm project
-harm_all = read.csv("harm_words_total.csv", stringsAsFactors = F)
+harm_all = read.csv("exp1_data/harm_words_total.csv", stringsAsFactors = F)
 
 harm_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -538,7 +538,7 @@ harm_final_data$valence[harm_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[w
 ```
 
 ```{r create_datasets_fair, include=FALSE}
-fair_all = read.csv("fair_words_total.csv", stringsAsFactors = F)
+fair_all = read.csv("exp1_data/fair_words_total.csv", stringsAsFactors = F)
 
 fair_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -576,7 +576,7 @@ fair_final_data$valence[fair_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[w
 ```
 
 ```{r create_datasets_ingroup, include=FALSE}
-ingroup_all = read.csv("ingroup_words_total.csv", stringsAsFactors = F)
+ingroup_all = read.csv("iexp1_data/ngroup_words_total.csv", stringsAsFactors = F)
 
 ingroup_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -615,7 +615,7 @@ ingroup_final_data$valence[ingroup_final_data$Var1 == "true"] = mean(warriner$V.
 ```
 
 ```{r create_datasets_authority, include=FALSE}
-authority_all = read.csv("authority_words_total.csv", stringsAsFactors = F)
+authority_all = read.csv("exp1_data/authority_words_total.csv", stringsAsFactors = F)
 
 authority_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -655,7 +655,7 @@ authority_final_data$valence[authority_final_data$Var1 == "taken"] = mean(warrin
 ```
 
 ```{r create_datasets_purity, include=FALSE}
-purity_all = read.csv("purity_words_total.csv", stringsAsFactors = F)
+purity_all = read.csv("exp1_data/purity_words_total.csv", stringsAsFactors = F)
 
 purity_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -973,19 +973,43 @@ In contrast to Experiment 1, the researchers approached Experiment 2 with the in
 ```{r NYTimes, eval = F, include = F}
 
 library(rvest)
-####NY Times####
-#Specifying the url for desired website to be scraped
+library(RSelenium)
+
+rD <- rsDriver(browser=c("chrome"), chromever="73.0.3683.68")
+remDr <- rD[["client"]]
+
+#page for NYTIMES
 url <- 'https://www.nytimes.com/search?endDate=20181011&query=kavanaugh&sort=best&startDate=20180913'
 
+#navigate to it
+remDr$navigate(url)
+
+#click the button 
+#don't change class name
+#right click --> inspect element 
+webElem <- remDr$findElement(using = 'class name',"css-1t62hi8")
+
+#with 752 results at 10 per page we need
+#752 - 10 original = 742 / 10 per click = 75 clicks
+
+for (i in 1:75) { #change this to 75 later
+  webElem$clickElement()
+  Sys.sleep(runif(1, 1, 5))
+}
+
+webpage <-remDr$getPageSource()
+
 #Reading the HTML code from the website - headlines
-webpage <- read_html(url)
-headline_data = html_nodes(webpage,'a')
+webpage2 <- read_html(unlist(webpage))
+
+headline_data = html_nodes(webpage2,'a')
 
 attr_data = html_attrs(headline_data) 
 attr_data
 
 urlslist = unlist(attr_data)
 urlslist = urlslist[grep(".html", urlslist)]
+urlslist = urlslist[grep("/2018", urlslist)]
 urlslist = unique(urlslist)
 urlslist
 
@@ -1013,7 +1037,14 @@ for (i in 1:length(urlslist)){
   NYtimesDF$Source[i] = "NY Times"
   NYtimesDF$Url[i] = urlslist[i]
   NYtimesDF$Text[i] = paste(text_data, collapse = "")
-    } ##end for loop
+  Sys.sleep(runif(1, 1, 10)) #don't make them angry
+} ##end for loop
+
+write.csv(NYtimesDF, "NYtimes_kav.csv", row.names = F)
+
+remDr$close()
+# stop the selenium server
+rD[["server"]]$stop()
 
 ```
 
