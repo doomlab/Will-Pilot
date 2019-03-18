@@ -861,6 +861,16 @@ summary(purity_model)
 
 # Results
 
+## Descriptive Statistics
+
+overall valence for each source
+
+types/tokens ratios, etc. for each source also number of articles 
+
+table - columns are types (unique words), tokens (total words), readability statistics, number of articles, total number of words, valence 
+
+## Inferential Statistics
+
 To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nested structured of the data, which creates correlated error [@Gelman2006]. Using the *nlme* library in *R* [@Pinheiro2017], each foundation's weighted percentage was predicated here by the political lean of the news source, using the individual news sources as a random intercept to control for the structure of the data.
 
 The multilevel model did not indicate the presence of any significant or practical effect of political lean for any of the five moral foundations. The strongest effect size was observed for the *authority/respect* foundation, but the effect was in the opposite direction from what was originally hypothesized - liberal sources tended to use more *authority/respect* words than did conservative sources. Descriptive and test statistics, *p*-values and effect sizes (Cohen's *d*) can be found in Table 1. To interpret the weighted scores, one can examine the mean and standard deviations for each. A zero score for the mean, with a non-zero standard deviation, would indicate a perfect balance of positive and negative words in each category, likely representing a neutral tone when all words are considered. Negative percentages would indicate more representation of the negative words in the MFD area, while positive percentages indicate an endorsement of the positive words in a MFD. Therefore, we suggest using the sign of the mean score to determine the directionality of the endorsement for the MFD (positive, neutral, negative), and the standard deviation to ensure that a zero score is not zero endorsement (i.e., a SD of zero indicates no words were used). Based on the weighted percent values for the five foundations, the researchers observed that MFD words seem to make up a small portion of the article text. Furthermore, the observed percentages and means appear to indicate a generally positive endorsement of all five foundations across both liberal and conservative sources.
