@@ -1136,7 +1136,7 @@ remDr$close()
 rD[["server"]]$stop()
 ```
 
-````{r NPR, eval = F, include = F}
+````{r NPR_kav, eval = F, include = F}
 library(rvest)
 library(RSelenium)
 library(beepr)
@@ -1146,34 +1146,20 @@ rD <- rsDriver(browser=c("chrome"), chromever="73.0.3683.68")
 remDr <- rD[["client"]]
 
 #create a blank space to put the links
-urlslist_final = c()
+urlslist_final = list()
 
 ##loop through the page number at the end until done with ~1000 / 20 = 50
-for (i in 1:2){ ##change this to 50
-
+for (i in 1:2) { ##change this to 50
+  
   url = paste0('https://www.npr.org/search?query=kavanaugh&page=', i)
-
+  
   #navigate to it
   remDr$navigate(url)
   
-  #get the page source
-  webpage <-remDr$getPageSource()
+  #get the links
+  webElems <- remDr$findElements(using = "css", "[href]")
+  urlslist_final[[i]] = unlist(sapply(webElems, function(x) {x$getElementAttribute("href")}))
   
-  #Reading the HTML code from the website - headlines
-  webpage2 <- read_html(unlist(webpage))
-  
-  #pull the links
-  headline_data = html_nodes(webpage2,'a')
-  attr_data = html_attrs(headline_data) 
-  
-  #deal with the links
-  urlslist = unlist(attr_data)
-  urlslist = urlslist[grep("^/201", urlslist)]
-  urlslist = unique(urlslist)
-  
-  #combine into one list
-  urlslist_final = c(urlslist, urlslist_final)
-
   #don't go too fast
   Sys.sleep(runif(1, 1, 5))
   
@@ -1182,7 +1168,6 @@ for (i in 1:2){ ##change this to 50
 remDr$close()
 # stop the selenium server
 rD[["server"]]$stop()
-
 
 
 
