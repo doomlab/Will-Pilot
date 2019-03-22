@@ -1149,12 +1149,16 @@ remDr <- rD[["client"]]
 urlslist_final = list()
 
 ##loop through the page number at the end until done with ~1000 / 20 = 50
-for (i in 1:2) { ##change this to 50
+for (i in 1:50) { ##change this to 50
   
   url = paste0('https://www.npr.org/search?query=kavanaugh&page=', i)
   
   #navigate to it
   remDr$navigate(url)
+  
+  #scroll on the page
+  webscroll <- remDr$findElement("css", "body")
+  webscroll$sendKeysToElement(list(key = "end"))
   
   #get the links
   webElems <- remDr$findElements(using = "css", "[href]")
@@ -1169,19 +1173,40 @@ remDr$close()
 # stop the selenium server
 rD[["server"]]$stop()
 
+beep(sound = 3)
 
+urlslist = unlist(urlslist_final)
+#find all the ones with /2018/
+urlslist2 = urlslist[grep("/2018", urlslist)]
+urlslist2 = urlslist2[grep("npr.org", urlslist2)] #get rid of wbur
+urlslist2 = unique(urlslist2)
+temp = strsplit(urlslist2, split = "/")
+temp2 = plyr::ldply(temp, rbind)
+temp2 = as.data.frame(apply(temp2, 2, as.character), stringsAsFactors = F)
+
+#deal with the ones with extra parts
+temp2[temp2$`4` == "sections" , 4:8] = temp2[temp2$`4` == "sections" , 6:10]
+
+#pull only the right dates
+rows = rownames(temp2[ temp2$`4` == 2018 & #must be 2018 and 
+                         (temp2$`5` == "09" & as.numeric(temp2$`6`)>=13 | 
+                            temp2$`5` == "10" & as.numeric(temp2$`6`)<=11), #Must be 9 or 10 
+                ])
+
+  
+urlslist3 = urlslist2[as.numeric(rows)]
 
 ##start a data frame
-NPRDF = matrix(NA, nrow = length(urlslist_final), ncol = 3)
+NPRDF = matrix(NA, nrow = length(urlslist3), ncol = 3)
 colnames(NPRDF) = c("Source", "Url", "Text")
 NPRDF = as.data.frame(NPRDF)
 
 
 ##for loops
-for (i in 1:length(urlslist2)){
+for (i in 1:length(urlslist3)){
   
   ##read in the URL
-  webpage2 <- read_html(urlslist2[i])
+  webpage2 <- read_html(urlslist3[i])
   
   ##pull the specific nodes
   headline_data2 = html_nodes(webpage2,'#storytext > p') 
@@ -1191,49 +1216,374 @@ for (i in 1:length(urlslist2)){
   
   ##save the data
   NPRDF$Source[i] = "NPR"
-  NPRDF$Url[i] = urlslist2[i]
+  NPRDF$Url[i] = urlslist3[i]
   NPRDF$Text[i] = paste(text_data2, collapse = "")
-  Sys.sleep(runif(1, 1, 5))
+  Sys.sleep(runif(1, 1, 10))
 } ##end for loop
+
+beep(sound = 3)
+
+write.csv(NPRDF, "NPR_kav.csv", row.names = F)
 
 ```
 
-````{r Slate, eval = F, include = F}
-url3 = 'https://slate.com/search?q=kavanaugh&via=homepage_nav_search'
-webpage3 = read_html(url3)
-headline_data3 = html_nodes(webpage3,'.gs-title')
+```{r NPR_shut, eval = F, include = F}
 
-#URLs
-attr_data3 = html_attrs(headline_data3) 
-attr_data3
+library(rvest)
+library(RSelenium)
+library(beepr)
 
-urlslist3 = unlist(attr_data3)
-urlslist3 = urlslist3[grep("http", urlslist3)]
-urlslist3
+#open the browser
+rD <- rsDriver(browser=c("chrome"), chromever="73.0.3683.68")
+remDr <- rD[["client"]]
+
+#create a blank space to put the links
+urlslist_final = list()
+
+##loop through the page number at the end until done with ~3316 / 20 = 166
+for (i in 1:166) { 
+  
+  url = paste0('https://www.npr.org/search?query=government%20shutodwn&page=', i)
+  
+  #navigate to it
+  remDr$navigate(url)
+  
+  #scroll on the page
+  webscroll <- remDr$findElement("css", "body")
+  webscroll$sendKeysToElement(list(key = "end"))
+  
+  #get the links
+  webElems <- remDr$findElements(using = "css", "[href]")
+  urlslist_final[[i]] = unlist(sapply(webElems, function(x) {x$getElementAttribute("href")}))
+  
+  #don't go too fast
+  Sys.sleep(runif(1, 1, 5))
+  
+} #close the loop
+
+remDr$close()
+# stop the selenium server
+rD[["server"]]$stop()
+
+beep(sound = 3)
+
+urlslist = unlist(urlslist_final)
+#find all the ones with /2018/
+urlslist2 = urlslist[grep("/201", urlslist)]
+urlslist2 = urlslist2[grep("npr.org", urlslist2)] #get rid of wbur
+urlslist2 = unique(urlslist2)
+temp = strsplit(urlslist2, split = "/")
+temp2 = plyr::ldply(temp, rbind)
+temp2 = as.data.frame(apply(temp2, 2, as.character), stringsAsFactors = F)
+
+#deal with the ones with extra parts
+temp2[temp2$`4` == "sections" , 4:8] = temp2[temp2$`4` == "sections" , 6:10]
+
+#pull only the right dates
+rows = rownames(temp2[ (temp2$`4` == 2018 | temp2$`4` == 2019) & #must be 2018/19 and  
+                         (
+                           (temp2$`5` == "12" & as.numeric(temp2$`6`)>8 & temp2$`4` == 2018) | #after dec 12
+                            (temp2$`5`== "01" & temp2$`4` == 2019) | #all of jan
+                            (temp2$`5` == "02" & as.numeric(temp2$`6`)<8 & temp2$`4` == 2019)
+                           ), #before feb 8
+                ])
+
+  
+urlslist3 = urlslist2[as.numeric(rows)]
 
 ##start a data frame
-SlateDF = matrix(NA, nrow = length(urlslist3), ncol = 3)
-colnames(SlateDF) = c("Source", "Url", "Text")
-SlateDF = as.data.frame(SlateDF)
+NPRDF = matrix(NA, nrow = length(urlslist3), ncol = 3)
+colnames(NPRDF) = c("Source", "Url", "Text")
+NPRDF = as.data.frame(NPRDF)
+
+
+##for loops
+for (i in 315:length(urlslist3)){
+  
+  ##read in the URL
+  webpage2 <- read_html(urlslist3[i])
+  
+  ##pull the specific nodes
+  headline_data2 = html_nodes(webpage2,'#storytext > p') 
+  
+  ##pull the text
+  text_data2 = html_text(headline_data2)
+  
+  ##save the data
+  NPRDF$Source[i] = "NPR"
+  NPRDF$Url[i] = urlslist3[i]
+  NPRDF$Text[i] = paste(text_data2, collapse = "")
+  Sys.sleep(runif(1, 1, 10))
+} ##end for loop
+
+beep(sound = 3)
+
+write.csv(NPRDF, "NPR_gs.csv", row.names = F)
+```
+
+````{r Slate_kav, eval = F, include = F}
+library(rvest)
+library(RSelenium)
+library(beepr)
+
+#open the browser
+rD <- rsDriver(browser=c("chrome"), chromever="73.0.3683.68")
+remDr <- rD[["client"]]
+
+url = "https://slate.com/search?q=kavanaugh&via=homepage_nav_search"
+
+remDr$navigate(url)
+
+#create a blank space to put the links
+urlslist_final = list()
+
+#loop over the results and go through them
+#appear to be 10 pages
+for (i in 1:10){
+  
+  #find the button to click on 
+  webClick <- remDr$findElements(using = "css", ".gsc-cursor-page")
+  
+  #don't go too fast for the page to load
+  Sys.sleep(runif(1, 1, 5))
+  
+  #click on the page number
+  webClick[[i]]$clickElement()
+  
+  #page reload
+  Sys.sleep(runif(1, 1, 5))
+  
+  #find the urls for page X
+  webElems <- remDr$findElements(using = "css", "[href]")
+  
+  #add the urls to a list
+  urlslist_final[[i]] = unlist(sapply(webElems, function(x) {x$getElementAttribute("href")}))
+  
+  #don't go too fast
+  Sys.sleep(runif(1, 1, 5))
+}
+
+remDr$close()
+# stop the selenium server
+rD[["server"]]$stop()
+
+beep(sound = 3)
+
+##deal with the URLS
+urlslist = unlist(urlslist_final)
+
+#find all the ones with /2018/
+urlslist2 = urlslist[grep("/2018/10|/2018/09", urlslist)]
+urlslist2 = unique(urlslist2)
+
+#71 articles seems suspiciously low, so also scraped this page
+#https://slate.com/tag/brett-kavanaugh/
+
+#open the browser
+rD <- rsDriver(browser=c("chrome"), chromever="73.0.3683.68")
+remDr <- rD[["client"]]
+
+#create a blank space to put the links
+urlslist_final = list()
+
+#loop over the results and go through them
+#337 / 20 = 17 pages
+for (i in 1:17){
+  
+  url = paste0("https://slate.com/tag/brett-kavanaugh/", i)
+  
+  remDr$navigate(url)
+  
+  #don't go too fast
+  Sys.sleep(runif(1, 1, 5))
+  
+  #find the urls for page X
+  webElems <- remDr$findElements(using = "css", "[href]")
+  
+  #add the urls to a list
+  urlslist_final[[i]] = unlist(sapply(webElems, function(x) {x$getElementAttribute("href")}))
+  
+  #don't go too fast
+  Sys.sleep(runif(1, 1, 5))
+}
+
+remDr$close()
+# stop the selenium server
+rD[["server"]]$stop()
+
+beep(sound = 3)
+
+##deal with the URLS
+urlslist = unlist(urlslist_final)
+
+#find all the ones with /2018/
+urlslist2.1 = urlslist[grep("/2018/10|/2018/09", urlslist)]
+urlslist2.1 = unique(urlslist2.1)
+
+urlslist3 = unique(c(urlslist2, urlslist2.1))
+
+##start a data frame
+SLATEDF = matrix(NA, nrow = length(urlslist3), ncol = 3)
+colnames(SLATEDF) = c("Source", "Url", "Text")
+SLATEDF = as.data.frame(SLATEDF)
+
 
 ##for loops
 for (i in 1:length(urlslist3)){
   
   ##read in the URL
-  webpage3 <- read_html(urlslist3[i])
+  webpage2 <- read_html(urlslist3[i])
   
   ##pull the specific nodes
-  headline_data3 = html_nodes(webpage3,'.slate-paragraph') 
+  headline_data2 = html_nodes(webpage2,'.slate-paragraph') 
   
   ##pull the text
-  text_data3 = html_text(headline_data3)
+  text_data2 = html_text(headline_data2)
   
   ##save the data
-  SlateDF$Source[i] = "Slate"
-  SlateDF$Url[i] = urlslist3[i]
-  SlateDF$Text[i] = paste(text_data3, collapse = "")
+  SLATEDF$Source[i] = "SLATE"
+  SLATEDF$Url[i] = urlslist3[i]
+  SLATEDF$Text[i] = paste(text_data2, collapse = "")
+  Sys.sleep(runif(1, 1, 10))
 } ##end for loop
+
+beep(sound = 3)
+
+write.csv(SLATEDF, "SLATE_kav.csv", row.names = F)
+
 ```
+
+```{r SLATE_shut, eval = F, include = F}
+library(rvest)
+library(RSelenium)
+library(beepr)
+
+#open the browser
+rD <- rsDriver(browser=c("chrome"), chromever="73.0.3683.68")
+remDr <- rD[["client"]]
+
+url = "https://slate.com/search?q=government+shutdown"
+
+remDr$navigate(url)
+
+#create a blank space to put the links
+urlslist_final = list()
+
+#loop over the results and go through them
+#appear to be 10 pages
+for (i in 1:10){
+  
+  #find the button to click on 
+  webClick <- remDr$findElements(using = "css", ".gsc-cursor-page")
+  
+  #don't go too fast for the page to load
+  Sys.sleep(runif(1, 1, 5))
+  
+  #click on the page number
+  webClick[[i]]$clickElement()
+  
+  #page reload
+  Sys.sleep(runif(1, 1, 5))
+  
+  #find the urls for page X
+  webElems <- remDr$findElements(using = "css", "[href]")
+  
+  #add the urls to a list
+  urlslist_final[[i]] = unlist(sapply(webElems, function(x) {x$getElementAttribute("href")}))
+  
+  #don't go too fast
+  Sys.sleep(runif(1, 1, 5))
+}
+
+remDr$close()
+# stop the selenium server
+rD[["server"]]$stop()
+
+beep(sound = 3)
+
+##deal with the URLS
+urlslist = unlist(urlslist_final)
+
+#find all the ones from 12 2018 to 02 2019
+urlslist2 = urlslist[grep("/2018/12|/2019/01|/2019/02", urlslist)]
+urlslist2 = unique(urlslist2)
+
+#60 something articles seems suspiciously low, so also scraped this page
+#https://slate.com/tag/governtment-shutdown
+
+#open the browser
+rD <- rsDriver(browser=c("chrome"), chromever="73.0.3683.68")
+remDr <- rD[["client"]]
+
+#create a blank space to put the links
+urlslist_final = list()
+
+#loop over the results and go through them
+#354 / 20 = 18 pages
+for (i in 1:18){
+  
+  url = paste0("https://slate.com/tag/government-shutdown/", i)
+  
+  remDr$navigate(url)
+  
+  #don't go too fast
+  Sys.sleep(runif(1, 1, 5))
+  
+  #find the urls for page X
+  webElems <- remDr$findElements(using = "css", "[href]")
+  
+  #add the urls to a list
+  urlslist_final[[i]] = unlist(sapply(webElems, function(x) {x$getElementAttribute("href")}))
+  
+  #don't go too fast
+  Sys.sleep(runif(1, 1, 5))
+}
+
+remDr$close()
+# stop the selenium server
+rD[["server"]]$stop()
+
+beep(sound = 3)
+
+##deal with the URLS
+urlslist = unlist(urlslist_final)
+
+#find all the ones with /2018/
+urlslist2.1 = urlslist[grep("/2018/12|/2019/01|/2019/02", urlslist)]
+urlslist2.1 = unique(urlslist2.1)
+
+urlslist3 = unique(c(urlslist2, urlslist2.1))
+
+##start a data frame
+SLATEDF = matrix(NA, nrow = length(urlslist3), ncol = 3)
+colnames(SLATEDF) = c("Source", "Url", "Text")
+SLATEDF = as.data.frame(SLATEDF)
+
+
+##for loops
+for (i in 1:length(urlslist3)){
+  
+  ##read in the URL
+  webpage2 <- read_html(urlslist3[i])
+  
+  ##pull the specific nodes
+  headline_data2 = html_nodes(webpage2,'.slate-paragraph') 
+  
+  ##pull the text
+  text_data2 = html_text(headline_data2)
+  
+  ##save the data
+  SLATEDF$Source[i] = "SLATE"
+  SLATEDF$Url[i] = urlslist3[i]
+  SLATEDF$Text[i] = paste(text_data2, collapse = "")
+  Sys.sleep(runif(1, 1, 10))
+} ##end for loop
+
+#beep(sound = 3)
+
+write.csv(SLATEDF, "SLATE_gs.csv", row.names = F)
+```
+
 
 ````{r HuffPo, eval = F, include = F}
 url4 = 'https://search.huffingtonpost.com/search?utf8=%E2%9C%93&p=kavanaugh&fr=huffpost_desktop-s'
