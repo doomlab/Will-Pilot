@@ -2413,7 +2413,7 @@ colnames(RUSHDF) = c("Source", "Url", "Text")
 RUSHDF = as.data.frame(RUSHDF)
 
 
-for (i in 49:length(urlslist3)){
+for (i in 1:length(urlslist3)){
   
   webpage = read_html(urlslist3[i])
   
@@ -2454,7 +2454,7 @@ url = "https://www.rushlimbaugh.com/?s=government%20shutdown&is_v=1"
 remDr$navigate(url)
 
 #loop over the results and go through them
-##18 pages
+##47 pages
 for (i in 1:47){
   
   #find the urls for page X
