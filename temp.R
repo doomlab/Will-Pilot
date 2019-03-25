@@ -7,7 +7,7 @@ library(lubridate)
 rD <- rsDriver(browser=c("chrome"), chromever="73.0.3683.68")
 remDr <- rD[["client"]]
 
-url = "https://www.theblaze.com/search/?q=kavanaugh"
+url = "https://www.theblaze.com/search/?q=government+shutdown"
 
 remDr$navigate(url)
 
@@ -39,39 +39,33 @@ rD[["server"]]$stop()
 urlslist = urlslist_final
 urlslist = unique(urlslist)
 urlslist = urlslist[-c(grep("video/", urlslist))]
-urlslist = urlslist[grep("/news/[0-9]*/[0-9]*/[0-9]*/[a-zA-Z]", urlslist)]
-
-##find the right dates
-temp = strsplit(urlslist, split = "/")
-temp2 = plyr::ldply(temp, rbind)
-temp2 = as.data.frame(apply(temp2, 2, as.character), stringsAsFactors = F)
-
-#pull only the right dates
-rows = rownames(temp2[ temp2$`5` == 2018 & #must be 2018 and 
-                         (temp2$`6` == "09" & as.numeric(temp2$`7`)>=13 | 
-                            temp2$`6` == "10" & as.numeric(temp2$`7`)<=11), #Must be 9 or 10 
-                       ])
-
-urlslist3 = urlslist[as.numeric(rows)]
+urlslist = urlslist[grep("/news/", urlslist)]
+urlslist = urlslist[-c(grep("/201[3-7]", urlslist))]
 
 ##start a data frame
-BLAZEDF = matrix(NA, nrow = length(urlslist3), ncol = 3)
+BLAZEDF = matrix(NA, nrow = length(urlslist), ncol = 3)
 colnames(BLAZEDF) = c("Source", "Url", "Text")
 BLAZEDF = as.data.frame(BLAZEDF)
+int <- interval(ymd("2018-12-08"), ymd("2019-02-08"))
 
 
-for (i in 1:length(urlslist3)){
+for (i in 1:length(urlslist)){
   
-  webpage = read_html(urlslist3[i])
+  webpage = read_html(urlslist[i])
   
-  headline_data2 = html_nodes(webpage,'h1, h3, p') 
-  text_data2 = html_text(headline_data2)
+  headline_data = html_nodes(webpage, '.post-date')
+  text_data = html_text(headline_data)
+  date = as.Date(text_data, "%B %d, %Y")
   
-  ##save the data
-  BLAZEDF$Source[i] = "BLAZE"
-  BLAZEDF$Url[i] = urlslist3[i]
-  BLAZEDF$Text[i] = paste(text_data2, collapse = "")
-  
+  if (date %within% int){
+    headline_data2 = html_nodes(webpage,'h1, h3, p') 
+    text_data2 = html_text(headline_data2)
+    
+    ##save the data
+    BLAZEDF$Source[i] = "BLAZE"
+    BLAZEDF$Url[i] = urlslist[i]
+    BLAZEDF$Text[i] = paste(text_data2, collapse = "")
+  }
   
   Sys.sleep(runif(1,1,10))
   
@@ -80,5 +74,5 @@ for (i in 1:length(urlslist3)){
   
 beep(sound = 7)
 
-write.csv(BLAZEDF, "BLAZE_kav.csv", row.names = F)
+write.csv(BLAZEDF, "BLAZE_gs.csv", row.names = F)
  
