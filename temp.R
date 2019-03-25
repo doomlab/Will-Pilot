@@ -1,128 +1,91 @@
 library(rvest)
 library(RSelenium)
 library(beepr)
+library(lubridate)
 
 #open the browser
 rD <- rsDriver(browser=c("chrome"), chromever="73.0.3683.68")
 remDr <- rD[["client"]]
 
-url = "https://slate.com/search?q=government+shutdown"
-
-remDr$navigate(url)
-
 #create a blank space to put the links
 urlslist_final = list()
 
+url = "https://www.breitbart.com/tag/government-shutdown/"
+
+remDr$navigate(url)
+
 #loop over the results and go through them
-#appear to be 10 pages
-for (i in 1:10){
+for (i in 1:16){
   
-  #find the button to click on 
-  webClick <- remDr$findElements(using = "css", ".gsc-cursor-page")
+  #find the urls for page X
+  webElems <- remDr$findElements(using = "css", "h2 a")
   
-  #don't go too fast for the page to load
-  Sys.sleep(runif(1, 1, 5))
-  
-  #click on the page number
-  webClick[[i]]$clickElement()
+  #add the urls to a list
+  urlslist_final[[i]] = unlist(sapply(webElems, function(x) {x$getElementAttribute("href")}))
+
+  if (i > 1)
+    {
+  url = paste0("https://www.breitbart.com/tag/government-shutdown/page/",
+               i+1, "/")
+  remDr$navigate(url)
+  }
   
   #page reload
   Sys.sleep(runif(1, 1, 5))
   
-  #find the urls for page X
-  webElems <- remDr$findElements(using = "css", "[href]")
-  
-  #add the urls to a list
-  urlslist_final[[i]] = unlist(sapply(webElems, function(x) {x$getElementAttribute("href")}))
-  
-  #don't go too fast
-  Sys.sleep(runif(1, 1, 5))
 }
 
 remDr$close()
 # stop the selenium server
 rD[["server"]]$stop()
 
-beep(sound = 3)
+beep(sound = 6)
 
 ##deal with the URLS
 urlslist = unlist(urlslist_final)
+urlslist = unique(urlslist)
+urlslist = urlslist[-c(grep("store", urlslist))] #take out store
 
-#find all the ones from 12 2018 to 02 2019
-urlslist2 = urlslist[grep("/2018/12|/2019/01|/2019/02", urlslist)]
-urlslist2 = unique(urlslist2)
+##find the right dates
+temp = strsplit(urlslist, split = "/")
+temp2 = plyr::ldply(temp, rbind)
+temp2 = as.data.frame(apply(temp2, 2, as.character), stringsAsFactors = F)
 
-#60 something articles seems suspiciously low, so also scraped this page
-#https://slate.com/tag/governtment-shutdown
+#pull only the right dates
+rows = rownames(temp2[ (temp2$`5` == 2018 | temp2$`5` == 2019) & #must be 2018/19 and  
+                         (
+                           (temp2$`6` == "12" & as.numeric(temp2$`7`)>8 & temp2$`5` == 2018) | #after dec 12
+                             (temp2$`6`== "01" & temp2$`5` == 2019) | #all of jan
+                             (temp2$`6` == "02" & as.numeric(temp2$`7`)<8 & temp2$`5` == 2019)
+                         ), #before feb 8
+                       ])
 
-#open the browser
-rD <- rsDriver(browser=c("chrome"), chromever="73.0.3683.68")
-remDr <- rD[["client"]]
-
-#create a blank space to put the links
-urlslist_final = list()
-
-#loop over the results and go through them
-#354 / 20 = 18 pages
-for (i in 1:18){
-  
-  url = paste0("https://slate.com/tag/government-shutdown/", i)
-  
-  remDr$navigate(url)
-  
-  #don't go too fast
-  Sys.sleep(runif(1, 1, 5))
-  
-  #find the urls for page X
-  webElems <- remDr$findElements(using = "css", "[href]")
-  
-  #add the urls to a list
-  urlslist_final[[i]] = unlist(sapply(webElems, function(x) {x$getElementAttribute("href")}))
-  
-  #don't go too fast
-  Sys.sleep(runif(1, 1, 5))
-}
-
-remDr$close()
-# stop the selenium server
-rD[["server"]]$stop()
-
-beep(sound = 3)
-
-##deal with the URLS
-urlslist = unlist(urlslist_final)
-
-#find all the ones with /2018/
-urlslist2.1 = urlslist[grep("/2018/12|/2019/01|/2019/02", urlslist)]
-urlslist2.1 = unique(urlslist2.1)
-
-urlslist3 = unique(c(urlslist2, urlslist2.1))
+urlslist3 = urlslist[as.numeric(rows)]
 
 ##start a data frame
-SLATEDF = matrix(NA, nrow = length(urlslist3), ncol = 3)
-colnames(SLATEDF) = c("Source", "Url", "Text")
-SLATEDF = as.data.frame(SLATEDF)
+BREITBARTDF = matrix(NA, nrow = length(urlslist3), ncol = 3)
+colnames(BREITBARTDF) = c("Source", "Url", "Text")
+BREITBARTDF = as.data.frame(BREITBARTDF)
 
 
-##for loops
 for (i in 1:length(urlslist3)){
   
-  ##read in the URL
-  webpage2 <- read_html(urlslist3[i])
+  webpage = read_html(urlslist3[i])
   
-  ##pull the specific nodes
-  headline_data2 = html_nodes(webpage2,'.slate-paragraph') 
-  
-  ##pull the text
+  headline_data2 = html_nodes(webpage,'h2, p') 
   text_data2 = html_text(headline_data2)
   
   ##save the data
-  SLATEDF$Source[i] = "SLATE"
-  SLATEDF$Url[i] = urlslist3[i]
-  SLATEDF$Text[i] = paste(text_data2, collapse = "")
-  Sys.sleep(runif(1, 1, 10))
-} ##end for loop
+  BREITBARTDF$Source[i] = "BREITBART"
+  BREITBARTDF$Url[i] = urlslist3[i]
+  BREITBARTDF$Text[i] = paste(text_data2, collapse = "")
+  
+  
+  Sys.sleep(runif(1,1,10))
+  
+  }
+  
+  
+beep(sound = 7)
 
-#beep(sound = 3)
-
-write.csv(SLATEDF, "SLATE_gs.csv", row.names = F)
+write.csv(BREITBARTDF, "BREITBART_gs.csv", row.names = F)
