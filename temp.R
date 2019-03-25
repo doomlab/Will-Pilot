@@ -10,25 +10,25 @@ remDr <- rD[["client"]]
 #create a blank space to put the links
 urlslist_final = list()
 
-url = "https://www.breitbart.com/tag/government-shutdown/"
+url = "https://www.rushlimbaugh.com/?s=government%20shutdown&is_v=1"
 
 remDr$navigate(url)
 
 #loop over the results and go through them
-for (i in 1:16){
+##18 pages
+for (i in 1:47){
   
   #find the urls for page X
-  webElems <- remDr$findElements(using = "css", "h2 a")
+  webElems <- remDr$findElements(using = "css", "a")
   
   #add the urls to a list
   urlslist_final[[i]] = unlist(sapply(webElems, function(x) {x$getElementAttribute("href")}))
 
-  if (i > 1)
-    {
-  url = paste0("https://www.breitbart.com/tag/government-shutdown/page/",
-               i+1, "/")
-  remDr$navigate(url)
-  }
+  #find the thing to click on 
+  webClick <- remDr$findElements(using = "css", ".ais-pagination--link")
+  
+  #click on the page number
+  webClick[[18]]$clickElement()
   
   #page reload
   Sys.sleep(runif(1, 1, 5))
@@ -45,6 +45,7 @@ beep(sound = 6)
 urlslist = unlist(urlslist_final)
 urlslist = unique(urlslist)
 urlslist = urlslist[-c(grep("store", urlslist))] #take out store
+urlslist = urlslist[grep("/daily/[0-9]*/[0-9]*/[0-9]*/[a-zA-Z]", urlslist)]
 
 ##find the right dates
 temp = strsplit(urlslist, split = "/")
@@ -59,26 +60,25 @@ rows = rownames(temp2[ (temp2$`5` == 2018 | temp2$`5` == 2019) & #must be 2018/1
                              (temp2$`6` == "02" & as.numeric(temp2$`7`)<8 & temp2$`5` == 2019)
                          ), #before feb 8
                        ])
-
 urlslist3 = urlslist[as.numeric(rows)]
 
 ##start a data frame
-BREITBARTDF = matrix(NA, nrow = length(urlslist3), ncol = 3)
-colnames(BREITBARTDF) = c("Source", "Url", "Text")
-BREITBARTDF = as.data.frame(BREITBARTDF)
+RUSHDF = matrix(NA, nrow = length(urlslist3), ncol = 3)
+colnames(RUSHDF) = c("Source", "Url", "Text")
+RUSHDF = as.data.frame(RUSHDF)
 
 
-for (i in 1:length(urlslist3)){
+for (i in 49:length(urlslist3)){
   
   webpage = read_html(urlslist3[i])
   
-  headline_data2 = html_nodes(webpage,'h2, p') 
+  headline_data2 = html_nodes(webpage,'p') 
   text_data2 = html_text(headline_data2)
   
   ##save the data
-  BREITBARTDF$Source[i] = "BREITBART"
-  BREITBARTDF$Url[i] = urlslist3[i]
-  BREITBARTDF$Text[i] = paste(text_data2, collapse = "")
+  RUSHDF$Source[i] = "RUSH"
+  RUSHDF$Url[i] = urlslist3[i]
+  RUSHDF$Text[i] = paste(text_data2, collapse = "")
   
   
   Sys.sleep(runif(1,1,10))
@@ -88,4 +88,5 @@ for (i in 1:length(urlslist3)){
   
 beep(sound = 7)
 
-write.csv(BREITBARTDF, "BREITBART_gs.csv", row.names = F)
+write.csv(RUSHDF, "RUSH_gs.csv", row.names = F)
+ 
