@@ -865,7 +865,7 @@ summary(purity_model)
 
 ## Descriptive Statistics
 
-```{r exp1 source descriptives, results = 'asis', echo = FALSE}
+```{r exp1 source descriptives, results = 'asis', echo = FALSE, message = F}
 
 final$uniquewords = NA
 final$valenceavg = NA
@@ -883,153 +883,34 @@ for (i in 1:nrow(final)){
                     "V.Mean.Sum", #what column is the stuff you want
                     "Word2") #what's the matching index
   
-  
+  final$valenceavg[i] = mean(tempwords$tempval, na.rm = T)
 
 }
 
 
-#Get the final dataset split into the 4 sources
-final$Source = as.factor(final$Source)
-NYtimesDesc1 = subset(final, Source == "NY Times") #number of obs. = number of articles for that source; NYT = 406
-NPRDesc1 = subset(final, Source == "NPR") #NPR = 695 articles
-FoxDesc1 = subset(final, Source == "Fox News") #Fox = 503 articles
-BreitbartDesc1 = subset(final, Source == "Breitbart") #Breitbart = 1,437 articles
+tapply(final$valenceavg, final$Source, mean)
+tapply(final$valenceavg, final$Source, sd)
+tapply(final$wordcount, final$Source, mean)
+tapply(final$wordcount, final$Source, sd)
+tapply(final$uniquewords, final$Source, mean)
+tapply(final$uniquewords, final$Source, sd)
+tapply(final$Source, final$Source, length)
+tapply(final$wordcount, final$Source, sum)
 
-##Add valence
-#NY Times
-NYTimes_final_desc = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA, "Text" = NA)
+library(quanteda)
 
-for (i in 1:nrow(NYtimesDesc1)) {
-##first make a table of a response, unlisting everything
-temp = as.data.frame(table(unlist(strsplit(NYtimesDesc1$stemmed[i], " "))))
+final$FK = NA
 
-#only pull the words in the dataset for each foundation
-#temp2 = temp[temp$Var1 %in% unique(ingroup_all$words[ingroup_all$words != "" & ingroup_all$words != "NA" & #!is.na(ingroup_all$words)]), ]
-
-#control here for times when no words
-if (nrow(temp2) == 0){
-  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+for (i in 1:nrow(final)){
+  final$FK[i] = unlist(textstat_readability(final$Text[i], 
+                     measure = "Flesch.Kincaid")$Flesch.Kincaid)
 }
 
-#add to the dataset
-temp2$URL = NYtimesDesc1$Url[i]
-temp2$Source = NYtimesDesc1$Source[i]
-temp2$wordcount = NYtimesDesc1$wordcount[i]
-temp2$Text = NYtimesDesc1$Text[i]
-
-#bind with original
-NYTimes_final_desc = rbind(NYTimes_final_desc, temp2)
-}
-
-NYTimes_final_desc$valence = vlookup(NYTimes_final_desc$Var1, #index in original data
-                                  warriner, #where's the stuff you want to put in
-                                  "V.Mean.Sum", #what column is the stuff you want
-                                  "Word2") #what's the matching index
-
-#NPR
-NPR_final_desc = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA, "Text" = NA)
-
-for (i in 1:nrow(NPRDesc1)) {
-##first make a table of a response, unlisting everything
-temp = as.data.frame(table(unlist(strsplit(NPRDesc1$stemmed[i], " "))))
-
-#only pull the words in the dataset for each foundation
-#temp2 = temp[temp$Var1 %in% unique(ingroup_all$words[ingroup_all$words != "" & ingroup_all$words != "NA" & #!is.na(ingroup_all$words)]), ]
-
-#control here for times when no words
-if (nrow(temp2) == 0){
-  temp2 = data.frame("Var1" = 0, "Freq" = 0)
-}
-
-#add to the dataset
-temp2$URL = NPRDesc1$Url[i]
-temp2$Source = NPRDesc1$Source[i]
-temp2$wordcount = NPRDesc1$wordcount[i]
-temp2$Text = NPRDesc1$Text[i]
-
-#bind with original
-NPR_final_desc = rbind(NPR_final_desc, temp2)
-}
-
-NPR_final_desc$valence = vlookup(NPR_final_desc$Var1, #index in original data
-                                  warriner, #where's the stuff you want to put in
-                                  "V.Mean.Sum", #what column is the stuff you want
-                                  "Word2") #what's the matching index
-
-#Fox News
-Fox_final_desc = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA, "Text" = NA)
-
-for (i in 1:nrow(FoxDesc1)) {
-##first make a table of a response, unlisting everything
-temp = as.data.frame(table(unlist(strsplit(FoxDesc1$stemmed[i], " "))))
-
-#only pull the words in the dataset for each foundation
-#temp2 = temp[temp$Var1 %in% unique(ingroup_all$words[ingroup_all$words != "" & ingroup_all$words != "NA" & #!is.na(ingroup_all$words)]), ]
-
-#control here for times when no words
-if (nrow(temp2) == 0){
-  temp2 = data.frame("Var1" = 0, "Freq" = 0)
-}
-
-#add to the dataset
-temp2$URL = FoxDesc1$Url[i]
-temp2$Source = FoxDesc1$Source[i]
-temp2$wordcount = FoxDesc1$wordcount[i]
-temp2$Text = FoxDesc1$Text[i]
-
-#bind with original
-Fox_final_desc = rbind(Fox_final_desc, temp2)
-}
-
-Fox_final_desc$valence = vlookup(Fox_final_desc$Var1, #index in original data
-                                  warriner, #where's the stuff you want to put in
-                                  "V.Mean.Sum", #what column is the stuff you want
-                                  "Word2") #what's the matching index
-
-#Breitbart
-Breitbart_final_desc = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA, "Text" = NA)
-
-for (i in 1:nrow(BreitbartDesc1)) {
-##first make a table of a response, unlisting everything
-temp = as.data.frame(table(unlist(strsplit(BreitbartDesc1$stemmed[i], " "))))
-
-#only pull the words in the dataset for each foundation
-#temp2 = temp[temp$Var1 %in% unique(ingroup_all$words[ingroup_all$words != "" & ingroup_all$words != "NA" & #!is.na(ingroup_all$words)]), ]
-
-#control here for times when no words
-if (nrow(temp2) == 0){
-  temp2 = data.frame("Var1" = 0, "Freq" = 0)
-}
-
-#add to the dataset
-temp2$URL = BreitbartDesc1$Url[i]
-temp2$Source = BreitbartDesc1$Source[i]
-temp2$wordcount = BreitbartDesc1$wordcount[i]
-temp2$Text = BreitbartDesc1$Text[i]
-
-#bind with original
-Breitbart_final_desc = rbind(Breitbart_final_desc, temp2)
-}
-
-Breitbart_final_desc$valence = vlookup(Breitbart_final_desc$Var1, #index in original data
-                                  warriner, #where's the stuff you want to put in
-                                  "V.Mean.Sum", #what column is the stuff you want
-                                  "Word2") #what's the matching index
-
-##Eliminate NAs
-NYTimes_final_desc = na.omit(NYTimes_final_desc)
-NPR_final_desc = na.omit(NPR_final_desc)
-Fox_final_desc = na.omit(Fox_final_desc)
-Breitbart_final_desc = na.omit(Breitbart_final_desc)
-
-#Calculate mean valence by source
-NYTimes_valence_mean = mean(NYTimes_final_desc$valence)
-NPR_valence_mean = mean(NPR_final_desc$valence)
-Fox_valence_mean = mean(Fox_final_desc$valence)
-Breitbart_valence_mean = mean(Breitbart_final_desc$valence)
-
+tapply(final$FK, final$Source, mean)
+tapply(final$FK, final$Source, sd)
 
 ```
+
 overall valence for each source
 
 types/tokens ratios, etc. for each source also number of articles 
@@ -1124,6 +1005,51 @@ apa_table(tableprint,
           align = c("l", rep("c", 7))
           )
 ```
+
+```{r conference-pic, eval = F, include = F}
+library(ggplot2)
+library(reshape)
+
+cleanup = theme(panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(), 
+                panel.background = element_blank(), 
+                axis.line.x = element_line(color = "black"),
+                axis.line.y = element_line(color = "black"),
+                legend.key = element_rect(fill = "white"),
+                text = element_text(size = 10))
+
+graphdata = as.data.frame(tableprint)
+graphlong = melt(graphdata[ , c(1,2,4)], 
+                 id = "Foundation")
+graphlong2 = melt(graphdata[ , c(1, 3,5)],
+                  id = "Foundation",
+                  measured = c("SD_C", "SD_L"))
+graphlong$sd = graphlong2$value
+graphlong$lower = as.numeric(as.character(graphlong$value)) - 2*as.numeric(as.character(graphlong$sd))
+graphlong$upper = as.numeric(as.character(graphlong$value)) + 2*as.numeric(as.character(graphlong$sd))
+
+graphlong$value = as.numeric(as.character(graphlong$value))
+
+graph_data = ggplot(graphlong, aes(Foundation, value, color = variable)) + 
+  geom_point(position = position_dodge(width = 0.90)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), 
+                position = position_dodge(width = 0.90),
+                width = .2) + 
+  cleanup +
+  ylab("Mean Weighted Valence") + 
+  scale_color_manual(values = c("red", "blue"),
+                       labels = c("Conservative", "Liberal"),
+                       name = "Party") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) + 
+  geom_hline(yintercept = 0, linetype = 1, color = "black")
+  
+tiff(filename = "exp1_graph.tiff", res = 300, width = 4, 
+     height = 3, units = 'in', compression = "lzw")
+plot(graph_data)
+dev.off()
+
+```
+
 
 # Discussion 
 
