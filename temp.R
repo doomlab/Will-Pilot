@@ -68,7 +68,7 @@ colnames(RUSHDF) = c("Source", "Url", "Text")
 RUSHDF = as.data.frame(RUSHDF)
 
 
-for (i in 49:length(urlslist3)){
+for (i in 1:length(urlslist3)){
   
   webpage = read_html(urlslist3[i])
   
