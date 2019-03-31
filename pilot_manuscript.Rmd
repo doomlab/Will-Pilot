@@ -68,7 +68,7 @@ In their brief overview of the history of moral psychology, @Graham2009 explaine
 
 Haidt and Graham settled on these specific foundations after the completion of a literature survey of research in anthropology and evolutionary psychology [@Graham2011]. The researchers attempted to locate virtues and morals corresponding to "evolutionary thinking." For instance, the researchers cited Mauss' work on reciprocal gift-giving, which informed the establishment of the *fairness/reciprocity* foundation. Additionally, evolutionary literature on disgust and its correlation to human behavior regarding food and sex informed the *purity/sanctity* foundation [@Graham2011]. The researchers identified the five "top candidates" for the foundations of human cultures' morality [@Graham2011].
 
-The first two foundations (*harm/care* and *fairness/reciprocity*) are termed the "individualizing foundations," as they are centered on the concerns of individuals rather than groups. *Harm/care* represents an endorsement of compassion and kindness, while opposing cruelty and harm. *Fairness/reciprocity* represents concerns centered on guaranteeing individual rights as well as justice and equality among all people. The other three foundations (*ingroup/loyalty*, *authority/respect*, and *purity/sanctity*) are the "binding" foundations, owing to their focus on group-related concerns, rather than those of individuals. *Ingroup/loyalty* represents endorsements of patriotism and heroism and discourages nonconformity and dissent. *Authority/respect* represents an endorsement of social hierarchies and traditions while denigrating disobedience. Finally, *purity/sanctity* represents concerns regarding chastity and piety, while discouraging vices and indulgences, including lust, avarice, and gluttony [@Haidt2007]. Liberals tend to endorse the individualizing foundations more than conservatives. Conservatives, on the other hand, tend to endorse the binding foundations more than liberals. It should be noted, however, conservatives also tend to endorse all five foundations equally, implying they base moral judgments on all foundations [@Graham2009].
+The first two foundations (*harm/care* and *fairness/reciprocity*) are termed the "individualizing foundations," as they are centered on the concerns of individuals rather than groups. *harm/care* represents an endorsement of compassion and kindness, while opposing cruelty and harm. *Fairness/reciprocity* represents concerns centered on guaranteeing individual rights as well as justice and equality among all people. The other three foundations (*ingroup/loyalty*, *authority/respect*, and *purity/sanctity*) are the "binding" foundations, owing to their focus on group-related concerns, rather than those of individuals. *Ingroup/loyalty* represents endorsements of patriotism and heroism and discourages nonconformity and dissent. *Authority/respect* represents an endorsement of social hierarchies and traditions while denigrating disobedience. Finally, *purity/sanctity* represents concerns regarding chastity and piety, while discouraging vices and indulgences, including lust, avarice, and gluttony [@Haidt2007]. Liberals tend to endorse the individualizing foundations more than conservatives. Conservatives, on the other hand, tend to endorse the binding foundations more than liberals. It should be noted, however, conservatives also tend to endorse all five foundations equally, implying they base moral judgments on all foundations [@Graham2009].
 
 Moral Foundations Theory has received criticism on the grounds that its assumptions regarding moral intuitions have little empirical basis. @Suhler2011 list several potential weaknesses of MFT that they argue might threaten the theory's validity. First, the authors challenge @Haidt2007's claims the moral intuitions represented by MFT are innate and modular. @Suhler2011 claim that advances in biological sciences (embryology and microbiology, specifically) make it more difficult for researchers to claim any one trait is either innate or learned through experience. Rather, behaviors likely result from interactions between genetics and experience [@Suhler2011]. According to the authors, without solid data supporting the innateness of moral foundations, Haidt and Graham have little from which to make such a claim. Similarly, @Haidt2007 rely on evidence authored by evolutionary psychologists to make a "strong modularity claim" [@Suhler2011]. However, as with innateness, there is little neurobiological evidence to support modularity.
 
@@ -2843,16 +2843,1345 @@ Articles pertaining to the Brett Kavanaugh Supreme Court nomination and confirma
 
 Using the *rvest* library in the statistical package *R*, we pulled body text for individual articles from each of the aforementioned 10 news sources (identified using CSS language). We compiled the articles into a dataset [@Wickham2016]. Using this dataset, we identified word count and average word count per source. This process was run for articles pertaining to Kavanaugh's nomination that were published between September 13, 2018 and October 11, 2018 inclusive. This date range was selected in reference to the widely-publicized and viewed nomination hearing on September 27, 2018. We set the start date at September 13 (two weeks before the hearing) and the end date at October 11 (two weeks after the hearing) so that we could capture a large amount of data (roughly one month) during which Kavanaugh's nomination was at its peak saturation in news coverage.
 
+```{r data_clean_kav, eval = T, echo = F}
+##combine all kav data into one dataset
+#read it in
+NYtimes_kav = read.csv("exp2_data/NYtimes_kav.csv")
+NPR_kav = read.csv("exp2_data/NPR_kav.csv")
+SLATE_kav = read.csv("exp2_data/SLATE_kav.csv")
+HUFFPO_kav = read.csv("exp2_data/HUFFPO_kav.csv")
+POLITICO_kav = read.csv("exp2_data/POLITICO_kav.csv")
+FOX_kav = read.csv("exp2_data/FOX_kav.csv")
+BREITBART_kav = read.csv("exp2_data/BREITBART_kav.csv")
+RUSH_kav = read.csv("exp2_data/RUSH_kav.csv")
+BLAZE_kav = read.csv("exp2_data/BLAZE_kav.csv")
+HANNITY_kav = read.csv("exp2_data/HANNITY_kav.csv")
+
+#merge it together
+overalldata_kav = rbind(NYtimes_kav, NPR_kav)
+overalldata_kav = rbind(overalldata_kav, SLATE_kav)
+overalldata_kav = rbind(overalldata_kav, HUFFPO_kav)
+overalldata_kav = rbind(overalldata_kav, POLITICO_kav)
+overalldata_kav = rbind(overalldata_kav, FOX_kav)
+overalldata_kav = rbind(overalldata_kav, BREITBART_kav)
+overalldata_kav = rbind(overalldata_kav, RUSH_kav)
+overalldata_kav = rbind(overalldata_kav, BLAZE_kav)
+overalldata_kav = rbind(overalldata_kav, HANNITY_kav)
+
+write.csv(overalldata_kav, "exp2_data/overalldata_kav.csv", row.names = F)
+
+##pull in the data
+master_kav = read.csv("exp2_data/overalldata_kav.csv", stringsAsFactors = F)
+
+##get rid of the blank stuff
+library(ngram)
+
+for (i in 1:nrow(master_kav)) {
+  master_kav$wordcount[i] = wordcount(master_kav$Text[i])
+}
+
+nozero = subset(master_kav, wordcount > 0)
+tapply(nozero$wordcount, nozero$Source, mean)
+tapply(nozero$wordcount, nozero$Source, sum)
+
+##take out the disqus ones
+nodis = nozero[ -c(grep("disqus", nozero$Url)), ]
+
+##figure out the duplicates
+nodis$URLS = duplicated(nodis$Url)
+
+##all data
+final_kav = subset(nodis, URLS == FALSE)
+
+tapply(final_kav$wordcount, final_kav$Source, mean)
+tapply(final_kav$wordcount, final_kav$Source, sum)
+
+write.csv(final_kav, "exp2_data/finaldata_kav.csv")
+```
+
+```{r data_clean_gs, eval = T, echo = F}
+##combine all gs data into one dataset
+#read it in
+NYtimes_gs = read.csv("exp2_data/NYtimes_gs.csv")
+NPR_gs = read.csv("exp2_data/NPR_gs.csv")
+SLATE_gs = read.csv("exp2_data/SLATE_gs.csv")
+HUFFPO_gs = read.csv("exp2_data/HUFFPO_gs.csv")
+POLITICO_gs = read.csv("exp2_data/POLITICO_gs.csv")
+FOX_gs = read.csv("exp2_data/FOX_gs.csv")
+BREITBART_gs = read.csv("exp2_data/BREITBART_gs.csv")
+RUSH_gs = read.csv("exp2_data/RUSH_gs.csv")
+BLAZE_gs = read.csv("exp2_data/BLAZE_gs.csv")
+HANNITY_gs = read.csv("exp2_data/HANNITY_gs.csv")
+
+#merge it together
+overalldata_gs = rbind(NYtimes_gs, NPR_gs)
+overalldata_gs = rbind(overalldata_gs, SLATE_gs)
+overalldata_gs = rbind(overalldata_gs, HUFFPO_gs)
+overalldata_gs = rbind(overalldata_gs, POLITICO_gs)
+overalldata_gs = rbind(overalldata_gs, FOX_gs)
+overalldata_gs = rbind(overalldata_gs, BREITBART_gs)
+overalldata_gs = rbind(overalldata_gs, RUSH_gs)
+overalldata_gs = rbind(overalldata_gs, BLAZE_gs)
+overalldata_gs = rbind(overalldata_gs, HANNITY_gs)
+
+write.csv(overalldata_gs, "exp2_data/overalldata_gs.csv", row.names = F)
+
+##pull in the data
+master_gs = read.csv("exp2_data/overalldata_gs.csv", stringsAsFactors = F)
+
+##get rid of the blank stuff
+library(ngram)
+
+for (i in 1:nrow(master_gs)) {
+  master_gs$wordcount[i] = wordcount(master_gs$Text[i])
+}
+
+nozero = subset(master_gs, wordcount > 0)
+tapply(nozero$wordcount, nozero$Source, mean)
+tapply(nozero$wordcount, nozero$Source, sum)
+
+##take out the disqus ones
+nodis = nozero[ -c(grep("disqus", nozero$Url)), ]
+
+##figure out the duplicates
+nodis$URLS = duplicated(nodis$Url)
+
+##all data
+final_gs = subset(nodis, URLS == FALSE)
+
+tapply(final_gs$wordcount, final_gs$Source, mean)
+tapply(final_gs$wordcount, final_gs$Source, sum)
+
+write.csv(final_gs, "exp2_data/finaldata_gs.csv")
+```
+
+```{r stem_text_both, eval = T, echo = F}
+##stem Kav text
+final_kav = read.csv("exp2_data/finaldata_kav.csv", stringsAsFactors = F)
+#final = na.omit(final) #one weird NA line
+
+##load libraries
+library(tm)
+library(ngram)
+
+#process the Text column (write a loop) - save processed text as a separate column
+for(i in 1:nrow(final_kav)) {
+  
+  final_kav$edited[i] = preprocess(final_kav$Text[i], #one value at a time
+           case = "lower", 
+           remove.punct = TRUE,
+           remove.numbers = FALSE, 
+           fix.spacing = TRUE)
+
+##stem the words - do this second in the loop
+  final_kav$stemmed[i] = stemDocument(final_kav$edited[i], language = "english")
+}
+
+##stem GS text
+final_gs = read.csv("exp1_data/finaldata_gs.csv", stringsAsFactors = F)
+
+#process the Text column (write a loop) - save processed text as a separate column
+for(i in 1:nrow(final_gs)) {
+  
+  final_gs$edited[i] = preprocess(fina_gs$Text[i], #one value at a time
+           case = "lower", 
+           remove.punct = TRUE,
+           remove.numbers = FALSE, 
+           fix.spacing = TRUE)
+
+##stem the words - do this second in the loop
+  final_gs$stemmed[i] = stemDocument(final_gs$edited[i], language = "english")
+}
+
+```
+```{r stem_warriner_exp2, eval = T, echo = F}
+##open the Warriner data for later
+warriner = read.csv("exp1_data/BRM-emot-submit.csv", stringsAsFactors = F) #want v.mean.sum
+warriner$V.Mean.Sum = scale(warriner$V.Mean.Sum)
+
+for(i in 1:nrow(warriner)) {
+  warriner$Word2[i] = stemDocument(warriner$Word[i], language = "english")
+} 
+```
+
 ## Data analysis
 
 As in Experiment 1, the text was scanned with *ngram*. Again, blank articles, text from the Disqus system, and duplicate articles were removed [@Schmidt2017]. The text was processed and stemmed in order to convert to a usable form for further analysis [@Feinerer2017]. Words were subsequently matched with their valences from @Warriner2013. Depending on the results of @Jordan2019's research, alternative forms of the Moral Foudnations Dictionary may be imported instead of the original dictionary.
 
 Using the *tm* and *ngram* packages in *R*, the researchers processed the text in order to convert it to lowercase, fix spacing anomalies, and remove punctuation [@Feinerer2017]. Each individual word was reduced to its stem (i.e., *diseased* was stemmed to *diseas*). Once again, the same procedure was applied to the MFD words and the words in the @Warriner2013 dataset. Using the @Warriner2013 dictionary, the words in the MFD were assigned their respective valence. The researchers obtained the words' percent occurence in the text. Once again, percents were multiplied by *z*-scored valence and categorized into their proper MFD category.
 
+```{r create_datasets_harm_kav, eval = T, echo = F}
+#read in the harm total words from the mtmm project
+harm_all_kav = read.csv("exp1_data/harm_words_total.csv", stringsAsFactors = F)
+
+harm_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final_kav)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final_kav$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(harm_all_kav$words[harm_all_kav$words != "" & harm_all_kav$words != "NA" & !is.na(harm_all_kav$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final_kav$Url[i]
+temp2$Source = final_kav$Source[i]
+temp2$wordcount = final_kav$wordcount[i]
+
+#bind with original
+harm_final_data_kav = rbind(harm_final_data_kav, temp2)
+}
+
+#pull in the data from Warriner 
+harm_final_data_kav$valence = vlookup(harm_final_data_kav$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(harm_final_data_kav$Var1[is.na(harm_final_data_kav$valence) & harm_final_data_kav$Freq > 0])
+#fought, safer, spurn
+harm_final_data_kav$valence[harm_final_data_kav$Var1 == "fought"] = warriner$V.Mean.Sum[warriner$Word2 == "fight"]
+harm_final_data_kav$valence[harm_final_data_kav$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
+#no spurn avaliable
+```
+
+```{r create_datasets_fair_kav, include=FALSE}
+fair_all_kav = read.csv("exp1_data/fair_words_total.csv", stringsAsFactors = F)
+
+fair_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final_kav)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final_kav$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(fair_all_kav$words[fair_all_kav$words != "" & fair_all_kav$words != "NA" & !is.na(fair_all_kav$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final_kav$Url[i]
+temp2$Source = final_kav$Source[i]
+temp2$wordcount = final_kav$wordcount[i]
+
+#bind with original
+fair_final_data_kav = rbind(fair_final_data_kav, temp2)
+}
+
+fair_final_data_kav$valence = vlookup(fair_final_data_kav$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(fair_final_data_kav$Var1[is.na(fair_final_data_kav$valence) & fair_final_data_kav$Freq > 0])
+#just plagiar safer
+fair_final_data_kav$valence[fair_final_data_kav$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
+#nothing for just or plagiarism
+```
+
+```{r create_datasets_ingroup_kav, include=FALSE}
+ingroup_all_kav = read.csv("exp1_data/ingroup_words_total.csv", stringsAsFactors = F)
+
+ingroup_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final_kav)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final_kav$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(ingroup_all_kav$words[ingroup_all_kav$words != "" & ingroup_all_kav$words != "NA" & !is.na(ingroup_all_kav$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final_kav$Url[i]
+temp2$Source = final_kav$Source[i]
+temp2$wordcount = final_kav$wordcount[i]
+
+#bind with original
+ingroup_final_data_kav = rbind(ingroup_final_data_kav, temp2)
+}
+
+ingroup_final_data_kav$valence = vlookup(ingroup_final_data_kav$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(ingroup_final_data_kav$Var1[is.na(ingroup_final_data_kav$valence) & ingroup_final_data_kav$Freq > 0])
+#backstabb  benedict      best      fals   indvidu      juda    knight      true
+ingroup_final_data_kav$valence[ingroup_final_data_kav$Var1 == "fals"] = warriner$V.Mean.Sum[warriner$Word2 == "FALSE"]
+ingroup_final_data_kav$valence[ingroup_final_data_kav$Var1 == "indvidu"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "individu"])
+ingroup_final_data_kav$valence[ingroup_final_data_kav$Var1 == "true"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "TRUE"])
+```
+
+```{r create_datasets_authority_kav, include=FALSE}
+authority_all_kav = read.csv("exp1_data/authority_words_total.csv", stringsAsFactors = F)
+
+authority_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final_kav)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final_kav$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(authority_all_kav$words[authority_all_kav$words != "" & authority_all_kav$words != "NA" & !is.na(authority_all_kav$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final_kav$Url[i]
+temp2$Source = final_kav$Source[i]
+temp2$wordcount = final_kav$wordcount[i]
+
+#bind with original
+authority_final_data_kav = rbind(authority_final_data_kav, temp2)
+}
+
+authority_final_data_kav$valence = vlookup(authority_final_data_kav$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(authority_final_data_kav$Var1[is.na(authority_final_data_kav$valence) & authority_final_data_kav$Freq > 0])
+#  abov behind   gase higher  older  taken 
+authority_final_data_kav$valence[authority_final_data_kav$Var1 == "gase"] = warriner$V.Mean.Sum[warriner$Word2 == "gas"]
+authority_final_data_kav$valence[authority_final_data_kav$Var1 == "higher"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "high"])
+authority_final_data_kav$valence[authority_final_data_kav$Var1 == "older"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "old"])
+authority_final_data_kav$valence[authority_final_data_kav$Var1 == "taken"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "take"])
+```
+
+```{r create_datasets_purity_kav, include=FALSE}
+purity_all_kav = read.csv("exp1_data/purity_words_total.csv", stringsAsFactors = F)
+
+purity_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final_kav)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final_kav$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(purity_all_kav$words[purity_all_kav$words != "" & purity_all_kav$words != "NA" & !is.na(purity_all_kav$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final_kav$Url[i]
+temp2$Source = final_kav$Source[i]
+temp2$wordcount = final_kav$wordcount[i]
+
+#bind with original
+purity_final_data_kav = rbind(purity_final_data_kav, temp2)
+}
+
+purity_final_data_kav$valence = vlookup(purity_final_data_kav$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(purity_final_data_kav$Var1[is.na(purity_final_data_kav$valence) & purity_final_data_kav$Freq > 0])
+#befor christian     jesus      mari      none    sacred    someon      true     women 
+purity_final_data_kav$valence[purity_final_data_kav$Var1 == "sacred"] = warriner$V.Mean.Sum[warriner$Word2 == "sacr"]
+purity_final_data_kav$valence[purity_final_data_kav$Var1 == "true"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "TRUE"])
+purity_final_data_kav$valence[purity_final_data_kav$Var1 == "women"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "woman"])
+```
+
+```{r create_datasets_harm_gs, eval = T, echo = F}
+#read in the harm total words from the mtmm project
+harm_all_gs = read.csv("exp1_data/harm_words_total.csv", stringsAsFactors = F)
+
+harm_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final_gs)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final_gs$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(harm_all_gs$words[harm_all_gs$words != "" & harm_all_gs$words != "NA" & !is.na(harm_all_gs$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final_gs$Url[i]
+temp2$Source = final_gs$Source[i]
+temp2$wordcount = final_gs$wordcount[i]
+
+#bind with original
+harm_final_data_gs = rbind(harm_final_data_gs, temp2)
+}
+
+#pull in the data from Warriner 
+harm_final_data_gs$valence = vlookup(harm_final_data_gs$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(harm_final_data_gs$Var1[is.na(harm_final_data_gs$valence) & harm_final_data_gs$Freq > 0])
+#fought, safer, spurn
+harm_final_data_gs$valence[harm_final_data_gs$Var1 == "fought"] = warriner$V.Mean.Sum[warriner$Word2 == "fight"]
+harm_final_data_gs$valence[harm_final_data_gs$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
+#no spurn avaliable
+```
+
+```{r create_datasets_fair_gs, include=FALSE}
+fair_all_gs = read.csv("exp1_data/fair_words_total.csv", stringsAsFactors = F)
+
+fair_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final_gs)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final_gs$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(fair_all_gs$words[fair_all_gs$words != "" & fair_all_gs$words != "NA" & !is.na(fair_all_gs$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final_gs$Url[i]
+temp2$Source = final_gs$Source[i]
+temp2$wordcount = final_gs$wordcount[i]
+
+#bind with original
+fair_final_data_gs = rbind(fair_final_data_gs, temp2)
+}
+
+fair_final_data_gs$valence = vlookup(fair_final_data_gs$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(fair_final_data_gs$Var1[is.na(fair_final_data_gs$valence) & fair_final_data_gs$Freq > 0])
+#just plagiar safer
+fair_final_data_gs$valence[fair_final_data_gs$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
+#nothing for just or plagiarism
+```
+
+```{r create_datasets_ingroup_gs, include=FALSE}
+ingroup_all_gs = read.csv("exp1_data/ingroup_words_total.csv", stringsAsFactors = F)
+
+ingroup_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final_gs)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final_gs$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(ingroup_all_gs$words[ingroup_all_gs$words != "" & ingroup_all_gs$words != "NA" & !is.na(ingroup_all_gs$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final_gs$Url[i]
+temp2$Source = final_gs$Source[i]
+temp2$wordcount = final_gs$wordcount[i]
+
+#bind with original
+ingroup_final_data_gs = rbind(ingroup_final_data_gs, temp2)
+}
+
+ingroup_final_data_gs$valence = vlookup(ingroup_final_data_gs$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(ingroup_final_data_gs$Var1[is.na(ingroup_final_data_gs$valence) & ingroup_final_data_gs$Freq > 0])
+#backstabb  benedict      best      fals   indvidu      juda    knight      true
+ingroup_final_data_gs$valence[ingroup_final_data_gs$Var1 == "fals"] = warriner$V.Mean.Sum[warriner$Word2 == "FALSE"]
+ingroup_final_data_gs$valence[ingroup_final_data_gs$Var1 == "indvidu"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "individu"])
+ingroup_final_data_gs$valence[ingroup_final_data_gs$Var1 == "true"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "TRUE"])
+```
+
+```{r create_datasets_authority_gs, include=FALSE}
+authority_all_gs = read.csv("exp1_data/authority_words_total.csv", stringsAsFactors = F)
+
+authority_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final_gs)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final_gs$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(authority_all_gs$words[authority_all_gs$words != "" & authority_all_gs$words != "NA" & !is.na(authority_all_gs$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final_gs$Url[i]
+temp2$Source = final_gs$Source[i]
+temp2$wordcount = final_gs$wordcount[i]
+
+#bind with original
+authority_final_data_gs = rbind(authority_final_data_gs, temp2)
+}
+
+authority_final_data_gs$valence = vlookup(authority_final_data_gs$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(authority_final_data_gs$Var1[is.na(authority_final_data_gs$valence) & authority_final_data_gs$Freq > 0])
+#  abov behind   gase higher  older  taken 
+authority_final_data_gs$valence[authority_final_data_gs$Var1 == "gase"] = warriner$V.Mean.Sum[warriner$Word2 == "gas"]
+authority_final_data_gs$valence[authority_final_data_gs$Var1 == "higher"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "high"])
+authority_final_data_gs$valence[authority_final_data_gs$Var1 == "older"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "old"])
+authority_final_data_gs$valence[authority_final_data_gs$Var1 == "taken"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "take"])
+```
+
+```{r create_datasets_purity_gs, include=FALSE}
+purity_all_gs = read.csv("exp1_data/purity_words_total.csv", stringsAsFactors = F)
+
+purity_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final_gs)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final_gs$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(purity_all_gs$words[purity_all_gs$words != "" & purity_all_gs$words != "NA" & !is.na(purity_all_gs$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final_gs$Url[i]
+temp2$Source = final_gs$Source[i]
+temp2$wordcount = final_gs$wordcount[i]
+
+#bind with original
+purity_final_data_gs = rbind(purity_final_data_gs, temp2)
+}
+
+purity_final_data_gs$valence = vlookup(purity_final_data_gs$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(purity_final_data_gs$Var1[is.na(purity_final_data_gs$valence) & purity_final_data_gs$Freq > 0])
+#befor christian     jesus      mari      none    sacred    someon      true     women 
+purity_final_data_gs$valence[purity_final_data_gs$Var1 == "sacred"] = warriner$V.Mean.Sum[warriner$Word2 == "sacr"]
+purity_final_data_gs$valence[purity_final_data_gs$Var1 == "true"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "TRUE"])
+purity_final_data_gs$valence[purity_final_data_gs$Var1 == "women"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "woman"])
+```
+
+```{r descriptives_both, include = FALSE}
+##summarize the dataset so that you have the total and percent for each foundation
+#kav
+summary(harm_final_data_kav)
+summary(fair_final_data_kav)
+summary(ingroup_final_data_kav)
+summary(authority_final_data_kav)
+summary(purity_final_data_kav)
+#gs
+summary(harm_final_data_gs)
+summary(fair_final_data_gs)
+summary(ingroup_final_data_gs)
+summary(authority_final_data_gs)
+summary(purity_final_data_gs)
+##report descriptive statistics of the foundations
+#kav
+mean(harm_final_data_kav$valence)
+sd(harm_final_data_kav$valence)
+mean(fair_final_data_kav$valence)
+sd(fair_final_data_kav$valence)
+mean(ingroup_final_data_kav$valence)
+sd(ingroup_final_data_kav$valence)
+mean(authority_final_data_kav$valence)
+sd(authority_final_data_kav$valence)
+mean(purity_final_data_kav$valence)
+sd(purity_final_data_kav$valence)
+#gs
+mean(harm_final_data_gs$valence)
+sd(harm_final_data_gs$valence)
+mean(fair_final_data_gs$valence)
+sd(fair_final_data_gs$valence)
+mean(ingroup_final_data_gs$valence)
+sd(ingroup_final_data_gs$valence)
+mean(authority_final_data_gs$valence)
+sd(authority_final_data_gs$valence)
+mean(purity_final_data_gs$valence)
+sd(purity_final_data_gs$valence)
+#note that a big problem is the valence of the words 
+```
+
+```{r analysis_harm_kav, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+harm_final_data_kav$weight = harm_final_data_kav$Freq * harm_final_data_kav$valence / harm_final_data_kav$wordcount * 100
+
+#flatten down to sum by article 
+harm_final_temp_kav = aggregate(harm_final_data_kav$weight, 
+          by = list(harm_final_data_kav$URL),
+          FUN = sum, na.rm = T)
+colnames(harm_final_temp_kav) = c("URL", "MFDweight")
+
+harm_final_temp_kav$lean[grepl("nytimes.com", harm_final_temp_kav$URL) |
+                       grepl("npr.org", harm_final_temp_kav$URL) |
+                        grepl("slate.com", harm_final_temp_kav$URL) |
+                        grepl("huffingtonpost.com", harm_final_temp_kav$URL) |
+                        grepl("politico.com", harm_final_temp_kav$URL)] = "Liberal"
+                              
+harm_final_temp_kav$lean[grepl("breitbart.com", harm_final_temp_kav$URL) |
+                       grepl("foxnews.com", harm_final_temp_kav$URL) |
+                       grepl("rushlimbaugh.com", harm_final_temp_kav$URL) |
+                       grepl("theblaze.com", harm_final_temp_kav$URL) |
+                       grepl("hannity.com", harm_final_temp_kav$URL)] = "Conservative"
+
+harm_final_temp_kav$Source[grepl("nytimes.com", harm_final_temp_kav$URL)] = "NY Times"
+harm_final_temp_kav$Source[grepl("npr.org", harm_final_temp_kav$URL)] = "NPR"
+harm_final_temp_kav$Source[grepl("slate.com", harm_final_temp_kav$URL)] = "Slate"
+harm_final_temp_kav$Source[grepl("huffingtonpost.com", harm_final_temp_kav$URL)] = "Huffington Post"
+harm_final_temp_kav$Source[grepl("politico.com", harm_final_temp_kav$URL)] = "Politico"
+harm_final_temp_kav$Source[grepl("foxnews.com", harm_final_temp_kav$URL)] = "Fox"
+harm_final_temp_kav$Source[grepl("breitbart.com", harm_final_temp_kav$URL)] = "Breitbart"
+harm_final_temp_kav$Source[grepl("rushlimbaugh.com", harm_final_temp_kav$URL)] = "Rush Limbaugh"
+harm_final_temp_kav$Source[grepl("theblaze.com", harm_final_temp_kav$URL)] = "The Blaze"
+harm_final_temp_kav$Source[grepl("hannity.com", harm_final_temp_kav$URL)] = "Sean Hannity"
+harm_model_kav = lme(MFDweight ~ lean, 
+                 data = harm_final_temp_kav, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(harm_model_kav)
+```
+
+```{r analysis_fair_kav, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+fair_final_data_kav$weight = fair_final_data_kav$Freq * fair_final_data_kav$valence / fair_final_data_kav$wordcount * 100
+
+#flatten down to sum by article 
+fair_final_temp_kav = aggregate(fair_final_data_kav$weight, 
+          by = list(fair_final_data_kav$URL),
+          FUN = sum, na.rm = T)
+colnames(fair_final_temp_kav) = c("URL", "MFDweight")
+
+fair_final_temp_kav$lean[grepl("nytimes.com", fair_final_temp_kav$URL) |
+                       grepl("npr.org", fair_final_temp_kav$URL) |
+                        grepl("slate.com", fair_final_temp_kav$URL) |
+                        grepl("huffingtonpost.com", fair_final_temp_kav$URL) |
+                        grepl("politico.com", fair_final_temp_kav$URL)] = "Liberal"
+                              
+fair_final_temp_kav$lean[grepl("breitbart.com", fair_final_temp_kav$URL) |
+                       grepl("foxnews.com", fair_final_temp_kav$URL) |
+                       grepl("rushlimbaugh.com", fair_final_temp_kav$URL) |
+                       grepl("theblaze.com", fair_final_temp_kav$URL) |
+                       grepl("hannity.com", fair_final_temp_kav$URL)] = "Conservative"
+
+fair_final_temp_kav$Source[grepl("nytimes.com", fair_final_temp_kav$URL)] = "NY Times"
+fair_final_temp_kav$Source[grepl("npr.org", fair_final_temp_kav$URL)] = "NPR"
+fair_final_temp_kav$Source[grepl("slate.com", fair_final_temp_kav$URL)] = "Slate"
+fair_final_temp_kav$Source[grepl("huffingtonpost.com", fair_final_temp_kav$URL)] = "Huffington Post"
+fair_final_temp_kav$Source[grepl("politico.com", fair_final_temp_kav$URL)] = "Politico"
+fair_final_temp_kav$Source[grepl("foxnews.com", fair_final_temp_kav$URL)] = "Fox"
+fair_final_temp_kav$Source[grepl("breitbart.com", fair_final_temp_kav$URL)] = "Breitbart"
+fair_final_temp_kav$Source[grepl("rushlimbaugh.com", fair_final_temp_kav$URL)] = "Rush Limbaugh"
+fair_final_temp_kav$Source[grepl("theblaze.com", fair_final_temp_kav$URL)] = "The Blaze"
+fair_final_temp_kav$Source[grepl("hannity.com", fair_final_temp_kav$URL)] = "Sean Hannity"
+fair_model_kav = lme(MFDweight ~ lean, 
+                 data = fair_final_temp_kav, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(fair_model_kav)
+```
+
+```{r analysis_ingroup_kav, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+ingroup_final_data_kav$weight = ingroup_final_data_kav$Freq * ingroup_final_data_kav$valence / ingroup_final_data_kav$wordcount * 100
+
+#flatten down to sum by article 
+ingroup_final_temp_kav = aggregate(ingroup_final_data_kav$weight, 
+          by = list(ingroup_final_data_kav$URL),
+          FUN = sum, na.rm = T)
+colnames(ingroup_final_temp_kav) = c("URL", "MFDweight")
+
+ingroup_final_temp_kav$lean[grepl("nytimes.com", ingroup_final_temp_kav$URL) |
+                       grepl("npr.org", ingroup_final_temp_kav$URL) |
+                        grepl("slate.com", ingroup_final_temp_kav$URL) |
+                        grepl("huffingtonpost.com", ingroup_final_temp_kav$URL) |
+                        grepl("politico.com", ingroup_final_temp_kav$URL)] = "Liberal"
+                              
+ingroup_final_temp_kav$lean[grepl("breitbart.com", ingroup_final_temp_kav$URL) |
+                       grepl("foxnews.com", ingroup_final_temp_kav$URL) |
+                       grepl("rushlimbaugh.com", ingroup_final_temp_kav$URL) |
+                       grepl("theblaze.com", ingroup_final_temp_kav$URL) |
+                       grepl("hannity.com", ingroup_final_temp_kav$URL)] = "Conservative"
+
+ingroup_final_temp_kav$Source[grepl("nytimes.com", ingroup_final_temp_kav$URL)] = "NY Times"
+ingroup_final_temp_kav$Source[grepl("npr.org", ingroup_final_temp_kav$URL)] = "NPR"
+ingroup_final_temp_kav$Source[grepl("slate.com", ingroup_final_temp_kav$URL)] = "Slate"
+ingroup_final_temp_kav$Source[grepl("huffingtonpost.com", ingroup_final_temp_kav$URL)] = "Huffington Post"
+ingroup_final_temp_kav$Source[grepl("politico.com", ingroup_final_temp_kav$URL)] = "Politico"
+ingroup_final_temp_kav$Source[grepl("foxnews.com", ingroup_final_temp_kav$URL)] = "Fox"
+ingroup_final_temp_kav$Source[grepl("breitbart.com", ingroup_final_temp_kav$URL)] = "Breitbart"
+ingroup_final_temp_kav$Source[grepl("rushlimbaugh.com", ingroup_final_temp_kav$URL)] = "Rush Limbaugh"
+ingroup_final_temp_kav$Source[grepl("theblaze.com", ingroup_final_temp_kav$URL)] = "The Blaze"
+ingroup_final_temp_kav$Source[grepl("hannity.com", ingroup_final_temp_kav$URL)] = "Sean Hannity"
+ingroup_model_kav = lme(MFDweight ~ lean, 
+                 data = ingroup_final_temp_kav, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(ingroup_model_kav)
+```
+
+```{r analysis_authority_kav, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+authority_final_data_kav$weight = authority_final_data_kav$Freq * authority_final_data_kav$valence / authority_final_data_kav$wordcount * 100
+
+#flatten down to sum by article 
+authority_final_temp_kav = aggregate(authority_final_data_kav$weight, 
+          by = list(authority_final_data_kav$URL),
+          FUN = sum, na.rm = T)
+colnames(authority_final_temp_kav) = c("URL", "MFDweight")
+
+authority_final_temp_kav$lean[grepl("nytimes.com", authority_final_temp_kav$URL) |
+                       grepl("npr.org", authority_final_temp_kav$URL) |
+                        grepl("slate.com", authority_final_temp_kav$URL) |
+                        grepl("huffingtonpost.com", authority_final_temp_kav$URL) |
+                        grepl("politico.com", authority_final_temp_kav$URL)] = "Liberal"
+                              
+authority_final_temp_kav$lean[grepl("breitbart.com", authority_final_temp_kav$URL) |
+                       grepl("foxnews.com", authority_final_temp_kav$URL) |
+                       grepl("rushlimbaugh.com", authority_final_temp_kav$URL) |
+                       grepl("theblaze.com", authority_final_temp_kav$URL) |
+                       grepl("hannity.com", authority_final_temp_kav$URL)] = "Conservative"
+
+authority_final_temp_kav$Source[grepl("nytimes.com", authority_final_temp_kav$URL)] = "NY Times"
+authority_final_temp_kav$Source[grepl("npr.org", authority_final_temp_kav$URL)] = "NPR"
+authority_final_temp_kav$Source[grepl("slate.com", authority_final_temp_kav$URL)] = "Slate"
+authority_final_temp_kav$Source[grepl("huffingtonpost.com", authority_final_temp_kav$URL)] = "Huffington Post"
+authority_final_temp_kav$Source[grepl("politico.com", authority_final_temp_kav$URL)] = "Politico"
+authority_final_temp_kav$Source[grepl("foxnews.com", authority_final_temp_kav$URL)] = "Fox"
+authority_final_temp_kav$Source[grepl("breitbart.com", authority_final_temp_kav$URL)] = "Breitbart"
+authority_final_temp_kav$Source[grepl("rushlimbaugh.com", authority_final_temp_kav$URL)] = "Rush Limbaugh"
+authority_final_temp_kav$Source[grepl("theblaze.com", authority_final_temp_kav$URL)] = "The Blaze"
+authority_final_temp_kav$Source[grepl("hannity.com", authority_final_temp_kav$URL)] = "Sean Hannity"
+authority_model_kav = lme(MFDweight ~ lean, 
+                 data = authority_final_temp_kav, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(authority_model_kav)
+```
+
+```{r analysis_purity_kav, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+purity_final_data_kav$weight = purity_final_data_kav$Freq * purity_final_data_kav$valence / purity_final_data_kav$wordcount * 100
+
+#flatten down to sum by article 
+purity_final_temp_kav = aggregate(purity_final_data_kav$weight, 
+          by = list(purity_final_data_kav$URL),
+          FUN = sum, na.rm = T)
+colnames(purity_final_temp_kav) = c("URL", "MFDweight")
+
+purity_final_temp_kav$lean[grepl("nytimes.com", purity_final_temp_kav$URL) |
+                       grepl("npr.org", purity_final_temp_kav$URL) |
+                        grepl("slate.com", purity_final_temp_kav$URL) |
+                        grepl("huffingtonpost.com", purity_final_temp_kav$URL) |
+                        grepl("politico.com", purity_final_temp_kav$URL)] = "Liberal"
+                              
+purity_final_temp_kav$lean[grepl("breitbart.com", purity_final_temp_kav$URL) |
+                       grepl("foxnews.com", purity_final_temp_kav$URL) |
+                       grepl("rushlimbaugh.com", purity_final_temp_kav$URL) |
+                       grepl("theblaze.com", purity_final_temp_kav$URL) |
+                       grepl("hannity.com", purity_final_temp_kav$URL)] = "Conservative"
+
+purity_final_temp_kav$Source[grepl("nytimes.com", purity_final_temp_kav$URL)] = "NY Times"
+purity_final_temp_kav$Source[grepl("npr.org", purity_final_temp_kav$URL)] = "NPR"
+purity_final_temp_kav$Source[grepl("slate.com", purity_final_temp_kav$URL)] = "Slate"
+purity_final_temp_kav$Source[grepl("huffingtonpost.com", purity_final_temp_kav$URL)] = "Huffington Post"
+purity_final_temp_kav$Source[grepl("politico.com", purity_final_temp_kav$URL)] = "Politico"
+purity_final_temp_kav$Source[grepl("foxnews.com", purity_final_temp_kav$URL)] = "Fox"
+purity_final_temp_kav$Source[grepl("breitbart.com", purity_final_temp_kav$URL)] = "Breitbart"
+purity_final_temp_kav$Source[grepl("rushlimbaugh.com", purity_final_temp_kav$URL)] = "Rush Limbaugh"
+purity_final_temp_kav$Source[grepl("theblaze.com", purity_final_temp_kav$URL)] = "The Blaze"
+purity_final_temp_kav$Source[grepl("hannity.com", purity_final_temp_kav$URL)] = "Sean Hannity"
+purity_model_kav = lme(MFDweight ~ lean, 
+                 data = purity_final_temp_kav, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(purity_model_kav)
+```
+
+```{r analysis_harm_gs, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+harm_final_data_gs$weight = harm_final_data_gs$Freq * harm_final_data_gs$valence / harm_final_data_gs$wordcount * 100
+
+#flatten down to sum by article 
+harm_final_temp_gs = aggregate(harm_final_data_gs$weight, 
+          by = list(harm_final_data_gs$URL),
+          FUN = sum, na.rm = T)
+colnames(harm_final_temp_gs) = c("URL", "MFDweight")
+
+harm_final_temp_gs$lean[grepl("nytimes.com", harm_final_temp_gs$URL) |
+                       grepl("npr.org", harm_final_temp_gs$URL) |
+                        grepl("slate.com", harm_final_temp_gs$URL) |
+                        grepl("huffingtonpost.com", harm_final_temp_gs$URL) |
+                        grepl("politico.com", harm_final_temp_gs$URL)] = "Liberal"
+                              
+harm_final_temp_gs$lean[grepl("breitbart.com", harm_final_temp_gs$URL) |
+                       grepl("foxnews.com", harm_final_temp_gs$URL) |
+                       grepl("rushlimbaugh.com", harm_final_temp_gs$URL) |
+                       grepl("theblaze.com", harm_final_temp_gs$URL) |
+                       grepl("hannity.com", harm_final_temp_gs$URL)] = "Conservative"
+
+harm_final_temp_gs$Source[grepl("nytimes.com", harm_final_temp_gs$URL)] = "NY Times"
+harm_final_temp_gs$Source[grepl("npr.org", harm_final_temp_gs$URL)] = "NPR"
+harm_final_temp_gs$Source[grepl("slate.com", harm_final_temp_gs$URL)] = "Slate"
+harm_final_temp_gs$Source[grepl("huffingtonpost.com", harm_final_temp_gs$URL)] = "Huffington Post"
+harm_final_temp_gs$Source[grepl("politico.com", harm_final_temp_gs$URL)] = "Politico"
+harm_final_temp_gs$Source[grepl("foxnews.com", harm_final_temp_gs$URL)] = "Fox"
+harm_final_temp_gs$Source[grepl("breitbart.com", harm_final_temp_gs$URL)] = "Breitbart"
+harm_final_temp_gs$Source[grepl("rushlimbaugh.com", harm_final_temp_gs$URL)] = "Rush Limbaugh"
+harm_final_temp_gs$Source[grepl("theblaze.com", harm_final_temp_gs$URL)] = "The Blaze"
+harm_final_temp_gs$Source[grepl("hannity.com", harm_final_temp_gs$URL)] = "Sean Hannity"
+harm_model_gs = lme(MFDweight ~ lean, 
+                 data = harm_final_temp_gs, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(harm_model_gs)
+```
+
+```{r analysis_fair_gs, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+fair_final_data_gs$weight = fair_final_data_gs$Freq * fair_final_data_gs$valence / fair_final_data_gs$wordcount * 100
+
+#flatten down to sum by article 
+fair_final_temp_gs = aggregate(fair_final_data_gs$weight, 
+          by = list(fair_final_data_gs$URL),
+          FUN = sum, na.rm = T)
+colnames(fair_final_temp_gs) = c("URL", "MFDweight")
+
+fair_final_temp_gs$lean[grepl("nytimes.com", fair_final_temp_gs$URL) |
+                       grepl("npr.org", fair_final_temp_gs$URL) |
+                        grepl("slate.com", fair_final_temp_gs$URL) |
+                        grepl("huffingtonpost.com", fair_final_temp_gs$URL) |
+                        grepl("politico.com", fair_final_temp_gs$URL)] = "Liberal"
+                              
+fair_final_temp_gs$lean[grepl("breitbart.com", fair_final_temp_gs$URL) |
+                       grepl("foxnews.com", fair_final_temp_gs$URL) |
+                       grepl("rushlimbaugh.com", fair_final_temp_gs$URL) |
+                       grepl("theblaze.com", fair_final_temp_gs$URL) |
+                       grepl("hannity.com", fair_final_temp_gs$URL)] = "Conservative"
+
+fair_final_temp_gs$Source[grepl("nytimes.com", fair_final_temp_gs$URL)] = "NY Times"
+fair_final_temp_gs$Source[grepl("npr.org", fair_final_temp_gs$URL)] = "NPR"
+fair_final_temp_gs$Source[grepl("slate.com", fair_final_temp_gs$URL)] = "Slate"
+fair_final_temp_gs$Source[grepl("huffingtonpost.com", fair_final_temp_gs$URL)] = "Huffington Post"
+fair_final_temp_gs$Source[grepl("politico.com", fair_final_temp_gs$URL)] = "Politico"
+fair_final_temp_gs$Source[grepl("foxnews.com", fair_final_temp_gs$URL)] = "Fox"
+fair_final_temp_gs$Source[grepl("breitbart.com", fair_final_temp_gs$URL)] = "Breitbart"
+fair_final_temp_gs$Source[grepl("rushlimbaugh.com", fair_final_temp_gs$URL)] = "Rush Limbaugh"
+fair_final_temp_gs$Source[grepl("theblaze.com", fair_final_temp_gs$URL)] = "The Blaze"
+fair_final_temp_gs$Source[grepl("hannity.com", fair_final_temp_gs$URL)] = "Sean Hannity"
+fair_model_gs = lme(MFDweight ~ lean, 
+                 data = fair_final_temp_gs, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(fair_model_gs)
+```
+
+```{r analysis_ingroup_gs, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+ingroup_final_data_gs$weight = ingroup_final_data_gs$Freq * ingroup_final_data_gs$valence / ingroup_final_data_gs$wordcount * 100
+
+#flatten down to sum by article 
+ingroup_final_temp_gs = aggregate(ingroup_final_data_gs$weight, 
+          by = list(ingroup_final_data_gs$URL),
+          FUN = sum, na.rm = T)
+colnames(ingroup_final_temp_gs) = c("URL", "MFDweight")
+
+ingroup_final_temp_gs$lean[grepl("nytimes.com", ingroup_final_temp_gs$URL) |
+                       grepl("npr.org", ingroup_final_temp_gs$URL) |
+                        grepl("slate.com", ingroup_final_temp_gs$URL) |
+                        grepl("huffingtonpost.com", ingroup_final_temp_gs$URL) |
+                        grepl("politico.com", ingroup_final_temp_gs$URL)] = "Liberal"
+                              
+ingroup_final_temp_gs$lean[grepl("breitbart.com", ingroup_final_temp_gs$URL) |
+                       grepl("foxnews.com", ingroup_final_temp_gs$URL) |
+                       grepl("rushlimbaugh.com", ingroup_final_temp_gs$URL) |
+                       grepl("theblaze.com", ingroup_final_temp_gs$URL) |
+                       grepl("hannity.com", ingroup_final_temp_gs$URL)] = "Conservative"
+
+ingroup_final_temp_gs$Source[grepl("nytimes.com", ingroup_final_temp_gs$URL)] = "NY Times"
+ingroup_final_temp_gs$Source[grepl("npr.org", ingroup_final_temp_gs$URL)] = "NPR"
+ingroup_final_temp_gs$Source[grepl("slate.com", ingroup_final_temp_gs$URL)] = "Slate"
+ingroup_final_temp_gs$Source[grepl("huffingtonpost.com", ingroup_final_temp_gs$URL)] = "Huffington Post"
+ingroup_final_temp_gs$Source[grepl("politico.com", ingroup_final_temp_gs$URL)] = "Politico"
+ingroup_final_temp_gs$Source[grepl("foxnews.com", ingroup_final_temp_gs$URL)] = "Fox"
+ingroup_final_temp_gs$Source[grepl("breitbart.com", ingroup_final_temp_gs$URL)] = "Breitbart"
+ingroup_final_temp_gs$Source[grepl("rushlimbaugh.com", ingroup_final_temp_gs$URL)] = "Rush Limbaugh"
+ingroup_final_temp_gs$Source[grepl("theblaze.com", ingroup_final_temp_gs$URL)] = "The Blaze"
+ingroup_final_temp_gs$Source[grepl("hannity.com", ingroup_final_temp_gs$URL)] = "Sean Hannity"
+ingroup_model_gs = lme(MFDweight ~ lean, 
+                 data = ingroup_final_temp_gs, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(ingroup_model_gs)
+```
+
+```{r analysis_authority_gs, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+authority_final_data_gs$weight = authority_final_data_gs$Freq * authority_final_data_gs$valence / authority_final_data_gs$wordcount * 100
+
+#flatten down to sum by article 
+authority_final_temp_gs = aggregate(authority_final_data_gs$weight, 
+          by = list(authority_final_data_gs$URL),
+          FUN = sum, na.rm = T)
+colnames(authority_final_temp_gs) = c("URL", "MFDweight")
+
+authority_final_temp_gs$lean[grepl("nytimes.com", authority_final_temp_gs$URL) |
+                       grepl("npr.org", authority_final_temp_gs$URL) |
+                        grepl("slate.com", authority_final_temp_gs$URL) |
+                        grepl("huffingtonpost.com", authority_final_temp_gs$URL) |
+                        grepl("politico.com", authority_final_temp_gs$URL)] = "Liberal"
+                              
+authority_final_temp_gs$lean[grepl("breitbart.com", authority_final_temp_gs$URL) |
+                       grepl("foxnews.com", authority_final_temp_gs$URL) |
+                       grepl("rushlimbaugh.com", authority_final_temp_gs$URL) |
+                       grepl("theblaze.com", authority_final_temp_gs$URL) |
+                       grepl("hannity.com", authority_final_temp_gs$URL)] = "Conservative"
+
+authority_final_temp_gs$Source[grepl("nytimes.com", authority_final_temp_gs$URL)] = "NY Times"
+authority_final_temp_gs$Source[grepl("npr.org", authority_final_temp_gs$URL)] = "NPR"
+authority_final_temp_gs$Source[grepl("slate.com", authority_final_temp_gs$URL)] = "Slate"
+authority_final_temp_gs$Source[grepl("huffingtonpost.com", authority_final_temp_gs$URL)] = "Huffington Post"
+authority_final_temp_gs$Source[grepl("politico.com", authority_final_temp_gs$URL)] = "Politico"
+authority_final_temp_gs$Source[grepl("foxnews.com", authority_final_temp_gs$URL)] = "Fox"
+authority_final_temp_gs$Source[grepl("breitbart.com", authority_final_temp_gs$URL)] = "Breitbart"
+authority_final_temp_gs$Source[grepl("rushlimbaugh.com", authority_final_temp_gs$URL)] = "Rush Limbaugh"
+authority_final_temp_gs$Source[grepl("theblaze.com", authority_final_temp_gs$URL)] = "The Blaze"
+authority_final_temp_gs$Source[grepl("hannity.com", authority_final_temp_gs$URL)] = "Sean Hannity"
+authority_model_gs = lme(MFDweight ~ lean, 
+                 data = authority_final_temp_gs, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(authority_model_gs)
+```
+
+```{r analysis_purity_gs, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+purity_final_data_gs$weight = purity_final_data_gs$Freq * purity_final_data_gs$valence / purity_final_data_gs$wordcount * 100
+
+#flatten down to sum by article 
+purity_final_temp_gs = aggregate(purity_final_data_gs$weight, 
+          by = list(purity_final_data_gs$URL),
+          FUN = sum, na.rm = T)
+colnames(purity_final_temp_gs) = c("URL", "MFDweight")
+
+purity_final_temp_gs$lean[grepl("nytimes.com", purity_final_temp_gs$URL) |
+                       grepl("npr.org", purity_final_temp_gs$URL) |
+                        grepl("slate.com", purity_final_temp_gs$URL) |
+                        grepl("huffingtonpost.com", purity_final_temp_gs$URL) |
+                        grepl("politico.com", purity_final_temp_gs$URL)] = "Liberal"
+                              
+purity_final_temp_gs$lean[grepl("breitbart.com", purity_final_temp_gs$URL) |
+                       grepl("foxnews.com", purity_final_temp_gs$URL) |
+                       grepl("rushlimbaugh.com", purity_final_temp_gs$URL) |
+                       grepl("theblaze.com", purity_final_temp_gs$URL) |
+                       grepl("hannity.com", purity_final_temp_gs$URL)] = "Conservative"
+
+purity_final_temp_gs$Source[grepl("nytimes.com", purity_final_temp_gs$URL)] = "NY Times"
+purity_final_temp_gs$Source[grepl("npr.org", purity_final_temp_gs$URL)] = "NPR"
+purity_final_temp_gs$Source[grepl("slate.com", purity_final_temp_gs$URL)] = "Slate"
+purity_final_temp_gs$Source[grepl("huffingtonpost.com", purity_final_temp_gs$URL)] = "Huffington Post"
+purity_final_temp_gs$Source[grepl("politico.com", purity_final_temp_gs$URL)] = "Politico"
+purity_final_temp_gs$Source[grepl("foxnews.com", purity_final_temp_gs$URL)] = "Fox"
+purity_final_temp_gs$Source[grepl("breitbart.com", purity_final_temp_gs$URL)] = "Breitbart"
+purity_final_temp_gs$Source[grepl("rushlimbaugh.com", purity_final_temp_gs$URL)] = "Rush Limbaugh"
+purity_final_temp_gs$Source[grepl("theblaze.com", purity_final_temp_gs$URL)] = "The Blaze"
+purity_final_temp_gs$Source[grepl("hannity.com", purity_final_temp_gs$URL)] = "Sean Hannity"
+purity_model_gs = lme(MFDweight ~ lean, 
+                 data = purity_final_temp_gs, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(purity_model_gs)
+```
 # Experiment 2 
 
 ## Results
+```{r exp2 source descriptives_both, results = 'asis', echo = FALSE, message = F}
+#Kav
+final_kav$uniquewords = NA
+final_kav$valenceavg = NA
 
+for (i in 1:nrow(final_kav)){
+  
+  #add unique
+  final_kav$uniquewords[i] = length(unique(unlist(strsplit(final_kav$stemmed[i], " "))))
+  
+  #add valence
+  tempwords_kav = as.data.frame(unlist(strsplit(final_kav$stemmed[i], " ")))
+  colnames(tempwords_kav) = "theword"
+  tempwords_kav$tempval = vlookup(tempwords_kav$theword, #index in original data
+                    warriner, #where's the stuff you want to put in
+                    "V.Mean.Sum", #what column is the stuff you want
+                    "Word2") #what's the matching index
+  
+  final_kav$valenceavg[i] = mean(tempwords_kav$tempval, na.rm = T)
+
+}
+
+
+tapply(final_kav$valenceavg, final_kav$Source, mean)
+tapply(final_kav$valenceavg, final_kav$Source, sd)
+tapply(final_kav$wordcount, final_kav$Source, mean)
+tapply(final_kav$wordcount, final_kav$Source, sd)
+tapply(final_kav$uniquewords, final_kav$Source, mean)
+tapply(final_kav$uniquewords, final_kav$Source, sd)
+tapply(final_kav$Source, final_kav$Source, length)
+tapply(final_kav$wordcount, final_kav$Source, sum)
+
+library(quanteda)
+
+final_kav$FK = NA
+
+for (i in 1:nrow(final_kav)){
+  final_kav$FK[i] = unlist(textstat_readability(final_kav$Text[i], 
+                     measure = "Flesch.Kincaid")$Flesch.Kincaid)
+}
+
+tapply(final_kav$FK, final_kav$Source, mean)
+tapply(final_kav$FK, final_kav$Source, sd)
+
+#GS
+final_gs$uniquewords = NA
+final_gs$valenceavg = NA
+
+for (i in 1:nrow(final_gs)){
+  
+  #add unique
+  final_gs$uniquewords[i] = length(unique(unlist(strsplit(final_gs$stemmed[i], " "))))
+  
+  #add valence
+  tempwords_gs = as.data.frame(unlist(strsplit(final_gs$stemmed[i], " ")))
+  colnames(tempwords_gs) = "theword"
+  tempwords_gs$tempval = vlookup(tempwords_gs$theword, #index in original data
+                    warriner, #where's the stuff you want to put in
+                    "V.Mean.Sum", #what column is the stuff you want
+                    "Word2") #what's the matching index
+  
+  final_gs$valenceavg[i] = mean(tempwords_gs$tempval, na.rm = T)
+
+}
+
+
+tapply(final_gs$valenceavg, final_gs$Source, mean)
+tapply(final_gs$valenceavg, final_gs$Source, sd)
+tapply(final_gs$wordcount, final_gs$Source, mean)
+tapply(final_gs$wordcount, final_gs$Source, sd)
+tapply(final_gs$uniquewords, final_gs$Source, mean)
+tapply(final_gs$uniquewords, final_gs$Source, sd)
+tapply(final_gs$Source, final_gs$Source, length)
+tapply(final_gs$wordcount, final_gs$Source, sum)
+
+library(quanteda)
+
+final_gs$FK = NA
+
+for (i in 1:nrow(final_gs)){
+  final_gs$FK[i] = unlist(textstat_readability(final_gs$Text[i], 
+                     measure = "Flesch.Kincaid")$Flesch.Kincaid)
+}
+
+tapply(final_gs$FK, final_gs$Source, mean)
+tapply(final_gs$FK, final_gs$Source, sd)
+```
+
+```{r exp2-table_kav, results = 'asis', echo = F}
+#MFD, mean, sd, mean, sd, t, p, d
+tableprint_kav = matrix(NA, ncol = 8, nrow = 5)
+colnames(tableprint_kav) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d")
+
+#calculate d
+#harm
+harm_d_kav = d.ind.t(m1 = mean(harm_final_temp_kav$MFDweight[harm_final_temp$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(harm_final_temp_kav$MFDweight[harm_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(harm_final_temp_kav$MFDweight[harm_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(harm_final_temp_kav$MFDweight[harm_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 n1 = length(harm_final_temp_kav$MFDweight[harm_final_temp_kav$lean == "Conservative"]),
+                 n2 = length(harm_final_temp_kav$MFDweight[harm_final_temp_kav$lean == "Liberal"]),
+                 a = .05)
+
+#fair
+fair_d_kav = d.ind.t(m1 = mean(fair_final_temp_kav$MFDweight[fair_final_temp_kav$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(fair_final_temp_kav$MFDweight[fair_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(fair_final_temp_kav$MFDweight[fair_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(fair_final_temp_kav$MFDweight[fair_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 n1 = length(fair_final_temp_kav$MFDweight[fair_final_temp_kav$lean == "Conservative"]),
+                 n2 = length(fair_final_temp_kav$MFDweight[fair_final_temp_kav$lean == "Liberal"]),
+                 a = .05)
+
+#ingroup
+ingroup_d_kav = d.ind.t(m1 = mean(ingroup_final_temp_kav$MFDweight[ingroup_final_temp_kav$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(ingroup_final_temp_kav$MFDweight[ingroup_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(ingroup_final_temp_kav$MFDweight[ingroup_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(ingroup_final_temp_kav$MFDweight[ingroup_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 n1 = length(ingroup_final_temp_kav$MFDweight[ingroup_final_temp_kav$lean == "Conservative"]),
+                 n2 = length(ingroup_final_temp_kav$MFDweight[ingroup_final_temp_kav$lean == "Liberal"]),
+                 a = .05)
+
+#authority
+authority_d_kav = d.ind.t(m1 = mean(authority_final_temp_kav$MFDweight[authority_final_temp_kav$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(authority_final_temp_kav$MFDweight[authority_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(authority_final_temp_kav$MFDweight[authority_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(authority_final_temp_kav$MFDweight[authority_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 n1 = length(authority_final_temp_kav$MFDweight[authority_final_temp_kav$lean == "Conservative"]),
+                 n2 = length(authority_final_temp_kav$MFDweight[authority_final_temp_kav$lean == "Liberal"]),
+                 a = .05)
+
+#purity
+purity_d_kav = d.ind.t(m1 = mean(purity_final_temp_kav$MFDweight[purity_final_temp_kav$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(purity_final_temp_kav$MFDweight[purity_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(purity_final_temp_kav$MFDweight[purity_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(purity_final_temp_kav$MFDweight[purity_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 n1 = length(purity_final_temp_kav$MFDweight[purity_final_temp_kav$lean == "Conservative"]),
+                 n2 = length(purity_final_temp_kav$MFDweight[purity_final_temp_kav$lean == "Liberal"]),
+                 a = .05)
+
+#put in the numbers
+tableprint_kav[1, ] = c("Harm/Care", harm_d_kav$M1, harm_d_kav$sd1, harm_d_kav$M2, harm_d_kav$sd1, 
+                    summary(harm_model)$tTable[2,4], summary(harm_model)$tTable[2,5],
+                    harm_d_kav$d)
+tableprint_kav[2, ] = c("Fairness/Reciprocity", fair_d_kav$M1, fair_d_kav$sd1, fair_d_kav$M2, fair_d_kav$sd1, 
+                    summary(fair_model)$tTable[2,4], summary(fair_model)$tTable[2,5],
+                    fair_d_kav$d)
+tableprint_kav[3, ] = c("Ingroup/Loyalty", ingroup_d_kav$M1, ingroup_d_kav$sd1, ingroup_d_kav$M2, ingroup_d_kav$sd1, 
+                    summary(ingroup_model)$tTable[2,4], summary(ingroup_model)$tTable[2,5],
+                    ingroup_d_kav$d)
+tableprint_kav[4, ] = c("Authority/Respect", authority_d_kav$M1, authority_d_kav$sd1, authority_d_kav$M2, authority_d_kav$sd1, 
+                    summary(authority_model)$tTable[2,4], summary(authority_model)$tTable[2,5],
+                    authority_d_kav$d)
+tableprint_kav[5, ] = c("Purity/Sanctity", purity_d_kav$M1, purity_d_kav$sd1, purity_d_kav$M2, purity_d_kav$sd1, 
+                    summary(purity_model)$tTable[2,4], summary(purity_model)$tTable[2,5],
+                    purity_d_kav$d)
+
+tableprint_kav[ , c(2:6, 8)] = printnum(as.numeric(tableprint_kav[ , c(2:6, 8)]))
+tableprint_kav[ , 7] = printp(as.numeric(tableprint_kav[ , 7]))
+
+apa_table(tableprint_kav,
+          note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
+          caption = "Kavanaugh Results - Multilevel Model", 
+          col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$"),
+          format = "latex",
+          escape = F,
+          align = c("l", rep("c", 7))
+          )
+```
+
+```{r exp2-table_gs, results = 'asis', echo = F}
+#MFD, mean, sd, mean, sd, t, p, d
+tableprint_gs = matrix(NA, ncol = 8, nrow = 5)
+colnames(tableprint_gs) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d")
+
+#calculate d
+#harm
+harm_d_gs = d.ind.t(m1 = mean(harm_final_temp_gs$MFDweight[harm_final_temp$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(harm_final_temp_gs$MFDweight[harm_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(harm_final_temp_gs$MFDweight[harm_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(harm_final_temp_gs$MFDweight[harm_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 n1 = length(harm_final_temp_gs$MFDweight[harm_final_temp_gs$lean == "Conservative"]),
+                 n2 = length(harm_final_temp_gs$MFDweight[harm_final_temp_gs$lean == "Liberal"]),
+                 a = .05)
+
+#fair
+fair_d_gs = d.ind.t(m1 = mean(fair_final_temp_gs$MFDweight[fair_final_temp_gs$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(fair_final_temp_gs$MFDweight[fair_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(fair_final_temp_gs$MFDweight[fair_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(fair_final_temp_gs$MFDweight[fair_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 n1 = length(fair_final_temp_gs$MFDweight[fair_final_temp_gs$lean == "Conservative"]),
+                 n2 = length(fair_final_temp_gs$MFDweight[fair_final_temp_gs$lean == "Liberal"]),
+                 a = .05)
+
+#ingroup
+ingroup_d_gs = d.ind.t(m1 = mean(ingroup_final_temp_gs$MFDweight[ingroup_final_temp_gs$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(ingroup_final_temp_gs$MFDweight[ingroup_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(ingroup_final_temp_gs$MFDweight[ingroup_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(ingroup_final_temp_gs$MFDweight[ingroup_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 n1 = length(ingroup_final_temp_gs$MFDweight[ingroup_final_temp_gs$lean == "Conservative"]),
+                 n2 = length(ingroup_final_temp_gs$MFDweight[ingroup_final_temp_gs$lean == "Liberal"]),
+                 a = .05)
+
+#authority
+authority_d_gs = d.ind.t(m1 = mean(authority_final_temp_gs$MFDweight[authority_final_temp_gs$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(authority_final_temp_gs$MFDweight[authority_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(authority_final_temp_gs$MFDweight[authority_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(authority_final_temp_gs$MFDweight[authority_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 n1 = length(authority_final_temp_gs$MFDweight[authority_final_temp_gs$lean == "Conservative"]),
+                 n2 = length(authority_final_temp_gs$MFDweight[authority_final_temp_gs$lean == "Liberal"]),
+                 a = .05)
+
+#purity
+purity_d_gs = d.ind.t(m1 = mean(purity_final_temp_gs$MFDweight[purity_final_temp_gs$lean == "Conservative"], na.rm = T), 
+                 m2 = mean(purity_final_temp_gs$MFDweight[purity_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(purity_final_temp_gs$MFDweight[purity_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(purity_final_temp_gs$MFDweight[purity_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 n1 = length(purity_final_temp_gs$MFDweight[purity_final_temp_gs$lean == "Conservative"]),
+                 n2 = length(purity_final_temp_gs$MFDweight[purity_final_temp_gs$lean == "Liberal"]),
+                 a = .05)
+
+#put in the numbers
+tableprint_gs[1, ] = c("Harm/Care", harm_d_gs$M1, harm_d_gs$sd1, harm_d_gs$M2, harm_d_gs$sd1, 
+                    summary(harm_model)$tTable[2,4], summary(harm_model)$tTable[2,5],
+                    harm_d_gs$d)
+tableprint_gs[2, ] = c("Fairness/Reciprocity", fair_d_gs$M1, fair_d_gs$sd1, fair_d_gs$M2, fair_d_gs$sd1, 
+                    summary(fair_model)$tTable[2,4], summary(fair_model)$tTable[2,5],
+                    fair_d_gs$d)
+tableprint_gs[3, ] = c("Ingroup/Loyalty", ingroup_d_gs$M1, ingroup_d_gs$sd1, ingroup_d_gs$M2, ingroup_d_gs$sd1, 
+                    summary(ingroup_model)$tTable[2,4], summary(ingroup_model)$tTable[2,5],
+                    ingroup_d_gs$d)
+tableprint_gs[4, ] = c("Authority/Respect", authority_d_gs$M1, authority_d_gs$sd1, authority_d_gs$M2, authority_d_gs$sd1, 
+                    summary(authority_model)$tTable[2,4], summary(authority_model)$tTable[2,5],
+                    authority_d_gs$d)
+tableprint_gs[5, ] = c("Purity/Sanctity", purity_d_gs$M1, purity_d_gs$sd1, purity_d_gs$M2, purity_d_gs$sd1, 
+                    summary(purity_model)$tTable[2,4], summary(purity_model)$tTable[2,5],
+                    purity_d_gs$d)
+
+tableprint_gs[ , c(2:6, 8)] = printnum(as.numeric(tableprint_gs[ , c(2:6, 8)]))
+tableprint_gs[ , 7] = printp(as.numeric(tableprint_gs[ , 7]))
+
+apa_table(tableprint_gs,
+          note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
+          caption = "Government Shutdown Results - Multilevel Model", 
+          col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$"),
+          format = "latex",
+          escape = F,
+          align = c("l", rep("c", 7))
+          )
+```
+
+```{r conference-pic_kav, eval = F, include = F}
+library(ggplot2)
+library(reshape)
+
+cleanup = theme(panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(), 
+                panel.background = element_blank(), 
+                axis.line.x = element_line(color = "black"),
+                axis.line.y = element_line(color = "black"),
+                legend.key = element_rect(fill = "white"),
+                text = element_text(size = 10))
+
+graphdata_kav = as.data.frame(tableprint_kav)
+graphlong_kav = melt(graphdata_kav[ , c(1,2,4)], 
+                 id = "Foundation")
+graphlong2_kav = melt(graphdata_kav[ , c(1, 3,5)],
+                  id = "Foundation",
+                  measured = c("SD_C", "SD_L"))
+graphlong_kav$sd = graphlong2_kav$value
+graphlong_kav$lower = as.numeric(as.character(graphlong_kav$value)) - 2*as.numeric(as.character(graphlong_kav$sd))
+graphlong_kav$upper = as.numeric(as.character(graphlong_kav$value)) + 2*as.numeric(as.character(graphlong_kav$sd))
+
+graphlong_kav$value = as.numeric(as.character(graphlong_kav$value))
+
+graph_data_kav = ggplot(graphlong_kav, aes(Foundation, value, color = variable)) + 
+  geom_point(position = position_dodge(width = 0.90)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), 
+                position = position_dodge(width = 0.90),
+                width = .2) + 
+  cleanup +
+  ylab("Mean Weighted Valence") + 
+  scale_color_manual(values = c("red", "blue"),
+                       labels = c("Conservative", "Liberal"),
+                       name = "Party") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) + 
+  geom_hline(yintercept = 0, linetype = 1, color = "black")
+  
+tiff(filename = "exp2_graph_kav.tiff", res = 300, width = 4, 
+     height = 3, units = 'in', compression = "lzw")
+plot(graph_data_kav)
+dev.off()
+
+```
+
+```{r conference-pic_gs, eval = F, include = F}
+graphdata_gs = as.data.frame(tableprint_gs)
+graphlong_gs = melt(graphdata_gs[ , c(1,2,4)], 
+                 id = "Foundation")
+graphlong2_gs = melt(graphdata_gs[ , c(1, 3,5)],
+                  id = "Foundation",
+                  measured = c("SD_C", "SD_L"))
+graphlong_gs$sd = graphlong2_gs$value
+graphlong_gs$lower = as.numeric(as.character(graphlong_gs$value)) - 2*as.numeric(as.character(graphlong_gs$sd))
+graphlong_gs$upper = as.numeric(as.character(graphlong_gs$value)) + 2*as.numeric(as.character(graphlong_gs$sd))
+
+graphlong_gs$value = as.numeric(as.character(graphlong_gs$value))
+
+graph_data_gs = ggplot(graphlong_gs, aes(Foundation, value, color = variable)) + 
+  geom_point(position = position_dodge(width = 0.90)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), 
+                position = position_dodge(width = 0.90),
+                width = .2) + 
+  cleanup +
+  ylab("Mean Weighted Valence") + 
+  scale_color_manual(values = c("red", "blue"),
+                       labels = c("Conservative", "Liberal"),
+                       name = "Party") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) + 
+  geom_hline(yintercept = 0, linetype = 1, color = "black")
+  
+tiff(filename = "exp2_graph_gs.tiff", res = 300, width = 4, 
+     height = 3, units = 'in', compression = "lzw")
+plot(graph_data_gs)
+dev.off()
+
+```
 # Discussion
 
 # Conclusions 
