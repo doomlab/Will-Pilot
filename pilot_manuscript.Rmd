@@ -140,7 +140,7 @@ For Experiment 1, the researchers approached the study with the intention to ans
 
 ## Sources
 
-Political articles were collected from the websites of four notable U.S. news sources, a process known as web scraping. The sources were *The New York Times*, *National Public Radio (NPR)*, *Fox News*, and *Breitbart*. They were selected for their widespread recognition and the fact politcial partisans have strong preferences for some sources over others. The researchers determined the political lean of each source by referencing @Mitchell2014's article demonstrating the self-reported idealogical consistency represented by the consumers of several news sources. In general, *The New York Times* and *NPR* are preferred by consumers reporting a liberal bias or lean. In contrast, Fox News and Breitbart are believed to have a conservative bias or lean. @Mitchell2014's article presented political ideology as a scale ranging from "consistently liberal" to "consistently conservative." In between these extremes lie more moderate positions, including "mostly liberal," "mixed," and "mostly conservative." Owing to the lower number of sources analyzed herein, the researchers elected to categorize the sources as either "liberal" and "conservative" in order to form a basis for comparison.   
+Political articles were collected from the websites of four notable U.S. news sources, a process known as web scraping. The sources were *The New York Times*, *National Public Radio (NPR)*, *Fox News*, and *Breitbart*. They were selected for their widespread recognition and the fact politcial partisans have strong preferences for some sources over others. The researchers determined the political lean of each source by referencing @Mitchell2014's article demonstrating the self-reported idealogical consistency represented by the consumers of several news sources. In general, *The New York Times* and *NPR* are preferred by consumers reporting a liberal bias or lean. In contrast, *Fox News* and *Breitbart* are believed to have a conservative bias or lean. @Mitchell2014's article presented political ideology as a scale ranging from "consistently liberal" to "consistently conservative." In between these extremes lie more moderate positions, including "mostly liberal," "mixed," and "mostly conservative." Owing to the lower number of sources analyzed herein, the researchers elected to categorize the sources as either "liberal" and "conservative" in order to form a basis for comparison.   
 
 Political articles in particular were identified and subsequently scraped by including the specific URL directing to each source's political content in the *R* script. For example, rather than scrape from nytimes.com, which would return undesired results (non-political features, reviews, etc.), we instead included nytimes.com/section/politics so that more or less exclusively political content was obtained. All code for this manuscript can be found at https://osf.io/5kpj7/, and the scripts are provided inline with this manuscript written with the *papaja* library [@Aust2017]. 
 
@@ -1050,7 +1050,6 @@ dev.off()
 
 ```
 
-
 # Discussion 
 
 The results obtained in Experiment 1 did not confirm the hypothesis. The researchers found little compelling evidence of an effect of partisan lean on MFD endorsement. The strongest effect found was for the *authority/respect* foundation owing to the fact its Cohen's *d* value was greater than the other four foundations. However, the effect was in the opposite direction of that which was hypothesized. Specifically, the results indicated that liberal leaning sources demonstrated higher positivity regarding that foundation than conservatives. This result is contrary not only to the research hypothesis for Experiment 1 but also to previous findings in Moral Foundations Theory research. It should be noted, however, the effect size was small and the relationship was not found to be statistically significant. 
@@ -1071,9 +1070,9 @@ On September 27, the committee questioned Dr. Ford before commencing a second ro
 
 The Kavanaugh nomination, confirmation hearing, and eventual swearing-in, as well as the news media's coverage of all three events, feature many dimensions that likely differ depending on one's morals. The issue might be exacerbated given the presence of questionable sexual behaviors at the center of many concerns. On one side of the debate, Kavanaugh's Supreme Court tenure presents a prime opportunity to bring morality back into interpretation of the Constitution. Kavanaugh's confirmation creates a conservative stronghold among the justices on the court. Commentators have noted this might help advance a judicial agenda that backpedals certain rights previously upheld by the Supreme Court, including abortion and gay marriage - social issues challenged by their opponents at least partially on moral grounds. Concerns around abortion might be related either to *harm/care* or *purity/sanctity*. On the other side of the debate, the assault allegations have energized Kavanaugh's opponents to advocate for his rejection from the court owing to misdeeds resulting from Kavanaugh's own alleged lack of morals. Likewise, arguments could be made that relate concerns regarding sexual violence to *harm/care* or *fairness/reciprocity*. Additionally, the moral duty of the Senate as the upper chamber in the U.S. legislature has been scrutinized in public discourse with respect to its handling of the assault allegations vis-a-vis Kavanaugh's confirmation. 
 
-##U.S. Government Shutdown of 2018-2019
+## U.S. Government Shutdown of 2018-2019
 
-The U.S. Federal Government partially shut down on December 22, 2018. The government reopened on January 25, 2019 upon the passage of an appropriations bill by both houses of Congress [@Axelrod2019]. The shutdown stemmed from a disagreement between President Donald Trump and Congress over funding for the president's proposed U.S.-Mexico border waLL. President Trump demanded $5.7 billion dollars in the new budget to be appropriated for the wall, which Congress did not provide in its budget [@Peoples2019]. Owing to the lack of funding, the government began a partial shutdown, causing "around 800,000" federal employees to be either furloughed or compelled to work without pay [@Axelrod2019].
+The U.S. Federal Government partially shut down on December 22, 2018. The government reopened on January 25, 2019 upon the passage of an appropriations bill by both houses of Congress [@Axelrod2019]. The shutdown stemmed from a disagreement between President Donald Trump and Congress over funding for the president's proposed U.S.-Mexico border wall. President Trump demanded $5.7 billion dollars in the new budget to be appropriated for the wall, which Congress did not provide in its budget [@Peoples2019]. Owing to the lack of funding, the government began a partial shutdown, causing "around 800,000" federal employees to be either furloughed or compelled to work without pay [@Axelrod2019].
 
 The government shutdown ended 35 days later when Congress passed a continuing resolution to fund the government for three weeks while further negotiations regarding the budget would take place. President Trump signed the bill, ending the longest govenrment shutdown in U.S. history [@Axelrod2019]. Many political commentators cite the mounting pressure on Trump and Congress stemming from significant costs both to unpaid American workers and the economy as a whole [@Kheel2019]. Perhaps owing to the financial pressures experienced by thousands of federal employees and their families as a result of a political quarrel, President Trump saw his approval rating fall as the shutdown progressed [@Peoples2019]. While the shutdown and its associated burdens were unpopular, the issues discussed concurrent to the shutdown offer the potential for more divergent opinions.
 
@@ -2834,14 +2833,13 @@ write.csv(HANNITYDF, "HANNITY_gs.csv", row.names = F)
 
 ```
 
-
 ## Sources
 
 Articles pertaining to the Brett Kavanaugh Supreme Court nomination and confirmation were scraped from the websites of 12 U.S. news sources. As in Experiment 1, these sources were selected owing to their favorability among political partisans according to @Mitchell2014. The sources favored by the highest proportion of consistent liberals were *The New York Times*, *National Public Radio (NPR)*, *Slate*, *Huffington Post*, and *Politico* [@Mitchell2014]. The sources favored by the highest proportion of consistent conservatives included *Fox News*, *Breitbart*, *The Rush Limbaugh Show*, *The Blaze*, and *Sean Hannity*. Political articles referencing Brett Kavanaugh's nomination process were identified and subsequently scraped by including the URL for each source's coverage of the nomination in the *R* script. All code for this manuscript can be found at https://osf.io/5kpj7/, and the scripts, again written with the *papaja* library in *R*, are provided inline with this manuscript [@Aust2017].
 
 ## Materials
 
-Using the *rvest* library in the statistical package *R*, we pulled body text for individual articles from each of the aforementioned 10 news sources (identified using CSS language). We compiled the articles into a dataset [@Wickham2016]. Using this dataset, we identified word count and average word count per source. This process was run for articles pertaining to Kavanaugh's nomination that were published between September 13, 2018 and October 11, 2018 inclusive. This date range was selected in reference to the widely-publicized and viewed nomination hearing on September 27, 2018. We set the start date at September 13 (two weeks before the hearing) and the end date at October 11 (two weeks after the hearing) so that we could capture a large amount of data (roughly one month) during which Kavanaugh's nomination was at its peak saturation in news coverage.
+Using the *rvest* library in the statistical package *R*, we pulled body text for individual articles from each of the aforementioned 10 news sources (identified using CSS language). We compiled the articles into a dataset [@Wickham2016]. Using this dataset, we identified word count and average word count per source. This process was run for articles pertaining to Kavanaugh's nomination that were published between September 13, 2018 and October 11, 2018 inclusive. This date range was selected in reference to the widely-publicized and viewed nomination hearing on September 27, 2018. We set the start date at September 13 (two weeks before the hearing) and the end date at October 11 (two weeks after the hearing) so that we could capture a large amount of data (roughly one month) during which Kavanaugh's nomination was at its peak saturation in news coverage. 
 
 ```{r data_clean_kav, eval = T, echo = F}
 ##combine all kav data into one dataset
@@ -4147,7 +4145,6 @@ tiff(filename = "exp2_graph_kav.tiff", res = 300, width = 4,
      height = 3, units = 'in', compression = "lzw")
 plot(graph_data_kav)
 dev.off()
-
 ```
 
 ```{r conference-pic_gs, eval = F, include = F}
@@ -4180,8 +4177,9 @@ tiff(filename = "exp2_graph_gs.tiff", res = 300, width = 4,
      height = 3, units = 'in', compression = "lzw")
 plot(graph_data_gs)
 dev.off()
-
+=
 ```
+
 # Discussion
 
 # Conclusions 
