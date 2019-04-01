@@ -865,7 +865,7 @@ summary(purity_model)
 
 ## Descriptive Statistics
 
-```{r exp1 source descriptives, results = 'asis', echo = FALSE, message = F}
+```{r exp1_source_descriptives, results = 'asis', echo = FALSE, message = F}
 
 final$uniquewords = NA
 final$valenceavg = NA
@@ -909,6 +909,24 @@ for (i in 1:nrow(final)){
 tapply(final$FK, final$Source, mean)
 tapply(final$FK, final$Source, sd)
 
+####build the table here####
+tableprint = matrix(NA, nrow=4, ncol=7)
+colnames(tableprint) = c("Sources", "Unique_Words", "stuff")
+
+tableprint[ , 1] = levels(final$Source)
+tableprint[ , 2] = tapply(final$uniquewords, final$Source, mean)
+
+
+#change this to match
+apa_table(as.data.frame(tableprint),
+          note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
+          caption = "Experiment 1 Results - Multilevel Model", 
+          col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$"),
+          format = "latex",
+          escape = F,
+          align = c("l", rep("c", 6))
+          )
+
 ```
 
 overall valence for each source
@@ -917,7 +935,7 @@ types/tokens ratios, etc. for each source also number of articles
 
 table - columns are types (unique words), tokens (total words), readability statistics, number of articles, total number of words, valence
 
-
+talk about the table here
 
 ## Inferential Statistics
 
@@ -2844,32 +2862,22 @@ Using the *rvest* library in the statistical package *R*, we pulled body text fo
 ```{r data_clean_kav, eval = T, echo = F}
 ##combine all kav data into one dataset
 #read it in
-NYtimes_kav = read.csv("exp2_data/NYtimes_kav.csv")
-NPR_kav = read.csv("exp2_data/NPR_kav.csv")
-SLATE_kav = read.csv("exp2_data/SLATE_kav.csv")
-HUFFPO_kav = read.csv("exp2_data/HUFFPO_kav.csv")
-POLITICO_kav = read.csv("exp2_data/POLITICO_kav.csv")
-FOX_kav = read.csv("exp2_data/FOX_kav.csv")
-BREITBART_kav = read.csv("exp2_data/BREITBART_kav.csv")
-RUSH_kav = read.csv("exp2_data/RUSH_kav.csv")
-BLAZE_kav = read.csv("exp2_data/BLAZE_kav.csv")
-HANNITY_kav = read.csv("exp2_data/HANNITY_kav.csv")
+NYtimes_kav = read.csv("exp2_data/NYtimes_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
+NPR_kav = read.csv("exp2_data/NPR_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
+SLATE_kav = read.csv("exp2_data/SLATE_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
+HUFFPO_kav = read.csv("exp2_data/HUFFPO_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
+POLITICO_kav = read.csv("exp2_data/POLITICO_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
+FOX_kav = read.csv("exp2_data/FOX_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
+BREITBART_kav = read.csv("exp2_data/BREITBART_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
+RUSH_kav = read.csv("exp2_data/RUSH_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
+BLAZE_kav = read.csv("exp2_data/BLAZE_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
+HANNITY_kav = read.csv("exp2_data/HANNITY_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
 
 #merge it together
-overalldata_kav = rbind(NYtimes_kav, NPR_kav)
-overalldata_kav = rbind(overalldata_kav, SLATE_kav)
-overalldata_kav = rbind(overalldata_kav, HUFFPO_kav)
-overalldata_kav = rbind(overalldata_kav, POLITICO_kav)
-overalldata_kav = rbind(overalldata_kav, FOX_kav)
-overalldata_kav = rbind(overalldata_kav, BREITBART_kav)
-overalldata_kav = rbind(overalldata_kav, RUSH_kav)
-overalldata_kav = rbind(overalldata_kav, BLAZE_kav)
-overalldata_kav = rbind(overalldata_kav, HANNITY_kav)
-
-write.csv(overalldata_kav, "exp2_data/overalldata_kav.csv", row.names = F)
-
-##pull in the data
-master_kav = read.csv("exp2_data/overalldata_kav.csv", stringsAsFactors = F)
+master_kav = rbind(NYtimes_kav, NPR_kav, SLATE_kav, 
+                        HUFFPO_kav, POLITICO_kav, FOX_kav, 
+                        BREITBART_kav, RUSH_kav, BLAZE_kav, 
+                        HANNITY_kav)
 
 ##get rid of the blank stuff
 library(ngram)
@@ -2882,53 +2890,32 @@ nozero = subset(master_kav, wordcount > 0)
 tapply(nozero$wordcount, nozero$Source, mean)
 tapply(nozero$wordcount, nozero$Source, sum)
 
-##take out the disqus ones
-nodis = nozero[ -c(grep("disqus", nozero$Url)), ]
-
-##figure out the duplicates
-nodis$URLS = duplicated(nodis$Url)
+##take out the disqus ones - there are none
+#nodis = nozero[ -c(grep("disqus", nozero$Url)), ]
 
 ##all data
-final_kav = subset(nodis, URLS == FALSE)
-
-tapply(final_kav$wordcount, final_kav$Source, mean)
-tapply(final_kav$wordcount, final_kav$Source, sum)
-
-write.csv(final_kav, "exp2_data/finaldata_kav.csv")
+final_kav = nozero
 ```
 
 ```{r data_clean_gs, eval = T, echo = F}
 ##combine all gs data into one dataset
 #read it in
-NYtimes_gs = read.csv("exp2_data/NYtimes_gs.csv")
-NPR_gs = read.csv("exp2_data/NPR_gs.csv")
-SLATE_gs = read.csv("exp2_data/SLATE_gs.csv")
-HUFFPO_gs = read.csv("exp2_data/HUFFPO_gs.csv")
-POLITICO_gs = read.csv("exp2_data/POLITICO_gs.csv")
-FOX_gs = read.csv("exp2_data/FOX_gs.csv")
-BREITBART_gs = read.csv("exp2_data/BREITBART_gs.csv")
-RUSH_gs = read.csv("exp2_data/RUSH_gs.csv")
-BLAZE_gs = read.csv("exp2_data/BLAZE_gs.csv")
-HANNITY_gs = read.csv("exp2_data/HANNITY_gs.csv")
+NYtimes_gs = read.csv("exp2_data/NYtimes_gs.csv", stringsAsFactors = F)
+NPR_gs = read.csv("exp2_data/NPR_gs.csv", stringsAsFactors = F)
+SLATE_gs = read.csv("exp2_data/SLATE_gs.csv", stringsAsFactors = F)
+HUFFPO_gs = read.csv("exp2_data/HUFFPO_gs.csv", stringsAsFactors = F)
+POLITICO_gs = read.csv("exp2_data/POLITICO_gs.csv", stringsAsFactors = F)
+FOX_gs = read.csv("exp2_data/FOX_gs.csv", stringsAsFactors = F)
+BREITBART_gs = read.csv("exp2_data/BREITBART_gs.csv", stringsAsFactors = F)
+RUSH_gs = read.csv("exp2_data/RUSH_gs.csv", stringsAsFactors = F)
+BLAZE_gs = read.csv("exp2_data/BLAZE_gs.csv", stringsAsFactors = F)
+HANNITY_gs = read.csv("exp2_data/HANNITY_gs.csv", stringsAsFactors = F)
 
 #merge it together
-overalldata_gs = rbind(NYtimes_gs, NPR_gs)
-overalldata_gs = rbind(overalldata_gs, SLATE_gs)
-overalldata_gs = rbind(overalldata_gs, HUFFPO_gs)
-overalldata_gs = rbind(overalldata_gs, POLITICO_gs)
-overalldata_gs = rbind(overalldata_gs, FOX_gs)
-overalldata_gs = rbind(overalldata_gs, BREITBART_gs)
-overalldata_gs = rbind(overalldata_gs, RUSH_gs)
-overalldata_gs = rbind(overalldata_gs, BLAZE_gs)
-overalldata_gs = rbind(overalldata_gs, HANNITY_gs)
-
-write.csv(overalldata_gs, "exp2_data/overalldata_gs.csv", row.names = F)
-
-##pull in the data
-master_gs = read.csv("exp2_data/overalldata_gs.csv", stringsAsFactors = F)
-
-##get rid of the blank stuff
-library(ngram)
+master_gs = rbind(NYtimes_gs, NPR_gs, SLATE_gs, 
+                        HUFFPO_gs, POLITICO_gs, FOX_gs, 
+                        BREITBART_gs, RUSH_gs, BLAZE_gs, 
+                        HANNITY_gs)
 
 for (i in 1:nrow(master_gs)) {
   master_gs$wordcount[i] = wordcount(master_gs$Text[i])
@@ -2939,29 +2926,13 @@ tapply(nozero$wordcount, nozero$Source, mean)
 tapply(nozero$wordcount, nozero$Source, sum)
 
 ##take out the disqus ones
-nodis = nozero[ -c(grep("disqus", nozero$Url)), ]
-
-##figure out the duplicates
-nodis$URLS = duplicated(nodis$Url)
+#nodis = nozero[ -c(grep("disqus", nozero$Url)), ]
 
 ##all data
-final_gs = subset(nodis, URLS == FALSE)
-
-tapply(final_gs$wordcount, final_gs$Source, mean)
-tapply(final_gs$wordcount, final_gs$Source, sum)
-
-write.csv(final_gs, "exp2_data/finaldata_gs.csv")
+final_gs = nozero
 ```
 
 ```{r stem_text_both, eval = T, echo = F}
-##stem Kav text
-final_kav = read.csv("exp2_data/finaldata_kav.csv", stringsAsFactors = F)
-#final = na.omit(final) #one weird NA line
-
-##load libraries
-library(tm)
-library(ngram)
-
 #process the Text column (write a loop) - save processed text as a separate column
 for(i in 1:nrow(final_kav)) {
   
@@ -2975,13 +2946,10 @@ for(i in 1:nrow(final_kav)) {
   final_kav$stemmed[i] = stemDocument(final_kav$edited[i], language = "english")
 }
 
-##stem GS text
-final_gs = read.csv("exp1_data/finaldata_gs.csv", stringsAsFactors = F)
-
 #process the Text column (write a loop) - save processed text as a separate column
 for(i in 1:nrow(final_gs)) {
   
-  final_gs$edited[i] = preprocess(fina_gs$Text[i], #one value at a time
+  final_gs$edited[i] = preprocess(final_gs$Text[i], #one value at a time
            case = "lower", 
            remove.punct = TRUE,
            remove.numbers = FALSE, 
@@ -2991,15 +2959,6 @@ for(i in 1:nrow(final_gs)) {
   final_gs$stemmed[i] = stemDocument(final_gs$edited[i], language = "english")
 }
 
-```
-```{r stem_warriner_exp2, eval = T, echo = F}
-##open the Warriner data for later
-warriner = read.csv("exp1_data/BRM-emot-submit.csv", stringsAsFactors = F) #want v.mean.sum
-warriner$V.Mean.Sum = scale(warriner$V.Mean.Sum)
-
-for(i in 1:nrow(warriner)) {
-  warriner$Word2[i] = stemDocument(warriner$Word[i], language = "english")
-} 
 ```
 
 ## Data analysis
