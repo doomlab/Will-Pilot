@@ -2867,7 +2867,7 @@ NPR_kav = read.csv("exp2_data/NPR_kav.csv", stringsAsFactors = F, fileEncoding="
 SLATE_kav = read.csv("exp2_data/SLATE_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
 HUFFPO_kav = read.csv("exp2_data/HUFFPO_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
 POLITICO_kav = read.csv("exp2_data/POLITICO_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
-FOX_kav = read.csv("exp2_data/FOX_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
+FOX_kav = read.csv("exp2_data/FOX_kav.csv", stringsAsFactors = F)
 BREITBART_kav = read.csv("exp2_data/BREITBART_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
 RUSH_kav = read.csv("exp2_data/RUSH_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
 BLAZE_kav = read.csv("exp2_data/BLAZE_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8")
