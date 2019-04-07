@@ -2873,7 +2873,7 @@ The same process was followed for scraping articles related to the partical U.S.
 NYtimes_kav = read.csv("exp2_data/NYtimes_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
 NPR_kav = read.csv("exp2_data/NPR_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
 SLATE_kav = read.csv("exp2_data/SLATE_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-HUFFPO_kav = read.csv("exp2_data/HUFFPO_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #not ok fix
+HUFFPO_kav = read.csv("exp2_data/HUFFPO_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
 POLITICO_kav = read.csv("exp2_data/POLITICO_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok 
 FOX_kav = read.csv("exp2_data/FOX_kav.csv", stringsAsFactors = F) #ok 
 BREITBART_kav = read.csv("exp2_data/BREITBART_kav.csv", stringsAsFactors = F) #ok
@@ -2881,11 +2881,15 @@ RUSH_kav = read.csv("exp2_data/RUSH_kav.csv", stringsAsFactors = F, fileEncoding
 BLAZE_kav = read.csv("exp2_data/BLAZE_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok 
 HANNITY_kav = read.csv("exp2_data/HANNITY_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok 
 
+
 #merge it together
 master_kav = rbind(NYtimes_kav, NPR_kav, SLATE_kav, 
                         HUFFPO_kav, POLITICO_kav, FOX_kav, 
                         BREITBART_kav, RUSH_kav, BLAZE_kav, 
                         HANNITY_kav)
+
+#fix this issue
+master_kav$Text = gsub("\\.", "\\. ", master_kav$Text)
 
 ##get rid of the blank stuff
 library(ngram)
@@ -2908,7 +2912,7 @@ final_kav = nozero
 ```{r data_clean_gs, eval = T, echo = F}
 ##combine all gs data into one dataset
 #read it in
-NYtimes_gs = read.csv("exp2_data/NYtimes_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #not ok 
+NYtimes_gs = read.csv("exp2_data/NYtimes_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #ok
 NPR_gs = read.csv("exp2_data/NPR_gs.csv", stringsAsFactors = F) #ok
 SLATE_gs = read.csv("exp2_data/SLATE_gs.csv", stringsAsFactors = F) #ok 
 HUFFPO_gs = read.csv("exp2_data/HUFFPO_gs.csv", stringsAsFactors = F) #ok 
@@ -2924,6 +2928,9 @@ master_gs = rbind(NYtimes_gs, NPR_gs, SLATE_gs,
                         HUFFPO_gs, POLITICO_gs, FOX_gs, 
                         BREITBART_gs, RUSH_gs, BLAZE_gs, 
                         HANNITY_gs)
+
+#fix this issue
+master_gs$Text = gsub("\\.", "\\. ", master_gs$Text)
 
 for (i in 1:nrow(master_gs)) {
   master_gs$wordcount[i] = wordcount(master_gs$Text[i])
@@ -3821,6 +3828,7 @@ summary(purity_model_gs)
 # Experiment 2 
 
 ## Results
+
 ```{r exp2 source descriptives_both, results = 'asis', echo = FALSE, message = F}
 #Kav
 final_kav$uniquewords = NA
