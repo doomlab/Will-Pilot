@@ -2899,6 +2899,7 @@ for (i in 1:nrow(master_kav)) {
 }
 
 nozero = subset(master_kav, wordcount > 0)
+nozero = subset(nozero, Source == "NY Times" | Source == "BLAZE" | Source == "NPR" | Source == "HUFFPO" | Source == "FOX" | Source == "HANNITY" | Source == "SLATE" | Source == "POLITICO" | Source == "RUSH" | Source == "BREITBART")
 tapply(nozero$wordcount, nozero$Source, mean)
 tapply(nozero$wordcount, nozero$Source, sum)
 
@@ -2937,6 +2938,8 @@ for (i in 1:nrow(master_gs)) {
 }
 
 nozero = subset(master_gs, wordcount > 0)
+nozero = subset(nozero, Source == "NY Times" | Source == "BLAZE" | Source == "NPR" | Source == "HUFFPO" | Source == "FOX" | Source == "HANNITY" | Source == "SLATE" | Source == "POLITICO" | Source == "RUSH" | Source == "BREITBART")
+
 tapply(nozero$wordcount, nozero$Source, mean)
 tapply(nozero$wordcount, nozero$Source, sum)
 
@@ -3392,27 +3395,27 @@ summary(authority_final_data_gs)
 summary(purity_final_data_gs)
 ##report descriptive statistics of the foundations
 #kav
-mean(harm_final_data_kav$valence)
-sd(harm_final_data_kav$valence)
-mean(fair_final_data_kav$valence)
-sd(fair_final_data_kav$valence)
-mean(ingroup_final_data_kav$valence)
-sd(ingroup_final_data_kav$valence)
-mean(authority_final_data_kav$valence)
-sd(authority_final_data_kav$valence)
-mean(purity_final_data_kav$valence)
-sd(purity_final_data_kav$valence)
+mean(harm_final_data_kav$valence, na.rm = T)
+sd(harm_final_data_kav$valence, na.rm = T)
+mean(fair_final_data_kav$valence, na.rm = T)
+sd(fair_final_data_kav$valence, na.rm = T)
+mean(ingroup_final_data_kav$valence, na.rm = T)
+sd(ingroup_final_data_kav$valence, na.rm = T)
+mean(authority_final_data_kav$valence, na.rm = T)
+sd(authority_final_data_kav$valence, na.rm = T)
+mean(purity_final_data_kav$valence, na.rm = T)
+sd(purity_final_data_kav$valence, na.rm = T)
 #gs
-mean(harm_final_data_gs$valence)
-sd(harm_final_data_gs$valence)
-mean(fair_final_data_gs$valence)
-sd(fair_final_data_gs$valence)
-mean(ingroup_final_data_gs$valence)
-sd(ingroup_final_data_gs$valence)
-mean(authority_final_data_gs$valence)
-sd(authority_final_data_gs$valence)
-mean(purity_final_data_gs$valence)
-sd(purity_final_data_gs$valence)
+mean(harm_final_data_gs$valence, na.rm = T)
+sd(harm_final_data_gs$valence, na.rm = T)
+mean(fair_final_data_gs$valence, na.rm = T)
+sd(fair_final_data_gs$valence, na.rm = T)
+mean(ingroup_final_data_gs$valence, na.rm = T)
+sd(ingroup_final_data_gs$valence, na.rm = T)
+mean(authority_final_data_gs$valence, na.rm = T)
+sd(authority_final_data_gs$valence, na.rm = T)
+mean(purity_final_data_gs$valence, na.rm = T)
+sd(purity_final_data_gs$valence, na.rm = T)
 #note that a big problem is the valence of the words 
 ```
 
@@ -3455,6 +3458,7 @@ harm_model_kav = lme(MFDweight ~ lean,
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(harm_model_kav)
+r.squaredGLMM(harm_model_kav)
 ```
 
 ```{r analysis_fair_kav, include = FALSE}
@@ -3825,11 +3829,12 @@ purity_model_gs = lme(MFDweight ~ lean,
                  random = list(~1|Source))
 summary(purity_model_gs)
 ```
+
 # Experiment 2 
 
 ## Results
 
-```{r exp2 source descriptives_both, results = 'asis', echo = FALSE, message = F}
+```{r exp2_source_descriptives_kav, results = 'asis', echo = FALSE, message = F}
 #Kav
 final_kav$uniquewords = NA
 final_kav$valenceavg = NA
@@ -3899,7 +3904,10 @@ apa_table(as.data.frame(tableprint),
           escape = F,
           align = c("l", rep("c", 6))
           )
+```
 
+```{r exp2_source_descriptives_gs, results = 'asis', echo = FALSE, message = F}
+#Kav
 #GS
 final_gs$uniquewords = NA
 final_gs$valenceavg = NA
@@ -3978,7 +3986,7 @@ colnames(tableprint_kav) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p
 
 #calculate d
 #harm
-harm_d_kav = d.ind.t(m1 = mean(harm_final_temp_kav$MFDweight[harm_final_temp$lean == "Conservative"], na.rm = T), 
+harm_d_kav = d.ind.t(m1 = mean(harm_final_temp_kav$MFDweight[harm_final_temp_kav$lean == "Conservative"], na.rm = T), 
                  m2 = mean(harm_final_temp_kav$MFDweight[harm_final_temp_kav$lean == "Liberal"], na.rm = T),
                  sd1 = sd(harm_final_temp_kav$MFDweight[harm_final_temp_kav$lean == "Conservative"], na.rm = T),
                  sd2 = sd(harm_final_temp_kav$MFDweight[harm_final_temp_kav$lean == "Liberal"], na.rm = T),
@@ -4024,19 +4032,19 @@ purity_d_kav = d.ind.t(m1 = mean(purity_final_temp_kav$MFDweight[purity_final_te
 
 #put in the numbers
 tableprint_kav[1, ] = c("Harm/Care", harm_d_kav$M1, harm_d_kav$sd1, harm_d_kav$M2, harm_d_kav$sd1, 
-                    summary(harm_model)$tTable[2,4], summary(harm_model)$tTable[2,5],
+                    summary(harm_model_kav)$tTable[2,4], summary(harm_model_kav)$tTable[2,5],
                     harm_d_kav$d)
 tableprint_kav[2, ] = c("Fairness/Reciprocity", fair_d_kav$M1, fair_d_kav$sd1, fair_d_kav$M2, fair_d_kav$sd1, 
-                    summary(fair_model)$tTable[2,4], summary(fair_model)$tTable[2,5],
+                    summary(fair_model_kav)$tTable[2,4], summary(fair_model_kav)$tTable[2,5],
                     fair_d_kav$d)
 tableprint_kav[3, ] = c("Ingroup/Loyalty", ingroup_d_kav$M1, ingroup_d_kav$sd1, ingroup_d_kav$M2, ingroup_d_kav$sd1, 
-                    summary(ingroup_model)$tTable[2,4], summary(ingroup_model)$tTable[2,5],
+                    summary(ingroup_model_kav)$tTable[2,4], summary(ingroup_model_kav)$tTable[2,5],
                     ingroup_d_kav$d)
 tableprint_kav[4, ] = c("Authority/Respect", authority_d_kav$M1, authority_d_kav$sd1, authority_d_kav$M2, authority_d_kav$sd1, 
-                    summary(authority_model)$tTable[2,4], summary(authority_model)$tTable[2,5],
+                    summary(authority_model_kav)$tTable[2,4], summary(authority_model_kav)$tTable[2,5],
                     authority_d_kav$d)
 tableprint_kav[5, ] = c("Purity/Sanctity", purity_d_kav$M1, purity_d_kav$sd1, purity_d_kav$M2, purity_d_kav$sd1, 
-                    summary(purity_model)$tTable[2,4], summary(purity_model)$tTable[2,5],
+                    summary(purity_model_kav)$tTable[2,4], summary(purity_model_kav)$tTable[2,5],
                     purity_d_kav$d)
 
 tableprint_kav[ , c(2:6, 8)] = printnum(as.numeric(tableprint_kav[ , c(2:6, 8)]))
@@ -4059,7 +4067,7 @@ colnames(tableprint_gs) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p"
 
 #calculate d
 #harm
-harm_d_gs = d.ind.t(m1 = mean(harm_final_temp_gs$MFDweight[harm_final_temp$lean == "Conservative"], na.rm = T), 
+harm_d_gs = d.ind.t(m1 = mean(harm_final_temp_gs$MFDweight[harm_final_temp_gs$lean == "Conservative"], na.rm = T), 
                  m2 = mean(harm_final_temp_gs$MFDweight[harm_final_temp_gs$lean == "Liberal"], na.rm = T),
                  sd1 = sd(harm_final_temp_gs$MFDweight[harm_final_temp_gs$lean == "Conservative"], na.rm = T),
                  sd2 = sd(harm_final_temp_gs$MFDweight[harm_final_temp_gs$lean == "Liberal"], na.rm = T),
@@ -4105,19 +4113,19 @@ purity_d_gs = d.ind.t(m1 = mean(purity_final_temp_gs$MFDweight[purity_final_temp
 
 #put in the numbers
 tableprint_gs[1, ] = c("Harm/Care", harm_d_gs$M1, harm_d_gs$sd1, harm_d_gs$M2, harm_d_gs$sd1, 
-                    summary(harm_model)$tTable[2,4], summary(harm_model)$tTable[2,5],
+                    summary(harm_model_gs)$tTable[2,4], summary(harm_model_gs)$tTable[2,5],
                     harm_d_gs$d)
 tableprint_gs[2, ] = c("Fairness/Reciprocity", fair_d_gs$M1, fair_d_gs$sd1, fair_d_gs$M2, fair_d_gs$sd1, 
-                    summary(fair_model)$tTable[2,4], summary(fair_model)$tTable[2,5],
+                    summary(fair_model_gs)$tTable[2,4], summary(fair_model_gs)$tTable[2,5],
                     fair_d_gs$d)
 tableprint_gs[3, ] = c("Ingroup/Loyalty", ingroup_d_gs$M1, ingroup_d_gs$sd1, ingroup_d_gs$M2, ingroup_d_gs$sd1, 
-                    summary(ingroup_model)$tTable[2,4], summary(ingroup_model)$tTable[2,5],
+                    summary(ingroup_model_gs)$tTable[2,4], summary(ingroup_model_gs)$tTable[2,5],
                     ingroup_d_gs$d)
 tableprint_gs[4, ] = c("Authority/Respect", authority_d_gs$M1, authority_d_gs$sd1, authority_d_gs$M2, authority_d_gs$sd1, 
-                    summary(authority_model)$tTable[2,4], summary(authority_model)$tTable[2,5],
+                    summary(authority_model_gs)$tTable[2,4], summary(authority_model_gs)$tTable[2,5],
                     authority_d_gs$d)
 tableprint_gs[5, ] = c("Purity/Sanctity", purity_d_gs$M1, purity_d_gs$sd1, purity_d_gs$M2, purity_d_gs$sd1, 
-                    summary(purity_model)$tTable[2,4], summary(purity_model)$tTable[2,5],
+                    summary(purity_model_gs)$tTable[2,4], summary(purity_model_gs)$tTable[2,5],
                     purity_d_gs$d)
 
 tableprint_gs[ , c(2:6, 8)] = printnum(as.numeric(tableprint_gs[ , c(2:6, 8)]))
@@ -4170,10 +4178,10 @@ graph_data_kav = ggplot(graphlong_kav, aes(Foundation, value, color = variable))
   theme(axis.text.x = element_text(angle = 60, hjust = 1)) + 
   geom_hline(yintercept = 0, linetype = 1, color = "black")
   
-tiff(filename = "exp2_graph_kav.tiff", res = 300, width = 4, 
-     height = 3, units = 'in', compression = "lzw")
-plot(graph_data_kav)
-dev.off()
+#tiff(filename = "exp2_graph_kav.tiff", res = 300, width = 4, 
+#     height = 3, units = 'in', compression = "lzw")
+#plot(graph_data_kav)
+#dev.off()
 ```
 
 ```{r conference-pic_gs, eval = F, include = F}
