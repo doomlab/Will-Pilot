@@ -864,7 +864,7 @@ summary(purity_model)
 
 ## Descriptive Statistics
 
-```{r exp1_source_descriptives, results = 'asis', echo = FALSE, message = F}
+```{r exp1sourcedescriptives, results = 'asis', echo = FALSE, message = F}
 
 final$uniquewords = NA
 final$valenceavg = NA
@@ -3836,10 +3836,9 @@ summary(purity_model_gs)
 
 The researchers calculated descriptive statistics for each news source per topic in order to reveal the presence (if any) of linguistic differences in the sources' use of language. As in Experiment 1, statistics calculated include *z*-scored valence, number of articles per source, total words per source, mean tokens per article in each source, mean types per article in each source, and mean readability level (using the Flesch-Kincaid Grade Level Readability formula) per source [@Kincaid1975].
 
-Table 3 displays the descriptive statistics for sources' writing on the Kavanaugh confirmation. The sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The standard deviations seem to indicate little to no presence of a difference in valence. 
-*The New York Times* published the greatest number of articles as well as total words. *Breitbart* featured the lowest number of articles, and *NPR* the lowest number of total words from all articles. Per indvidual article, however, *Breitbart* appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, *Fox News* appears to be the most readable source on average, while *The New York Times* is the least readable. This might be attributable to the greater number of tokens in the average *New York Times* article compared to *Fox News*. As before, the standard deviations for readability hamper one's ability to draw solid conclusions regarding differences in the sources' use of language. Table 4 displays descriptive statistics for articles about the partial government shutdown. 
+Table 3 displays the descriptive statistics for sources' writing on the Kavanaugh confirmation. The sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The standard deviations seem to indicate little to no presence of a difference in valence. *The New York Times* published the greatest number of articles as well as total words. *Breitbart* featured the lowest number of articles, and *NPR* the lowest number of total words from all articles. Per indvidual article, however, *Breitbart* appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, *Fox News* appears to be the most readable source on average, while *The New York Times* is the least readable. This might be attributable to the greater number of tokens in the average *New York Times* article compared to *Fox News*. As before, the standard deviations for readability hamper one's ability to draw solid conclusions regarding differences in the sources' use of language. Table 4 displays descriptive statistics for articles about the partial government shutdown. 
 
-```{r exp2_source_descriptives_kav, results = 'asis', echo = FALSE, message = F}
+```{r exp2sourcedescriptiveskav, results = 'asis', echo = FALSE, message = F}
 #Kav
 final_kav$uniquewords = NA
 final_kav$valenceavg = NA
@@ -3911,7 +3910,7 @@ apa_table(as.data.frame(tableprint),
           )
 ```
 
-```{r exp2_source_descriptives_gs, results = 'asis', echo = FALSE, message = F}
+```{r exp2sourcedescriptivesgs, results = 'asis', echo = FALSE, message = F}
 #Kav
 #GS
 final_gs$uniquewords = NA
@@ -3984,7 +3983,7 @@ apa_table(as.data.frame(tableprint),
           )
 ```
 
-```{r exp2-table_kav, results = 'asis', echo = F}
+```{r exp2-tablekav, results = 'asis', echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
 tableprint_kav = matrix(NA, ncol = 8, nrow = 5)
 colnames(tableprint_kav) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d")
@@ -4065,7 +4064,7 @@ apa_table(tableprint_kav,
           )
 ```
 
-```{r exp2-table_gs, results = 'asis', echo = F}
+```{r exp2-tablegs, results = 'asis', echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
 tableprint_gs = matrix(NA, ncol = 8, nrow = 5)
 colnames(tableprint_gs) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d")

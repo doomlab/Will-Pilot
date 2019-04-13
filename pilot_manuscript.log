@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  12 APR 2019 23:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  12 APR 2019 23:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1218,7 +1218,7 @@ Type  H <return>  for immediate help.
  ...                                              
                                                   
 l.270 \caption
-              {\label{tab:exp1_source_descriptives}} 
+              {\label{tab:exp1sourcedescriptives}} 
 Here is how much of TeX's memory you used:
  16050 strings out of 492995
  235621 string characters out of 6132704
