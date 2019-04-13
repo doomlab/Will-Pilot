@@ -18,11 +18,9 @@ affiliation:
     institution  : "Harrisburg University of Science and Technology"
   
 author_note: |
-
   William Padfield is a master's degree candidate in Psychology at Missouri State University. This thesis partially fulfills the requirements for the Master of Science degree in Psychology.
 
 abstract: |
-
   The media ecosystem has grown, and political opinions have diverged such that there are competing conceptions of objective truth. Commentators often point to political biases in news coverage as a catalyst for this political divide. The Moral Foundations Dictionary (MFD) facilitates identification of ideological leanings in text through frequency of the occurrence of certain words. Through web scraping, the researchers extracted articles from popular news sources' websites, calculated MFD word frequencies, and identified words' respective valences. This process attempts to uncover news outlets' positive or negative endorsements of certain moral dimensions concomitant with a particular ideology. In Experiment 1, the researchers gathered poltical articles from four sources. They were unable to reveal significant differences in moral or political endorsements, but they solidified the method to be employed in further research. In Experiment 2, the researchers will expand their number of sources to 10 and will analyze articles that pertain to the 2018 confirmation hearings of U.S. Supreme Court Justice Brett Kavanaugh. This topic was selected due to the moral disputes associated with his nomination.  
   
 keywords          : "politics, morality, psycholinguistics"
@@ -34,10 +32,12 @@ figurelist        : no
 tablelist         : no
 footnotelist      : no
 lineno            : yes
-mask              : no
-
+lang              : "english"
 class             : "man"
+mask              : no
 output            : papaja::apa6_pdf
+replace_ampersands: yes
+csl               : apa6.csl
 ---
 
 ```{r load_packages, include = FALSE}
@@ -50,6 +50,7 @@ library(expss)
 library(MOTE)
 
 knitr::opts_chunk$set(cache = TRUE)
+options(tinytex.verbose = TRUE)
 ```
 
 In the United States, today's media landscape affords consumers a multitude of options for obtaining political news. Since the advent of cable news networks and the World Wide Web in the last decades of the twentieth century, consumers have gained access to an ever-expanding menagerie of news sources, many of which can be called up via a simple click, touch, or swipe. Concurrent with this growth in available news sources, concerns regarding political bias in news reporting have entered public consciousness. For example, commentators argue that networks including Fox News Channel and MSNBC communicate political news from a conservative and liberal slant, respectively. These purported biases have been a cause for concern given the potential for incomplete or inaccurate news reporting potentially resulting from these biases. Given the inherently moral nature of many political arguments and positions, bias in news reporting might manifest as differing moral appeals. Specifically, the use of differing moral language in political articles might be an indicator of political bias in news media. 
@@ -64,7 +65,7 @@ Kohlberg's conception of morality faced major scrutiny from psychologist Carol G
 
 Jonathan Haidt and Jesse Graham formulated Moral Foundations Theory as a method by which to capture the entirety of humans' moral domain [@Haidt2007]. The researchers argued older theories of moral psychology were focused primarily on issues of justice, fairness, and caring - individually focused foundations of morality that align with the beliefs of political liberals [@Haidt2007]. In other words, moral psychology ignored the valid moral foundations of conservatives. Moral Foundations Theory (MFT) holds that people's moral domain can be mapped by quantifying their endorsement of five moral foundations: *harm/care*, *fairness/reciprocity*, *ingroup/loyalty*, *authority/respect*, and *purity/sanctity* [@Haidt2007]. 
 
-In their brief overview of the history of moral psychology, @Graham2009 explained Shweder, Much, Mahapatra, and Park's objections to moral psychology as it stood in the late 1980s. Their criticism centered on the fact moral psychology concerned itself with issues regarding justice and individuals' rights. Such a system, they argued, did not account for moral concerns outside of the western world [@Graham2009]. Individually focused concerns can be grouped under an overarching "ethic of autonomy," which was thought to be one of three ethics upon which humans base moral decisions. The other two ethics were the "ethic of community" (comprising one's duty to their family, tribe, etc.), and the "ethic of divinity"" - representing one's duty not to defile their God-given body and soul [@Graham2009]. In the 2000s, @Haidt2007 took this line of reasoning further in their assertion that moral psychology favored certain political ideologies over others. 
+In their brief overview of the history of moral psychology, @Graham2009 explained Shweder, Much, Mahapatra, and Park's objections to moral psychology as it stood in the late 1980s. Their criticism centered on the fact moral psychology concerned itself with issues regarding justice and individuals' rights. Such a system, they argued, did not account for moral concerns outside of the western world [@Graham2009]. Individually focused concerns can be grouped under an overarching "ethic of autonomy," which was thought to be one of three ethics upon which humans base moral decisions. The other two ethics were the "ethic of community" (comprising one's duty to their family, tribe, etc.), and the "ethic of divinity" - representing one's duty not to defile their God-given body and soul [@Graham2009]. In the 2000s, @Haidt2007 took this line of reasoning further in their assertion that moral psychology favored certain political ideologies over others. 
 
 Haidt and Graham settled on these specific foundations after the completion of a literature survey of research in anthropology and evolutionary psychology [@Graham2011]. The researchers attempted to locate virtues and morals corresponding to "evolutionary thinking." For instance, the researchers cited Mauss' work on reciprocal gift-giving, which informed the establishment of the *fairness/reciprocity* foundation. Additionally, evolutionary literature on disgust and its correlation to human behavior regarding food and sex informed the *purity/sanctity* foundation [@Graham2011]. The researchers identified the five "top candidates" for the foundations of human cultures' morality [@Graham2011].
 
@@ -76,7 +77,6 @@ Moral Foundations Theory has received criticism on the grounds that its assumpti
 
 These criticisms of Moral Foundations Theory are valid and should be taken into consideration when conducting research with instruments derived from MFT. The current authors argue these criticisms are especially valid when considered alongside questions regarding the Moral Foundations Dictionary they state herein. However, there exists compelling evidence regarding the validity of Moral Foundations Theory, albeit regarding its application solely through the Moral Foundations Questionnaire. This evidence is discussed within a brief explanation of the Moral Foundations Questionnaire and its relationship to the Moral Fondations Dictionary.
 
-
 ## Moral Foundations Dictionary
 
 In order to capture language's role in moral and political reasoning, @Graham2009 formulated the Moral Foundations Dictionary (MFD) in order to capture moral reasoning and justification as used in speech and text. The MFD is composed of 259 words, with around 50 words assigned to each of the five foundations. The researchers created a preliminary list of words that they believed would be associated with the five foundations. Then, using the Linguistic Inquiry and Word Count [LIWC; @Pennebaker2007] computer program, they analyzed transcripts of liberal and conservative Christian sermons in order to obtain frequencies of the occurrence of words from the researchers' initial list. The researchers manually checked the results from LIWC in order to make sure the results make sense given the contexts and rhetorical devices used in the sermons, as word frequency analysis ignores sentence context. The researchers offered the following example from a Unitarian sermon as a demonstration of ambiguous statements requiring human verification: "Don't let some self-interested ecclesiastical or government authority tell you what to believe, but read the Bible with your own eyes and open your heart directly to Jesus" [@Graham2009]. This sentence added to the *authority/respect* total in LIWC's analysis, but it appears to suggest that one should reject authority in this context. The researchers eliminated this sentence from the *authority/respect* raw count on account of this discrepancy between the use of authority-related words and the speaker's clear intentions [@Graham2009].
@@ -85,19 +85,19 @@ Similar to previous research on Moral Foundations Theory, liberal ministers used
 
 To this point, most text analysis utilizing the Moral Foundations Dictionary operationalizes endorsement of any one of the foundations as percent occurrence of words in a given text from the foundation's respective word list. As such, most analyses assume that zero percent occurrence is indicative of no endorsement, while any non-zero percent occurrence indicates endorsement of the foundation. This operational definition may not be sufficient in describing the true nature of the writer or speaker's endorsement of one of the sets of moral intuitions. A quick glance at the MFD words for *harm/care* reveals the presence of words that are more closely associated with universally accepted conceptions of *harm* over *care* and vice-versa [@Graham2009]. For example, the word "cruel" has relatively negative connotations compared to "benefit." For the *harm/care* foundation, it is conceivable that use of the word "cruel" might indicate a greater attentional focus of the idea of *harm* rather than *care*. 
 
-For *harm/care*, the definition of the foundation, as well as its name, clearly distinguishes between two somewhat opposite sides of an attentional continuum, with *harm* on the negative end and *care* on the positive side. In other words, the entries in the MFD for *harm/care* have somewhat clear positive and negative valences. The same pattern can be seen in the MFD entries for the other four foundations. *Purity/sanctity* features words that likely have a negative valence to most observers, including "disease"" and "trash," along with more positive words, including "right" and "sacred" [@Graham2009]. These dichotomies, however, bring up other questions regarding the definition and names of the other four foundations apart from *harm/care*: *fairness/reciprocity*, *ingroup/loyalty*, *authority/respect*, and *purity/sanctity*. The latter four foundations have names that are harder to understand as a valence continuum, as the concepts in the names are more similar, even to the point of being virtually synonymous in the case of *fairness/reciprocity*.
+For *harm/care*, the definition of the foundation, as well as its name, clearly distinguishes between two somewhat opposite sides of an attentional continuum, with *harm* on the negative end and *care* on the positive side. In other words, the entries in the MFD for *harm/care* have somewhat clear positive and negative valences. The same pattern can be seen in the MFD entries for the other four foundations. *Purity/sanctity* features words that likely have a negative valence to most observers, including "disease" and "trash," along with more positive words, including "right" and "sacred" [@Graham2009]. These dichotomies, however, bring up other questions regarding the definition and names of the other four foundations apart from *harm/care*: *fairness/reciprocity*, *ingroup/loyalty*, *authority/respect*, and *purity/sanctity*. The latter four foundations have names that are harder to understand as a valence continuum, as the concepts in the names are more similar, even to the point of being virtually synonymous in the case of *fairness/reciprocity*.
 
 When considering the issue of positive versus negative valence in MFD words, the question of how texts are analyzed vis-a-vis the MFD remains. How can raw percentage of MFD word occurrence capture the valence and focus of the writer or speaker? If 2% of a politician's speech features positive words (i.e., "benefit" and "defend") from the MFD *harm/care* list, how can researchers be sure the level and nature of the speaker's "endorsement" of the foundation equals that of another politician whose speech contained negatively connoted MFD words from the *harm/care* list? They would have equal endorsements as far as the numbers are concerned, but the words used and focus given are on opposite sides of the *harm/care* spectrum.
 
 This issue is compounded by the fact the Moral Foundations Questionnaire (MFQ) and its subscales assume endorsement lies on a continuum. The Moral Foundations Questionnaire (MFQ), which was developed subsequent to the MFD, measures individuals’ endorsements of each of the foundations using a six-point scale [@Graham2011]. The questionnaire is made up of judgment items and relevance items. Judgment items are phrased such that the respondent signals their agreement or disagreement with straightforward statements. An example of such a statement reads: “It can never be right to kill another human being” [@Graham2011]. Relevance items gauge the respondent's opinion regarding the importance of foundation-related concerns. For example, the respondent is directed to rate how important the following situation is to their sense of morals: "whether or not someone did something disgusting." This example measures the relevance of the *purity/sanctity* foundations. Each foundation has a judgment and relevance subscale, totaling 10 subscales for the MFQ [@Graham2011].
 
-The Moral Foundations Questionnaire has been validated by multiple researchers. Likewise, its five-factor structure has been demonstrated to fit data in multiple countries [@Graham2011; @Davies2014]. In their article introducing the 30-item MFQ, @Graham2011 conducted an exploratory factor analysis (EFA) and found that a five-factor model fit better than a one, two, or three-factor model. @Davies2014 conducted a confirmatory factor analysis (CFA) of the MFQ with a sample from New Zealand and likewise found the five-factor model provided the best fit. While @Davies2014 concede the US and New Zealand share many similarities as Western nations, which could raise questions regarding the validity of the MFQ in non-Western nations. However, there are striking differences between the two countries, including the lack of a two-party political system in New Zealand, that provide grounds for claiming the MFQ generalizes beyond the United States. Furthermore, @Graham2011 claim to find a "reasonable" degree of generalizability for the MFQ across participants from many different regions in the world. These two bodies of work also provide the best available evidence that the five moral foundations are sufficiently distinct from one another, though broader criticisms of MFT raised by @Shuler2011 should still be taken into account in studies involving the theory.
+The Moral Foundations Questionnaire has been validated by multiple researchers. Likewise, its five-factor structure has been demonstrated to fit data in multiple countries [@Graham2011; @Davies2014]. In their article introducing the 30-item MFQ, @Graham2011 conducted an exploratory factor analysis (EFA) and found that a five-factor model fit better than a one, two, or three-factor model. @Davies2014 conducted a confirmatory factor analysis (CFA) of the MFQ with a sample from New Zealand and likewise found the five-factor model provided the best fit. While @Davies2014 concede the US and New Zealand share many similarities as Western nations, which could raise questions regarding the validity of the MFQ in non-Western nations. However, there are striking differences between the two countries, including the lack of a two-party political system in New Zealand, that provide grounds for claiming the MFQ generalizes beyond the United States. Furthermore, @Graham2011 claim to find a "reasonable" degree of generalizability for the MFQ across participants from many different regions in the world. These two bodies of work also provide the best available evidence that the five moral foundations are sufficiently distinct from one another, though broader criticisms of MFT raised by @Suhler2011 should still be taken into account in studies involving the theory.
 
 The aforementioned ambiguity of the Moral Foundations Dictionary as an instrument becomes clearer upon closer examination of the items in the Moral Foundations Questionnaire. One item under the *fairness/reciprocity* judgment subscale reads, "Justice is the most important requirement for a society" [@Graham2011]. The survey respondent must select a number on a scale from 1 to 6 indicating responses spanning "strongly disagree" at 1 to "strongly agree" at 6. While the scales in the MFQ do not represent true valence as it pertains to individual words, it does allow for a greater degree of specificity in terms of an individual's endorsement of a particular moral foundation. When a respondent selects a 4 for the aforementioned MFQ statement, they clearly are indicating they "slightly agree" with the statement [@Graham2011]. This specificity is not present in most analyses involving the MFD and percent occurrence, unless they also take into account the valence of the words used in the text or speech of interest.   
 
 ## Valence
 
-Borrowing from Osgood's work in the 1950s, @Bradley1999 recognized valence as one of three related dimensions comprising emotion when developing their Affective Norms for English Words (ANEW). As mentioned before, "valence," the first dimension, denotes the pleasantness of a given word. "Arousal," the second dimension, describes the stimulating nature of a word. Lastly, "dominance" or "control" describes the extent to which a word makes one feel in or out of control [@Bradley1999]. The researchers developed ANEW by presenting participants with a list of 100-150 words and asking for them to rate the word on all three dimensions using the Self-Assessment Mannikin (SAM), which allows ratings along either a nine-point scale when using traditional paper instruments or a twenty-point scale when using a computerized version. 
+Borrowing from Osgood's work in the 1950s, @Bradley1999 recognized valence as one of three related dimensions comprising emotion when developing their Affective Norms for English Words (ANEW). As mentioned before, "valence," the first dimension, denotes the pleasantness of a given word. "Arousal," the second dimension, describes the stimulating nature of a word. Lastly, "dominance" or "control" describes the extent to which a word makes one feel in or out of control [@Bradley1999]. The researchers developed ANEW by presenting participants with a list of 100-150 words and asking for them to rate the word on all three dimensions using the Self-Assessment Mannikin (SAM), which allows ratings along either a nine-point scale when using traditional paper instruments or a twenty-point scale when using a computerized version.
 
 Participants saw the stimulus word and responded on each scale. The valence scale featured a smiling figure at one end (representing pleasantness) and a frowning figure at the other end (for unpleasantness). The arousal scale had a "wide-eyed" figure at one end with a sleepy figure at the other, representing stimulating and unstimulating respectively. Finally, the dominance scale featured a large figure, indicating the highest degree of control, at one end and a small figure, indicating a lack of control, at the other end [@Bradley1999]. The end result of this procedure yielded affective norms along the three dimensions for 1,040 English words [@Bradley1999]. ANEW represented an important first step in establishing affective norms for large numbers of English words. However, later researchers found the 1,040-word list to be limiting for a language consisting of thousands of words.
 
@@ -112,7 +112,6 @@ The researchers noted several points of interest upon observing ratings. First, 
 In addition to applications in emotion research, the @Warriner2013 norms have been utilized in cognitive research as well. One cognition-based study investigates the relationship between emotion and response latencies in word recognition. @Kuperman2014 sought to use these new norms to fill in the knowledge gaps regarding variance in word recognition. The researchers drew several conclusions regarding emotion and word recognition (specifically in naming and lexical decision tasks - two cognitive processing tasks wherein a participant has to read aloud or judge a word for its lexicality). First, @Kuperman2014 found slower decision-making and reading times in negative-valence words, faster times in neutral words, and even faster times in words with positive valence. The researchers also concluded that words causing higher arousal tend to have slower decision times than less-arousing words. They found valence had a stronger effect on recognition than arousal (both effects were independent, not interactive). They found an interaction between emotion and word frequency such that valence and arousal are more effective on lower frequency words than high frequency words. Finally, @Kuperman2014 found a greater effect of valence and arousal on response latency for lexical decision tasks than for naming tasks [@Kuperman2014]. This research serves as further evidence that the @Warriner2013 list can be used for research inquiries both within and without the field of psycholinguistics. 
 
 In the present studies, the researchers used the @Warriner2013 list in order to denote the valence of the words appearing in the news articles scraped from the internet. Valence was considered as another independent variable and its relationship with the words comprising the Moral Foundations Dictionary were of chief interest to the researchers. The valence was used as a means to determine whether individual words in the MFD represented more positive aspects of their respective foundation or if they denoted a more negative aspect of the foundation. Specifically, valences were used to weight the MFD words by their relative degree of positivity or negativity. Incorporating word valence into a study involving the MFD is meant to alleviate some of the issues regarding the aforementioned ambiguity regarding the words in the Moral Foundations Dictionary.
-
 
 ## News Media and Politics
 
@@ -913,7 +912,7 @@ tapply(final$FK, final$Source, sd)
 tableprint = matrix(NA, nrow=4, ncol=11)
 colnames(tableprint) = c("Source", "Mean_Valence", "SD_Valence", "Number_of_Articles", "Total_Words", "Mean_Tokens", "SD_Tokens", "Mean_Types", "SD_Types", "Mean_Readability", "SD_Readability")
 
-tableprint[ , 1] = print(unique(final$Source))
+tableprint[ , 1] = unique(final$Source)
 tableprint[ , 2] = tapply(final$valenceavg, final$Source, mean)
 tableprint[ , 3] = tapply(final$valenceavg, final$Source, sd)
 tableprint[ , 4] = tapply(final$X, final$Source, length)
@@ -928,7 +927,7 @@ tableprint[ , 11] = tapply(final$FK, final$Source, sd)
 #change this to match
 apa_table(as.data.frame(tableprint),
           note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula.",
-          caption = "Experiment 1 - Descriptive Statistics by Source", 
+          #caption = "Experiment 1 - Descriptive Statistics by Source", 
           col.names = c("Source", "$M_Valence", "$SD_Valence$", "Number of Articles", "Total Words", "$M_Tokens$", "$SD_Tokens$", "$M_Types$", "SD_Types", "$M_Readability$", "$SD_Readability$"),
           format = "latex",
           escape = F,
@@ -941,7 +940,6 @@ The researchers calculated descriptive statistics for each news source in order 
 
 As seen in Table 1, the sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The standard deviations seem to indicate little to no presence of a difference in valence. 
 *The New York Times* published the greatest number of articles as well as total words. *Breitbart* featured the lowest number of articles, and *NPR* the lowest number of total words from all articles. Per indvidual article, however, *Breitbart* appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, *Fox News* appears to be the most readable source on average, while *The New York Times* is the least readable. This might be attributable to the greater number of tokens in the average *New York Times* article compared to *Fox News*. As before, the standard deviations for readability hamper one's ability to draw solid conclusions regarding differences in the sources' use of language.
-
 
 ## Inferential Statistics
 
@@ -1022,7 +1020,7 @@ tableprint[ , 7] = printp(as.numeric(tableprint[ , 7]))
 
 apa_table(tableprint,
           note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
-          caption = "Experiment 1 Results - Multilevel Model", 
+          #caption = "Experiment 1 Results - Multilevel Model", 
           col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$"),
           format = "latex",
           escape = F,
@@ -3839,9 +3837,7 @@ summary(purity_model_gs)
 The researchers calculated descriptive statistics for each news source per topic in order to reveal the presence (if any) of linguistic differences in the sources' use of language. As in Experiment 1, statistics calculated include *z*-scored valence, number of articles per source, total words per source, mean tokens per article in each source, mean types per article in each source, and mean readability level (using the Flesch-Kincaid Grade Level Readability formula) per source [@Kincaid1975].
 
 Table 3 displays the descriptive statistics for sources' writing on the Kavanaugh confirmation. The sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The standard deviations seem to indicate little to no presence of a difference in valence. 
-*The New York Times* published the greatest number of articles as well as total words. *Breitbart* featured the lowest number of articles, and *NPR* the lowest number of total words from all articles. Per indvidual article, however, *Breitbart* appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, *Fox News* appears to be the most readable source on average, while *The New York Times* is the least readable. This might be attributable to the greater number of tokens in the average *New York Times* article compared to *Fox News*. As before, the standard deviations for readability hamper one's ability to draw solid conclusions regarding differences in the sources' use of language.
-
-Table 4 displays descriptive statistics for articles about the partial government shutdown. 
+*The New York Times* published the greatest number of articles as well as total words. *Breitbart* featured the lowest number of articles, and *NPR* the lowest number of total words from all articles. Per indvidual article, however, *Breitbart* appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, *Fox News* appears to be the most readable source on average, while *The New York Times* is the least readable. This might be attributable to the greater number of tokens in the average *New York Times* article compared to *Fox News*. As before, the standard deviations for readability hamper one's ability to draw solid conclusions regarding differences in the sources' use of language. Table 4 displays descriptive statistics for articles about the partial government shutdown. 
 
 ```{r exp2_source_descriptives_kav, results = 'asis', echo = FALSE, message = F}
 #Kav
@@ -3892,10 +3888,10 @@ tapply(final_kav$FK, final_kav$Source, sd)
 tableprint = matrix(NA, nrow=10, ncol=11)
 colnames(tableprint) = c("Source", "Mean_Valence", "SD_Valence", "Number_of_Articles", "Total_Words", "Mean_Tokens", "SD_Tokens", "Mean_Types", "SD_Types", "Mean_Readability", "SD_Readability")
 
-tableprint[ , 1] = print(unique(final_kav$Source))
+tableprint[ , 1] = unique(final_kav$Source)
 tableprint[ , 2] = tapply(final_kav$valenceavg, final_kav$Source, mean)
 tableprint[ , 3] = tapply(final_kav$valenceavg, final_kav$Source, sd)
-tableprint[ , 4] = tapply(final_kav$X, final_kav$Source, length)
+tableprint[ , 4] = tapply(final_kav$valenceavg, final_kav$Source, length)
 tableprint[ , 5] = tapply(final_kav$wordcount, final_kav$Source, sum)
 tableprint[ , 6] = tapply(final_kav$wordcount, final_kav$Source, mean)
 tableprint[ , 7] = tapply(final_kav$wordcount, final_kav$Source, sd)
@@ -3907,7 +3903,7 @@ tableprint[ , 11] = tapply(final_kav$FK, final_kav$Source, sd)
 #change this to match
 apa_table(as.data.frame(tableprint),
           note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula.",
-          caption = "Kavanaugh - Descriptive Statistics by Source", 
+          #caption = "Kavanaugh - Descriptive Statistics by Source", 
           col.names = c("Source", "$M_Valence", "$SD_Valence$", "Number of Articles", "Total Words", "$M_Tokens$", "$SD_Tokens$", "$M_Types$", "SD_Types", "$M_Readability$", "$SD_Readability$"),
           format = "latex",
           escape = F,
@@ -3965,10 +3961,10 @@ tapply(final_gs$FK, final_gs$Source, sd)
 tableprint = matrix(NA, nrow=10, ncol=11)
 colnames(tableprint) = c("Source", "Mean_Valence", "SD_Valence", "Number_of_Articles", "Total_Words", "Mean_Tokens", "SD_Tokens", "Mean_Types", "SD_Types", "Mean_Readability", "SD_Readability")
 
-tableprint[ , 1] = print(unique(final$Source))
+tableprint[ , 1] = unique(final_gs$Source)
 tableprint[ , 2] = tapply(final_gs$valenceavg, final_gs$Source, mean)
 tableprint[ , 3] = tapply(final_gs$valenceavg, final_gs$Source, sd)
-tableprint[ , 4] = tapply(final_gs$X, final$Source, length)
+tableprint[ , 4] = tapply(final_gs$valenceavg, final_gs$Source, length)
 tableprint[ , 5] = tapply(final_gs$wordcount, final_gs$Source, sum)
 tableprint[ , 6] = tapply(final_gs$wordcount, final_gs$Source, mean)
 tableprint[ , 7] = tapply(final_gs$wordcount, final_gs$Source, sd)
@@ -3980,7 +3976,7 @@ tableprint[ , 11] = tapply(final_gs$FK, final_gs$Source, sd)
 #change this to match
 apa_table(as.data.frame(tableprint),
           note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula.",
-          caption = "Government Shutdown - Descriptive Statistics by Source", 
+          #caption = "Government Shutdown - Descriptive Statistics by Source", 
           col.names = c("Source", "$M_Valence", "$SD_Valence$", "Number of Articles", "Total Words", "$M_Tokens$", "$SD_Tokens$", "$M_Types$", "SD_Types", "$M_Readability$", "$SD_Readability$"),
           format = "latex",
           escape = F,
@@ -4061,7 +4057,7 @@ tableprint_kav[ , 7] = printp(as.numeric(tableprint_kav[ , 7]))
 
 apa_table(tableprint_kav,
           note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
-          caption = "Kavanaugh Results - Multilevel Model", 
+          #caption = "Kavanaugh Results - Multilevel Model", 
           col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$"),
           format = "latex",
           escape = F,
@@ -4142,7 +4138,7 @@ tableprint_gs[ , 7] = printp(as.numeric(tableprint_gs[ , 7]))
 
 apa_table(tableprint_gs,
           note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
-          caption = "Government Shutdown Results - Multilevel Model", 
+          #caption = "Government Shutdown Results - Multilevel Model", 
           col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$"),
           format = "latex",
           escape = F,
@@ -4219,11 +4215,10 @@ graph_data_gs = ggplot(graphlong_gs, aes(Foundation, value, color = variable)) +
   theme(axis.text.x = element_text(angle = 60, hjust = 1)) + 
   geom_hline(yintercept = 0, linetype = 1, color = "black")
   
-tiff(filename = "exp2_graph_gs.tiff", res = 300, width = 4, 
-     height = 3, units = 'in', compression = "lzw")
-plot(graph_data_gs)
-dev.off()
-=
+#tiff(filename = "exp2_graph_gs.tiff", res = 300, width = 4, 
+#     height = 3, units = 'in', compression = "lzw")
+#plot(graph_data_gs)
+#dev.off()
 ```
 
 # Discussion
