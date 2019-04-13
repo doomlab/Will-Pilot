@@ -1,0 +1,955 @@
+---
+title             : "Moral Foundations of U.S. Political News Organizations"
+shorttitle        : "MORAL NEWS"
+
+author: 
+  - name          : "William E. Padfield"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "901 S. National Ave, Springfield, MO, 65897"
+    email         : "Padfield94@live.missouristate.edu"
+  - name          : "Erin M. Buchanan, Ph.D."
+    affiliation   : "2"
+
+affiliation:
+  - id            : "1"
+    institution   : "Missouri State University"
+  - id            : "2"
+    institution  : "Harrisburg University of Science and Technology"
+  
+author_note: |
+  William Padfield is a master's degree candidate in Psychology at Missouri State University. This thesis partially fulfills the requirements for the Master of Science degree in Psychology.
+
+abstract: |
+  The media ecosystem has grown, and political opinions have diverged such that there are competing conceptions of objective truth. Commentators often point to political biases in news coverage as a catalyst for this political divide. The Moral Foundations Dictionary (MFD) facilitates identification of ideological leanings in text through frequency of the occurrence of certain words. Through web scraping, the researchers extracted articles from popular news sources' websites, calculated MFD word frequencies, and identified words' respective valences. This process attempts to uncover news outlets' positive or negative endorsements of certain moral dimensions concomitant with a particular ideology. In Experiment 1, the researchers gathered poltical articles from four sources. They were unable to reveal significant differences in moral or political endorsements, but they solidified the method to be employed in further research. In Experiment 2, the researchers will expand their number of sources to 10 and will analyze articles that pertain to the 2018 confirmation hearings of U.S. Supreme Court Justice Brett Kavanaugh. This topic was selected due to the moral disputes associated with his nomination.  
+  
+keywords          : "politics, morality, psycholinguistics"
+
+bibliography      : ["will_thesis.bib"] #turn this off right now so it knits
+
+figsintext        : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+lineno            : yes
+lang              : "english"
+class             : "man"
+mask              : no
+output            : papaja::apa6_pdf
+replace_ampersands: yes
+csl               : apa6.csl
+---
+
+```{r load_packages, include = FALSE}
+library(papaja) 
+library(MuMIn)
+library(reshape)
+library(nlme)
+library(ggplot2)
+library(expss)
+library(MOTE)
+
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+In the United States, today's media landscape affords consumers a multitude of options for obtaining political news. Since the advent of cable news networks and the World Wide Web in the last decades of the twentieth century, consumers have gained access to an ever-expanding menagerie of news sources, many of which can be called up via a simple click, touch, or swipe. Concurrent with this growth in available news sources, concerns regarding political bias in news reporting have entered public consciousness. For example, commentators argue that networks including Fox News Channel and MSNBC communicate political news from a conservative and liberal slant, respectively. These purported biases have been a cause for concern given the potential for incomplete or inaccurate news reporting potentially resulting from these biases. Given the inherently moral nature of many political arguments and positions, bias in news reporting might manifest as differing moral appeals. Specifically, the use of differing moral language in political articles might be an indicator of political bias in news media. 
+
+Morality and ethics have been of interest to thinkers, academics, and philosophers since antiquity. Starting chiefly in the twentieth century, a scientific approach to humans' understanding of morality emerged under the domain of psychology. Theories attempting to explain the development and application of people's moral intuitions built the foundation for the subfield of moral psychology. As the field developed, however, considerable debate has taken place regarding operational definitions of "morality." Concerns regarding operationalization remain an issue in the field in the twenty-first century as researchers attempt to infer moral and political leanings from text and speech.
+
+## Moral Foundations Theory
+
+As a discipline, modern moral psychology started in the late 1960s with Lawrence Kohlberg [@Haidt2007]. Kohlberg's research popularized his theory of the development of moral reasoning. This theory establishes the steps of moral reasoning through which humans proceed as their cognitive structures assume higher levels of sophistication and nuance [@Kohlberg1977]. Kohlberg borrowed from Jean Piaget's stages of cognitive development in which children progress from the sensorimotor through to the formal operations stage. Similarly, Kohlberg found people typically start with a "pre-conventional" understanding of morality during infancy in which children understand "right" and "wrong" purely in terms of how they interact with resultant experiences of rewards and punishment. Typically, people progress through several steps until they reach a "post-conventional" ethics. People who have reached the post-conventional stage are said to be able to weigh competing abstractions and reason their way to a conclusion that promotes justice based upon their "self-chosen ethical principles" [@Kohlberg1977]. From Kohlberg's perspective, issues of justice and fairness comprise the foundation of morality [@Haidt2007]. This view persisted until it encountered criticism in the early 1980s.    
+
+Kohlberg's conception of morality faced major scrutiny from psychologist Carol Gilligan. In 1982, Gilligan criticized Kohlberg's theory on the grounds that it focused solely on the moral concerns of men, and that it ignored those of women [@Haidt2007]. Gilligan drew attention to purported differences in the ways men and women are taught to relate to self and others. She offered a historic argument contending women have traditionally filled roles related to caring and nurturing. She pushes back against Kohlberg's assumption that moral development replaces "rule of brute force," as enforced by men, with the justice-based "rule of law." According to Gilligan, this assumption implies women are less morally developed, owing to their absence both in masculine displays of violence as well as in enforcement of the law [@Gilligan1982]. Gilligan argues for the existence of a distinct, but equal development process that women and girls must undergo in order to develop their moral selves. Stark differences in the ways women are traditionally taught to interact with their social world cause them to develop ethical systems based upon their non-aggressive relationships with others. Gilligan thus asserted morality was built upon an alternative moral foundation: caring [@Gilligan1982]. This debate between competing conceptions of morality did not resolve until Gilligan and Kohlberg conceded the existence of two moral foundations: justice and caring [@Haidt2007]. While this new direction in moral psychology appeared to represent a more inclusive outlook on the construct, these novel ideas would soon be challenged on the grounds of its apparent western-centric outlook. 
+
+Jonathan Haidt and Jesse Graham formulated Moral Foundations Theory as a method by which to capture the entirety of humans' moral domain [@Haidt2007]. The researchers argued older theories of moral psychology were focused primarily on issues of justice, fairness, and caring - individually focused foundations of morality that align with the beliefs of political liberals [@Haidt2007]. In other words, moral psychology ignored the valid moral foundations of conservatives. Moral Foundations Theory (MFT) holds that people's moral domain can be mapped by quantifying their endorsement of five moral foundations: *harm/care*, *fairness/reciprocity*, *ingroup/loyalty*, *authority/respect*, and *purity/sanctity* [@Haidt2007]. 
+
+In their brief overview of the history of moral psychology, @Graham2009 explained Shweder, Much, Mahapatra, and Park's objections to moral psychology as it stood in the late 1980s. Their criticism centered on the fact moral psychology concerned itself with issues regarding justice and individuals' rights. Such a system, they argued, did not account for moral concerns outside of the western world [@Graham2009]. Individually focused concerns can be grouped under an overarching "ethic of autonomy," which was thought to be one of three ethics upon which humans base moral decisions. The other two ethics were the "ethic of community" (comprising one's duty to their family, tribe, etc.), and the "ethic of divinity" - representing one's duty not to defile their God-given body and soul [@Graham2009]. In the 2000s, @Haidt2007 took this line of reasoning further in their assertion that moral psychology favored certain political ideologies over others. 
+
+Haidt and Graham settled on these specific foundations after the completion of a literature survey of research in anthropology and evolutionary psychology [@Graham2011]. The researchers attempted to locate virtues and morals corresponding to "evolutionary thinking." For instance, the researchers cited Mauss' work on reciprocal gift-giving, which informed the establishment of the *fairness/reciprocity* foundation. Additionally, evolutionary literature on disgust and its correlation to human behavior regarding food and sex informed the *purity/sanctity* foundation [@Graham2011]. The researchers identified the five "top candidates" for the foundations of human cultures' morality [@Graham2011].
+
+The first two foundations (*harm/care* and *fairness/reciprocity*) are termed the "individualizing foundations," as they are centered on the concerns of individuals rather than groups. *harm/care* represents an endorsement of compassion and kindness, while opposing cruelty and harm. *Fairness/reciprocity* represents concerns centered on guaranteeing individual rights as well as justice and equality among all people. The other three foundations (*ingroup/loyalty*, *authority/respect*, and *purity/sanctity*) are the "binding" foundations, owing to their focus on group-related concerns, rather than those of individuals. *Ingroup/loyalty* represents endorsements of patriotism and heroism and discourages nonconformity and dissent. *Authority/respect* represents an endorsement of social hierarchies and traditions while denigrating disobedience. Finally, *purity/sanctity* represents concerns regarding chastity and piety, while discouraging vices and indulgences, including lust, avarice, and gluttony [@Haidt2007]. Liberals tend to endorse the individualizing foundations more than conservatives. Conservatives, on the other hand, tend to endorse the binding foundations more than liberals. It should be noted, however, conservatives also tend to endorse all five foundations equally, implying they base moral judgments on all foundations [@Graham2009].
+
+Moral Foundations Theory has received criticism on the grounds that its assumptions regarding moral intuitions have little empirical basis. @Suhler2011 list several potential weaknesses of MFT that they argue might threaten the theory's validity. First, the authors challenge @Haidt2007's claims the moral intuitions represented by MFT are innate and modular. @Suhler2011 claim that advances in biological sciences (embryology and microbiology, specifically) make it more difficult for researchers to claim any one trait is either innate or learned through experience. Rather, behaviors likely result from interactions between genetics and experience [@Suhler2011]. According to the authors, without solid data supporting the innateness of moral foundations, Haidt and Graham have little from which to make such a claim. Similarly, @Haidt2007 rely on evidence authored by evolutionary psychologists to make a "strong modularity claim" [@Suhler2011]. However, as with innateness, there is little neurobiological evidence to support modularity.
+
+@Suhler2011 also criticized the content and taxonomy of the five foundations. The authors criticize @Haidt2007's omissions of additional foundations, including *industry* and *modesty*, claiming these concepts are moralized in many societies worldwide. Likewise, the authors question whether or not the foundations are sufficiently distinct as to stand as their own foundation. For example, @Suhler2011 posit that *ingroup/loyalty* is merely a group-focused version of *harm/care*. Work by @Graham2011 might serve to rebut this criticism, as the researchers found their original five-factor structure seemed to best fit the data when validating the Moral Foundations Questionnaire. Finally, @Suhler2011 point out that particular concepts related to a foundation, including "anger" in *fairness/reciprocity* and "deception" in *ingroup/loyalty*, could be ascribed to any of the other foundations as well. In other words, it becomes difficult to recognize a particular concept as indidcative of any one foundation when, in theory, they could be applied to all five [@Haidt2007; @Suhler2011].
+
+These criticisms of Moral Foundations Theory are valid and should be taken into consideration when conducting research with instruments derived from MFT. The current authors argue these criticisms are especially valid when considered alongside questions regarding the Moral Foundations Dictionary they state herein. However, there exists compelling evidence regarding the validity of Moral Foundations Theory, albeit regarding its application solely through the Moral Foundations Questionnaire. This evidence is discussed within a brief explanation of the Moral Foundations Questionnaire and its relationship to the Moral Fondations Dictionary.
+
+## Moral Foundations Dictionary
+
+In order to capture language's role in moral and political reasoning, @Graham2009 formulated the Moral Foundations Dictionary (MFD) in order to capture moral reasoning and justification as used in speech and text. The MFD is composed of 259 words, with around 50 words assigned to each of the five foundations. The researchers created a preliminary list of words that they believed would be associated with the five foundations. Then, using the Linguistic Inquiry and Word Count [LIWC; @Pennebaker2007] computer program, they analyzed transcripts of liberal and conservative Christian sermons in order to obtain frequencies of the occurrence of words from the researchers' initial list. The researchers manually checked the results from LIWC in order to make sure the results make sense given the contexts and rhetorical devices used in the sermons, as word frequency analysis ignores sentence context. The researchers offered the following example from a Unitarian sermon as a demonstration of ambiguous statements requiring human verification: "Don't let some self-interested ecclesiastical or government authority tell you what to believe, but read the Bible with your own eyes and open your heart directly to Jesus" [@Graham2009]. This sentence added to the *authority/respect* total in LIWC's analysis, but it appears to suggest that one should reject authority in this context. The researchers eliminated this sentence from the *authority/respect* raw count on account of this discrepancy between the use of authority-related words and the speaker's clear intentions [@Graham2009].
+
+Similar to previous research on Moral Foundations Theory, liberal ministers used *harm*, *fairness*, and *ingroup* words more often than conservative ministers. Conversely, conservative ministers used *authority* and *purity* words more often than liberal ministers. However, conservative ministers did not use *ingroup/loyalty* words more than liberals. Rather, liberal ministers used words pertaining to *ingroup/loyalty*, but in contexts that promote rebellion and independence - causes *opposite* to positive endorsements of that foundation [@Graham2009].
+
+To this point, most text analysis utilizing the Moral Foundations Dictionary operationalizes endorsement of any one of the foundations as percent occurrence of words in a given text from the foundation's respective word list. As such, most analyses assume that zero percent occurrence is indicative of no endorsement, while any non-zero percent occurrence indicates endorsement of the foundation. This operational definition may not be sufficient in describing the true nature of the writer or speaker's endorsement of one of the sets of moral intuitions. A quick glance at the MFD words for *harm/care* reveals the presence of words that are more closely associated with universally accepted conceptions of *harm* over *care* and vice-versa [@Graham2009]. For example, the word "cruel" has relatively negative connotations compared to "benefit." For the *harm/care* foundation, it is conceivable that use of the word "cruel" might indicate a greater attentional focus of the idea of *harm* rather than *care*. 
+
+For *harm/care*, the definition of the foundation, as well as its name, clearly distinguishes between two somewhat opposite sides of an attentional continuum, with *harm* on the negative end and *care* on the positive side. In other words, the entries in the MFD for *harm/care* have somewhat clear positive and negative valences. The same pattern can be seen in the MFD entries for the other four foundations. *Purity/sanctity* features words that likely have a negative valence to most observers, including "disease" and "trash," along with more positive words, including "right" and "sacred" [@Graham2009]. These dichotomies, however, bring up other questions regarding the definition and names of the other four foundations apart from *harm/care*: *fairness/reciprocity*, *ingroup/loyalty*, *authority/respect*, and *purity/sanctity*. The latter four foundations have names that are harder to understand as a valence continuum, as the concepts in the names are more similar, even to the point of being virtually synonymous in the case of *fairness/reciprocity*.
+
+When considering the issue of positive versus negative valence in MFD words, the question of how texts are analyzed vis-a-vis the MFD remains. How can raw percentage of MFD word occurrence capture the valence and focus of the writer or speaker? If 2% of a politician's speech features positive words (i.e., "benefit" and "defend") from the MFD *harm/care* list, how can researchers be sure the level and nature of the speaker's "endorsement" of the foundation equals that of another politician whose speech contained negatively connoted MFD words from the *harm/care* list? They would have equal endorsements as far as the numbers are concerned, but the words used and focus given are on opposite sides of the *harm/care* spectrum.
+
+This issue is compounded by the fact the Moral Foundations Questionnaire (MFQ) and its subscales assume endorsement lies on a continuum. The Moral Foundations Questionnaire (MFQ), which was developed subsequent to the MFD, measures individuals’ endorsements of each of the foundations using a six-point scale [@Graham2011]. The questionnaire is made up of judgment items and relevance items. Judgment items are phrased such that the respondent signals their agreement or disagreement with straightforward statements. An example of such a statement reads: “It can never be right to kill another human being” [@Graham2011]. Relevance items gauge the respondent's opinion regarding the importance of foundation-related concerns. For example, the respondent is directed to rate how important the following situation is to their sense of morals: "whether or not someone did something disgusting." This example measures the relevance of the *purity/sanctity* foundations. Each foundation has a judgment and relevance subscale, totaling 10 subscales for the MFQ [@Graham2011].
+
+The Moral Foundations Questionnaire has been validated by multiple researchers. Likewise, its five-factor structure has been demonstrated to fit data in multiple countries [@Graham2011; @Davies2014]. In their article introducing the 30-item MFQ, @Graham2011 conducted an exploratory factor analysis (EFA) and found that a five-factor model fit better than a one, two, or three-factor model. @Davies2014 conducted a confirmatory factor analysis (CFA) of the MFQ with a sample from New Zealand and likewise found the five-factor model provided the best fit. While @Davies2014 concede the US and New Zealand share many similarities as Western nations, which could raise questions regarding the validity of the MFQ in non-Western nations. However, there are striking differences between the two countries, including the lack of a two-party political system in New Zealand, that provide grounds for claiming the MFQ generalizes beyond the United States. Furthermore, @Graham2011 claim to find a "reasonable" degree of generalizability for the MFQ across participants from many different regions in the world. These two bodies of work also provide the best available evidence that the five moral foundations are sufficiently distinct from one another, though broader criticisms of MFT raised by @Suhler2011 should still be taken into account in studies involving the theory.
+
+The aforementioned ambiguity of the Moral Foundations Dictionary as an instrument becomes clearer upon closer examination of the items in the Moral Foundations Questionnaire. One item under the *fairness/reciprocity* judgment subscale reads, "Justice is the most important requirement for a society" [@Graham2011]. The survey respondent must select a number on a scale from 1 to 6 indicating responses spanning "strongly disagree" at 1 to "strongly agree" at 6. While the scales in the MFQ do not represent true valence as it pertains to individual words, it does allow for a greater degree of specificity in terms of an individual's endorsement of a particular moral foundation. When a respondent selects a 4 for the aforementioned MFQ statement, they clearly are indicating they "slightly agree" with the statement [@Graham2011]. This specificity is not present in most analyses involving the MFD and percent occurrence, unless they also take into account the valence of the words used in the text or speech of interest.  
+
+## Valence
+
+Borrowing from Osgood's work in the 1950s, @Bradley1999 recognized valence as one of three related dimensions comprising emotion when developing their Affective Norms for English Words (ANEW). As mentioned before, "valence," the first dimension, denotes the pleasantness of a given word. "Arousal," the second dimension, describes the stimulating nature of a word. Lastly, "dominance" or "control" describes the extent to which a word makes one feel in or out of control [@Bradley1999]. The researchers developed ANEW by presenting participants with a list of 100-150 words and asking for them to rate the word on all three dimensions using the Self-Assessment Mannikin (SAM), which allows ratings along either a nine-point scale when using traditional paper instruments or a twenty-point scale when using a computerized version.
+
+Participants saw the stimulus word and responded on each scale. The valence scale featured a smiling figure at one end (representing pleasantness) and a frowning figure at the other end (for unpleasantness). The arousal scale had a "wide-eyed" figure at one end with a sleepy figure at the other, representing stimulating and unstimulating respectively. Finally, the dominance scale featured a large figure, indicating the highest degree of control, at one end and a small figure, indicating a lack of control, at the other end [@Bradley1999]. The end result of this procedure yielded affective norms along the three dimensions for 1,040 English words [@Bradley1999]. ANEW represented an important first step in establishing affective norms for large numbers of English words. However, later researchers found the 1,040-word list to be limiting for a language consisting of thousands of words.
+
+@Warriner2013 exponentially lengthened the list of words with affective norms to 13,915 English lemmas, the base forms of words without inflection (i.e., "watch" rather than "watched" and "watching"). The researchers recognized the importance of affective norms in several areas of study, including emotion, language processing, and memory [@Warriner2013]. They argue the list of words included in ANEW is sufficient for small-scale factorial research designs, but the list is "prohibitively small" for larger-scale "megastudies" that are common in psycholinguistic research today [@Warriner2013]. 
+
+In order to source a large number of lemmas for affective ratings, the researchers drew from several validated sources. These include the 30,000 lemmas with age-of-acquisition (average age at which a particular word is learned) ratings gathered by @Kuperman2012 as well as the content lemmas from the SUBTLEX-US corpus consisting of subtitles from various forms of visual media [@New2007]. This data collection resulted in the final list of 13,915 lemmas. Lists of 346-350 words were presented to participants recruited through the Amazon Mechanical Turk subject pool. Participants rated the words along one of the three dimensions, unlike the ANEW project in which participants rated each word along all three dimensions at once. The researchers used a nine-point scale similar to the one used by @Bradley1999 when collecting ratings for ANEW [@Warriner2013]. 
+
+The researchers noted several points of interest upon observing ratings. First, they found that valence and dominance ratings had a negative skew, indicating more words elicited feelings of happiness and control than their respective opposites. Also, when examining the relationship between valence and arousal ratings, the researchers found a U-shaped relationship. This U-shape indicates words with high degrees of positivity and negativity elicited higher arousal [@Warriner2013]. These observations along with the now-greatly expanded list of affective norms has been applied to several lines of inquiry in psycholinguistics.
+
+@Warriner2015 utilized the new affective norms list in order to investigate the validity of the Pollyanna hypothesis, or the prevalence of a generally optimistic outlook in humans as reflected in language. The researchers were able to conclude the existence of a greater number of positive-valence English words in the list of 13,915 lemmas. Additionally, after observing token frequency in a number of text corpora, including SUBTLEX-US, the Corpus for Contemporary American English (COCA), the British National Corpus (BNC), Touchstone Applied Science Associates, Inc. Corpus (TASA), and the corpus used for the Hyperspace Analogue to Language model (HAL), the researchers found that words with positive valence were also used more frequently [@Warriner2015]. While the researchers concede the possibility of an acquiescence bias in ratings as a possible explanation for the observed positivity bias, this investigation represents one application of the @Warriner2013 list in emotional studies.
+
+In addition to applications in emotion research, the @Warriner2013 norms have been utilized in cognitive research as well. One cognition-based study investigates the relationship between emotion and response latencies in word recognition. @Kuperman2014 sought to use these new norms to fill in the knowledge gaps regarding variance in word recognition. The researchers drew several conclusions regarding emotion and word recognition (specifically in naming and lexical decision tasks - two cognitive processing tasks wherein a participant has to read aloud or judge a word for its lexicality). First, @Kuperman2014 found slower decision-making and reading times in negative-valence words, faster times in neutral words, and even faster times in words with positive valence. The researchers also concluded that words causing higher arousal tend to have slower decision times than less-arousing words. They found valence had a stronger effect on recognition than arousal (both effects were independent, not interactive). They found an interaction between emotion and word frequency such that valence and arousal are more effective on lower frequency words than high frequency words. Finally, @Kuperman2014 found a greater effect of valence and arousal on response latency for lexical decision tasks than for naming tasks [@Kuperman2014]. This research serves as further evidence that the @Warriner2013 list can be used for research inquiries both within and without the field of psycholinguistics. 
+
+In the present studies, the researchers used the @Warriner2013 list in order to denote the valence of the words appearing in the news articles scraped from the internet. Valence was considered as another independent variable and its relationship with the words comprising the Moral Foundations Dictionary were of chief interest to the researchers. The valence was used as a means to determine whether individual words in the MFD represented more positive aspects of their respective foundation or if they denoted a more negative aspect of the foundation. Specifically, valences were used to weight the MFD words by their relative degree of positivity or negativity. Incorporating word valence into a study involving the MFD is meant to alleviate some of the issues regarding the aforementioned ambiguity regarding the words in the Moral Foundations Dictionary.
+
+## News Media and Politics
+
+Research into politics, language, and media has illuminated the complex relationships between all three. Any politically-oriented discussion of word occurrence as an implication of moral or political position assumes that language and ideology are intrinsically linked. Deborah Cameron [-@Cameron2006] points out the expressive nature of ideological beliefs and how that expression is conveyed through language, thus implying a connection between ideology and language. She goes on to criticize the notion that language is either the "pre-existing raw material" used to shape ideologies or the "post-hoc vehicle" for their propagation. Rather, the structure of language itself is shaped by ideology and social processes even when it is used to explain or express ideologies [@Cameron2006]. Owing to the fact the Moral Foundations Dictionary was developed in order to assess the moral, which includes the ideological, orientation of discourse, its purported ability to assess parts of the structure of language (vocabulary) for ideological lean is of chief interest to the researchers in the present study. 
+
+The use of language both to express and further an ideological goal has been documented in the techniques employed by candidates for political office in the U.S., @Druckman2004 considered political "issues" as communication that attempts to persuade constituents to vote for the candidates based on their strengths in matters of public policy. According to the researchers, "image" priming describes techniques deployed in order to sway votes based on favorable aspects of the candidate's behavior and personality [@Druckman2004]. The researchers investigated political issue and image priming on the part of candidates as implied by the disproportionate attention candidates paid to particular issues over others. The researchers found numerous examples of issue and image priming during the 1972 re-election campaign of Richard Nixon. 
+
+They linked the Nixon administration's awareness of the issues for which the president had public support to the issues he should emphasize (and prime) during the campaign. Likewise the researchers found evidence that Nixon's team was aware of negative evaluations of his warmth and trustworthiness, and thus took steps to prime his purportedly positive qualities, including strength and competence [@Druckman2004]. The researchers also cited research from Iyengar and Kinder (1987) suggesting the news media affected perceptions of President Jimmy Carter's competence by emphasizing (e.g., priming) issues related to energy, defense, and the economy. This focus implies news media may contribute to Americans' perception of politicians based on where the media places emphasis.
+
+There is a potential caveat regarding the validity of @Druckman2004's findings: reproductions of several studies purporting to demonstrate social priming effects have failed to replicate the original results. @Pashler2012 point out the distinction between perceptual and social (or goal) priming both in their operational definitions as well as their replicability. Perceptual priming often works through the inducement of a certain response from a related prime, as in, for example, semantic priming. Social (or goal) priming encompasses phenomena by which people exhibit complex behavioral changes subsequent to exposure to a prime. @Pashler2012 point out well-known studies investigating social priming, including the use of elderly-related primes to induce slower walking speeds in participants. Studies investigating perceptual priming have been "directly replicated in hundreds of labs" [@Pashler2012]. This replication rate does not appear to be the case for social priming, as argued by @Pashler2012.  
+
+@Pashler2012 noticed the unusually large effect size values (Cohen's *d*) reported by researchers studying social priming effects. The researchers reproduced two studies from @Williams2008 The first study attempted to prime participants by having them plot points on a Cartesian grid. The independent variable was priming condition and contained three levels: short, middle, and long distance. Those instructed to plot points further apart were hypothesized to express a higher degree of psychological distance regarding their family. The second study used the same priming conditions, but hypothesized that greater distance between points would prime participants to estimate fewer calories in unhealthy foods than those who were primed with shorter distances between points. @Pashler2012 concluded those two studies from @Williams2008 held little validity while also casting doubt on the prevalence of social priming effects themselves, based on the inability of other researchers to replicate previously reported effects in this area.
+
+While these concerns regarding the replication of social priming studies are valid and deserve further investigation, @Druckman2004 does not purport to demonstrate a widespread effect of social priming on the American electorate. In other words, this reseach makes no claim to empirically supported priming effects. Rather, @Druckman2004 chronicle the efforts on the part of the Nixon Administration to prop up the president's supposed strengths while downplaying his weaknesses. These tactics were deployed through the careful use of language in order to achieve the administration's political goals. As such, @Druckman2004's research on Nixon serves as an example of language's potential utility in the propogation of desirable political opinions. The researcher's investigation of news media's focus on specific issues during the Carter Administration likewise provide an example of language as a potential conduit for the transfer of politically biased information. The idea that even 1970s news media could contain political biases is of particular interest to the current study, which investigates similar phenomena in contemporary news media.
+
+Other research into news media suggests certain media outlets, at least indirectly, may have an effect on the voting records of representatives in Congress [@Clinton2014]. Specifically, the researchers identified a pattern of declining support for President Bill Clinton's policies chiefly among Republicans in the House of Representatives after the Fox News Channel began broadcasting on cable and satellite systems in their respective districts. As Fox News was, at the time of its launch in 1996, the only outwardly ideological national news network, the researchers were able to track its spread across the country and observe voting records of members of Congress both before and after Fox News' arrival. The researchers concluded that members of Congress, excluding those newly elected at the time of Fox News Channel's emergence, attempted to anticipate resultant conservative-leaning shifts among their constituents by bolstering their conservative voting record before the next election [@Clinton2014].
+
+Therefore, the current study sought to combine both methods related questions and extension/replication of previous moral foundation results found for liberal and conservative sources. First, the MFD was combined with previous research by the current authors (see below) and weighted by valence to create weighted percentages to better specify endorsement. Second, these weighted percentages were examined for their differences in across liberal and conservative news sources.
+
+# Experiment 1 
+
+# Method
+
+For Experiment 1, the researchers approached the study with the intention to answer a method question. That is, this portion of the current research was conducted in order to solidify the best method by which to analyze political news text under the Moral Foundations Theory framework while also alleviating some of the aforementioned valence problem observed in the Moral Foundations Dictionary. The researchers hypothesized the news sources genrally perceived as liberal leaning (*NPR* and *The New York Times*) would contain MFD words and valences indicating endorsements of the individualizing moral foundations (*harm/care* and *fairness/reciprocity*). Additionally, the researchers hypothesized the two sources generally perceived to be conservative leaning (*Fox News* and *Breitbart*) would feature MFD words and valences indicating equal endorsement of all five foundations.
+
+## Sources
+
+Political articles were collected from the websites of four notable U.S. news sources, a process known as web scraping. The sources were *The New York Times*, *National Public Radio (NPR)*, *Fox News*, and *Breitbart*. They were selected for their widespread recognition and the fact politcial partisans have strong preferences for some sources over others. The researchers determined the political lean of each source by referencing @Mitchell2014's article demonstrating the self-reported idealogical consistency represented by the consumers of several news sources. In general, *The New York Times* and *NPR* are preferred by consumers reporting a liberal bias or lean. In contrast, *Fox News* and *Breitbart* are believed to have a conservative bias or lean. @Mitchell2014's article presented political ideology as a scale ranging from "consistently liberal" to "consistently conservative." In between these extremes lie more moderate positions, including "mostly liberal," "mixed," and "mostly conservative." Owing to the lower number of sources analyzed herein, the researchers elected to categorize the sources as either "liberal" and "conservative" in order to form a basis for comparison.   
+
+Political articles in particular were identified and subsequently scraped by including the specific URL directing to each source's political content in the *R* script. For example, rather than scrape from nytimes.com, which would return undesired results (non-political features, reviews, etc.), we instead included nytimes.com/section/politics so that more or less exclusively political content was obtained. All code for this manuscript can be found at https://osf.io/5kpj7/, and the scripts are provided inline with this manuscript written with the *papaja* library [@Aust2017]. 
+
+Identification of the sources' political URLs presented a problem for two of the sources owing to complications with how their particular sites were structured. While in the multi-week process of scraping articles, we noticed word counts for *NPR* and *Fox News* were not growing at a similar pace as those from *The New York Times* and *Breitbart*. Upon investigation, we found another, more robust URL for political content from NPR: their politics content "archive." The page structure on NPR's website was such that only a limited selection of articles is displayed to the user at a given time. Scraping both the archive and the normal politics page ensured we were obtaining most (if not all) new articles as they were published. We later ran a process in order to exclude any duplicate articles. *Fox News* presented a similar issue. We discovered *Fox News* utilized six URLs in addition to the regular politics page. These URLs led to pages containing content pertaining the U.S. Executive Branch, Senate, House of Representatives, Judicial Branch, foreign policy, and elections. Once again, duplicates were subsequently eliminated from any analyses.  
+
+## Materials
+
+Using the *rvest* library in the statistical package *R*, we pulled body text for individual articles from each of the aforementioned sources (identified using CSS language) and compiled them into a dataset [@Wickham2016]. Using this dataset, we identified word count and average word count per source. This process was run once daily starting in February 2018 until March 2018. Starting in mid-March 2018, the process was run twice daily - once in the morning and again in the evening. Data collection was terminated once 250,000 words per source was collected in April 2018.  
+
+```{r scraping, eval=FALSE, include=FALSE}
+
+library(rvest)
+####NY Times####
+#Specifying the url for desired website to be scrapped
+url <- 'https://www.nytimes.com/section/politics'
+
+#Reading the HTML code from the website - headlines
+webpage <- read_html(url)
+headline_data = html_nodes(webpage,'.story-link a, .story-body a')
+
+attr_data = html_attrs(headline_data) 
+attr_data
+
+urlslist = unlist(attr_data)
+urlslist = urlslist[grep("http", urlslist)]
+urlslist = unique(urlslist)
+urlslist
+
+##start a data frame
+NYtimesDF = matrix(NA, nrow = length(urlslist), ncol = 3)
+colnames(NYtimesDF) = c("Source", "Url", "Text")
+NYtimesDF = as.data.frame(NYtimesDF)
+
+##for loops
+for (i in 1:length(urlslist)){
+  
+  ##read in the URL
+  webpage <- read_html(urlslist[i])
+  
+  ##pull the specific nodes
+  headline_data = html_nodes(webpage,'.story-content') 
+  
+  ##pull the text
+  text_data = html_text(headline_data)
+  
+  ##save the data
+  NYtimesDF$Source[i] = "NY Times"
+  NYtimesDF$Url[i] = urlslist[i]
+  NYtimesDF$Text[i] = paste(text_data, collapse = "")
+    } ##end for loop
+
+####NPR original front page####
+url2 = 'https://www.npr.org/sections/politics/'
+webpage2 = read_html(url2)
+headline_data2 = html_nodes(webpage2,'.title a')
+
+#URLs
+attr_data2 = html_attrs(headline_data2) 
+attr_data2
+
+urlslist2 = unlist(attr_data2)
+urlslist2 = urlslist2[grep("http", urlslist2)]
+urlslist2
+
+##start a data frame
+NPRDF = matrix(NA, nrow = length(urlslist2), ncol = 3)
+colnames(NPRDF) = c("Source", "Url", "Text")
+NPRDF = as.data.frame(NPRDF)
+
+##for loops
+for (i in 1:length(urlslist2)){
+  
+  ##read in the URL
+  webpage2 <- read_html(urlslist2[i])
+  
+  ##pull the specific nodes
+  headline_data2 = html_nodes(webpage2,'#storytext > p') 
+  
+  ##pull the text
+  text_data2 = html_text(headline_data2)
+  
+  ##save the data
+  NPRDF$Source[i] = "NPR"
+  NPRDF$Url[i] = urlslist2[i]
+  NPRDF$Text[i] = paste(text_data2, collapse = "")
+} ##end for loop
+
+####Fox News####
+url3 = 'http://www.foxnews.com/politics.html'
+url3.1 = 'http://www.foxnews.com/category/politics/executive.html'
+url3.2 = 'http://www.foxnews.com/category/politics/senate.htm.html'
+url3.3 = 'http://www.foxnews.com/category/politics/house-representatives.html'
+url3.4 = 'http://www.foxnews.com/category/politics/judiciary.html'
+url3.5 = 'http://www.foxnews.com/category/politics/foreign-policy.html'
+url3.6 = 'http://www.foxnews.com/category/politics/elections.html'
+webpage3 = read_html(url3)
+webpage3.1 = read_html(url3.1)
+webpage3.2 = read_html(url3.2)
+webpage3.3 = read_html(url3.3)
+webpage3.4 = read_html(url3.4)
+webpage3.5 = read_html(url3.5)
+webpage3.6 = read_html(url3.6)
+
+headline_data3 = html_nodes(webpage3, '.story- a , .article-list .title a')
+headline_data3.1 = html_nodes(webpage3.1, '.story- a , .article-list .title a')
+headline_data3.2 = html_nodes(webpage3.2, '.story- a , .article-list .title a')
+headline_data3.3 = html_nodes(webpage3.3, '.story- a , .article-list .title a')
+headline_data3.4 = html_nodes(webpage3.4, '.story- a , .article-list .title a')
+headline_data3.5 = html_nodes(webpage3.5, '.story- a , .article-list .title a')
+headline_data3.6 = html_nodes(webpage3.6, '.story- a , .article-list .title a')
+
+#headline_data = html_text(headline_data)
+head(headline_data3) 
+
+attr_data3 = html_attrs(headline_data3) 
+attr_data3.1 = html_attrs(headline_data3.1) 
+attr_data3.2 = html_attrs(headline_data3.2) 
+attr_data3.3 = html_attrs(headline_data3.3) 
+attr_data3.4 = html_attrs(headline_data3.4) 
+attr_data3.5 = html_attrs(headline_data3.5) 
+attr_data3.6 = html_attrs(headline_data3.6) 
+
+attr_data3
+
+urlslist3 = c(unlist(attr_data3), unlist(attr_data3.1), 
+              unlist(attr_data3.2), unlist(attr_data3.3), 
+              unlist(attr_data3.4), unlist(attr_data3.5, attr_data3.6))
+##find all that are href
+urlslist3 = urlslist3[grep("http|.html", urlslist3)]
+##fix the ones without the leading foxnews.com
+urlslist3F = paste("http://www.foxnews.com", urlslist3[grep("^http", urlslist3, invert = T)], sep = "")
+urlslist3N = urlslist3[grep("^http", urlslist3)]
+urlslist3 = c(urlslist3N, urlslist3F)
+urlslist3 = unique(urlslist3)
+urlslist3
+
+##start a data frame
+FoxDF = matrix(NA, nrow = length(urlslist3), ncol = 3)
+colnames(FoxDF) = c("Source", "Url", "Text")
+FoxDF = as.data.frame(FoxDF)
+
+##for loops
+for (i in 1:length(urlslist3)){
+  
+  ##read in the URL
+  webpage3 <- read_html(urlslist3[i])
+  
+  ##pull the specific nodes
+  headline_data3 = html_nodes(webpage3,'p+ p , .fn-video+ p , .twitter+ p , .speakable') 
+  
+  ##pull the text
+  text_data3 = html_text(headline_data3)
+  
+  ##save the data
+  FoxDF$Source[i] = "Fox News"
+  FoxDF$Url[i] = urlslist3[i]
+  FoxDF$Text[i] = paste(text_data3, collapse = "")
+} ##end for loop
+
+####Breitbart####
+url4 = 'http://www.breitbart.com/big-government/'
+webpage4 = read_html(url4)
+headline_data4 = html_nodes(webpage4, '.title a , #grid-block-0 span , #BBTrendUL a , #disqus-popularUL a , font')
+#headline_data4 = html_text(headline_data4)
+head(headline_data4) 
+
+attr_data4 = html_attrs(headline_data4) 
+attr_data4
+
+urlslist4 = unlist(attr_data4)
+##find all that are href
+urlslist4 = urlslist4[grep("http|/big-government", urlslist4)]
+##fix the ones without the leading bb
+urlslist4F = paste("http://www.breitbart.com", urlslist4[grep("^http", urlslist4, invert = T)], sep = "")
+urlslist4N = urlslist4[grep("^http", urlslist4)]
+urlslist4 = c(urlslist4N, urlslist4F)
+urlslist4 = unique(urlslist4)
+urlslist4
+
+##start a data frame
+BreitbartDF = matrix(NA, nrow = length(urlslist4), ncol = 3)
+colnames(BreitbartDF) = c("Source", "Url", "Text")
+BreitbartDF = as.data.frame(BreitbartDF)
+
+##for loops
+for (i in 1:length(urlslist4)){
+  
+  ##read in the URL
+  webpage4 <- read_html(urlslist4[i])
+  
+  ##pull the specific nodes
+  headline_data4 = html_nodes(webpage4,'.entry-content p , h2') 
+  
+  ##pull the text
+  text_data4 = html_text(headline_data4)
+  
+  ##save the data
+  BreitbartDF$Source[i] = "Breitbart"
+  BreitbartDF$Url[i] = urlslist4[i]
+  BreitbartDF$Text[i] = paste(text_data4, collapse = "")
+} ##end for loop
+
+####NPR Archive####
+url5 = 'https://www.npr.org/sections/politics/archive'
+webpage5 = read_html(url5)
+headline_data5 = html_nodes(webpage5,'.title a')
+#headline_data = html_text(headline_data)
+#head(headline_data)
+
+#URLs
+attr_data5 = html_attrs(headline_data5) 
+attr_data5
+
+urlslist5 = unlist(attr_data5)
+urlslist5 = urlslist5[grep("http", urlslist5)]
+urlslist5
+
+##start a data frame
+NPRArchiveDF = matrix(NA, nrow = length(urlslist5), ncol = 3)
+colnames(NPRArchiveDF) = c("Source", "Url", "Text")
+NPRArchiveDF = as.data.frame(NPRArchiveDF)
+
+##for loops
+for (i in 1:length(urlslist5)){
+  
+  ##read in the URL
+  webpage5 <- read_html(urlslist5[i])
+  
+  ##pull the specific nodes
+  headline_data5 = html_nodes(webpage5,'#storytext > p') 
+  
+  ##pull the text
+  text_data5 = html_text(headline_data5)
+  
+  ##save the data
+  NPRArchiveDF$Source[i] = "NPR"
+  NPRArchiveDF$Url[i] = urlslist5[i]
+  NPRArchiveDF$Text[i] = paste(text_data5, collapse = "")
+} ##end for loop
+
+####put together####
+##set your working directory
+setwd("~/OneDrive - Missouri State University/RESEARCH/2 projects/Will-Pilot")
+
+##import the overalldata 
+overalldata = read.csv("exp1_data/overalldata.csv")
+
+##combine with new data (add the other DF names in here...)
+newdata = rbind(overalldata, NYtimesDF, NPRDF, FoxDF, BreitbartDF, NPRArchiveDF)
+
+#temp NPR updates
+#newdata = newdata[ , -4]
+#newdata = rbind(newdata, NPRArchiveDF)
+
+#change politics archive to NPR, so we can eliminate dupes
+#newdata$Source[newdata$Source == "NPR Politics Archive"] = "NPR"
+#newdata$Source = droplevels(newdata$Source)
+
+##make the newdata unique in case of overlap across days
+newdata = unique(newdata)
+
+##write it back out
+#write.csv(newdata, "overalldata.csv", row.names = F)
+
+##number of articles
+table(newdata$Source)
+
+##number of words
+library(ngram)
+newdata$Text = as.character(newdata$Text)
+for (i in 1:nrow(newdata)) {
+  
+  #newdata$writing[i] = preprocess(newdata$Text[i], case="lower", remove.punct=TRUE)
+  newdata$wordcount[i] = string.summary(newdata$Text[i])$words
+  
+}
+
+tapply(newdata$wordcount, newdata$Source, mean)
+tapply(newdata$wordcount, newdata$Source, sum)
+
+```
+
+## Data analysis
+
+Once data collection ended, the text was scanned using the *ngram* package in *R* [@Schmidt2017]. This package includes a word count function, which was used to remove articles that came through as blank text, as well as to eliminate text picked up from the Disqus commenting system used by certain websites. At this point, duplicate articles were discarded.
+
+```{r data-cleanup, eval=FALSE, include=FALSE}
+##pull in the data
+master = read.csv("exp1_data/overalldata.csv", stringsAsFactors = F)
+
+##get rid of the blank stuff
+library(ngram)
+
+for (i in 1:nrow(master)) {
+  master$wordcount[i] = wordcount(master$Text[i])
+}
+
+nozero = subset(master, wordcount > 0)
+tapply(nozero$wordcount, nozero$Source, mean)
+tapply(nozero$wordcount, nozero$Source, sum)
+
+##take out the disqus ones
+nodis = nozero[ -c(grep("disqus", nozero$Url)), ]
+
+##figure out the duplicates
+nodis$URLS = duplicated(nodis$Url)
+
+##all data
+final = subset(nodis, URLS == FALSE)
+
+tapply(final$wordcount, final$Source, mean)
+tapply(final$wordcount, final$Source, sum)
+
+write.csv(final, "finaldata.csv")
+
+```
+
+The article text was processed using the *tm* and *ngram* packages in *R* in order to render the text in lowercase, remove punctuation, and fix spacing issues [@Feinerer2017]. The individual words were then reduced to their stems (i.e., *abused* was stemmed to *abus*). The same procedure was applied to the MFD words and the words in the @Warriner2013 dataset. Using the @Warriner2013 dictionary, the words making up each of the five foundations in the MFD were matched to their respective valence value.   
+
+Concurrent research by @Jordan2019 is assessing the validity of both the Moral Foundations Questionnaire and the Moral Foundations Dictionary through a multi-trait multi-method analysis of the two instruments using multiple samples. The instruments and foundation areas are being analyzed against one another, in order to test reliability, as well as against the Congressional Record in order to test predictive validity for political orientation. The researchers were able to identify a number of potential new words that, if added to the MFD, could comprise a dictionary with greater validity, and less likelihood of zero percent texts, as this often occurs with the current MFD. Those results have informed this analysis, and their updated findings may change the underlying dictionary used in this analysis (albeit, we do not expect any changes in the results presented below). 
+
+The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with their valence and a percentage of their occurrence. Therefore, for each article, the percentage of the number of *harm/care* words occurring in the articles were calculated, and this process was repeated for each of the foundations. Words' percent occurence were multiplied by their *z*-scored valence. Valences were *z*-scored in order to eliminate any ambiguity regarding the direction of the valence. Positive values indicate positive valence, and negative values indicate negative valence. Words were categorized in accordance to their MFD affiliation, creating a weighted sum for each moral foundation.
+
+```{r stem_text, eval=TRUE, include=FALSE}
+
+final = read.csv("exp1_data/finaldata.csv", stringsAsFactors = F)
+final = na.omit(final) #one weird NA line
+
+##load libraries
+library(tm)
+library(ngram)
+
+#process the Text column (write a loop) - save processed text as a separate column
+for(i in 1:nrow(final)) {
+  
+  final$edited[i] = preprocess(final$Text[i], #one value at a time
+           case = "lower", 
+           remove.punct = TRUE,
+           remove.numbers = FALSE, 
+           fix.spacing = TRUE)
+
+##stem the words - do this second in the loop
+  final$stemmed[i] = stemDocument(final$edited[i], language = "english")
+} 
+
+```
+
+```{r stem_warriner, include = FALSE}
+##open the Warriner data for later
+warriner = read.csv("exp1_data/BRM-emot-submit.csv", stringsAsFactors = F) #want v.mean.sum
+warriner$V.Mean.Sum = scale(warriner$V.Mean.Sum)
+
+for(i in 1:nrow(warriner)) {
+  warriner$Word2[i] = stemDocument(warriner$Word[i], language = "english")
+} 
+```
+
+```{r create_datasets_harm, include=FALSE}
+#read in the harm total words from the mtmm project
+harm_all = read.csv("exp1_data/harm_words_total.csv", stringsAsFactors = F)
+
+harm_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(harm_all$words[harm_all$words != "" & harm_all$words != "NA" & !is.na(harm_all$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final$Url[i]
+temp2$Source = final$Source[i]
+temp2$wordcount = final$wordcount[i]
+
+#bind with original
+harm_final_data = rbind(harm_final_data, temp2)
+}
+
+#pull in the data from Warriner 
+harm_final_data$valence = vlookup(harm_final_data$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(harm_final_data$Var1[is.na(harm_final_data$valence) & harm_final_data$Freq > 0])
+#fought, safer, spurn
+harm_final_data$valence[harm_final_data$Var1 == "fought"] = warriner$V.Mean.Sum[warriner$Word2 == "fight"]
+harm_final_data$valence[harm_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
+#no spurn avaliable
+```
+
+```{r create_datasets_fair, include=FALSE}
+fair_all = read.csv("exp1_data/fair_words_total.csv", stringsAsFactors = F)
+
+fair_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(fair_all$words[fair_all$words != "" & fair_all$words != "NA" & !is.na(fair_all$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final$Url[i]
+temp2$Source = final$Source[i]
+temp2$wordcount = final$wordcount[i]
+
+#bind with original
+fair_final_data = rbind(fair_final_data, temp2)
+}
+
+fair_final_data$valence = vlookup(fair_final_data$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(fair_final_data$Var1[is.na(fair_final_data$valence) & fair_final_data$Freq > 0])
+#just plagiar safer
+fair_final_data$valence[fair_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
+#nothing for just or plagiarism
+```
+
+```{r create_datasets_ingroup, include=FALSE}
+ingroup_all = read.csv("exp1_data/ingroup_words_total.csv", stringsAsFactors = F)
+
+ingroup_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(ingroup_all$words[ingroup_all$words != "" & ingroup_all$words != "NA" & !is.na(ingroup_all$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final$Url[i]
+temp2$Source = final$Source[i]
+temp2$wordcount = final$wordcount[i]
+
+#bind with original
+ingroup_final_data = rbind(ingroup_final_data, temp2)
+}
+
+ingroup_final_data$valence = vlookup(ingroup_final_data$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(ingroup_final_data$Var1[is.na(ingroup_final_data$valence) & ingroup_final_data$Freq > 0])
+#backstabb  benedict      best      fals   indvidu      juda    knight      true
+ingroup_final_data$valence[ingroup_final_data$Var1 == "fals"] = warriner$V.Mean.Sum[warriner$Word2 == "FALSE"]
+ingroup_final_data$valence[ingroup_final_data$Var1 == "indvidu"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "individu"])
+ingroup_final_data$valence[ingroup_final_data$Var1 == "true"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "TRUE"])
+```
+
+```{r create_datasets_authority, include=FALSE}
+authority_all = read.csv("exp1_data/authority_words_total.csv", stringsAsFactors = F)
+
+authority_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(authority_all$words[authority_all$words != "" & authority_all$words != "NA" & !is.na(authority_all$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final$Url[i]
+temp2$Source = final$Source[i]
+temp2$wordcount = final$wordcount[i]
+
+#bind with original
+authority_final_data = rbind(authority_final_data, temp2)
+}
+
+authority_final_data$valence = vlookup(authority_final_data$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(authority_final_data$Var1[is.na(authority_final_data$valence) & authority_final_data$Freq > 0])
+#  abov behind   gase higher  older  taken 
+authority_final_data$valence[authority_final_data$Var1 == "gase"] = warriner$V.Mean.Sum[warriner$Word2 == "gas"]
+authority_final_data$valence[authority_final_data$Var1 == "higher"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "high"])
+authority_final_data$valence[authority_final_data$Var1 == "older"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "old"])
+authority_final_data$valence[authority_final_data$Var1 == "taken"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "take"])
+```
+
+```{r create_datasets_purity, include=FALSE}
+purity_all = read.csv("exp1_data/purity_words_total.csv", stringsAsFactors = F)
+
+purity_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
+
+for (i in 1:nrow(final)) {
+##first make a table of a response, unlisting everything
+temp = as.data.frame(table(unlist(strsplit(final$stemmed[i], " "))))
+
+#only pull the words in the dataset for each foundation
+temp2 = temp[temp$Var1 %in% unique(purity_all$words[purity_all$words != "" & purity_all$words != "NA" & !is.na(purity_all$words)]), ]
+
+#control here for times when no words
+if (nrow(temp2) == 0){
+  temp2 = data.frame("Var1" = 0, "Freq" = 0)
+}
+
+#add to the dataset
+temp2$URL = final$Url[i]
+temp2$Source = final$Source[i]
+temp2$wordcount = final$wordcount[i]
+
+#bind with original
+purity_final_data = rbind(purity_final_data, temp2)
+}
+
+purity_final_data$valence = vlookup(purity_final_data$Var1, #index in original data
+                                  warriner, #where's the stuff you want to put in
+                                  "V.Mean.Sum", #what column is the stuff you want
+                                  "Word2") #what's the matching index
+
+#figure out stupid words
+table(purity_final_data$Var1[is.na(purity_final_data$valence) & purity_final_data$Freq > 0])
+#befor christian     jesus      mari      none    sacred    someon      true     women 
+purity_final_data$valence[purity_final_data$Var1 == "sacred"] = warriner$V.Mean.Sum[warriner$Word2 == "sacr"]
+purity_final_data$valence[purity_final_data$Var1 == "true"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "TRUE"])
+purity_final_data$valence[purity_final_data$Var1 == "women"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "woman"])
+```
+
+```{r descriptives, include = FALSE}
+#summarize the dataset so that you have the total and percent for each foundation
+summary(harm_final_data)
+summary(fair_final_data)
+summary(ingroup_final_data)
+summary(authority_final_data)
+summary(purity_final_data)
+#report descriptive statistics of the foundations
+mean(harm_final_data$valence)
+sd(harm_final_data$valence)
+mean(fair_final_data$valence)
+sd(fair_final_data$valence)
+mean(ingroup_final_data$valence)
+sd(ingroup_final_data$valence)
+mean(authority_final_data$valence)
+sd(authority_final_data$valence)
+mean(purity_final_data$valence)
+sd(purity_final_data$valence)
+#note that a big problem is the valence of the words 
+```
+
+```{r analysis_harm, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+harm_final_data$weight = harm_final_data$Freq * harm_final_data$valence / harm_final_data$wordcount * 100
+
+#flatten down to sum by article 
+harm_final_temp = aggregate(harm_final_data$weight, 
+          by = list(harm_final_data$URL),
+          FUN = sum, na.rm = T)
+colnames(harm_final_temp) = c("URL", "MFDweight")
+
+harm_final_temp$lean[grepl("nytimes.com", harm_final_temp$URL) |
+                       grepl("npr.org", harm_final_temp$URL)] = "Liberal"
+harm_final_temp$lean[grepl("breitbart.com", harm_final_temp$URL) |
+                       grepl("foxnews.com", harm_final_temp$URL)] = "Conservative"
+
+harm_final_temp$Source[grepl("nytimes.com", harm_final_temp$URL)] = "NY Times"
+harm_final_temp$Source[grepl("npr.org", harm_final_temp$URL)] = "NPR"
+harm_final_temp$Source[grepl("foxnews.com", harm_final_temp$URL)] = "Fox"
+harm_final_temp$Source[grepl("breitbart.com", harm_final_temp$URL)] = "Breitbart"
+
+harm_model = lme(MFDweight ~ lean, 
+                 data = harm_final_temp, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(harm_model)
+```
+
+```{r analysis_fair, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+fair_final_data$weight = fair_final_data$Freq * fair_final_data$valence / fair_final_data$wordcount * 100
+
+#flatten down to sum by article 
+fair_final_temp = aggregate(fair_final_data$weight, 
+          by = list(fair_final_data$URL),
+          FUN = sum, na.rm = T)
+colnames(fair_final_temp) = c("URL", "MFDweight")
+
+fair_final_temp$lean[grepl("nytimes.com", fair_final_temp$URL) |
+                       grepl("npr.org", fair_final_temp$URL)] = "Liberal"
+fair_final_temp$lean[grepl("breitbart.com", fair_final_temp$URL) |
+                       grepl("foxnews.com", fair_final_temp$URL)] = "Conservative"
+
+fair_final_temp$Source[grepl("nytimes.com", fair_final_temp$URL)] = "NY Times"
+fair_final_temp$Source[grepl("npr.org", fair_final_temp$URL)] = "NPR"
+fair_final_temp$Source[grepl("foxnews.com", fair_final_temp$URL)] = "Fox"
+fair_final_temp$Source[grepl("breitbart.com", fair_final_temp$URL)] = "Breitbart"
+
+fair_model = lme(MFDweight ~ lean, 
+                 data = fair_final_temp, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(fair_model)
+```
+
+```{r analysis_ingroup, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+ingroup_final_data$weight = ingroup_final_data$Freq * ingroup_final_data$valence / ingroup_final_data$wordcount * 100
+
+#flatten down to sum by article 
+ingroup_final_temp = aggregate(ingroup_final_data$weight, 
+          by = list(ingroup_final_data$URL),
+          FUN = sum, na.rm = T)
+colnames(ingroup_final_temp) = c("URL", "MFDweight")
+
+ingroup_final_temp$lean[grepl("nytimes.com", ingroup_final_temp$URL) |
+                       grepl("npr.org", ingroup_final_temp$URL)] = "Liberal"
+ingroup_final_temp$lean[grepl("breitbart.com", ingroup_final_temp$URL) |
+                       grepl("foxnews.com", ingroup_final_temp$URL)] = "Conservative"
+
+ingroup_final_temp$Source[grepl("nytimes.com", ingroup_final_temp$URL)] = "NY Times"
+ingroup_final_temp$Source[grepl("npr.org", ingroup_final_temp$URL)] = "NPR"
+ingroup_final_temp$Source[grepl("foxnews.com", ingroup_final_temp$URL)] = "Fox"
+ingroup_final_temp$Source[grepl("breitbart.com", ingroup_final_temp$URL)] = "Breitbart"
+
+ingroup_model = lme(MFDweight ~ lean, 
+                 data = ingroup_final_temp, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(ingroup_model)
+```
+
+```{r analysis_authority, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+authority_final_data$weight = authority_final_data$Freq * authority_final_data$valence / authority_final_data$wordcount * 100
+
+#flatten down to sum by article 
+authority_final_temp = aggregate(authority_final_data$weight, 
+          by = list(authority_final_data$URL),
+          FUN = sum, na.rm = T)
+colnames(authority_final_temp) = c("URL", "MFDweight")
+
+authority_final_temp$lean[grepl("nytimes.com", authority_final_temp$URL) |
+                       grepl("npr.org", authority_final_temp$URL)] = "Liberal"
+authority_final_temp$lean[grepl("breitbart.com", authority_final_temp$URL) |
+                       grepl("foxnews.com", authority_final_temp$URL)] = "Conservative"
+
+authority_final_temp$Source[grepl("nytimes.com", authority_final_temp$URL)] = "NY Times"
+authority_final_temp$Source[grepl("npr.org", authority_final_temp$URL)] = "NPR"
+authority_final_temp$Source[grepl("foxnews.com", authority_final_temp$URL)] = "Fox"
+authority_final_temp$Source[grepl("breitbart.com", authority_final_temp$URL)] = "Breitbart"
+
+authority_model = lme(MFDweight ~ lean, 
+                 data = authority_final_temp, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(authority_model)
+```
+
+```{r analysis_purity, include = FALSE}
+#final_data clean up
+#multiply by frequency and create percentage
+purity_final_data$weight = purity_final_data$Freq * purity_final_data$valence / purity_final_data$wordcount * 100
+
+#flatten down to sum by article 
+purity_final_temp = aggregate(purity_final_data$weight, 
+          by = list(purity_final_data$URL),
+          FUN = sum, na.rm = T)
+colnames(purity_final_temp) = c("URL", "MFDweight")
+
+purity_final_temp$lean[grepl("nytimes.com", purity_final_temp$URL) |
+                       grepl("npr.org", purity_final_temp$URL)] = "Liberal"
+purity_final_temp$lean[grepl("breitbart.com", purity_final_temp$URL) |
+                       grepl("foxnews.com", purity_final_temp$URL)] = "Conservative"
+
+purity_final_temp$Source[grepl("nytimes.com", purity_final_temp$URL)] = "NY Times"
+purity_final_temp$Source[grepl("npr.org", purity_final_temp$URL)] = "NPR"
+purity_final_temp$Source[grepl("foxnews.com", purity_final_temp$URL)] = "Fox"
+purity_final_temp$Source[grepl("breitbart.com", purity_final_temp$URL)] = "Breitbart"
+
+purity_model = lme(MFDweight ~ lean, 
+                 data = purity_final_temp, 
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+summary(purity_model)
+```
+
+```{r exp1-source-descriptives, results = 'asis', echo = FALSE, message = F}
+
+final$uniquewords = NA
+final$valenceavg = NA
+
+for (i in 1:nrow(final)){
+  
+  #add unique
+  final$uniquewords[i] = length(unique(unlist(strsplit(final$stemmed[i], " "))))
+  
+  #add valence
+  tempwords = as.data.frame(unlist(strsplit(final$stemmed[i], " ")))
+  colnames(tempwords) = "theword"
+  tempwords$tempval = vlookup(tempwords$theword, #index in original data
+                    warriner, #where's the stuff you want to put in
+                    "V.Mean.Sum", #what column is the stuff you want
+                    "Word2") #what's the matching index
+  
+  final$valenceavg[i] = mean(tempwords$tempval, na.rm = T)
+
+}
+
+
+# tapply(final$valenceavg, final$Source, mean)
+# tapply(final$valenceavg, final$Source, sd)
+# tapply(final$wordcount, final$Source, mean)
+# tapply(final$wordcount, final$Source, sd)
+# tapply(final$uniquewords, final$Source, mean)
+# tapply(final$uniquewords, final$Source, sd)
+# tapply(final$Source, final$Source, length)
+# tapply(final$wordcount, final$Source, sum)
+
+library(quanteda)
+
+final$FK = NA
+
+for (i in 1:nrow(final)){
+  final$FK[i] = unlist(textstat_readability(final$Text[i], 
+                     measure = "Flesch.Kincaid")$Flesch.Kincaid)
+}
+
+tapply(final$FK, final$Source, mean)
+tapply(final$FK, final$Source, sd)
+
+####build the table here####
+tableprint = matrix(NA, nrow=4, ncol=11)
+colnames(tableprint) = c("Source", "Mean_Valence", "SD_Valence", "Number_of_Articles", "Total_Words", "Mean_Tokens", "SD_Tokens", "Mean_Types", "SD_Types", "Mean_Readability", "SD_Readability")
+
+tableprint[ , 1] = unique(final$Source)
+tableprint[ , 2] = tapply(final$valenceavg, final$Source, mean)
+tableprint[ , 3] = tapply(final$valenceavg, final$Source, sd)
+tableprint[ , 4] = tapply(final$X, final$Source, length)
+tableprint[ , 5] = tapply(final$wordcount, final$Source, sum)
+tableprint[ , 6] = tapply(final$wordcount, final$Source, mean)
+tableprint[ , 7] = tapply(final$wordcount, final$Source, sd)
+tableprint[ , 8] = tapply(final$uniquewords, final$Source, mean)
+tableprint[ , 9] = tapply(final$uniquewords, final$Source, sd)
+tableprint[ , 10] = tapply(final$FK, final$Source, mean)
+tableprint[ , 11] = tapply(final$FK, final$Source, sd)
+```
+
+```{r temp, results = 'asis', eval = T, echo = F}
+#change this to match
+
+tableprint[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint[ , c(2,3,6,7,8,9,10,11)]))
+
+apa_table(as.data.frame(tableprint),
+          note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula.",
+          caption = "Experiment 1 - Descriptive Statistics by Source",
+          format = "latex",
+          small = T,
+          escape = F,
+          col.names = c("Source", "$M_V$", "$SD_V$", "$N_{Article}$", "$N_{Words}$", "$M_T$", "$SD_T$", "$M_{Ty}$", "$SD_{Ty}$", "$M_{FK}$", "$SD_{FK}$"))
+```
+
+
+
+
+# Results
+
+# Discussion
+
+# Conclusions 
+
+\newpage
+
+# References
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id = "refs"></div>
+\endgroup

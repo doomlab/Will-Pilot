@@ -1,0 +1,27 @@
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+\begin{center}
+\begin{threeparttable}
+\caption{\label{tab:temp}Experiment 1 - Descriptive Statistics by Source}
+\small{
+\begin{tabular}{lllllllllll}
+\toprule
+Source & $M_V$ & $SD_V$ & $N_{Article}$ & $N_{Words}$ & $M_T$ & $SD_T$ & $M_{Ty}$ & $SD_{Ty}$ & $M_{FK}$ & $SD_{FK}$\\
+\midrule
+NY Times & 0.29 & 0.18 & 1437 & 722022 & 502.45 & 347.90 & 243.36 & 120.76 & 18.42 & 8.01\\
+NPR & 0.29 & 0.17 & 503 & 296779 & 590.02 & 528.60 & 283.57 & 189.00 & 16.92 & 7.16\\
+Fox News & 0.28 & 0.23 & 695 & 302977 & 435.94 & 642.63 & 191.96 & 192.29 & 13.80 & 3.93\\
+Breitbart & 0.30 & 0.13 & 406 & 452579 & 1,114.73 & 511.86 & 454.27 & 154.58 & 16.32 & 3.29\\
+\bottomrule
+\addlinespace
+\end{tabular}
+}
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula.}
+\end{tablenotes}
+\end{threeparttable}
+\end{center}
+\end{table*}
+\efloatseparator
+ 

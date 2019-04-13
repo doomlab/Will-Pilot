@@ -236,28 +236,6 @@ Concurrent research by Jordan, Buchanan, and Padfield (2019) is assessing the va
 
 The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with their valence and a percentage of their occurrence. Therefore, for each article, the percentage of the number of \emph{harm/care} words occurring in the articles were calculated, and this process was repeated for each of the foundations. Words' percent occurence were multiplied by their \emph{z}-scored valence. Valences were \emph{z}-scored in order to eliminate any ambiguity regarding the direction of the valence. Positive values indicate positive valence, and negative values indicate negative valence. Words were categorized in accordance to their MFD affiliation, creating a weighted sum for each moral foundation.
 
-\hypertarget{results}{%
-\section{Results}\label{results}}
-
-\hypertarget{descriptive-statistics}{%
-\subsection{Descriptive Statistics}\label{descriptive-statistics}}
-
-Breitbart Fox News NPR NY Times
-0.2859474 0.2865543 0.2836801 0.3036140
-Breitbart Fox News NPR NY Times
-0.1758739 0.1657591 0.2303375 0.1316283
-Breitbart Fox News NPR NY Times
-502.4509 590.0179 435.9381 1114.7266
-Breitbart Fox News NPR NY Times
-347.9033 528.6040 642.6311 511.8552
-Breitbart Fox News NPR NY Times
-243.3633 283.5666 191.9583 454.2660
-Breitbart Fox News NPR NY Times
-120.7606 188.9969 192.2881 154.5782
-Breitbart Fox News NPR NY Times
-1437 503 695 406
-Breitbart Fox News NPR NY Times
-722022 296779 302977 452579
 Breitbart Fox News NPR NY Times
 18.41894 16.92098 13.80370 16.32188
 Breitbart Fox News NPR NY Times
@@ -266,8 +244,9 @@ Breitbart Fox News NPR NY Times
 \begin{table}[tbp]
 \begin{center}
 \begin{threeparttable}
-\caption{\label{tab:exp1-source-descriptives}Experiment 1 - Descriptive Statistics by Source}
-\begin{tabular}{lcccccclccc}
+\caption{\label{tab:temp}Experiment 1 - Descriptive Statistics by Source}
+\small{
+\begin{tabular}{lllllllllll}
 \toprule
 Source & $M_V$ & $SD_V$ & $N_{Article}$ & $N_{Words}$ & $M_T$ & $SD_T$ & $M_{Ty}$ & $SD_{Ty}$ & $M_{FK}$ & $SD_{FK}$\\
 \midrule
@@ -278,287 +257,19 @@ Breitbart & 0.30 & 0.13 & 406 & 452579 & 1,114.73 & 511.86 & 454.27 & 154.58 & 1
 \bottomrule
 \addlinespace
 \end{tabular}
+}
 \begin{tablenotes}[para]
-\normalsize{\textit{Note.} Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid}
+\normalsize{\textit{Note.} Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula.}
 \end{tablenotes}
 \end{threeparttable}
 \end{center}
 \end{table}
 
-The researchers calculated descriptive statistics for each news source in order to understand any and all fundamental linguistic differences in the sources' use of English. Statistics calculated included \emph{z}-scored valence, number of articles per source, total number of words per source, average number of tokens (words) per article in each source, average number of types (unique words) per article in each source, and mean readability level per source. Readability statistics were calculated using the Flesch-Kincaid Grade Level Readability formula. Readability is calculated using a formula where the total number of syllables, words, and sentences in a given passage are determinants of its difficulty. The obtained value is intended to match up with the grade level at which one should be able to comfortably read the passage (Kincaid, Fishburne, Robert P., Richard L., \& Brad S., 1975). For example, a text with a readability score of 11 should be easily read by a high school junior.
-
-As seen in Table \ref{tab:exp1-source-descriptives}, the sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The standard deviations seem to indicate little to no presence of a difference in valence.
-\emph{The New York Times} published the greatest number of articles as well as total words. \emph{Breitbart} featured the lowest number of articles, and \emph{NPR} the lowest number of total words from all articles. Per indvidual article, however, \emph{Breitbart} appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, \emph{Fox News} appears to be the most readable source on average, while \emph{The New York Times} is the least readable. This might be attributable to the greater number of tokens in the average \emph{New York Times} article compared to \emph{Fox News}. As before, the standard deviations for readability hamper one's ability to draw solid conclusions regarding differences in the sources' use of language.
-
-\hypertarget{inferential-statistics}{%
-\subsection{Inferential Statistics}\label{inferential-statistics}}
-
-To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nested structured of the data, which creates correlated error (Gelman, 2006). Using the \emph{nlme} library in \emph{R} (Pinheiro, Bates, Debroy, Sarkar, \& Team, 2017), each foundation's weighted percentage was predicated here by the political lean of the news source, using the individual news sources as a random intercept to control for the structure of the data.
-
-The multilevel model did not indicate the presence of any significant or practical effect of political lean for any of the five moral foundations. The strongest effect size was observed for the \emph{authority/respect} foundation, but the effect was in the opposite direction from what was originally hypothesized - liberal sources tended to use more \emph{authority/respect} words than did conservative sources. Descriptive and test statistics, \emph{p}-values and effect sizes (Cohen's \emph{d}) can be found in Table \ref{tab:exp1-table}. To interpret the weighted scores, one can examine the mean and standard deviations for each. A zero score for the mean, with a non-zero standard deviation, would indicate a perfect balance of positive and negative words in each category, likely representing a neutral tone when all words are considered. Negative percentages would indicate more representation of the negative words in the MFD area, while positive percentages indicate an endorsement of the positive words in a MFD. Therefore, we suggest using the sign of the mean score to determine the directionality of the endorsement for the MFD (positive, neutral, negative), and the standard deviation to ensure that a zero score is not zero endorsement (i.e., a SD of zero indicates no words were used). Based on the weighted percent values for the five foundations, the researchers observed that MFD words seem to make up a small portion of the article text. Furthermore, the observed percentages and means appear to indicate a generally positive endorsement of all five foundations across both liberal and conservative sources.
-
-\begin{table}[tbp]
-\begin{center}
-\begin{threeparttable}
-\caption{\label{tab:exp1-table}}
-\begin{tabular}{lccccccc}
-\toprule
-Foundation & $M_C$ & $SD_C$ & $M_L$ & $SD_L$ & $t$ & $p$ & $d$\\
-\midrule
-Harm/Care & 0.50 & 2.21 & 0.49 & 2.21 & -0.21 & .850 & 0.01\\
-Fairness/Reciprocity & 1.13 & 1.38 & 1.11 & 1.38 & -0.42 & .715 & 0.02\\
-Ingroup/Loyalty & 1.28 & 1.63 & 1.34 & 1.63 & 0.30 & .789 & -0.04\\
-Authority/Respect & 0.72 & 1.62 & 1.06 & 1.62 & 3.17 & .087 & -0.20\\
-Purity/Sanctity & 1.11 & 1.48 & 1.27 & 1.48 & 2.37 & .141 & -0.09\\
-\bottomrule
-\addlinespace
-\end{tabular}
-\begin{tablenotes}[para]
-\normalsize{\textit{Note.} For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively}
-\end{tablenotes}
-\end{threeparttable}
-\end{center}
-\end{table}
+\hypertarget{results}{%
+\section{Results}\label{results}}
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
-
-The results obtained in Experiment 1 did not confirm the hypothesis. The researchers found little compelling evidence of an effect of partisan lean on MFD endorsement. The strongest effect found was for the \emph{authority/respect} foundation owing to the fact its Cohen's \emph{d} value was greater than the other four foundations. However, the effect was in the opposite direction of that which was hypothesized. Specifically, the results indicated that liberal leaning sources demonstrated higher positivity regarding that foundation than conservatives. This result is contrary not only to the research hypothesis for Experiment 1 but also to previous findings in Moral Foundations Theory research. It should be noted, however, the effect size was small and the relationship was not found to be statistically significant.
-
-Upon speculation, the researchers identified one possible reason for why the results were unable to confirm the hypothesis. The selection of the broad and amorphous topic of \enquote{political news} may have led to the scraping of large numbers of articles with little to no moral-centric content. Rather, many articles may have been, for example, simple reporting on congressional procedures that would leave little room for the use of moral language here, let alone words from the Moral Foundations Dictionary. In short, the range of topics covered in Experiment 1 was likely too broad. The possibility exists that a tighter focus on one political issue or event, especially one that (on the surface) has a stronger relationship with morality might be more illuminating for research in moral language in news media.
-
-Owing to the exploratory nature of Experiment 1, the researchers were afforded the opportunity to consider changes to the method to be utilized in Experiment 2. Generally speaking, the researchers believe their methodology to be sound. Web scraping methods and text processing remain viable methods for collecting large amounts of text and subsequently rendering that text in a form suitable for data analysis. Experiment 1 also demonstrated a method by which to address inherent problems in the Moral Foundations Dictionary relating to valence. The solution provided in Experiment 1 appears to provide insights into the MFD words where none previously existed. Finally, calculating weighted percentages and sums for each moral foundation provides an easily interpreted summary of MFD word positivity and occurence.
-
-While the methodology used in Experiment 1 features many strengths, there are aspects which could be strengthened for future studies. The researchers identified two such changes that were subsequently employed in Experiment 2. First, the researchers elected to include more news sources for web scraping and analysis in addition to the four used in Experiment 1. Second, the researchers chose to focus their data collection efforts exclusively on one event in U.S. politics: the nomination and confirmation of Justice Brett Kavanaugh to the U.S. Supreme Court. In Experiment 2, the researchers sought to confirm the usefulness and validity of the method as well as test a similar hypothesis as Experiment 1.
-
-\hypertarget{experiment-2}{%
-\section{Experiment 2}\label{experiment-2}}
-
-\hypertarget{kavanaugh-supreme-court-hearing}{%
-\subsection{Kavanaugh Supreme Court Hearing}\label{kavanaugh-supreme-court-hearing}}
-
-In the wake of Justice Anthony Kennedy's retirement from the Supreme Court of the United States, President Donald Trump nominated Brett Kavanaugh as the new Associate Justice. Kavanaugh was previously on the U.S. Court of Appeals for the District of Columbia. The Senate Judiciary Committee began his confirmation hearing on September 4, 2018 (US Government, 2018a). Following allegations of sexual assault by high school classmate Dr.~Christine Blasey Ford, the committee postponed its vote on whether or not to open the confirmation to the entire Senate.
-
-On September 27, the committee questioned Dr.~Ford before commencing a second round of questioning for Judge Kavanaugh (US Government, 2018b). During the intervening weeks between hearings, two more women came forward with two separate allegations of sexual assault on the part of Kavanaugh. According to Nielsen reports, more than 20 million people watched the September 27 proceedings on television (O'Connell, 2018). This figure does not take into account viewers who watched online, nor does it account for viewers outside the United States. On September 28, the Senate Judiciary Committee voted to send the nomination to the Senate floor. Senator Jeff Flake of Arizona, however, lobbied for a week-long FBI investigation on Kavanaugh and the allegations facing him, which the committee, and later the President, approved. The investigation concluded with no significant findings. The Senate voted 50-48 to approve Kavanaugh's appointment on October 6, 2018 (US Government, 2018c).
-
-The Kavanaugh nomination, confirmation hearing, and eventual swearing-in, as well as the news media's coverage of all three events, feature many dimensions that likely differ depending on one's morals. The issue might be exacerbated given the presence of questionable sexual behaviors at the center of many concerns. On one side of the debate, Kavanaugh's Supreme Court tenure presents a prime opportunity to bring morality back into interpretation of the Constitution. Kavanaugh's confirmation creates a conservative stronghold among the justices on the court. Commentators have noted this might help advance a judicial agenda that backpedals certain rights previously upheld by the Supreme Court, including abortion and gay marriage - social issues challenged by their opponents at least partially on moral grounds. Concerns around abortion might be related either to \emph{harm/care} or \emph{purity/sanctity}. On the other side of the debate, the assault allegations have energized Kavanaugh's opponents to advocate for his rejection from the court owing to misdeeds resulting from Kavanaugh's own alleged lack of morals. Likewise, arguments could be made that relate concerns regarding sexual violence to \emph{harm/care} or \emph{fairness/reciprocity}. Additionally, the moral duty of the Senate as the upper chamber in the U.S. legislature has been scrutinized in public discourse with respect to its handling of the assault allegations vis-a-vis Kavanaugh's confirmation.
-
-\hypertarget{u.s.-government-shutdown-of-2018-2019}{%
-\subsection{U.S. Government Shutdown of 2018-2019}\label{u.s.-government-shutdown-of-2018-2019}}
-
-The U.S. Federal Government partially shut down on December 22, 2018. The government reopened on January 25, 2019 upon the passage of an appropriations bill by both houses of Congress (Axelrod, 2019). The shutdown stemmed from a disagreement between President Donald Trump and Congress over funding for the president's proposed U.S.-Mexico border wall. President Trump demanded \$5.7 billion dollars in the new budget to be appropriated for the wall, which Congress did not provide in its budget (Peoples \& Swanson, 2019). Owing to the lack of funding, the government began a partial shutdown, causing \enquote{around 800,000} federal employees to be either furloughed or compelled to work without pay (Axelrod, 2019).
-
-The government shutdown ended 35 days later when Congress passed a continuing resolution to fund the government for three weeks while further negotiations regarding the budget would take place. President Trump signed the bill, ending the longest govenrment shutdown in U.S. history (Axelrod, 2019). Many political commentators cite the mounting pressure on Trump and Congress stemming from significant costs both to unpaid American workers and the economy as a whole (Kheel \& Mitchell, 2019). Perhaps owing to the financial pressures experienced by thousands of federal employees and their families as a result of a political quarrel, President Trump saw his approval rating fall as the shutdown progressed (Peoples \& Swanson, 2019). While the shutdown and its associated burdens were unpopular, the issues discussed concurrent to the shutdown offer the potential for more divergent opinions.
-
-As mentioned before, the shutdown started as a result of an impasse regarding funding for the border wall. Since the wall was proposed during the 2016 presidential campaign, the issue has taken on a moral dimension. As an example, Shaun Casey, the director of Georgetown University's Berkely Center for Religion, Peace and World Affairs, cites diverging opinions stemming from theological concerns (Martin, 2019). Some supporters, citing certain passages from the Bible, believe construction of the wall is part of a divinely ordained process handed down by God. Opponents, on the other hand, have cited other parts of the Bible extolling the significance of exiled peoples, especially the Hebrew people (Martin, 2019). This example potentially ties into the five moral foundations. Theological concerns regarding the border wall might invoke \emph{authority/respect} as well as \emph{purity/sanctity}. In addition to these two foundations, the involvement of foreign countries and their citizens' migration into the U.S. could also elicit moral concerns related to \emph{ingroup/outgroup}.
-
-Owing to the wealth of moral opinions regarding the border wall and its association with the 2018-2019 government shutdown, the researchers decided to add the government shutdown as a news event to analyze under the auspices of Moral Foundations Theory. In addition to articles related to the Kavanaugh confirmation hearing, the researchers scraped articles related to the government shutdown in order to analyze their content for valence and moral alignment.
-
-\hypertarget{method-1}{%
-\section{Method}\label{method-1}}
-
-In contrast to Experiment 1, the researchers approached Experiment 2 with the intention to confirm the method employed was valid for the analysis of the scraped text as well as for any inferences drawn from the analyses. For Experiment 2, the researchers hypothesized that news sources perceived as liberal will exhibit positive endorsements of the individualizing moral foundations (\emph{harm/care} and \emph{fairness/reciprocity}) in their articles reporting on both the Kavanaugh confirmation hearing as well as the 2018-2019 government shutdown. News sources perceived as conservative are hypothesized to positively endorse all five foundations equally in their coverage of the Kavanaugh hearing and the government shutdown. The researchers tested the hypothesis by analyzing the content scraped from news sources' web pages spanning the two weeks before (September 13, 2018) and two weeks after (October 11, 2018) Kavanaugh's confirmation hearing, owing to its prominence in the news. Likewise, the researchers analyzed content spanning two weeks before the start of the government shutdown (December 8, 2018) to two weeks following the end of the shutdown (February 8, 2019). The content will be analyzed for valence and moral alignment under Moral Foundations Theory.
-
-\hypertarget{sources-1}{%
-\subsection{Sources}\label{sources-1}}
-
-Articles pertaining to the Brett Kavanaugh Supreme Court nomination and confirmation were scraped from the websites of 12 U.S. news sources. As in Experiment 1, these sources were selected owing to their favorability among political partisans according to Mitchell et al. (2014). The sources favored by the highest proportion of consistent liberals were \emph{The New York Times}, \emph{National Public Radio (NPR)}, \emph{Slate}, \emph{Huffington Post}, and \emph{Politico} (Mitchell et al., 2014). The sources favored by the highest proportion of consistent conservatives included \emph{Fox News}, \emph{Breitbart}, \emph{The Rush Limbaugh Show}, \emph{The Blaze}, and \emph{Sean Hannity}. Political articles referencing Brett Kavanaugh's nomination process were identified and subsequently scraped by including the URL for each source's coverage of the nomination in the \emph{R} script. All code for this manuscript can be found at \url{https://osf.io/5kpj7/}, and the scripts, again written with the \emph{papaja} library in \emph{R}, are provided inline with this manuscript (Aust \& Barth, 2017).
-
-\hypertarget{materials-1}{%
-\subsection{Materials}\label{materials-1}}
-
-Using the \emph{rvest} library in the statistical package \emph{R}, we pulled body text for individual articles from each of the aforementioned 10 news sources (identified using CSS language). We compiled the articles into a dataset (Wickham, 2016). Using this dataset, we identified word count and average word count per source. This process was run for articles pertaining to Kavanaugh's nomination that were published between September 13, 2018 and October 11, 2018 inclusive. This date range was selected in reference to the widely-publicized and viewed nomination hearing on September 27, 2018. We set the start date at September 13 (two weeks before the hearing) and the end date at October 11 (two weeks after the hearing) so that we could capture a large amount of data (roughly one month) during which Kavanaugh's nomination was at its peak saturation in news coverage.
-
-The same process was followed for scraping articles related to the partical U.S. Government shutdown of 2018-2019. The articles scraped were published between December 8, 2018 and February 8, 2019 inclusive. Once again, the researchers elected to scrape articles published two weeks before and after the event in question in order to capitalize on the shutdown's saturation in American news media.
-
-\begin{verbatim}
-##     BLAZE BREITBART       FOX   HANNITY    HUFFPO       NPR  NY Times 
-##  462.4440  496.4967 2018.6502  219.4815  650.4457  296.7350 1108.0689 
-##  POLITICO      RUSH     SLATE 
-## 1551.9478 1552.7151  845.2059
-\end{verbatim}
-
-\begin{verbatim}
-##     BLAZE BREITBART       FOX   HANNITY    HUFFPO       NPR  NY Times 
-##    128097    375848   1304048      5926    359046    108605    723569 
-##  POLITICO      RUSH     SLATE 
-##   1069292    267067    229896
-\end{verbatim}
-
-\begin{verbatim}
-##     BLAZE BREITBART       FOX   HANNITY    HUFFPO       NPR  NY Times 
-##  397.7857  332.9644 2763.2942  163.6667  560.6944  348.1889 1106.7696 
-##  POLITICO      RUSH     SLATE 
-## 1574.3198 1956.7949  728.6667
-\end{verbatim}
-
-\begin{verbatim}
-##     BLAZE BREITBART       FOX   HANNITY    HUFFPO       NPR  NY Times 
-##     38983    102886   2799217     10311    242220    151114    831184 
-##  POLITICO      RUSH     SLATE 
-##    349499    152630     85254
-\end{verbatim}
-
-\hypertarget{data-analysis-1}{%
-\subsection{Data analysis}\label{data-analysis-1}}
-
-As in Experiment 1, the text was scanned with \emph{ngram}. Again, blank articles, text from the Disqus system, and duplicate articles were removed (Schmidt et al., 2017). The text was processed and stemmed in order to convert to a usable form for further analysis (Feinerer \& Hornik, 2017). Words were subsequently matched with their valences from Warriner et al. (2013). Depending on the results of Jordan et al. (2019)'s research, alternative forms of the Moral Foudnations Dictionary may be imported instead of the original dictionary.
-
-Using the \emph{tm} and \emph{ngram} packages in \emph{R}, the researchers processed the text in order to convert it to lowercase, fix spacing anomalies, and remove punctuation (Feinerer \& Hornik, 2017). Each individual word was reduced to its stem (i.e., \emph{diseased} was stemmed to \emph{diseas}). Once again, the same procedure was applied to the MFD words and the words in the Warriner et al. (2013) dataset. Using the Warriner et al. (2013) dictionary, the words in the MFD were assigned their respective valence. The researchers obtained the words' percent occurence in the text. Once again, percents were multiplied by \emph{z}-scored valence and categorized into their proper MFD category.
-
-\begin{verbatim}
-## 
-## fought  safer  spurn 
-##     87     26      5
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## fought  safer  spurn 
-##    112     80      5
-\end{verbatim}
-
-\hypertarget{experiment-2-1}{%
-\section{Experiment 2}\label{experiment-2-1}}
-
-\hypertarget{results-1}{%
-\subsection{Results}\label{results-1}}
-
-\hypertarget{descriptive-statistics-1}{%
-\subsection{Descriptive Statistics}\label{descriptive-statistics-1}}
-
-The researchers calculated descriptive statistics for each news source per topic in order to reveal the presence (if any) of linguistic differences in the sources' use of language. As in Experiment 1, statistics calculated include \emph{z}-scored valence, number of articles per source, total words per source, mean tokens per article in each source, mean types per article in each source, and mean readability level (using the Flesch-Kincaid Grade Level Readability formula) per source (Kincaid et al., 1975).
-
-Table \ref{tab:exp2-source-descriptives-kav} displays the descriptive statistics for sources' writing on the Kavanaugh confirmation. The sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The standard deviations seem to indicate little to no presence of a difference in valence. \emph{The New York Times} published the greatest number of articles as well as total words. \emph{Breitbart} featured the lowest number of articles, and \emph{NPR} the lowest number of total words from all articles. Per indvidual article, however, \emph{Breitbart} appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, \emph{Fox News} appears to be the most readable source on average, while \emph{The New York Times} is the least readable. This might be attributable to the greater number of tokens in the average \emph{New York Times} article compared to \emph{Fox News}. As before, the standard deviations for readability hamper one's ability to draw solid conclusions regarding differences in the sources' use of language. Table \ref{tab:exp2-source-descriptives-gs} displays descriptive statistics for articles about the partial government shutdown.
-
-\begin{verbatim}
-BLAZE BREITBART       FOX   HANNITY    HUFFPO       NPR  NY Times 
-\end{verbatim}
-
-10.829946 11.011777 9.701136 11.884344 10.791419 12.489576 10.563974
-POLITICO RUSH SLATE
-12.090968 9.415941 12.350359
-BLAZE BREITBART FOX HANNITY HUFFPO NPR NY Times
-1.871086 2.122317 1.848820 2.372470 1.909656 3.620217 2.099457
-POLITICO RUSH SLATE
-2.602008 9.255734 2.469494
-
-\begin{table}[tbp]
-\begin{center}
-\begin{threeparttable}
-\caption{\label{tab:exp2-source-descriptives-kav}Kavanaugh - Descriptive Statistics by Source}
-\begin{tabular}{lcccccclccc}
-\toprule
-Source & $M_V$ & $SD_V$ & $N_{Article}$ & $N_{Words}$ & $M_T$ & $SD_T$ & $M_{Ty}$ & $SD_{Ty}$ & $M_{FK}$ & $SD_{FK}$\\
-\midrule
-NY Times & 0.25 & 0.13 & 277 & 128097 & 462.44 & 149.66 & 210.52 & 53.14 & 10.83 & 1.87\\
-NPR & 0.30 & 0.13 & 757 & 375848 & 496.50 & 609.91 & 230.03 & 153.62 & 11.01 & 2.12\\
-SLATE & 0.29 & 0.11 & 646 & 1304048 & 2,018.65 & 2,709.77 & 534.47 & 404.21 & 9.70 & 1.85\\
-HUFFPO & 0.31 & 0.11 & 27 & 5926 & 219.48 & 145.98 & 121.04 & 57.26 & 11.88 & 2.37\\
-POLITICO & 0.27 & 0.12 & 552 & 359046 & 650.45 & 462.21 & 283.07 & 129.23 & 10.79 & 1.91\\
-FOX & 0.22 & 0.25 & 366 & 108605 & 296.73 & 499.10 & 128.12 & 172.51 & 12.49 & 3.62\\
-BREITBART & 0.33 & 0.13 & 653 & 723569 & 1,108.07 & 570.31 & 461.26 & 174.20 & 10.56 & 2.10\\
-RUSH & NA & NA & 689 & 1069292 & 1,551.95 & 1,045.47 & 614.66 & 358.68 & 12.09 & 2.60\\
-BLAZE & 0.38 & 0.13 & 172 & 267067 & 1,552.72 & 1,258.51 & 419.00 & 225.80 & 9.42 & 9.26\\
-HANNITY & 0.29 & 0.12 & 272 & 229896 & 845.21 & 612.22 & 332.42 & 168.17 & 12.35 & 2.47\\
-\bottomrule
-\addlinespace
-\end{tabular}
-\begin{tablenotes}[para]
-\normalsize{\textit{Note.} Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid}
-\end{tablenotes}
-\end{threeparttable}
-\end{center}
-\end{table}
-
-\begin{verbatim}
-BLAZE BREITBART       FOX   HANNITY    HUFFPO       NPR  NY Times 
-\end{verbatim}
-
-10.684144 10.714110 9.337567 13.406829 10.669212 11.192714 11.279935
-POLITICO RUSH SLATE
-11.283515 9.760202 11.858193
-BLAZE BREITBART FOX HANNITY HUFFPO NPR NY Times
-1.849923 2.046638 1.907440 4.791906 1.826810 3.150647 2.188760
-POLITICO RUSH SLATE
-1.234029 7.600883 2.510134
-
-\begin{table}[tbp]
-\begin{center}
-\begin{threeparttable}
-\caption{\label{tab:exp2-source-descriptives-gs}Government Shutdown - Descriptive Statistics by Source}
-\begin{tabular}{lcccccclccc}
-\toprule
-Source & $M_V$ & $SD_V$ & $N_{Article}$ & $N_{Words}$ & $M_T$ & $SD_T$ & $M_{Ty}$ & $SD_{Ty}$ & $M_{FK}$ & $SD_{FK}$\\
-\midrule
-NY Times & 0.26 & 0.13 & 98 & 38983 & 397.79 & 102.10 & 185.66 & 41.93 & 10.68 & 1.85\\
-NPR & 0.34 & 0.15 & 309 & 102886 & 332.96 & 238.70 & 168.31 & 81.59 & 10.71 & 2.05\\
-SLATE & 0.35 & 0.13 & 1013 & 2799217 & 2,763.29 & 3,405.44 & 637.30 & 494.00 & 9.34 & 1.91\\
-HUFFPO & 0.29 & 0.14 & 63 & 10311 & 163.67 & 33.59 & 95.13 & 16.59 & 13.41 & 4.79\\
-POLITICO & 0.30 & 0.13 & 432 & 242220 & 560.69 & 425.52 & 258.27 & 130.54 & 10.67 & 1.83\\
-FOX & 0.23 & 0.22 & 434 & 151114 & 348.19 & 457.34 & 155.53 & 171.30 & 11.19 & 3.15\\
-BREITBART & 0.33 & 0.13 & 751 & 831184 & 1,106.77 & 506.92 & 471.80 & 174.88 & 11.28 & 2.19\\
-RUSH & 0.29 & 0.10 & 222 & 349499 & 1,574.32 & 875.63 & 638.32 & 313.34 & 11.28 & 1.23\\
-BLAZE & 0.37 & 0.12 & 78 & 152630 & 1,956.79 & 1,544.14 & 482.79 & 252.79 & 9.76 & 7.60\\
-HANNITY & 0.30 & 0.12 & 117 & 85254 & 728.67 & 464.34 & 301.71 & 138.74 & 11.86 & 2.51\\
-\bottomrule
-\addlinespace
-\end{tabular}
-\begin{tablenotes}[para]
-\normalsize{\textit{Note.} Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid}
-\end{tablenotes}
-\end{threeparttable}
-\end{center}
-\end{table}
-
-\begin{table}[tbp]
-\begin{center}
-\begin{threeparttable}
-\caption{\label{tab:exp2-tablekav}}
-\begin{tabular}{lccccccc}
-\toprule
-Foundation & $M_C$ & $SD_C$ & $M_L$ & $SD_L$ & $t$ & $p$ & $d$\\
-\midrule
-Harm/Care & 0.39 & 1.35 & 0.66 & 1.35 & 2.89 & .020 & -0.19\\
-Fairness/Reciprocity & 1.26 & 1.27 & 1.06 & 1.27 & -1.58 & .154 & 0.16\\
-Ingroup/Loyalty & 1.15 & 1.22 & 1.06 & 1.22 & -0.63 & .549 & 0.07\\
-Authority/Respect & 0.85 & 0.99 & 0.75 & 0.99 & -0.93 & .380 & 0.10\\
-Purity/Sanctity & 0.90 & 1.28 & 1.06 & 1.28 & 0.88 & .406 & -0.11\\
-\bottomrule
-\addlinespace
-\end{tabular}
-\begin{tablenotes}[para]
-\normalsize{\textit{Note.} For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively}
-\end{tablenotes}
-\end{threeparttable}
-\end{center}
-\end{table}
-
-\begin{table}[tbp]
-\begin{center}
-\begin{threeparttable}
-\caption{\label{tab:exp2-tablegs}}
-\begin{tabular}{lccccccc}
-\toprule
-Foundation & $M_C$ & $SD_C$ & $M_L$ & $SD_L$ & $t$ & $p$ & $d$\\
-\midrule
-Harm/Care & 0.91 & 1.27 & 1.01 & 1.27 & 1.68 & .132 & -0.07\\
-Fairness/Reciprocity & 1.22 & 1.05 & 0.91 & 1.05 & -0.76 & .468 & 0.27\\
-Ingroup/Loyalty & 1.38 & 1.16 & 1.11 & 1.16 & -0.48 & .644 & 0.21\\
-Authority/Respect & 0.87 & 1.24 & 0.36 & 1.24 & -1.38 & .203 & 0.37\\
-Purity/Sanctity & 1.29 & 1.13 & 0.99 & 1.13 & 0.03 & .979 & 0.22\\
-\bottomrule
-\addlinespace
-\end{tabular}
-\begin{tablenotes}[para]
-\normalsize{\textit{Note.} For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively}
-\end{tablenotes}
-\end{threeparttable}
-\end{center}
-\end{table}
-
-\hypertarget{discussion-1}{%
-\section{Discussion}\label{discussion-1}}
 
 \hypertarget{conclusions}{%
 \section{Conclusions}\label{conclusions}}
@@ -575,9 +286,6 @@ Purity/Sanctity & 1.29 & 1.13 & 0.99 & 1.13 & 0.03 & .979 & 0.22\\
 \hypertarget{refs}{}
 \leavevmode\hypertarget{ref-Aust2017}{}%
 Aust, F., \& Barth, M. (2017). papaja: Create APA manuscripts with R Markdown. Retrieved from \url{https://github.com/crsh/papaja}
-
-\leavevmode\hypertarget{ref-Axelrod2019}{}%
-Axelrod, T. (2019). Poll: Majority of Americans hold Trump and Republicans responsible for shutdown \textbar{} TheHill. Retrieved from \url{https://thehill.com/homenews/campaign/427007-poll-majority-of-americans-hold-trump-and-republicans-responsible-for}
 
 \leavevmode\hypertarget{ref-Bradley1999}{}%
 Bradley, M. M., \& Lang, P. J. (1999). \emph{Affective Norms for English Words (ANEW): Instruction manual and affective ratings} (No. C-1). The Center for Research in Psychophysiology, University of Florida.
@@ -597,9 +305,6 @@ Druckman, J. N., Jacobs, L. R., \& Ostermeier, E. (2004). Candidate strategies t
 \leavevmode\hypertarget{ref-Feinerer2017}{}%
 Feinerer, I., \& Hornik, K. (2017). Text mining package. Retrieved from \url{http://tm.r-forge.r-project.org/}
 
-\leavevmode\hypertarget{ref-Gelman2006}{}%
-Gelman, A. (2006). Multilevel (hierarchical) modeling: What it can and cannot do. \emph{Technometrics}, \emph{48}(3), 432--435. doi:\href{https://doi.org/10.1198/004017005000000661}{10.1198/004017005000000661}
-
 \leavevmode\hypertarget{ref-Gilligan1982}{}%
 Gilligan, C. (1982). New maps of development: New visions of maturity. \emph{American Journal of Orthopsychiatry}, \emph{52}(2), 199--212. doi:\href{https://doi.org/10.1111/j.1939-0025.1982.tb02682.x}{10.1111/j.1939-0025.1982.tb02682.x}
 
@@ -615,12 +320,6 @@ Haidt, J., \& Graham, J. (2007). When morality opposes justice: Conservatives ha
 \leavevmode\hypertarget{ref-Jordan2019}{}%
 Jordan, K. N., Buchanan, E. M., \& Padfield, W. E. (2019). \emph{A validation of the Moral Foundations Questionnaire and Dictionary}. Retrieved from \url{https://osf.io/kt9yf/}
 
-\leavevmode\hypertarget{ref-Kheel2019}{}%
-Kheel, R., \& Mitchell, E. (2019). Overnight Defense: Trump agrees to reopen government without wall funding \textbar{} Senate approves stopgap spending \textbar{} Dems ask Armed Services chair to block military funding for wall \textbar{} Coast Guard official assures workers they will receive back pay \textbar{} TheHill. Retrieved from \url{https://thehill.com/policy/defense/overnights/427045-overnight-defense-trump-agrees-to-reopen-government-without-wall}
-
-\leavevmode\hypertarget{ref-Kincaid1975}{}%
-Kincaid, J. P., Fishburne, J., Robert P., R., Richard L., C., \& Brad S. (1975). Derivation of New Readability Formulas (Automated Readability Index, Fog Count and Flesch Reading Ease Formula) for Navy Enlisted Personnel. doi:\href{https://doi.org/10.21236/ADA006655}{10.21236/ADA006655}
-
 \leavevmode\hypertarget{ref-Kohlberg1977}{}%
 Kohlberg, L., \& Hersh, R. H. (1977). Moral development: A review of the theory. \emph{Theory into Practice}, \emph{16}(2), 53--59. doi:\href{https://doi.org/10.1080/00405847709542675}{10.1080/00405847709542675}
 
@@ -630,17 +329,11 @@ Kuperman, V., Estes, Z., Brysbaert, M., \& Warriner, A. B. (2014). Emotion and l
 \leavevmode\hypertarget{ref-Kuperman2012}{}%
 Kuperman, V., Stadthagen-Gonzalez, H., \& Brysbaert, M. (2012). Age-of-acquisition ratings for 30,000 English words. \emph{Behavior Research Methods}, \emph{44}(4), 978--990. doi:\href{https://doi.org/10.3758/s13428-012-0210-4}{10.3758/s13428-012-0210-4}
 
-\leavevmode\hypertarget{ref-Martin2019}{}%
-Martin, M. (2019). The Moral Question Of Trump's Border Wall : NPR. NPR. Retrieved from \url{https://www.npr.org/2019/01/27/689191255/the-morality-question-of-trump-s-border-wall}
-
 \leavevmode\hypertarget{ref-Mitchell2014}{}%
 Mitchell, A., Matsa, K. E., Gottfried, J., \& Kiley, J. (2014). Political polarization \& media habits \textbar{} Pew Research Center. Retrieved from \url{http://www.journalism.org/2014/10/21/political-polarization-media-habits/}
 
 \leavevmode\hypertarget{ref-New2007}{}%
 New, B., Brysbaert, M., Veronis, J., \& Pallier, C. (2007). The use of film subtitles to estimate word frequencies. \emph{Applied Psycholinguistics}, \emph{28}(4), 661--677. doi:\href{https://doi.org/10.1017/S014271640707035X}{10.1017/S014271640707035X}
-
-\leavevmode\hypertarget{ref-OConnell2018}{}%
-O'Connell, M. (2018). Ford-Kavanaugh Ratings: Hearing Brings 20 Million viewers to cable and broadcast \textbar{} Hollywood Reporter. Retrieved from \url{https://www.hollywoodreporter.com/live-feed/ford-kavanaugh-ratings-hearing-brings-20-million-viewers-cable-broadcast-1147785}
 
 \leavevmode\hypertarget{ref-Pashler2012}{}%
 Pashler, H., Coburn, N., \& Harris, C. R. (2012). Priming of Social Distance? Failure to Replicate Effects on Social and Food Judgments. \emph{PLoS ONE}, \emph{7}(8). doi:\href{https://doi.org/10.1371/journal.pone.0042510}{10.1371/journal.pone.0042510}
@@ -648,26 +341,11 @@ Pashler, H., Coburn, N., \& Harris, C. R. (2012). Priming of Social Distance? Fa
 \leavevmode\hypertarget{ref-Pennebaker2007}{}%
 Pennebaker, J. W., Booth, R. J., \& Frances, M. E. (2007). Liwc2007: Linguistic inquiry and word count. Austin, TX.
 
-\leavevmode\hypertarget{ref-Peoples2019}{}%
-Peoples, S., \& Swanson, E. (2019, January). Trump's approval rating sinks in new poll as he gets most blame for shutdown. Chicago.
-
-\leavevmode\hypertarget{ref-Pinheiro2017}{}%
-Pinheiro, J., Bates, D., Debroy, S., Sarkar, D., \& Team, R. C. (2017). nlme: Linear and nonlinear mixed effects models. Retrieved from \url{https://cran.r-project.org/package=nlme}
-
 \leavevmode\hypertarget{ref-Schmidt2017}{}%
 Schmidt, M. F., Gonzalez-Cabrera, I., \& Tomasello, M. (2017). Children's developing metaethical judgments. \emph{Journal of Experimental Child Psychology}, \emph{164}, 163--177. doi:\href{https://doi.org/10.1016/j.jecp.2017.07.008}{10.1016/j.jecp.2017.07.008}
 
 \leavevmode\hypertarget{ref-Suhler2011}{}%
 Suhler, C. L., Churchland, P., Joseph, C., Graham, J., \& Nosek, B. (2011). Can Innate , Modular `` Foundations '' Explain Morality ? Challenges for Haidt ' s Moral Foundations Theory. \emph{Journal of Cognitive Neuroscience}, \emph{23}(9), 2103--2116.
-
-\leavevmode\hypertarget{ref-USGovernment2018b}{}%
-US Government. (2018a). Congressional Record. \emph{Congressional Record}, \emph{164}(146), 46. doi:\href{https://doi.org/10.1097/00017285-197507000-00018}{10.1097/00017285-197507000-00018}
-
-\leavevmode\hypertarget{ref-USGovernment2018}{}%
-US Government. (2018b). Congressional Record. \emph{Congressional Record}, \emph{164}(160), 93. doi:\href{https://doi.org/10.1097/00017285-197507000-00018}{10.1097/00017285-197507000-00018}
-
-\leavevmode\hypertarget{ref-USGovernment2018a}{}%
-US Government. (2018c). Congressional Record. \emph{Congressional Record}, \emph{164}(167), 14. doi:\href{https://doi.org/10.1097/00017285-197507000-00018}{10.1097/00017285-197507000-00018}
 
 \leavevmode\hypertarget{ref-Warriner2015}{}%
 Warriner, A. B., \& Kuperman, V. (2015). Affective biases in English are bi-dimensional. \emph{Cognition and Emotion}, \emph{29}(7), 1147--1167. doi:\href{https://doi.org/10.1080/02699931.2014.968098}{10.1080/02699931.2014.968098}

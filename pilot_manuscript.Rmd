@@ -864,7 +864,7 @@ summary(purity_model)
 
 ## Descriptive Statistics
 
-```{r exp1sourcedescriptives, results = 'asis', echo = FALSE, message = F}
+```{r exp1-source-descriptives, results = 'asis', echo = FALSE, message = F}
 
 final$uniquewords = NA
 final$valenceavg = NA
@@ -924,28 +924,29 @@ tableprint[ , 9] = tapply(final$uniquewords, final$Source, sd)
 tableprint[ , 10] = tapply(final$FK, final$Source, mean)
 tableprint[ , 11] = tapply(final$FK, final$Source, sd)
 
+tableprint[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint[ , c(2,3,6,7,8,9,10,11)]))
+
 #change this to match
 apa_table(as.data.frame(tableprint),
-          note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula.",
-          #caption = "Experiment 1 - Descriptive Statistics by Source", 
-          col.names = c("Source", "$M_Valence", "$SD_Valence$", "Number of Articles", "Total Words", "$M_Tokens$", "$SD_Tokens$", "$M_Types$", "SD_Types", "$M_Readability$", "$SD_Readability$"),
+          note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid",
+          caption = "Experiment 1 - Descriptive Statistics by Source", 
+          col.names = c("Source", "$M_V$", "$SD_V$", "$N_{Article}$", "$N_{Words}$", "$M_T$", "$SD_T$", "$M_{Ty}$", "$SD_{Ty}$", "$M_{FK}$", "$SD_{FK}$"),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 6))
           )
-
 ```
 
 The researchers calculated descriptive statistics for each news source in order to understand any and all fundamental linguistic differences in the sources' use of English. Statistics calculated included *z*-scored valence, number of articles per source, total number of words per source, average number of tokens (words) per article in each source, average number of types (unique words) per article in each source, and mean readability level per source. Readability statistics were calculated using the Flesch-Kincaid Grade Level Readability formula. Readability is calculated using a formula where the total number of syllables, words, and sentences in a given passage are determinants of its difficulty. The obtained value is intended to match up with the grade level at which one should be able to comfortably read the passage [@Kincaid1975]. For example, a text with a readability score of 11 should be easily read by a high school junior.
 
-As seen in Table 1, the sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The standard deviations seem to indicate little to no presence of a difference in valence. 
+As seen in Table \@ref(tab:exp1-source-descriptives), the sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The standard deviations seem to indicate little to no presence of a difference in valence. 
 *The New York Times* published the greatest number of articles as well as total words. *Breitbart* featured the lowest number of articles, and *NPR* the lowest number of total words from all articles. Per indvidual article, however, *Breitbart* appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, *Fox News* appears to be the most readable source on average, while *The New York Times* is the least readable. This might be attributable to the greater number of tokens in the average *New York Times* article compared to *Fox News*. As before, the standard deviations for readability hamper one's ability to draw solid conclusions regarding differences in the sources' use of language.
 
 ## Inferential Statistics
 
 To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nested structured of the data, which creates correlated error [@Gelman2006]. Using the *nlme* library in *R* [@Pinheiro2017], each foundation's weighted percentage was predicated here by the political lean of the news source, using the individual news sources as a random intercept to control for the structure of the data.
 
-The multilevel model did not indicate the presence of any significant or practical effect of political lean for any of the five moral foundations. The strongest effect size was observed for the *authority/respect* foundation, but the effect was in the opposite direction from what was originally hypothesized - liberal sources tended to use more *authority/respect* words than did conservative sources. Descriptive and test statistics, *p*-values and effect sizes (Cohen's *d*) can be found in Table 2. To interpret the weighted scores, one can examine the mean and standard deviations for each. A zero score for the mean, with a non-zero standard deviation, would indicate a perfect balance of positive and negative words in each category, likely representing a neutral tone when all words are considered. Negative percentages would indicate more representation of the negative words in the MFD area, while positive percentages indicate an endorsement of the positive words in a MFD. Therefore, we suggest using the sign of the mean score to determine the directionality of the endorsement for the MFD (positive, neutral, negative), and the standard deviation to ensure that a zero score is not zero endorsement (i.e., a SD of zero indicates no words were used). Based on the weighted percent values for the five foundations, the researchers observed that MFD words seem to make up a small portion of the article text. Furthermore, the observed percentages and means appear to indicate a generally positive endorsement of all five foundations across both liberal and conservative sources.
+The multilevel model did not indicate the presence of any significant or practical effect of political lean for any of the five moral foundations. The strongest effect size was observed for the *authority/respect* foundation, but the effect was in the opposite direction from what was originally hypothesized - liberal sources tended to use more *authority/respect* words than did conservative sources. Descriptive and test statistics, *p*-values and effect sizes (Cohen's *d*) can be found in Table \@ref(tab:exp1-table). To interpret the weighted scores, one can examine the mean and standard deviations for each. A zero score for the mean, with a non-zero standard deviation, would indicate a perfect balance of positive and negative words in each category, likely representing a neutral tone when all words are considered. Negative percentages would indicate more representation of the negative words in the MFD area, while positive percentages indicate an endorsement of the positive words in a MFD. Therefore, we suggest using the sign of the mean score to determine the directionality of the endorsement for the MFD (positive, neutral, negative), and the standard deviation to ensure that a zero score is not zero endorsement (i.e., a SD of zero indicates no words were used). Based on the weighted percent values for the five foundations, the researchers observed that MFD words seem to make up a small portion of the article text. Furthermore, the observed percentages and means appear to indicate a generally positive endorsement of all five foundations across both liberal and conservative sources.
 
 ```{r exp1-table, results = 'asis', echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
@@ -3836,9 +3837,9 @@ summary(purity_model_gs)
 
 The researchers calculated descriptive statistics for each news source per topic in order to reveal the presence (if any) of linguistic differences in the sources' use of language. As in Experiment 1, statistics calculated include *z*-scored valence, number of articles per source, total words per source, mean tokens per article in each source, mean types per article in each source, and mean readability level (using the Flesch-Kincaid Grade Level Readability formula) per source [@Kincaid1975].
 
-Table 3 displays the descriptive statistics for sources' writing on the Kavanaugh confirmation. The sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The standard deviations seem to indicate little to no presence of a difference in valence. *The New York Times* published the greatest number of articles as well as total words. *Breitbart* featured the lowest number of articles, and *NPR* the lowest number of total words from all articles. Per indvidual article, however, *Breitbart* appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, *Fox News* appears to be the most readable source on average, while *The New York Times* is the least readable. This might be attributable to the greater number of tokens in the average *New York Times* article compared to *Fox News*. As before, the standard deviations for readability hamper one's ability to draw solid conclusions regarding differences in the sources' use of language. Table 4 displays descriptive statistics for articles about the partial government shutdown. 
+Table \@ref(tab:exp2-source-descriptives-kav) displays the descriptive statistics for sources' writing on the Kavanaugh confirmation. The sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The standard deviations seem to indicate little to no presence of a difference in valence. *The New York Times* published the greatest number of articles as well as total words. *Breitbart* featured the lowest number of articles, and *NPR* the lowest number of total words from all articles. Per indvidual article, however, *Breitbart* appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, *Fox News* appears to be the most readable source on average, while *The New York Times* is the least readable. This might be attributable to the greater number of tokens in the average *New York Times* article compared to *Fox News*. As before, the standard deviations for readability hamper one's ability to draw solid conclusions regarding differences in the sources' use of language. Table \@ref(tab:exp2-source-descriptives-gs) displays descriptive statistics for articles about the partial government shutdown. 
 
-```{r exp2sourcedescriptiveskav, results = 'asis', echo = FALSE, message = F}
+```{r exp2-source-descriptives-kav, results = 'asis', echo = FALSE, message = F}
 #Kav
 final_kav$uniquewords = NA
 final_kav$valenceavg = NA
@@ -3861,14 +3862,14 @@ for (i in 1:nrow(final_kav)){
 }
 
 
-tapply(final_kav$valenceavg, final_kav$Source, mean)
-tapply(final_kav$valenceavg, final_kav$Source, sd)
-tapply(final_kav$wordcount, final_kav$Source, mean)
-tapply(final_kav$wordcount, final_kav$Source, sd)
-tapply(final_kav$uniquewords, final_kav$Source, mean)
-tapply(final_kav$uniquewords, final_kav$Source, sd)
-tapply(final_kav$Source, final_kav$Source, length)
-tapply(final_kav$wordcount, final_kav$Source, sum)
+# tapply(final_kav$valenceavg, final_kav$Source, mean)
+# tapply(final_kav$valenceavg, final_kav$Source, sd)
+# tapply(final_kav$wordcount, final_kav$Source, mean)
+# tapply(final_kav$wordcount, final_kav$Source, sd)
+# tapply(final_kav$uniquewords, final_kav$Source, mean)
+# tapply(final_kav$uniquewords, final_kav$Source, sd)
+# tapply(final_kav$Source, final_kav$Source, length)
+# tapply(final_kav$wordcount, final_kav$Source, sum)
 
 library(quanteda)
 
@@ -3899,18 +3900,20 @@ tableprint[ , 9] = tapply(final_kav$uniquewords, final_kav$Source, sd)
 tableprint[ , 10] = tapply(final_kav$FK, final_kav$Source, mean)
 tableprint[ , 11] = tapply(final_kav$FK, final_kav$Source, sd)
 
+tableprint[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint[ , c(2,3,6,7,8,9,10,11)]))
+
 #change this to match
 apa_table(as.data.frame(tableprint),
-          note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula.",
-          #caption = "Kavanaugh - Descriptive Statistics by Source", 
-          col.names = c("Source", "$M_Valence", "$SD_Valence$", "Number of Articles", "Total Words", "$M_Tokens$", "$SD_Tokens$", "$M_Types$", "SD_Types", "$M_Readability$", "$SD_Readability$"),
+          note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid",
+          caption = "Kavanaugh - Descriptive Statistics by Source", 
+          col.names = c("Source", "$M_V$", "$SD_V$", "$N_{Article}$", "$N_{Words}$", "$M_T$", "$SD_T$", "$M_{Ty}$", "$SD_{Ty}$", "$M_{FK}$", "$SD_{FK}$"),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 6))
           )
 ```
 
-```{r exp2sourcedescriptivesgs, results = 'asis', echo = FALSE, message = F}
+```{r exp2-source-descriptives-gs, results = 'asis', echo = FALSE, message = F}
 #Kav
 #GS
 final_gs$uniquewords = NA
@@ -3934,14 +3937,14 @@ for (i in 1:nrow(final_gs)){
 }
 
 
-tapply(final_gs$valenceavg, final_gs$Source, mean)
-tapply(final_gs$valenceavg, final_gs$Source, sd)
-tapply(final_gs$wordcount, final_gs$Source, mean)
-tapply(final_gs$wordcount, final_gs$Source, sd)
-tapply(final_gs$uniquewords, final_gs$Source, mean)
-tapply(final_gs$uniquewords, final_gs$Source, sd)
-tapply(final_gs$Source, final_gs$Source, length)
-tapply(final_gs$wordcount, final_gs$Source, sum)
+# tapply(final_gs$valenceavg, final_gs$Source, mean)
+# tapply(final_gs$valenceavg, final_gs$Source, sd)
+# tapply(final_gs$wordcount, final_gs$Source, mean)
+# tapply(final_gs$wordcount, final_gs$Source, sd)
+# tapply(final_gs$uniquewords, final_gs$Source, mean)
+# tapply(final_gs$uniquewords, final_gs$Source, sd)
+# tapply(final_gs$Source, final_gs$Source, length)
+# tapply(final_gs$wordcount, final_gs$Source, sum)
 
 library(quanteda)
 
@@ -3972,11 +3975,13 @@ tableprint[ , 9] = tapply(final_gs$uniquewords, final_gs$Source, sd)
 tableprint[ , 10] = tapply(final_gs$FK, final_gs$Source, mean)
 tableprint[ , 11] = tapply(final_gs$FK, final_gs$Source, sd)
 
+tableprint[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint[ , c(2,3,6,7,8,9,10,11)]))
+
 #change this to match
 apa_table(as.data.frame(tableprint),
-          note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula.",
-          #caption = "Government Shutdown - Descriptive Statistics by Source", 
-          col.names = c("Source", "$M_Valence", "$SD_Valence$", "Number of Articles", "Total Words", "$M_Tokens$", "$SD_Tokens$", "$M_Types$", "SD_Types", "$M_Readability$", "$SD_Readability$"),
+          note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid",
+          caption = "Government Shutdown - Descriptive Statistics by Source", 
+          col.names = c("Source", "$M_V$", "$SD_V$", "$N_{Article}$", "$N_{Words}$", "$M_T$", "$SD_T$", "$M_{Ty}$", "$SD_{Ty}$", "$M_{FK}$", "$SD_{FK}$"),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 6))
