@@ -89,7 +89,7 @@ For *harm/care*, the definition of the foundation, as well as its name, clearly 
 
 When considering the issue of positive versus negative valence in MFD words, the question of how texts are analyzed vis-a-vis the MFD remains. How can raw percentage of MFD word occurrence capture the valence and focus of the writer or speaker? If 2% of a politician's speech features positive words (i.e., "benefit" and "defend") from the MFD *harm/care* list, how can researchers be sure the level and nature of the speaker's "endorsement" of the foundation equals that of another politician whose speech contained negatively connoted MFD words from the *harm/care* list? They would have equal endorsements as far as the numbers are concerned, but the words used and focus given are on opposite sides of the *harm/care* spectrum.
 
-This issue is compounded by the fact the Moral Foundations Questionnaire (MFQ) and its subscales assume endorsement lies on a continuum. The Moral Foundations Questionnaire (MFQ), which was developed subsequent to the MFD, measures individuals’ endorsements of each of the foundations using a six-point scale [@Graham2011]. The questionnaire is made up of judgment items and relevance items. Judgment items are phrased such that the respondent signals their agreement or disagreement with straightforward statements. An example of such a statement reads: “It can never be right to kill another human being” [@Graham2011]. Relevance items gauge the respondent's opinion regarding the importance of foundation-related concerns. For example, the respondent is directed to rate how important the following situation is to their sense of morals: "whether or not someone did something disgusting." This example measures the relevance of the *purity/sanctity* foundations. Each foundation has a judgment and relevance subscale, totaling 10 subscales for the MFQ [@Graham2011].
+This issue is compounded by the fact the Moral Foundations Questionnaire (MFQ) and its subscales assume endorsement lies on a continuum. The MFQ, which was developed subsequent to the MFD, measures individuals’ endorsements of each of the foundations using a six-point scale [@Graham2011]. The questionnaire is made up of judgment items and relevance items. Judgment items are phrased such that the respondent signals their agreement or disagreement with straightforward statements. An example of such a statement reads: “It can never be right to kill another human being” [@Graham2011]. Relevance items gauge the respondent's opinion regarding the importance of foundation-related concerns. For example, the respondent is directed to rate how important the following situation is to their sense of morals: "whether or not someone did something disgusting." This example measures the relevance of the *purity/sanctity* foundations. Each foundation has a judgment and relevance subscale, totaling 10 subscales for the MFQ [@Graham2011].
 
 The Moral Foundations Questionnaire has been validated by multiple researchers. Likewise, its five-factor structure has been demonstrated to fit data in multiple countries [@Graham2011; @Davies2014]. In their article introducing the 30-item MFQ, @Graham2011 conducted an exploratory factor analysis (EFA) and found that a five-factor model fit the data better than a one, two, or three-factor model. @Davies2014 conducted a confirmatory factor analysis (CFA) of the MFQ with a sample from New Zealand and likewise found the five-factor model provided the best fit. While @Davies2014 concede the US and New Zealand share many similarities as Western nations, which could raise questions regarding the validity of the MFQ in non-Western nations. However, there are striking differences between the two countries, including the lack of a two-party political system in New Zealand, that provide grounds for claiming the MFQ generalizes beyond the United States. Furthermore, @Graham2011 claim to find a "reasonable" degree of generalizability for the MFQ across participants from many different regions in the world. These two bodies of work also provide the best available evidence that the five moral foundations are sufficiently distinct from one another, though broader criticisms of MFT raised by @Suhler2011 should still be taken into account in studies involving the theory.
 
@@ -497,7 +497,7 @@ for(i in 1:nrow(warriner)) {
 } 
 ```
 
-```{r create_datasets_harm, include=FALSE}
+```{r create_datasets_harm, echo = F, include=FALSE}
 #read in the harm total words from the mtmm project
 harm_all = read.csv("exp1_data/harm_words_total.csv", stringsAsFactors = F)
 
@@ -531,7 +531,7 @@ harm_final_data$valence = vlookup(harm_final_data$Var1, #index in original data
                                   "Word2") #what's the matching index
 
 #figure out stupid words
-table(harm_final_data$Var1[is.na(harm_final_data$valence) & harm_final_data$Freq > 0])
+#table(harm_final_data$Var1[is.na(harm_final_data$valence) & harm_final_data$Freq > 0])
 #fought, safer, spurn
 harm_final_data$valence[harm_final_data$Var1 == "fought"] = warriner$V.Mean.Sum[warriner$Word2 == "fight"]
 harm_final_data$valence[harm_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
@@ -694,24 +694,24 @@ purity_final_data$valence[purity_final_data$Var1 == "true"] = mean(warriner$V.Me
 purity_final_data$valence[purity_final_data$Var1 == "women"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "woman"])
 ```
 
-```{r descriptives, include = FALSE}
-#summarize the dataset so that you have the total and percent for each foundation
-summary(harm_final_data)
-summary(fair_final_data)
-summary(ingroup_final_data)
-summary(authority_final_data)
-summary(purity_final_data)
-#report descriptive statistics of the foundations
-mean(harm_final_data$valence)
-sd(harm_final_data$valence)
-mean(fair_final_data$valence)
-sd(fair_final_data$valence)
-mean(ingroup_final_data$valence)
-sd(ingroup_final_data$valence)
-mean(authority_final_data$valence)
-sd(authority_final_data$valence)
-mean(purity_final_data$valence)
-sd(purity_final_data$valence)
+```{r descriptives, echo = F, include = FALSE}
+#summarize the dataset so that you have the total and percent for each foundation 
+# summary(harm_final_data)
+# summary(fair_final_data)
+# summary(ingroup_final_data)
+# summary(authority_final_data)
+# summary(purity_final_data)
+# #report descriptive statistics of the foundations
+# mean(harm_final_data$valence)
+# sd(harm_final_data$valence)
+# mean(fair_final_data$valence)
+# sd(fair_final_data$valence)
+# mean(ingroup_final_data$valence)
+# sd(ingroup_final_data$valence)
+# mean(authority_final_data$valence)
+# sd(authority_final_data$valence)
+# mean(purity_final_data$valence)
+# sd(purity_final_data$valence)
 #note that a big problem is the valence of the words 
 ```
 
@@ -887,14 +887,14 @@ for (i in 1:nrow(final)){
 }
 
 
-tapply(final$valenceavg, final$Source, mean)
-tapply(final$valenceavg, final$Source, sd)
-tapply(final$wordcount, final$Source, mean)
-tapply(final$wordcount, final$Source, sd)
-tapply(final$uniquewords, final$Source, mean)
-tapply(final$uniquewords, final$Source, sd)
-tapply(final$Source, final$Source, length)
-tapply(final$wordcount, final$Source, sum)
+# tapply(final$valenceavg, final$Source, mean)
+# tapply(final$valenceavg, final$Source, sd)
+# tapply(final$wordcount, final$Source, mean)
+# tapply(final$wordcount, final$Source, sd)
+# tapply(final$uniquewords, final$Source, mean)
+# tapply(final$uniquewords, final$Source, sd)
+# tapply(final$Source, final$Source, length)
+# tapply(final$wordcount, final$Source, sum)
 
 library(quanteda)
 
@@ -905,17 +905,18 @@ for (i in 1:nrow(final)){
                      measure = "Flesch.Kincaid")$Flesch.Kincaid)
 }
 
-tapply(final$FK, final$Source, mean)
-tapply(final$FK, final$Source, sd)
+# tapply(final$FK, final$Source, mean)
+# tapply(final$FK, final$Source, sd)
 
 ####build the table here####
 tableprint = matrix(NA, nrow=4, ncol=11)
 colnames(tableprint) = c("Source", "Mean_Valence", "SD_Valence", "Number_of_Articles", "Total_Words", "Mean_Tokens", "SD_Tokens", "Mean_Types", "SD_Types", "Mean_Readability", "SD_Readability")
 
-tableprint[ , 1] = unique(final$Source)
+#tableprint[ , 1] = unique(final$Source)
+tableprint[ , 1] = c("Breitbart", "Fox News", "NPR", "New York Times")
 tableprint[ , 2] = tapply(final$valenceavg, final$Source, mean)
 tableprint[ , 3] = tapply(final$valenceavg, final$Source, sd)
-tableprint[ , 4] = tapply(final$X, final$Source, length)
+tableprint[ , 4] = tapply(final$valenceavg, final$Source, length)
 tableprint[ , 5] = tapply(final$wordcount, final$Source, sum)
 tableprint[ , 6] = tapply(final$wordcount, final$Source, mean)
 tableprint[ , 7] = tapply(final$wordcount, final$Source, sd)
@@ -925,6 +926,8 @@ tableprint[ , 10] = tapply(final$FK, final$Source, mean)
 tableprint[ , 11] = tapply(final$FK, final$Source, sd)
 
 tableprint[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint[ , c(2,3,6,7,8,9,10,11)]))
+
+tableprint = tableprint[c(3, 4, 1, 2) , ]
 
 #change this to match
 apa_table(as.data.frame(tableprint),
@@ -940,7 +943,7 @@ apa_table(as.data.frame(tableprint),
 The researchers calculated descriptive statistics for each news source in order to understand any and all fundamental linguistic differences in the sources' use of English. Statistics calculated included *z*-scored valence, number of articles per source, total number of words per source, average number of tokens (words) per article in each source, average number of types (unique words) per article in each source, and mean readability level per source. Readability statistics were calculated using the Flesch-Kincaid Grade Level Readability formula. Readability is calculated using a formula where the total number of syllables, words, and sentences in a given passage are determinants of its difficulty. The obtained value is intended to match up with the grade level at which one should be able to comfortably read the passage [@Kincaid1975]. For example, a text with a readability score of 11 should be easily read by a high school junior.
 
 As seen in Table \@ref(tab:exp1-source-descriptives), the sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The standard deviations seem to indicate little to no presence of a difference in valence. 
-*The New York Times* published the greatest number of articles as well as total words. *Breitbart* featured the lowest number of articles, and *NPR* the lowest number of total words from all articles. Per individual article, however, *Breitbart* appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, *Fox News* appears to be the most readable source on average, while *The New York Times* is the least readable. This might be attributable to the greater number of tokens in the average *New York Times* article compared to *Fox News*. As before, the standard deviations for readability hamper one's ability to draw solid conclusions regarding differences in the sources' use of language.
+*The New York Times* published the greatest number of articles as well as total words. *Breitbart* featured the lowest number of articles, and *NPR* the lowest number of total words from all articles. Per individual article, however, *Breitbart* appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, *Fox News* appears to be the most readable source on average, while *The New York Times* is the least readable. This result might be attributable to the greater number of tokens in the average *New York Times* article compared to *Fox News*. As before, the standard deviations for readability hamper one's ability to draw solid conclusions regarding differences in the sources' use of language.
 
 ## Inferential Statistics
 
@@ -2899,8 +2902,8 @@ for (i in 1:nrow(master_kav)) {
 
 nozero = subset(master_kav, wordcount > 0)
 nozero = subset(nozero, Source == "NY Times" | Source == "BLAZE" | Source == "NPR" | Source == "HUFFPO" | Source == "FOX" | Source == "HANNITY" | Source == "SLATE" | Source == "POLITICO" | Source == "RUSH" | Source == "BREITBART")
-tapply(nozero$wordcount, nozero$Source, mean)
-tapply(nozero$wordcount, nozero$Source, sum)
+# tapply(nozero$wordcount, nozero$Source, mean)
+# tapply(nozero$wordcount, nozero$Source, sum)
 
 ##take out the disqus ones - there are none
 #nodis = nozero[ -c(grep("disqus", nozero$Url)), ]
@@ -2939,8 +2942,8 @@ for (i in 1:nrow(master_gs)) {
 nozero = subset(master_gs, wordcount > 0)
 nozero = subset(nozero, Source == "NY Times" | Source == "BLAZE" | Source == "NPR" | Source == "HUFFPO" | Source == "FOX" | Source == "HANNITY" | Source == "SLATE" | Source == "POLITICO" | Source == "RUSH" | Source == "BREITBART")
 
-tapply(nozero$wordcount, nozero$Source, mean)
-tapply(nozero$wordcount, nozero$Source, sum)
+# tapply(nozero$wordcount, nozero$Source, mean)
+# tapply(nozero$wordcount, nozero$Source, sum)
 
 ##take out the disqus ones
 #nodis = nozero[ -c(grep("disqus", nozero$Url)), ]
@@ -2984,7 +2987,7 @@ As in Experiment 1, the text was scanned with *ngram*. Again, blank articles, te
 
 Using the *tm* and *ngram* packages in *R*, the researchers processed the text in order to convert it to lowercase, fix spacing anomalies, and remove punctuation [@Feinerer2017]. Each individual word was reduced to its stem (i.e., *diseased* was stemmed to *diseas*). Once again, the same procedure was applied to the MFD words and the words in the @Warriner2013 dataset. Using the @Warriner2013 dictionary, the words in the MFD were assigned their respective valence. The researchers obtained the words' percent occurrence in the text. Once again, percents were multiplied by *z*-scored valence and categorized into their proper MFD category.
 
-```{r create_datasets_harm_kav, eval = T, echo = F}
+```{r create_datasets_harm_kav, eval = T, echo = F, include = F}
 #read in the harm total words from the mtmm project
 harm_all_kav = read.csv("exp1_data/harm_words_total.csv", stringsAsFactors = F)
 
@@ -3018,7 +3021,7 @@ harm_final_data_kav$valence = vlookup(harm_final_data_kav$Var1, #index in origin
                                   "Word2") #what's the matching index
 
 #figure out stupid words
-table(harm_final_data_kav$Var1[is.na(harm_final_data_kav$valence) & harm_final_data_kav$Freq > 0])
+#table(harm_final_data_kav$Var1[is.na(harm_final_data_kav$valence) & harm_final_data_kav$Freq > 0])
 #fought, safer, spurn
 harm_final_data_kav$valence[harm_final_data_kav$Var1 == "fought"] = warriner$V.Mean.Sum[warriner$Word2 == "fight"]
 harm_final_data_kav$valence[harm_final_data_kav$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
@@ -3181,7 +3184,7 @@ purity_final_data_kav$valence[purity_final_data_kav$Var1 == "true"] = mean(warri
 purity_final_data_kav$valence[purity_final_data_kav$Var1 == "women"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "woman"])
 ```
 
-```{r create_datasets_harm_gs, eval = T, echo = F}
+```{r create_datasets_harm_gs, eval = T, echo = F, include = F}
 #read in the harm total words from the mtmm project
 harm_all_gs = read.csv("exp1_data/harm_words_total.csv", stringsAsFactors = F)
 
@@ -3215,14 +3218,14 @@ harm_final_data_gs$valence = vlookup(harm_final_data_gs$Var1, #index in original
                                   "Word2") #what's the matching index
 
 #figure out stupid words
-table(harm_final_data_gs$Var1[is.na(harm_final_data_gs$valence) & harm_final_data_gs$Freq > 0])
+#table(harm_final_data_gs$Var1[is.na(harm_final_data_gs$valence) & harm_final_data_gs$Freq > 0])
 #fought, safer, spurn
 harm_final_data_gs$valence[harm_final_data_gs$Var1 == "fought"] = warriner$V.Mean.Sum[warriner$Word2 == "fight"]
 harm_final_data_gs$valence[harm_final_data_gs$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
 #no spurn avaliable
 ```
 
-```{r create_datasets_fair_gs, include=FALSE}
+```{r create_datasets_fair_gs, echo = F, include=FALSE}
 fair_all_gs = read.csv("exp1_data/fair_words_total.csv", stringsAsFactors = F)
 
 fair_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
@@ -3260,7 +3263,7 @@ fair_final_data_gs$valence[fair_final_data_gs$Var1 == "safer"] = warriner$V.Mean
 #nothing for just or plagiarism
 ```
 
-```{r create_datasets_ingroup_gs, include=FALSE}
+```{r create_datasets_ingroup_gs, echo = F, include=FALSE}
 ingroup_all_gs = read.csv("exp1_data/ingroup_words_total.csv", stringsAsFactors = F)
 
 ingroup_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
@@ -3299,7 +3302,7 @@ ingroup_final_data_gs$valence[ingroup_final_data_gs$Var1 == "indvidu"] = mean(wa
 ingroup_final_data_gs$valence[ingroup_final_data_gs$Var1 == "true"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "TRUE"])
 ```
 
-```{r create_datasets_authority_gs, include=FALSE}
+```{r create_datasets_authority_gs, echo = F, include=FALSE}
 authority_all_gs = read.csv("exp1_data/authority_words_total.csv", stringsAsFactors = F)
 
 authority_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
@@ -3339,7 +3342,7 @@ authority_final_data_gs$valence[authority_final_data_gs$Var1 == "older"] = mean(
 authority_final_data_gs$valence[authority_final_data_gs$Var1 == "taken"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "take"])
 ```
 
-```{r create_datasets_purity_gs, include=FALSE}
+```{r create_datasets_purity_gs, echo = F, include=FALSE}
 purity_all_gs = read.csv("exp1_data/purity_words_total.csv", stringsAsFactors = F)
 
 purity_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
@@ -3378,7 +3381,7 @@ purity_final_data_gs$valence[purity_final_data_gs$Var1 == "true"] = mean(warrine
 purity_final_data_gs$valence[purity_final_data_gs$Var1 == "women"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "woman"])
 ```
 
-```{r descriptives_both, include = FALSE}
+```{r descriptives_both, echo = F, include = FALSE}
 ##summarize the dataset so that you have the total and percent for each foundation
 #kav
 summary(harm_final_data_kav)
@@ -3829,9 +3832,7 @@ purity_model_gs = lme(MFDweight ~ lean,
 summary(purity_model_gs)
 ```
 
-# Experiment 2 
-
-## Results
+# Results
 
 ## Descriptive Statistics
 
@@ -3883,27 +3884,32 @@ for (i in 1:nrow(final_kav)){
                      measure = "Flesch.Kincaid")$Flesch.Kincaid)
 }
 
-tapply(final_kav$FK, final_kav$Source, mean)
-tapply(final_kav$FK, final_kav$Source, sd)
+# tapply(final_kav$FK, final_kav$Source, mean)
+# tapply(final_kav$FK, final_kav$Source, sd)
 
 #Kav Table
 ####build the table here####
 tableprint = matrix(NA, nrow=10, ncol=11)
 colnames(tableprint) = c("Source", "Mean_Valence", "SD_Valence", "Number_of_Articles", "Total_Words", "Mean_Tokens", "SD_Tokens", "Mean_Types", "SD_Types", "Mean_Readability", "SD_Readability")
 
-tableprint[ , 1] = unique(final_kav$Source)
-tableprint[ , 2] = tapply(final_kav$valenceavg, final_kav$Source, mean)
-tableprint[ , 3] = tapply(final_kav$valenceavg, final_kav$Source, sd)
+#tableprint[ , 1] = unique(final_kav$Source)
+tableprint[ , 1] = c("The Blaze", "Breitbart", "Fox News", "Sean Hannity", 
+                     "Huffington Post", "NPR", "New York Times", "Politico",
+                     "Rush Limbaugh", "Slate")
+tableprint[ , 2] = tapply(final_kav$valenceavg, final_kav$Source, mean, na.rm = T)
+tableprint[ , 3] = tapply(final_kav$valenceavg, final_kav$Source, sd, na.rm = T)
 tableprint[ , 4] = tapply(final_kav$valenceavg, final_kav$Source, length)
-tableprint[ , 5] = tapply(final_kav$wordcount, final_kav$Source, sum)
-tableprint[ , 6] = tapply(final_kav$wordcount, final_kav$Source, mean)
+tableprint[ , 5] = tapply(final_kav$wordcount, final_kav$Source, sum, na.rm = T)
+tableprint[ , 6] = tapply(final_kav$wordcount, final_kav$Source, mean, na.rm = T)
 tableprint[ , 7] = tapply(final_kav$wordcount, final_kav$Source, sd)
-tableprint[ , 8] = tapply(final_kav$uniquewords, final_kav$Source, mean)
-tableprint[ , 9] = tapply(final_kav$uniquewords, final_kav$Source, sd)
-tableprint[ , 10] = tapply(final_kav$FK, final_kav$Source, mean)
-tableprint[ , 11] = tapply(final_kav$FK, final_kav$Source, sd)
+tableprint[ , 8] = tapply(final_kav$uniquewords, final_kav$Source, mean, na.rm = T)
+tableprint[ , 9] = tapply(final_kav$uniquewords, final_kav$Source, sd, na.rm = T)
+tableprint[ , 10] = tapply(final_kav$FK, final_kav$Source, mean, na.rm = T)
+tableprint[ , 11] = tapply(final_kav$FK, final_kav$Source, sd, na.rm = T)
 
 tableprint[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint[ , c(2,3,6,7,8,9,10,11)]))
+
+tableprint = tableprint[c(5, 6, 7, 8, 10, 1, 2, 3, 4, 9), ]
 
 #change this to match
 apa_table(as.data.frame(tableprint),
@@ -3912,6 +3918,7 @@ apa_table(as.data.frame(tableprint),
           col.names = c("Source", "$M_V$", "$SD_V$", "$N_{Article}$", "$N_{Words}$", "$M_T$", "$SD_T$", "$M_{Ty}$", "$SD_{Ty}$", "$M_{FK}$", "$SD_{FK}$"),
           format = "latex",
           escape = F,
+          small = T,
           align = c("l", rep("c", 6))
           )
 ```
@@ -3957,15 +3964,18 @@ for (i in 1:nrow(final_gs)){
                      measure = "Flesch.Kincaid")$Flesch.Kincaid)
 }
 
-tapply(final_gs$FK, final_gs$Source, mean)
-tapply(final_gs$FK, final_gs$Source, sd)
+# tapply(final_gs$FK, final_gs$Source, mean)
+# tapply(final_gs$FK, final_gs$Source, sd)
 
 #GS Table
 ####build the table here####
 tableprint = matrix(NA, nrow=10, ncol=11)
 colnames(tableprint) = c("Source", "Mean_Valence", "SD_Valence", "Number_of_Articles", "Total_Words", "Mean_Tokens", "SD_Tokens", "Mean_Types", "SD_Types", "Mean_Readability", "SD_Readability")
 
-tableprint[ , 1] = unique(final_gs$Source)
+#tableprint[ , 1] = unique(final_gs$Source)
+tableprint[ , 1] = c("The Blaze", "Breitbart", "Fox News", "Sean Hannity", 
+                     "Huffington Post", "NPR", "New York Times", "Politico",
+                     "Rush Limbaugh", "Slate")
 tableprint[ , 2] = tapply(final_gs$valenceavg, final_gs$Source, mean)
 tableprint[ , 3] = tapply(final_gs$valenceavg, final_gs$Source, sd)
 tableprint[ , 4] = tapply(final_gs$valenceavg, final_gs$Source, length)
@@ -3979,6 +3989,8 @@ tableprint[ , 11] = tapply(final_gs$FK, final_gs$Source, sd)
 
 tableprint[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint[ , c(2,3,6,7,8,9,10,11)]))
 
+tableprint = tableprint[c(5, 6, 7, 8, 10, 1, 2, 3, 4, 9), ]
+
 #change this to match
 apa_table(as.data.frame(tableprint),
           note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid",
@@ -3986,6 +3998,7 @@ apa_table(as.data.frame(tableprint),
           col.names = c("Source", "$M_V$", "$SD_V$", "$N_{Article}$", "$N_{Words}$", "$M_T$", "$SD_T$", "$M_{Ty}$", "$SD_{Ty}$", "$M_{FK}$", "$SD_{FK}$"),
           format = "latex",
           escape = F,
+          small = T, 
           align = c("l", rep("c", 6))
           )
 ```
@@ -3996,7 +4009,7 @@ To analyze if news sources adhered to differences in word use based on their tar
 
 For the Kavanaugh topic, the multilevel model indicated the presence of a significant effect for *harm/care*, but the practical effect denoted by Cohen's *d* was found to be small. There were no other significant or practical effect of political lean for any of the other four moral foundations. The effect for *harm/care* was in the hypothesized direction with liberal sources tending to use more positively *harm/care* words than conservative sources. Descriptive and test statistics, *p*-values and effect sizes (Cohen's *d*) can be found in Table \@ref(tab:exp2-tablekav). 
 
-For news articles about the partial U.S. Federal Government Shutdown of 2018-2019, there were no significant or practical effects of political lean for the moral foundations. A small-to-medium effect size was observed for *authority/respect*. The effect was in the predicted direction as well, as conservative sources tended to offer more positive endorsements of the foundation than liberal sources. This is similar to Experiment 1 in which the largest effect size was observed for *authority/respect*. As noted before, the effect found in Experiment 1 was in the opposite direction as what was hypothesized. Thus, it is difficult to draw comparisons between the two studies despite the similar pattern for effect size. Owing to a lack of similar effects for either Experiment 1 or the Kavanaugh topic, there is doubt as to whether or not a practical or generalized effect exists for *authority/respect*. 
+For news articles about the partial U.S. Federal Government Shutdown of 2018-2019, there were no significant or practical effects of political lean for the moral foundations. A small-to-medium effect size was observed for *authority/respect*. The effect was in the predicted direction as well, as conservative sources tended to offer more positive endorsements of the foundation than liberal sources. This effect was similar to Experiment 1 in which the largest effect size was observed for *authority/respect*. As noted before, the effect found in Experiment 1 was in the opposite direction as what was hypothesized. Thus, it is difficult to draw comparisons between the two studies despite the similar pattern for effect size. Owing to a lack of similar effects for either Experiment 1 or the Kavanaugh topic, there is doubt as to whether or not a practical or generalized effect exists for *authority/respect*. 
 
 Based on the weighted percent values for the five foundations applied to both topics, MFD words seem to make up little of the article text. A similar pattern was observed for the results in Experiment 1. As in Experiment 1, the percentages and means seem to indicate a generally positive endorsement of all five moral foundations across both political leanings.
 
