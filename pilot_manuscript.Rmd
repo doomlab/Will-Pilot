@@ -31,7 +31,7 @@ figsintext        : no
 figurelist        : no
 tablelist         : no
 footnotelist      : no
-lineno            : yes
+lineno            : no
 lang              : "english"
 class             : "man"
 mask              : no
@@ -4314,18 +4314,18 @@ Never before has news media and discourse represented such fertile ground for ps
 
 # Appendix
 
-```{r appendix_mfd, eval = T, include = T}
-orig_mfd = read.csv("exp1_data/original_mfd.csv")
+```{r appendix_mfd, results = 'asis', echo = FALSE, message = F}
+orig_mfd = read.csv("exp1_data/original_mfd.csv", stringsAsFactors = F, fileEncoding="UTF-8")
 ####build the table here####
 tableprint = matrix(NA, nrow=length(orig_mfd), ncol=5)
 colnames(tableprint) = c("Harm/Care", "Fairness/Reciprocity", "Ingroup/Loyalty", "Authority/Respect", "Purity/Sanctity")
 
 #tableprint[ , 1] = unique(final_gs$Source)
-tableprint[ , 1] = orig_mfd[,1]
-tableprint[ , 2] = orig_mfd[,2]
-tableprint[ , 3] = orig_mfd[,3]
-tableprint[ , 4] = orig_mfd[,4]
-tableprint[ , 5] = orig_mfd[,5]
+#tableprint[ , 1] = orig_mfd[,1]
+#tableprint[ , 2] = orig_mfd[,2]
+#tableprint[ , 3] = orig_mfd[,3]
+#tableprint[ , 4] = orig_mfd[,4]
+#tableprint[ , 5] = orig_mfd[,5]
 
 tableprint = tableprint[c(1,2,3,4,5)]
 tableprint = orig_mfd
