@@ -64,38 +64,126 @@ output            : papaja::apa6_pdf
 ---
 
 ```{r setup, include = FALSE}
-library("papaja")
+library(papaja)
 library(rio)
+library(forestplot)
+library(boot)
+library(nlme)
+library(MOTE)
+library(tools)
+
+
+setwd('C:/Users/kayla/Documents/GitHub/Will-Pilot/manuscript')
+nsim = 100
+
+####make the table for study 1####
+table1 = matrix(NA, ncol = 12, nrow = 23)
+colnames(table1) = c("DV", "Mconservative", 
+                     "SDconservative", "Mliberal", "SDliberal", 
+                     "d", "dlow", "dhigh", "bcilowC", "bcihighC", 
+                     "bcilowL", "bcihighL")
+table1 = as.data.frame(table1)
+
+####make the table for study 2: government shutdown####
+table2 = matrix(NA, ncol = 12, nrow = 23)
+colnames(table2) = c("DV", "Mconservative", 
+                     "SDconservative", "Mliberal", "SDliberal", 
+                     "d", "dlow", "dhigh", "bcilowC", "bcihighC", 
+                     "bcilowL", "bcihighL")
+table2 = as.data.frame(table2)
+
+####make the table for study 2: Kavanaugh Hearings####
+table3 = matrix(NA, ncol = 12, nrow = 23)
+colnames(table3) = c("DV", "Mconservative", 
+                     "SDconservative", "Mliberal", "SDliberal", 
+                     "d", "dlow", "dhigh", "bcilowC", "bcihighC", 
+                     "bcilowL", "bcihighL")
+table3 = as.data.frame(table3)
+
+
 ```
 
+```{r bootstrap-function, include = FALSE}
+####bootstrap function #####
+bootstrap_values <- function(formula, dataset, nsim){
+  
+  store_mean <- rep(NA, nsim)
+  store_sd <- rep(NA, nsim)  
+  attempts <- 0
+  #loop until you have enough
+  while(attempts < nsim){
+    #create a dataset
+    d <- dataset[sample(1:nrow(dataset), 
+                        size = nrow(dataset),
+                        replace = TRUE), ]
+    #test the model
+    tryCatch({
+    
+      model1 = lme(formula, 
+             data = d, 
+             method = "ML", 
+             na.action = "na.omit",
+             random = list(~1|Source),
+             control=lmeControl(opt = "nlminb")) 
+      meanvalue = summary(model1)$tTable[1]
+      sdvalue = summary(model1)$tTable[2] * sqrt(nrow(d))
+      attempts <- attempts + 1
+      store_mean[attempts] <- meanvalue
+      store_sd[attempts] <- sdvalue
+      return(store_mean, store_sd, attempts)
+    }, error = function(x){})
+  }
+  
+  return(list("mean" = store_mean, "sd" = store_sd))
+}
+
+```
 
 # Experiment 1
 
 move the data collection from the original thesis
 
-```{r}
+
+```{r bootstrap study 1}
 exp1 <- import("finaldata_LIWC.csv")
 exp1 <- na.omit(exp1)
+exp1$PartisanLean = ifelse(exp1$PartisanLean=='Conservative', 0, 1)
+groups = c(0, 1)
+DVs = c('Analytic','Clout','Authentic','Tone','WPS','Sixltr','anger','social','family','female','male','cogproc','affiliation','achieve','power','reward','risk','focuspast','focuspresent','focusfuture','money','relig','death')
+r = 1
+for(DV in DVs){
+  for(group in groups){
+    data = subset(exp1, PartisanLean==group)
+    f = as.formula(paste(DV,'~1', sep=''))
+    bs = bootstrap_values(f,data,nsim)
+    table1[r, 1] = DV
+    if(group==0){
+      table1[r, 2] = mean(bs$mean)
+      table1[r, 3] = mean(bs$sd)
+      ncon = length(na.omit(data[[DV]]))
+      table1[r, 9] = quantile(bs$mean, 0.025)
+      table1[r, 10] = quantile(bs$mean, 0.975)
+    }
+    if(group==1){
+      table1[r, 4] = mean(bs$mean)
+      table1[r, 5] = mean(bs$sd)
+      nlib = length(na.omit(data[[DV]]))
+      table1[r, 11] = quantile(bs$mean, 0.025)
+      table1[r, 12] = quantile(bs$mean, 0.975)
+    }
+  }
+  mdiff = d.ind.t(m1 = table1[r,2], m2 = table1[r,3], 
+                sd1 = table1[r,4], sd2 = table1[r,5],
+                n1 = ncon, 
+                n2 = nlib, 
+                a = .05)
+  table1[r, 6] = mdiff$d
+  table1[r, 7] = mdiff$dlow
+  table1[r, 8] = mdiff$dhigh
+  r = r + 1
+}
 
-library(nlme)
 
-model1 <- gls(Analytic ~ 1,
-              data = exp1,
-              method = "ML",
-              na.action = "na.omit")
-
-model2 <- lme(Analytic ~ 1,
-              data = exp1,
-              method = "ML",
-              random = list(~1|Source), 
-              na.action = "na.omit")
-
-model3 <- lme(Analytic ~ PartisanLean,
-              data = exp1,
-              method = "ML",
-              random = list(~1|Source), 
-              na.action = "na.omit")
-anova(model1,model2,model3)
 ```
 
 Doing the bootstrapping thing from the language of war paper
@@ -105,6 +193,19 @@ Doing the bootstrapping thing from the language of war paper
 
 move the data collection from the original thesis
 both effect sizes and topics analysis 
+
+```{r bootstrap study 2: goverment shutdown}
+exp2 <- import("exp2_merged data_LIWC.csv")
+colnames(exp2)[1:5] = c('Source', 'URL', 'Text', 'Event', 'PartisanLean')
+#subset with Event=='gs'
+```
+
+```{r bootstrap study 2: kavanaugh hearings}
+exp2 <- import("exp2_merged data_LIWC.csv")
+colnames(exp2)[1:5] = c('Source', 'URL', 'Text', 'Event', 'PartisanLean')
+#subset with Event=='kav'
+
+```
 
 
 # Discussion
