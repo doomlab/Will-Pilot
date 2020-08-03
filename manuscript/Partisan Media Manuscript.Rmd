@@ -172,8 +172,8 @@ for(DV in DVs){
       table1[r, 12] = quantile(bs$mean, 0.975)
     }
   }
-  mdiff = d.ind.t(m1 = table1[r,2], m2 = table1[r,3], 
-                sd1 = table1[r,4], sd2 = table1[r,5],
+  mdiff = d.ind.t(m1 = table1[r,2], m2 = table1[r,4], 
+                sd1 = table1[r,3], sd2 = table1[r,5],
                 n1 = ncon, 
                 n2 = nlib, 
                 a = .05)
