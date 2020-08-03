@@ -64,16 +64,16 @@ output            : papaja::apa6_pdf
 ---
 
 ```{r setup, include = FALSE}
-library(papaja)
+#install.packages(c("devtools", "rio", "forestplot", "nlme", "MOTE", "tools"))
+#devtools::install_github("crsh/papaja")
+library(papaja) 
 library(rio)
 library(forestplot)
-library(boot)
 library(nlme)
 library(MOTE)
 library(tools)
 
-
-setwd('C:/Users/kayla/Documents/GitHub/Will-Pilot/manuscript')
+#setwd('C:/Users/kayla/Documents/GitHub/Will-Pilot/manuscript')
 nsim = 100
 
 ####make the table for study 1####
@@ -99,8 +99,6 @@ colnames(table3) = c("DV", "Mconservative",
                      "d", "dlow", "dhigh", "bcilowC", "bcihighC", 
                      "bcilowL", "bcihighL")
 table3 = as.data.frame(table3)
-
-
 ```
 
 ```{r bootstrap-function, include = FALSE}
@@ -144,12 +142,22 @@ bootstrap_values <- function(formula, dataset, nsim){
 move the data collection from the original thesis
 
 
-```{r bootstrap study 1}
+```{r bootstrap-study-1, include = F}
+# Import the data
 exp1 <- import("finaldata_LIWC.csv")
+
+# Eliminate Duplicates
 exp1 <- na.omit(exp1)
+
+# Create group labels
 exp1$PartisanLean = ifelse(exp1$PartisanLean=='Conservative', 0, 1)
+
+# Create IVs and DVs
 groups = c(0, 1)
 DVs = c('Analytic','Clout','Authentic','Tone','WPS','Sixltr','anger','social','family','female','male','cogproc','affiliation','achieve','power','reward','risk','focuspast','focuspresent','focusfuture','money','relig','death')
+
+# Loop over the DVs and create values 
+# This saves the difference between groups
 r = 1
 for(DV in DVs){
   for(group in groups){
@@ -182,8 +190,6 @@ for(DV in DVs){
   table1[r, 8] = mdiff$dhigh
   r = r + 1
 }
-
-
 ```
 
 Doing the bootstrapping thing from the language of war paper
@@ -194,15 +200,19 @@ Doing the bootstrapping thing from the language of war paper
 move the data collection from the original thesis
 both effect sizes and topics analysis 
 
-```{r bootstrap study 2: goverment shutdown}
+```{r bootstrap-study-2-goverment-shutdown}
+# Import the Data
 exp2 <- import("exp2_merged data_LIWC.csv")
 colnames(exp2)[1:5] = c('Source', 'URL', 'Text', 'Event', 'PartisanLean')
+
 #subset with Event=='gs'
+exp2 <- subset(exp2, Event == "gs")
 ```
 
-```{r bootstrap study 2: kavanaugh hearings}
+```{r bootstrap-study-2-kavanaugh-hearings}
 exp2 <- import("exp2_merged data_LIWC.csv")
 colnames(exp2)[1:5] = c('Source', 'URL', 'Text', 'Event', 'PartisanLean')
+
 #subset with Event=='kav'
 
 ```
