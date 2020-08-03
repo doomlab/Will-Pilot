@@ -74,7 +74,7 @@ library(MOTE)
 library(tools)
 
 #setwd('C:/Users/kayla/Documents/GitHub/Will-Pilot/manuscript')
-nsim = 100
+nsim = 10
 
 ####make the table for study 1####
 table1 = matrix(NA, ncol = 12, nrow = 23)
@@ -146,7 +146,7 @@ move the data collection from the original thesis
 # Import the data
 exp1 <- import("finaldata_LIWC.csv")
 
-# Eliminate Duplicates
+# Eliminate Missing Data
 exp1 <- na.omit(exp1)
 
 # Create group labels
@@ -161,12 +161,12 @@ DVs = c('Analytic','Clout','Authentic','Tone','WPS','Sixltr','anger','social','f
 r = 1
 for(DV in DVs){
   for(group in groups){
-    data = subset(exp1, PartisanLean==group)
+    data = subset(exp1, PartisanLean==group) #data name
     f = as.formula(paste(DV,'~1', sep=''))
     bs = bootstrap_values(f,data,nsim)
     table1[r, 1] = DV
     if(group==0){
-      table1[r, 2] = mean(bs$mean)
+      table1[r, 2] = mean(bs$mean) #table name all the way down 
       table1[r, 3] = mean(bs$sd)
       ncon = length(na.omit(data[[DV]]))
       table1[r, 9] = quantile(bs$mean, 0.025)
@@ -180,8 +180,8 @@ for(DV in DVs){
       table1[r, 12] = quantile(bs$mean, 0.975)
     }
   }
-  mdiff = d.ind.t(m1 = table1[r,2], m2 = table1[r,3], 
-                sd1 = table1[r,4], sd2 = table1[r,5],
+  mdiff = d.ind.t(m1 = table1[r,2], m2 = table1[r,4], 
+                sd1 = table1[r,3], sd2 = table1[r,5],
                 n1 = ncon, 
                 n2 = nlib, 
                 a = .05)
@@ -195,6 +195,8 @@ for(DV in DVs){
 Doing the bootstrapping thing from the language of war paper
 - analytic, cognitive processing, authenticity, tone, clout
 
+- put notes here, I fixed the code 
+
 # Experiment 2
 
 move the data collection from the original thesis
@@ -205,16 +207,18 @@ both effect sizes and topics analysis
 exp2 <- import("exp2_merged data_LIWC.csv")
 colnames(exp2)[1:5] = c('Source', 'URL', 'Text', 'Event', 'PartisanLean')
 
+# Eliminate Missing Data
+
 #subset with Event=='gs'
-exp2 <- subset(exp2, Event == "gs")
+exp2_gs <- subset(exp2, Event == "gs")
+
+
 ```
 
 ```{r bootstrap-study-2-kavanaugh-hearings}
-exp2 <- import("exp2_merged data_LIWC.csv")
-colnames(exp2)[1:5] = c('Source', 'URL', 'Text', 'Event', 'PartisanLean')
 
 #subset with Event=='kav'
-
+exp2_kav ... 
 ```
 
 
