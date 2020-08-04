@@ -1,0 +1,782 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[english,,man]{apa6}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
+\hypersetup{
+            pdftitle={Moral Foundations of U.S. Political News Organizations},
+            pdfauthor={William E. Padfield1 \& Erin M. Buchanan, Ph.D.2},
+            pdfkeywords={politics, morality, psycholinguistics},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+% Manuscript styling
+\usepackage{upgreek}
+\captionsetup{font=singlespacing,justification=justified}
+
+% Table formatting
+\usepackage{longtable}
+\usepackage{lscape}
+% \usepackage[counterclockwise]{rotating}   % Landscape page setup for large tables
+\usepackage{multirow}		% Table styling
+\usepackage{tabularx}		% Control Column width
+\usepackage[flushleft]{threeparttable}	% Allows for three part tables with a specified notes section
+\usepackage{threeparttablex}            % Lets threeparttable work with longtable
+
+% Create new environments so endfloat can handle them
+% \newenvironment{ltable}
+%   {\begin{landscape}\begin{center}\begin{threeparttable}}
+%   {\end{threeparttable}\end{center}\end{landscape}}
+\newenvironment{lltable}{\begin{landscape}\begin{center}\begin{ThreePartTable}}{\end{ThreePartTable}\end{center}\end{landscape}}
+
+% Enables adjusting longtable caption width to table width
+% Solution found at http://golatex.de/longtable-mit-caption-so-breit-wie-die-tabelle-t15767.html
+\makeatletter
+\newcommand\LastLTentrywidth{1em}
+\newlength\longtablewidth
+\setlength{\longtablewidth}{1in}
+\newcommand{\getlongtablewidth}{\begingroup \ifcsname LT@\roman{LT@tables}\endcsname \global\longtablewidth=0pt \renewcommand{\LT@entry}[2]{\global\advance\longtablewidth by ##2\relax\gdef\LastLTentrywidth{##2}}\@nameuse{LT@\roman{LT@tables}} \fi \endgroup}
+
+% \setlength{\parindent}{0.5in}
+% \setlength{\parskip}{0pt plus 0pt minus 0pt}
+
+% \usepackage{etoolbox}
+\makeatletter
+\patchcmd{\HyOrg@maketitle}
+  {\section{\normalfont\normalsize\abstractname}}
+  {\section*{\normalfont\normalsize\abstractname}}
+  {}{\typeout{Failed to patch abstract.}}
+\patchcmd{\HyOrg@maketitle}
+  {\section{\protect\normalfont{\@title}}}
+  {\section*{\protect\normalfont{\@title}}}
+  {}{\typeout{Failed to patch title.}}
+\makeatother
+\shorttitle{MORAL NEWS}
+\keywords{politics, morality, psycholinguistics}
+\DeclareDelayedFloatFlavor{ThreePartTable}{table}
+\DeclareDelayedFloatFlavor{lltable}{table}
+\DeclareDelayedFloatFlavor*{longtable}{table}
+\makeatletter
+\renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
+\makeatother
+\usepackage{csquotes}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[shorthands=off,main=english]{babel}
+\else
+  % load polyglossia as late as possible as it *could* call bidi if RTL lang (e.g. Hebrew or Arabic)
+  \usepackage{polyglossia}
+  \setmainlanguage[]{english}
+\fi
+
+\title{Moral Foundations of U.S. Political News Organizations}
+\author{William E. Padfield\textsuperscript{1} \& Erin M. Buchanan, Ph.D.\textsuperscript{2}}
+\date{}
+
+
+\affiliation{\vspace{0.5cm}\textsuperscript{1} Missouri State University\\\textsuperscript{2} Harrisburg University of Science and Technology}
+
+\abstract{
+The media ecosystem has grown, and political opinions have diverged such that there are competing conceptions of objective truth. Commentators often point to political biases in news coverage as a catalyst for this political divide. The Moral Foundations Dictionary (MFD) facilitates identification of ideological leanings in text through frequency of the occurrence of certain words. Through web scraping, the researchers extracted articles from popular news sources' websites, calculated MFD word frequencies, and identified words' respective valences. This process attempts to uncover news outlets' positive or negative endorsements of certain moral dimensions concomitant with a particular ideology. In Experiment 1, the researchers gathered political articles from four sources. We were unable to reveal significant differences in moral or political endorsements, but we solidified the method to be employed in further research. In Experiment 2, the researchers expanded their number of sources to 10 and analyzed articles that pertain to two specific topics: the 2018 confirmation hearings of U.S. Supreme Court Justice Brett Kavanaugh and the partial U.S. Government Shutdown of 2018-2019. Once again, no significant differences in moral or political endorsements were found.
+}
+
+
+
+\begin{document}
+\maketitle
+
+In the United States, today's media landscape affords consumers a multitude of options for obtaining political news. Since the advent of cable news networks and the World Wide Web in the last decades of the twentieth century, consumers have gained access to an ever-expanding menagerie of news sources, many of which can be called up via a simple click, touch, or swipe. Concurrent with this growth in available news sources, concerns regarding political bias in news reporting have entered public consciousness. For example, commentators argue that networks including Fox News Channel and MSNBC communicate political news from a conservative and liberal slant, respectively. These purported biases have been a cause for concern given the potential for incomplete or inaccurate news reporting potentially resulting from these biases. Given the inherently moral nature of many political arguments and positions, bias in news reporting might manifest as differing moral appeals. Specifically, the use of differing moral language in political articles might be an indicator of political bias in news media.
+
+Morality and ethics have been of interest to thinkers, academics, and philosophers since antiquity. Starting chiefly in the twentieth century, a scientific approach to humans' understanding of morality emerged under the domain of psychology. Theories attempting to explain the development and application of people's moral intuitions built the foundation for the subfield of moral psychology. As the field developed, however, considerable debate has taken place regarding operational definitions of \enquote{morality.} Concerns regarding operationalization remain an issue in the field in the twenty-first century as researchers attempt to infer moral and political leanings from text and speech.
+
+\hypertarget{moral-foundations-theory}{%
+\subsection{Moral Foundations Theory}\label{moral-foundations-theory}}
+
+As a discipline, modern moral psychology started in the late 1960s with Lawrence Kohlberg (Haidt \& Graham, 2007). Kohlberg's research popularized his theory of the development of moral reasoning. This theory establishes the steps of moral reasoning through which humans proceed as their cognitive structures assume higher levels of sophistication and nuance (Kohlberg \& Hersh, 1977). Kohlberg borrowed from Jean Piaget's stages of cognitive development in which children progress from the sensorimotor through to the formal operations stage. Similarly, Kohlberg found people typically start with a \enquote{pre-conventional} understanding of morality during infancy in which children understand \enquote{right} and \enquote{wrong} purely in terms of how they interact with resultant experiences of rewards and punishment. Typically, people progress through several steps until they reach a \enquote{post-conventional} ethics. People who have reached the post-conventional stage are said to be able to weigh competing abstractions and reason their way to a conclusion that promotes justice based upon their \enquote{self-chosen ethical principles} (Kohlberg \& Hersh, 1977). From Kohlberg's perspective, issues of justice and fairness comprise the foundation of morality (Haidt \& Graham, 2007). This view persisted until it encountered criticism in the early 1980s.
+
+Kohlberg's conception of morality faced major scrutiny from psychologist Carol Gilligan. In 1982, Gilligan criticized Kohlberg's theory on the grounds that it focused solely on the moral concerns of men, and that it ignored those of women (Haidt \& Graham, 2007). Gilligan drew attention to purported differences in the ways men and women are taught to relate to self and others. She offered a historic argument contending women have traditionally filled roles related to caring and nurturing. She pushes back against Kohlberg's assumption that moral development replaces \enquote{rule of brute force,} as enforced by men, with the justice-based \enquote{rule of law.} According to Gilligan, this assumption implies women are less morally developed, owing to their absence both in masculine displays of violence as well as in enforcement of the law (Gilligan, 1982). Gilligan argues for the existence of a distinct, but equal development process that women and girls must undergo in order to develop their moral selves. Stark differences in the ways women are traditionally taught to interact with their social world cause them to develop ethical systems based upon their non-aggressive relationships with others. Gilligan thus asserted morality was built upon an alternative moral foundation: caring (Gilligan, 1982). This debate between competing conceptions of morality did not resolve until Gilligan and Kohlberg conceded the existence of two moral foundations: justice and caring (Haidt \& Graham, 2007). While this new direction in moral psychology appeared to represent a more inclusive outlook on the construct, these novel ideas would soon be challenged on the grounds of its apparent western-centric outlook.
+
+Jonathan Haidt and Jesse Graham formulated Moral Foundations Theory as a method by which to capture the entirety of humans' moral domain (Haidt \& Graham, 2007). The researchers argued older theories of moral psychology were focused primarily on issues of justice, fairness, and caring - individually focused foundations of morality that align with the beliefs of political liberals (Haidt \& Graham, 2007). In other words, moral psychology ignored the valid moral foundations of conservatives. Moral Foundations Theory (MFT) holds that people's moral domain can be mapped by quantifying their endorsement of five moral foundations: \emph{harm/care}, \emph{fairness/reciprocity}, \emph{ingroup/loyalty}, \emph{authority/respect}, and \emph{purity/sanctity} (Haidt \& Graham, 2007).
+
+In their brief overview of the history of moral psychology, Graham, Haidt, and Nosek (2009) explained Shweder, Much, Mahapatra, and Park's objections to moral psychology as it stood in the late 1980s. Their criticism centered on the fact moral psychology concerned itself with issues regarding justice and individuals' rights. Such a system, they argued, did not account for moral concerns outside of the western world (Graham et al., 2009). Individually focused concerns can be grouped under an overarching \enquote{ethic of autonomy,} which was thought to be one of three ethics upon which humans base moral decisions. The other two ethics were the \enquote{ethic of community} (comprising one's duty to their family, tribe, etc.), and the \enquote{ethic of divinity} - representing one's duty not to defile their God-given body and soul (Graham et al., 2009). In the 2000s, Haidt and Graham (2007) took this line of reasoning further in their assertion that moral psychology favored certain political ideologies over others.
+
+Haidt and Graham settled on these specific foundations after the completion of a literature survey of research in anthropology and evolutionary psychology (Graham et al., 2011). The researchers attempted to locate virtues and morals corresponding to \enquote{evolutionary thinking.} For instance, the researchers cited Mauss' work on reciprocal gift-giving, which informed the establishment of the \emph{fairness/reciprocity} foundation. Additionally, evolutionary literature on disgust and its correlation to human behavior regarding food and sex informed the \emph{purity/sanctity} foundation (Graham et al., 2011). The researchers identified the five \enquote{top candidates} for the foundations of human cultures' morality (Graham et al., 2011).
+
+The first two foundations (\emph{harm/care} and \emph{fairness/reciprocity}) are termed the \enquote{individualizing foundations,} as they are centered on the concerns of individuals rather than groups. \emph{harm/care} represents an endorsement of compassion and kindness, while opposing cruelty and harm. \emph{Fairness/reciprocity} represents concerns centered on guaranteeing individual rights as well as justice and equality among all people. The other three foundations (\emph{ingroup/loyalty}, \emph{authority/respect}, and \emph{purity/sanctity}) are the \enquote{binding} foundations, owing to their focus on group-related concerns, rather than those of individuals. \emph{Ingroup/loyalty} represents endorsements of patriotism and heroism and discourages nonconformity and dissent. \emph{Authority/respect} represents an endorsement of social hierarchies and traditions while denigrating disobedience. Finally, \emph{purity/sanctity} represents concerns regarding chastity and piety, while discouraging vices and indulgences, including lust, avarice, and gluttony (Haidt \& Graham, 2007). Liberals tend to endorse the individualizing foundations more than conservatives. Conservatives, on the other hand, tend to endorse the binding foundations more than liberals. It should be noted, however, conservatives also tend to endorse all five foundations equally, implying they base moral judgments on all foundations (Graham et al., 2009).
+
+Moral Foundations Theory has received criticism on the grounds that its assumptions regarding moral intuitions have little empirical basis. Suhler, Churchland, and Joseph (2011) list several potential weaknesses of MFT that they argue might threaten the theory's validity. First, the authors challenge Haidt and Graham (2007)'s claims the moral intuitions represented by MFT are innate and modular. Suhler et al. (2011) claim that advances in biological sciences (embryology and microbiology, specifically) make it more difficult for researchers to claim any one trait is either innate or learned through experience. Rather, behaviors likely result from interactions between genetics and experience (Suhler et al., 2011). According to the authors, without solid data supporting the innateness of moral foundations, Haidt and Graham have little from which to make such a claim. Similarly, Haidt and Graham (2007) rely on evidence authored by evolutionary psychologists to make a \enquote{strong modularity claim} (Suhler et al., 2011). However, as with innateness, there is little neurobiological evidence to support modularity.
+
+Suhler et al. (2011) also criticized the content and taxonomy of the five foundations. The authors criticize Haidt and Graham (2007)'s omissions of additional foundations, including \emph{industry} and \emph{modesty}, claiming these concepts are moralized in many societies worldwide. Likewise, the authors question whether or not the foundations are sufficiently distinct as to stand as their own foundation. For example, Suhler et al. (2011) posit that \emph{ingroup/loyalty} is merely a group-focused version of \emph{harm/care}. Work by Graham et al. (2011) might serve to rebut this criticism, as the researchers found their original five-factor structure seemed to best fit the data when validating the Moral Foundations Questionnaire. Finally, Suhler et al. (2011) point out that particular concepts related to a foundation, including \enquote{anger} in \emph{fairness/reciprocity} and \enquote{deception} in \emph{ingroup/loyalty}, could be ascribed to any of the other foundations as well. In other words, it becomes difficult to recognize a particular concept as indicative of any one foundation when, in theory, they could be applied to all five (Haidt \& Graham, 2007; Suhler et al., 2011).
+
+These criticisms of Moral Foundations Theory are valid and should be taken into consideration when conducting research with instruments derived from MFT. Such criticisms are especially valid when considered alongside questions about the Moral Foundations Dictionary in particular. Nevertheless, there exists compelling evidence supporting the validity of Moral Foundations Theory, albeit regarding its application solely through the Moral Foundations Questionnaire. This evidence is discussed within a brief explanation of the Moral Foundations Questionnaire and its relationship to the Moral Foundations Dictionary in the next section.
+
+\hypertarget{moral-foundations-dictionary}{%
+\subsection{Moral Foundations Dictionary}\label{moral-foundations-dictionary}}
+
+In order to capture language's role in moral and political reasoning, Graham et al. (2009) formulated the Moral Foundations Dictionary (MFD) in order to capture moral reasoning and justification as used in speech and text. The MFD is composed of 259 words, with around 50 words assigned to each of the five foundations. Graham et al. (2009) created a preliminary list of words that they believed would be associated with the five foundations. Then, using the Linguistic Inquiry and Word Count (LIWC; Pennebaker, Booth, \& Frances, 2007) computer program, they analyzed transcripts of liberal and conservative Christian sermons in order to obtain frequencies of the occurrence of words from the researchers' initial list. Graham et al. (2009) manually checked the results from LIWC in order to make sure the results make sense given the contexts and rhetorical devices used in the sermons, as word frequency analysis ignores sentence context. The researchers offered the following example from a Unitarian sermon as a demonstration of ambiguous statements requiring human verification: \enquote{Don't let some self-interested ecclesiastical or government authority tell you what to believe, but read the Bible with your own eyes and open your heart directly to Jesus} (Graham et al., 2009). This sentence added to the \emph{authority/respect} total in LIWC's analysis, but it appears to suggest that one should reject authority in this context. The researchers eliminated this sentence from the \emph{authority/respect} raw count on account of this discrepancy between the use of authority-related words and the speaker's clear intentions (Graham et al., 2009). The original Moral Foundations Dictionary can be found in the Appendix.
+
+Similar to previous research on Moral Foundations Theory, liberal ministers used \emph{harm}, \emph{fairness}, and \emph{ingroup} words more often than conservative ministers. Conversely, conservative ministers used \emph{authority} and \emph{purity} words more often than liberal ministers. However, conservative ministers did not use \emph{ingroup/loyalty} words more than liberals. Rather, liberal ministers used words pertaining to \emph{ingroup/loyalty}, but in contexts that promote rebellion and independence - causes \emph{opposite} to positive endorsements of that foundation (Graham et al., 2009).
+
+To this point, most text analysis utilizing the Moral Foundations Dictionary operationalizes endorsement of any one of the foundations as percent occurrence of words in a given text from the foundation's respective word list. As such, most analyses assume that zero percent occurrence is indicative of no endorsement, while any non-zero percent occurrence indicates endorsement of the foundation. This operational definition may not be sufficient in describing the true nature of the writer or speaker's endorsement of one of the sets of moral intuitions. A quick glance at the MFD words for \emph{harm/care} reveals the presence of words that are more closely associated with universally accepted conceptions of \emph{harm} over \emph{care} and vice-versa (Graham et al., 2009). For example, the word \enquote{cruel} has relatively negative connotations compared to \enquote{benefit.} For the \emph{harm/care} foundation, it is conceivable that use of the word \enquote{cruel} might indicate a greater attentional focus of the idea of \emph{harm} rather than \emph{care}.
+
+For \emph{harm/care}, the definition of the foundation, as well as its name, clearly distinguishes between two somewhat opposite sides of an attentional continuum, with \emph{harm} on the negative end and \emph{care} on the positive side. In other words, the entries in the MFD for \emph{harm/care} have somewhat clear positive and negative valences. The same pattern can be seen in the MFD entries for the other four foundations. \emph{Purity/sanctity} features words that likely have a negative valence to most observers, including \enquote{disease} and \enquote{trash,} along with more positive words, including \enquote{right} and \enquote{sacred} (Graham et al., 2009). These dichotomies, however, bring up other questions regarding the definition and names of the other four foundations apart from \emph{harm/care}: \emph{fairness/reciprocity}, \emph{ingroup/loyalty}, \emph{authority/respect}, and \emph{purity/sanctity}. The latter four foundations have names that are harder to understand as a valence continuum, as the concepts in the names are more similar, even to the point of being virtually synonymous in the case of \emph{fairness/reciprocity}.
+
+When considering the issue of positive versus negative valence in MFD words, the question of how texts are analyzed vis-a-vis the MFD remains. How can raw percentage of MFD word occurrence capture the valence and focus of the writer or speaker? If 2\% of a politician's speech features positive words (i.e., \enquote{benefit} and \enquote{defend}) from the MFD \emph{harm/care} list, how can researchers be sure the level and nature of the speaker's \enquote{endorsement} of the foundation equals that of another politician whose speech contained negatively connoted MFD words from the \emph{harm/care} list? They would have equal endorsements as far as the numbers are concerned, but the words used and focus given are on opposite sides of the \emph{harm/care} spectrum.
+
+This issue is compounded by the fact the Moral Foundations Questionnaire (MFQ) and its subscales assume endorsement lies on a continuum. The MFQ, which was developed subsequent to the MFD, measures individuals' endorsements of each of the foundations using a six-point scale (Graham et al., 2011). The questionnaire is made up of judgment items and relevance items. Judgment items are phrased such that the respondent signals their agreement or disagreement with straightforward statements. An example of such a statement reads: \enquote{It can never be right to kill another human being} (Graham et al., 2011). Relevance items gauge the respondent's opinion regarding the importance of foundation-related concerns. For example, the respondent is directed to rate how important the following situation is to their sense of morals: \enquote{whether or not someone did something disgusting.} This example measures the relevance of the \emph{purity/sanctity} foundations. Each foundation has a judgment and relevance subscale, totaling 10 subscales for the MFQ (Graham et al., 2011).
+
+The Moral Foundations Questionnaire has been validated by multiple researchers. Likewise, its five-factor structure has been demonstrated to fit data in multiple countries (Davies, Sibley, \& Liu, 2014; Graham et al., 2011). In their article introducing the 30-item MFQ, Graham et al. (2011) conducted an exploratory factor analysis (EFA) and found that a five-factor model fit the data better than a one, two, or three-factor model. Davies et al. (2014) conducted a confirmatory factor analysis (CFA) of the MFQ with a sample from New Zealand and likewise found the five-factor model provided the best fit. While Davies et al. (2014) concede the US and New Zealand share many similarities as Western nations, which could raise questions regarding the validity of the MFQ in non-Western nations. However, there are striking differences between the two countries, including the lack of a two-party political system in New Zealand, that provide grounds for claiming the MFQ generalizes beyond the United States. Furthermore, Graham et al. (2011) claim to find a \enquote{reasonable} degree of generalizability for the MFQ across participants from many different regions in the world. These two bodies of work also provide the best available evidence that the five moral foundations are sufficiently distinct from one another, though broader criticisms of MFT raised by Suhler et al. (2011) should still be taken into account in studies involving the theory.
+
+The aforementioned ambiguity of the Moral Foundations Dictionary as an instrument becomes clearer upon closer examination of the items in the Moral Foundations Questionnaire. One item under the \emph{fairness/reciprocity} judgment subscale reads, \enquote{Justice is the most important requirement for a society} (Graham et al., 2011). The survey respondent must select a number on a scale from 1 to 6 indicating responses spanning \enquote{strongly disagree} at 1 to \enquote{strongly agree} at 6. While the scales in the MFQ do not represent true valence as it pertains to individual words, it does allow for a greater degree of specificity in terms of an individual's endorsement of a particular moral foundation. When a respondent selects a 4 for the aforementioned MFQ statement, they clearly are indicating they \enquote{slightly agree} with the statement (Graham et al., 2011). This specificity is not present in most analyses involving the MFD and percent occurrence, unless they also take into account the valence of the words used in the text or speech of interest.
+
+\hypertarget{valence}{%
+\subsection{Valence}\label{valence}}
+
+Borrowing from Osgood's work in the 1950s, Bradley and Lang (1999) recognized valence as one of three related dimensions comprising emotion when developing their Affective Norms for English Words (ANEW). As mentioned before, \enquote{valence,} the first dimension, denotes the pleasantness of a given word. \enquote{Arousal,} the second dimension, describes the stimulating nature of a word. Lastly, \enquote{dominance} or \enquote{control} describes the extent to which a word makes one feel in or out of control (Bradley \& Lang, 1999). The researchers developed ANEW by presenting participants with a list of 100-150 words and asking for them to rate the word on all three dimensions using the Self-Assessment Manikin (SAM), which allows ratings along either a nine-point scale when using traditional paper instruments or a twenty-point scale when using a computerized version.
+
+Participants saw the stimulus word and responded on each scale. The valence scale featured a smiling figure at one end (representing pleasantness) and a frowning figure at the other end (for unpleasantness). The arousal scale had a \enquote{wide-eyed} figure at one end with a sleepy figure at the other, representing stimulating and unstimulating respectively. Finally, the dominance scale featured a large figure, indicating the highest degree of control, at one end and a small figure, indicating a lack of control, at the other end (Bradley \& Lang, 1999). The end result of this procedure yielded affective norms along the three dimensions for 1,040 English words (Bradley \& Lang, 1999). ANEW represented an important first step in establishing affective norms for large numbers of English words. However, later researchers found the 1,040-word list to be limiting for a language consisting of thousands of words.
+
+Warriner, Kuperman, and Brysbaert (2013) exponentially lengthened the list of words with affective norms to 13,915 English lemmas, the base forms of words without inflection (i.e., \enquote{watch} rather than \enquote{watched} and \enquote{watching}). The researchers recognized the importance of affective norms in several areas of study, including emotion, language processing, and memory (Warriner et al., 2013). They argue the list of words included in ANEW is sufficient for small-scale factorial research designs, but the list is \enquote{prohibitively small} for larger-scale \enquote{megastudies} that are common in psycholinguistic research today (Warriner et al., 2013).
+
+In order to source a large number of lemmas for affective ratings, the researchers drew from several validated sources. These include the 30,000 lemmas with age-of-acquisition (average age at which a particular word is learned) ratings gathered by Kuperman, Stadthagen-Gonzalez, and Brysbaert (2012) as well as the content lemmas from the SUBTLEX-US corpus consisting of subtitles from various forms of visual media (New, Brysbaert, Veronis, \& Pallier, 2007). This data collection resulted in the final list of 13,915 lemmas. Lists of 346-350 words were presented to participants recruited through the Amazon Mechanical Turk subject pool. Participants rated the words along one of the three dimensions, unlike the ANEW project in which participants rated each word along all three dimensions at once. The researchers used a nine-point scale similar to the one used by Bradley and Lang (1999) when collecting ratings for ANEW (Warriner et al., 2013).
+
+The researchers noted several points of interest upon observing ratings. First, they found that valence and dominance ratings had a negative skew, indicating more words elicited feelings of happiness and control than their respective opposites. Also, when examining the relationship between valence and arousal ratings, the researchers found a U-shaped relationship. This U-shape indicates words with high degrees of positivity and negativity elicited higher arousal (Warriner et al., 2013). These observations along with the now-greatly expanded list of affective norms has been applied to several lines of inquiry in psycholinguistics.
+
+Warriner and Kuperman (2015) utilized the new affective norms list in order to investigate the validity of the Pollyanna hypothesis, or the prevalence of a generally optimistic outlook in humans as reflected in language. The researchers were able to conclude the existence of a greater number of positive-valence English words in the list of 13,915 lemmas. Additionally, after observing token frequency in a number of text corpora, including SUBTLEX-US, the Corpus for Contemporary American English (COCA), the British National Corpus (BNC), Touchstone Applied Science Associates, Inc.~Corpus (TASA), and the corpus used for the Hyperspace Analogue to Language model (HAL), the researchers found that words with positive valence were also used more frequently (Warriner \& Kuperman, 2015). While the researchers concede the possibility of an acquiescence bias in ratings as a possible explanation for the observed positivity bias, this investigation represents one application of the Warriner et al. (2013) list in emotional studies.
+
+In addition to applications in emotion research, the Warriner et al. (2013) norms have been utilized in cognitive research as well. One cognition-based study investigates the relationship between emotion and response latencies in word recognition. Kuperman, Estes, Brysbaert, and Warriner (2014) sought to use these new norms to fill in the knowledge gaps regarding variance in word recognition. The researchers drew several conclusions regarding emotion and word recognition (specifically in naming and lexical decision tasks - two cognitive processing tasks wherein a participant has to read aloud or judge a word for its lexicality). First, Kuperman et al. (2014) found slower decision-making and reading times in negative-valence words, faster times in neutral words, and even faster times in words with positive valence. The researchers also concluded that words causing higher arousal tend to have slower decision times than less-arousing words. They found valence had a stronger effect on recognition than arousal (both effects were independent, not interactive). They found an interaction between emotion and word frequency such that valence and arousal are more effective on lower frequency words than high frequency words. Finally, Kuperman et al. (2014) found a greater effect of valence and arousal on response latency for lexical decision tasks than for naming tasks (Kuperman et al., 2014). This research serves as further evidence that the Warriner et al. (2013) list can be used for research inquiries both within and without the field of psycholinguistics.
+
+In the present studies, the researchers used the Warriner et al. (2013) list in order to denote the valence of the words appearing in the news articles scraped from the internet. Valence was considered as another independent variable and its relationship with the words comprising the Moral Foundations Dictionary were of chief interest to the researchers. The valence was used as a means to determine whether individual words in the MFD represented more positive aspects of their respective foundation or if they denoted a more negative aspect of the foundation. Specifically, valences were used to weight the MFD words by their relative degree of positivity or negativity. Incorporating word valence into a study involving the MFD is meant to alleviate some of the issues regarding the aforementioned ambiguity regarding the words in the Moral Foundations Dictionary.
+
+\hypertarget{news-media-and-politics}{%
+\subsection{News Media and Politics}\label{news-media-and-politics}}
+
+Research into politics, language, and media has illuminated the complex relationships between all three. Any politically-oriented discussion of word occurrence as an implication of moral or political position assumes that language and ideology are intrinsically linked. Deborah Cameron (2006) points out the expressive nature of ideological beliefs and how that expression is conveyed through language, thus implying a connection between ideology and language. She goes on to criticize the notion that language is either the \enquote{pre-existing raw material} used to shape ideologies or the \enquote{post-hoc vehicle} for their propagation. Rather, the structure of language itself is shaped by ideology and social processes even when it is used to explain or express ideologies (Cameron, 2006). Owing to the fact the Moral Foundations Dictionary was developed in order to assess the moral, which includes the ideological, orientation of discourse, its purported ability to assess parts of the structure of language (vocabulary) for ideological lean is of chief interest to the researchers in the present study.
+
+The use of language both to express and further an ideological goal has been documented in the techniques employed by candidates for political office in the U.S., Druckman, Jacobs, and Ostermeier (2004) considered political \enquote{issues} as communication that attempts to persuade constituents to vote for the candidates based on their strengths in matters of public policy. According to the researchers, \enquote{image} priming describes techniques deployed in order to sway votes based on favorable aspects of the candidate's behavior and personality (Druckman et al., 2004). The researchers investigated political issue and image priming on the part of candidates as implied by the disproportionate attention candidates paid to particular issues over others. The researchers found numerous examples of issue and image priming during the 1972 re-election campaign of Richard Nixon.
+
+They linked the Nixon administration's awareness of the issues for which the president had public support to the issues he should emphasize (and prime) during the campaign. Likewise the researchers found evidence that Nixon's team was aware of negative evaluations of his warmth and trustworthiness, and thus took steps to prime his purportedly positive qualities, including strength and competence (Druckman et al., 2004). The researchers also cited research from Iyengar and Kinder (1987) suggesting the news media affected perceptions of President Jimmy Carter's competence by emphasizing (e.g., priming) issues related to energy, defense, and the economy. This focus implies news media may contribute to Americans' perception of politicians based on where the media places emphasis.
+
+There is a potential caveat regarding the validity of Druckman et al. (2004)'s findings: reproductions of several studies purporting to demonstrate social priming effects have failed to replicate the original results. Pashler, Coburn, and Harris (2012) point out the distinction between perceptual and social (or goal) priming both in their operational definitions as well as their replicability. Perceptual priming often works through the inducement of a certain response from a related prime, as in, for example, semantic priming. Social (or goal) priming encompasses phenomena by which people exhibit complex behavioral changes subsequent to exposure to a prime. Pashler et al. (2012) point out well-known studies investigating social priming, including the use of elderly-related primes to induce slower walking speeds in participants. Studies investigating perceptual priming have been \enquote{directly replicated in hundreds of labs} (Pashler et al., 2012). This replication rate does not appear to be the case for social priming, as argued by Pashler et al. (2012).
+
+Pashler et al. (2012) noticed the unusually large effect size values (Cohen's \emph{d}) reported by researchers studying social priming effects. The researchers reproduced two studies from Williams and Bargh (2008) The first study attempted to prime participants by having them plot points on a Cartesian grid. The independent variable was priming condition and contained three levels: short, middle, and long distance. Those instructed to plot points further apart were hypothesized to express a higher degree of psychological distance regarding their family. The second study used the same priming conditions, but hypothesized that greater distance between points would prime participants to estimate fewer calories in unhealthy foods than those who were primed with shorter distances between points. Pashler et al. (2012) concluded those two studies from Williams and Bargh (2008) held little validity while also casting doubt on the prevalence of social priming effects themselves, based on the inability of other researchers to replicate previously reported effects in this area.
+
+While these concerns regarding the replication of social priming studies are valid and deserve further investigation, Druckman et al. (2004) does not purport to demonstrate a widespread effect of social priming on the American electorate. In other words, this research makes no claim to empirically supported priming effects. Rather, Druckman et al. (2004) chronicle the efforts on the part of the Nixon Administration to prop up the president's supposed strengths while downplaying his weaknesses. These tactics were deployed through the careful use of language in order to achieve the administration's political goals. As such, Druckman et al. (2004)'s research on Nixon serves as an example of language's potential utility in the propagation of desirable political opinions. The researcher's investigation of news media's focus on specific issues during the Carter Administration likewise provide an example of language as a potential conduit for the transfer of politically biased information. The idea that even 1970s news media could contain political biases is of particular interest to the current study, which investigates similar phenomena in contemporary news media.
+
+Other research into news media suggests certain media outlets, at least indirectly, may have an effect on the voting records of representatives in Congress (Clinton \& Enamorado, 2014). Specifically, the researchers identified a pattern of declining support for President Bill Clinton's policies chiefly among Republicans in the House of Representatives after the Fox News Channel began broadcasting on cable and satellite systems in their respective districts. As Fox News was, at the time of its launch in 1996, the only outwardly ideological national news network, the researchers were able to track its spread across the country and observe voting records of members of Congress both before and after Fox News' arrival. The researchers concluded that members of Congress, excluding those newly elected at the time of Fox News Channel's emergence, attempted to anticipate resultant conservative-leaning shifts among their constituents by bolstering their conservative voting record before the next election (Clinton \& Enamorado, 2014).
+
+Therefore, the current study sought to combine both methods related questions and extension/replication of previous moral foundation results found for liberal and conservative sources. First, the MFD was combined with previous research by the current authors (see below) and weighted by valence to create weighted percentages to better specify endorsement. Second, these weighted percentages were examined for their differences in across liberal and conservative news sources.
+
+\hypertarget{experiment-1}{%
+\section{Experiment 1}\label{experiment-1}}
+
+\hypertarget{method}{%
+\section{Method}\label{method}}
+
+For Experiment 1, the researchers approached the study with the intention to answer a method question. That is, this portion of the current research was conducted in order to solidify the best method by which to analyze political news text under the Moral Foundations Theory framework while also alleviating some of the aforementioned valence problem observed in the Moral Foundations Dictionary. The researchers hypothesized the news sources generally perceived as liberal leaning (\emph{NPR} and \emph{The New York Times}) would contain MFD words and valences indicating endorsements of the individualizing moral foundations (\emph{harm/care} and \emph{fairness/reciprocity}). Additionally, the researchers hypothesized the two sources generally perceived to be conservative leaning (\emph{Fox News} and \emph{Breitbart}) would feature MFD words and valences indicating equal endorsement of all five foundations. Owing to the lack of a need for human participants, the researchers did not petition Missouri State University's Institutional Review Board, as no such approval was needed to conduct this study.
+
+\hypertarget{sources}{%
+\subsection{Sources}\label{sources}}
+
+Political articles were collected from the websites of four notable U.S. news sources, a process known as web scraping. The sources were \emph{The New York Times}, \emph{National Public Radio (NPR)}, \emph{Fox News}, and \emph{Breitbart}. They were selected for their widespread recognition and the fact political partisans have strong preferences for some sources over others. The researchers determined the political lean of each source by referencing Mitchell, Matsa, Gottfried, and Kiley (2014)'s article demonstrating the self-reported ideological consistency represented by the consumers of several news sources. In general, \emph{The New York Times} and \emph{NPR} are preferred by consumers reporting a liberal bias or lean. In contrast, \emph{Fox News} and \emph{Breitbart} are believed to have a conservative bias or lean. Mitchell et al. (2014)'s article presented political ideology as a scale ranging from \enquote{consistently liberal} to \enquote{consistently conservative.} In between these extremes lie more moderate positions, including \enquote{mostly liberal,} \enquote{mixed,} and \enquote{mostly conservative.} Owing to the lower number of sources analyzed herein, the researchers elected to categorize the sources as either \enquote{liberal} and \enquote{conservative} in order to form a basis for comparison.
+
+Political articles in particular were identified and subsequently scraped by including the specific URL directing to each source's political content in the \emph{R} script. For example, rather than scrape from nytimes.com, which would return undesired results (non-political features, reviews, etc.), we instead included nytimes.com/section/politics so that more or less exclusively political content was obtained. All code for this manuscript can be found at \url{https://osf.io/5kpj7/}, and the scripts are provided inline with this manuscript written with the \emph{papaja} library (Aust \& Barth, 2017).
+
+Identification of the sources' political URLs presented a problem for two of the sources owing to complications with how their particular sites were structured. While in the multi-week process of scraping articles, we noticed word counts for \emph{NPR} and \emph{Fox News} were not growing at a similar pace as those from \emph{The New York Times} and \emph{Breitbart}. Upon investigation, we found another, more robust URL for political content from NPR: their politics content \enquote{archive.} The page structure on NPR's website was such that only a limited selection of articles is displayed to the user at a given time. Scraping both the archive and the normal politics page ensured we were obtaining most (if not all) new articles as they were published. We later ran a process in order to exclude any duplicate articles. \emph{Fox News} presented a similar issue. We discovered \emph{Fox News} utilized six URLs in addition to the regular politics page. These URLs led to pages containing content pertaining the U.S. Executive Branch, Senate, House of Representatives, Judicial Branch, foreign policy, and elections. Once again, duplicates were subsequently eliminated from any analyses.
+
+\hypertarget{materials}{%
+\subsection{Materials}\label{materials}}
+
+Using the \emph{rvest} library in the statistical package \emph{R}, we pulled body text for individual articles from each of the aforementioned sources (identified using CSS language) and compiled them into a dataset (Wickham, 2016). Using this dataset, we identified word count and average word count per source. This process was completed once daily starting in February 2018 until March 2018. Starting in mid-March 2018, the process was completed twice daily - once in the morning and again in the evening. Data collection was terminated once 250,000 words per source was collected in April 2018.
+
+\hypertarget{data-analysis}{%
+\subsection{Data analysis}\label{data-analysis}}
+
+Once data collection ended, the text was scanned using the \emph{ngram} package in \emph{R} (Schmidt, Gonzalez-Cabrera, \& Tomasello, 2017). This package includes a word count function, which was used to remove articles that came through as blank text, as well as to eliminate text picked up from the Disqus commenting system used by certain websites. At this point, duplicate articles were discarded.
+
+The article text was processed using the \emph{tm} and \emph{ngram} packages in \emph{R} in order to render the text in lowercase, remove punctuation, and fix spacing issues (Feinerer \& Hornik, 2017). The individual words were then reduced to their stems (i.e., \emph{abused} was stemmed to \emph{abus}). The same procedure was applied to the MFD words and the words in the Warriner et al. (2013) dataset. Using the Warriner et al. (2013) dictionary, the words making up each of the five foundations in the MFD were matched to their respective valence value.
+
+Concurrent research by Jordan, Buchanan, and Padfield (2019) is assessing the validity of both the Moral Foundations Questionnaire and the Moral Foundations Dictionary through a multi-trait multi-method analysis of the two instruments using multiple samples. The instruments and foundation areas are being analyzed against one another, in order to test reliability, as well as against the Congressional Record in order to test predictive validity for political orientation. The researchers were able to identify a number of potential new words that, if added to the MFD, could comprise a dictionary with greater validity, and less likelihood of zero percent texts, as this often occurs with the current MFD. Those results have informed this analysis, and their updated findings may change the underlying dictionary used in this analysis (albeit, we do not expect any changes in the results presented below).
+
+The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with their valence and a percentage of their occurrence. Therefore, for each article, the percentage of the number of \emph{harm/care} words occurring in the articles were calculated, and this process was repeated for each of the foundations. Words' percent occurrence were multiplied by their \emph{z}-scored valence. Valences were \emph{z}-scored in order to eliminate any ambiguity regarding the direction of the valence. Positive values indicate positive valence, and negative values indicate negative valence. Words were categorized in accordance to their MFD affiliation, creating a weighted sum for each moral foundation.
+
+\hypertarget{results}{%
+\section{Results}\label{results}}
+
+\hypertarget{descriptive-statistics}{%
+\subsection{Descriptive Statistics}\label{descriptive-statistics}}
+
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:exp1-source-descriptives}Experiment 1 - Descriptive Statistics by Source}
+
+\begin{tabular}{lcccccclccc}
+\toprule
+Source & $M_V$ & $SD_V$ & $N_{Article}$ & $N_{Words}$ & $M_T$ & $SD_T$ & $M_{Ty}$ & $SD_{Ty}$ & $M_{FK}$ & $SD_{FK}$\\
+\midrule
+NPR & 0.28 & 0.23 & 695 & 302977 & 435.94 & 642.63 & 191.96 & 192.29 & 13.81 & 3.93\\
+New York Times & 0.30 & 0.13 & 406 & 452579 & 1,114.73 & 511.86 & 454.27 & 154.58 & 16.33 & 3.30\\
+Breitbart & 0.29 & 0.18 & 1437 & 722022 & 502.45 & 347.90 & 243.36 & 120.76 & 18.43 & 8.02\\
+Fox News & 0.29 & 0.17 & 503 & 296779 & 590.02 & 528.60 & 283.57 & 189.00 & 16.93 & 7.17\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
+
+The researchers calculated descriptive statistics for each news source in order to understand any and all fundamental linguistic differences in the sources' use of English. Statistics calculated included average \emph{z}-scored valence of the unique words per article, number of articles per source, total number of words per source, average number of tokens (words) per article in each source, average number of types (unique words) per article in each source, and mean readability level per source. Readability statistics were calculated using the Flesch-Kincaid Grade Level Readability formula (Kincaid, Fishburne, Robert P., Richard L., \& Brad S., 1975). Readability is calculated using a formula where the total number of syllables, words, and sentences in a given passage are determinants of its difficulty. The obtained value is intended to match up with the grade level at which one should be able to comfortably read the passage (Kincaid et al., 1975). For example, a text with a readability score of 11 should be easily read by a high school junior.
+
+As seen in Table \ref{tab:exp1-source-descriptives}, the sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The large standard deviations seem to indicate little to no presence of a difference in valence across sources.
+\emph{The New York Times} published the greatest number of articles as well as total words. \emph{Breitbart} featured the lowest number of articles, and \emph{NPR} the lowest number of total words from all articles. Per individual article, however, \emph{Breitbart} appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, \emph{Fox News} articles had the lowest reading grade level on average, while \emph{The New York Times} had the highest. This result might be attributable to the greater number of tokens in the average \emph{New York Times} article compared to \emph{Fox News}. The standard deviations for readability suggest the presence of a diverse array of articles for each source, ranging from low to high reading level. Large standard deviations suggest the sources feature a lot of overlap between them in their representation of scores.
+
+\hypertarget{inferential-statistics}{%
+\subsection{Inferential Statistics}\label{inferential-statistics}}
+
+To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nested structured of the data, which creates correlated error (Gelman, 2006). Using the \emph{nlme} library in \emph{R} (Pinheiro, Bates, Debroy, Sarkar, \& Team, 2017), each foundation's weighted percentage was predicated here by the political lean of the news source, using the individual news sources as a random intercept to control for the structure of the data.
+
+The multilevel model did not indicate the presence of any significant or practical effect of political lean for any of the five moral foundations. The strongest effect size was observed for the \emph{authority/respect} foundation, but the effect was in the opposite direction from what was originally hypothesized - liberal sources tended to use more \emph{authority/respect} words than did conservative sources. Descriptive and test statistics, \emph{p}-values and effect sizes (Cohen's \emph{d}) can be found in Table \ref{tab:exp1-table}. To interpret the weighted scores, one can examine the mean and standard deviations for each. A zero score for the mean, with a non-zero standard deviation, would indicate a perfect balance of positive and negative words in each category, likely representing a neutral tone when all words are considered. Negative percentages would indicate more representation of the negative words in the MFD area, while positive percentages indicate an endorsement of the positive words in a MFD. Therefore, we suggest using the sign of the mean score to determine the directionality of the endorsement for the MFD (positive, neutral, negative), and the standard deviation to ensure that a zero score is not zero endorsement (i.e., a SD of zero indicates no words were used). Based on the weighted percent values for the five foundations, the researchers observed that MFD words seem to make up a small portion of the article text. Furthermore, the observed percentages and means appear to indicate a generally positive endorsement of all five foundations across both liberal and conservative sources.
+
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:exp1-table}Experiment 1 Results - Multilevel Model}
+
+\begin{tabular}{lccccccc}
+\toprule
+Foundation & $M_C$ & $SD_C$ & $M_L$ & $SD_L$ & $t$ & $p$ & $d$\\
+\midrule
+Harm/Care & 0.50 & 2.21 & 0.49 & 2.21 & -0.21 & .850 & 0.01\\
+Fairness/Reciprocity & 1.13 & 1.38 & 1.11 & 1.38 & -0.42 & .715 & 0.02\\
+Ingroup/Loyalty & 1.28 & 1.63 & 1.34 & 1.63 & 0.30 & .789 & -0.04\\
+Authority/Respect & 0.72 & 1.62 & 1.06 & 1.62 & 3.17 & .087 & -0.20\\
+Purity/Sanctity & 1.11 & 1.48 & 1.27 & 1.48 & 2.37 & .141 & -0.09\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
+
+\hypertarget{discussion}{%
+\section{Discussion}\label{discussion}}
+
+The results obtained in Experiment 1 did not confirm the hypothesis. The researchers found little compelling evidence of an effect of partisan lean on MFD endorsement. The strongest effect found was for the \emph{authority/respect} foundation owing to the fact its Cohen's \emph{d} value was greater than the other four foundations. However, the effect was in the opposite direction of that which was hypothesized. Specifically, the results indicated that liberal leaning sources demonstrated higher positivity regarding that foundation than conservatives. This result is contrary not only to the research hypothesis for Experiment 1 but also to previous findings in Moral Foundations Theory research. It should be noted, however, the effect size was small and the relationship was not found to be statistically significant.
+
+Upon speculation, the researchers identified one possible reason for why the results were unable to confirm the hypothesis. The selection of the broad and amorphous topic of \enquote{political news} may have led to the scraping of large numbers of articles with little to no moral-centric content. Rather, many articles may have been, for example, simple reporting on congressional procedures that would leave little room for the use of moral language here, let alone words from the Moral Foundations Dictionary. In short, the range of topics covered in Experiment 1 was likely too broad. The possibility exists that a tighter focus on one political issue or event, especially one that (on the surface) has a stronger relationship with morality might be more illuminating for research in moral language in news media.
+
+Owing to the exploratory nature of Experiment 1, the researchers were afforded the opportunity to consider changes to the method to be utilized in Experiment 2. Generally speaking, the researchers believe their methodology to be sound. Web scraping methods and text processing remain viable methods for collecting large amounts of text and subsequently rendering that text in a form suitable for data analysis. Experiment 1 also demonstrated a method by which to address inherent problems in the Moral Foundations Dictionary relating to valence. The solution provided in Experiment 1 appears to provide insights into the MFD words where none previously existed. Finally, calculating weighted percentages and sums for each moral foundation provides an easily interpreted summary of MFD word positivity and occurrence.
+
+While the methodology used in Experiment 1 features many strengths, there are aspects which could be strengthened for future studies. The researchers identified two such changes that were subsequently employed in Experiment 2. First, the researchers elected to include more news sources for web scraping and analysis in addition to the four used in Experiment 1. Second, the researchers chose to focus their data collection efforts exclusively on one event in U.S. politics: the nomination and confirmation of Justice Brett Kavanaugh to the U.S. Supreme Court. In Experiment 2, the researchers sought to confirm the usefulness and validity of the method as well as test a similar hypothesis as Experiment 1.
+
+\hypertarget{experiment-2}{%
+\section{Experiment 2}\label{experiment-2}}
+
+\hypertarget{kavanaugh-supreme-court-hearing}{%
+\subsection{Kavanaugh Supreme Court Hearing}\label{kavanaugh-supreme-court-hearing}}
+
+In the wake of Justice Anthony Kennedy's retirement from the Supreme Court of the United States, President Donald Trump nominated Brett Kavanaugh as the new Associate Justice. Kavanaugh was previously on the U.S. Court of Appeals for the District of Columbia. The Senate Judiciary Committee began his confirmation hearing on September 4, 2018 (US Government, 2018a). Following allegations of sexual assault by high school classmate Dr.~Christine Blasey Ford, the committee postponed its vote on whether or not to open the confirmation to the entire Senate.
+
+On September 27, the committee questioned Dr.~Ford before commencing a second round of questioning for Judge Kavanaugh (US Government, 2018b). During the intervening weeks between hearings, two more women came forward with two separate allegations of sexual assault on the part of Kavanaugh. According to Nielsen reports, more than 20 million people watched the September 27 proceedings on television (O'Connell, 2018). This figure does not take into account viewers who watched online, nor does it account for viewers outside the United States. On September 28, the Senate Judiciary Committee voted to send the nomination to the Senate floor. Senator Jeff Flake of Arizona, however, lobbied for a week-long FBI investigation on Kavanaugh and the allegations facing him, which the committee, and later the President, approved. The investigation concluded with no significant findings. The Senate voted 50-48 to approve Kavanaugh's appointment on October 6, 2018 (US Government, 2018c).
+
+The Kavanaugh nomination, confirmation hearing, and eventual swearing-in, as well as the news media's coverage of all three events, feature many dimensions that likely differ depending on one's morals. The issue might be exacerbated given the presence of questionable sexual behaviors at the center of many concerns. On one side of the debate, Kavanaugh's Supreme Court tenure presents a prime opportunity to bring morality back into interpretation of the Constitution. Kavanaugh's confirmation creates a conservative stronghold among the justices on the court. Commentators have noted this might help advance a judicial agenda that backpedals certain rights previously upheld by the Supreme Court, including abortion and gay marriage - social issues challenged by their opponents at least partially on moral grounds. Concerns around abortion might be related either to \emph{harm/care} or \emph{purity/sanctity}. On the other side of the debate, the assault allegations have energized Kavanaugh's opponents to advocate for his rejection from the court owing to misdeeds resulting from Kavanaugh's own alleged lack of morals. Likewise, arguments could be made that relate concerns regarding sexual violence to \emph{harm/care} or \emph{fairness/reciprocity}. Additionally, the moral duty of the Senate as the upper chamber in the U.S. legislature has been scrutinized in public discourse with respect to its handling of the assault allegations vis-a-vis Kavanaugh's confirmation.
+
+\hypertarget{u.s.-government-shutdown-of-2018-2019}{%
+\subsection{U.S. Government Shutdown of 2018-2019}\label{u.s.-government-shutdown-of-2018-2019}}
+
+The U.S. Federal Government partially shut down on December 22, 2018. The government reopened on January 25, 2019 upon the passage of an appropriations bill by both houses of Congress (Axelrod, 2019). The shutdown stemmed from a disagreement between President Donald Trump and Congress over funding for the president's proposed U.S.-Mexico border wall. President Trump demanded \$5.7 billion dollars in the new budget to be appropriated for the wall, which Congress did not provide in its budget (Peoples \& Swanson, 2019). Owing to the lack of funding, the government began a partial shutdown, causing \enquote{around 800,000} federal employees to be either furloughed or compelled to work without pay (Axelrod, 2019).
+
+The government shutdown ended 35 days later when Congress passed a continuing resolution to fund the government for three weeks while further negotiations regarding the budget would take place. President Trump signed the bill, ending the longest government shutdown in U.S. history (Axelrod, 2019). Many political commentators cite the mounting pressure on Trump and Congress stemming from significant costs both to unpaid American workers and the economy as a whole (Kheel \& Mitchell, 2019). Perhaps owing to the financial pressures experienced by thousands of federal employees and their families as a result of a political quarrel, President Trump saw his approval rating fall as the shutdown progressed (Peoples \& Swanson, 2019). While the shutdown and its associated burdens were unpopular, the issues discussed concurrent to the shutdown offer the potential for more divergent opinions.
+
+As mentioned before, the shutdown started as a result of an impasse regarding funding for the border wall. Since the wall was proposed during the 2016 presidential campaign, the issue has taken on a moral dimension. As an example, Shaun Casey, the director of Georgetown University's Berkely Center for Religion, Peace and World Affairs, cites diverging opinions stemming from theological concerns (Martin, 2019). Some supporters, citing certain passages from the Bible, believe construction of the wall is part of a divinely ordained process handed down by God. Opponents, on the other hand, have cited other parts of the Bible extolling the significance of exiled peoples, especially the Hebrew people (Martin, 2019). This example potentially ties into the five moral foundations. Theological concerns regarding the border wall might invoke \emph{authority/respect} as well as \emph{purity/sanctity}. In addition to these two foundations, the involvement of foreign countries and their citizens' migration into the U.S. could also elicit moral concerns related to \emph{ingroup/outgroup}.
+
+Owing to the wealth of moral opinions regarding the border wall and its association with the 2018-2019 government shutdown, the researchers decided to add the government shutdown as a news event to analyze under the auspices of Moral Foundations Theory. In addition to articles related to the Kavanaugh confirmation hearing, the researchers scraped articles related to the government shutdown in order to analyze their content for valence and moral alignment.
+
+\hypertarget{method-1}{%
+\section{Method}\label{method-1}}
+
+In contrast to Experiment 1, the researchers approached Experiment 2 with the intention to confirm the method employed was valid for the analysis of the scraped text as well as for any inferences drawn from the analyses. For Experiment 2, the researchers hypothesized that news sources perceived as liberal will exhibit positive endorsements of the individualizing moral foundations (\emph{harm/care} and \emph{fairness/reciprocity}) in their articles reporting on both the Kavanaugh confirmation hearing as well as the 2018-2019 government shutdown. News sources perceived as conservative are hypothesized to positively endorse all five foundations equally in their coverage of the Kavanaugh hearing and the government shutdown. The researchers tested the hypothesis by analyzing the content scraped from news sources' web pages spanning the two weeks before (September 13, 2018) and two weeks after (October 11, 2018) Kavanaugh's confirmation hearing, owing to its prominence in the news. Likewise, the researchers analyzed content spanning two weeks before the start of the government shutdown (December 8, 2018) to two weeks following the end of the shutdown (February 8, 2019). The content will be analyzed for valence and moral alignment under Moral Foundations Theory. Once again, no human participants were needed for this study, so no Institutional Review Board approval was necessary.
+
+\hypertarget{sources-1}{%
+\subsection{Sources}\label{sources-1}}
+
+Articles pertaining to the Brett Kavanaugh Supreme Court confirmation hearing and the 2018-2019 U.S. Government shutdown were scraped from the websites of 10 U.S. news sources. As in Experiment 1, these sources were selected owing to their favorability among political partisans according to Mitchell et al. (2014). The sources favored by the highest proportion of consistent liberals were \emph{The New York Times}, \emph{National Public Radio (NPR)}, \emph{Slate}, \emph{Huffington Post}, and \emph{Politico} (Mitchell et al., 2014). The sources favored by the highest proportion of consistent conservatives included \emph{Fox News}, \emph{Breitbart}, \emph{The Rush Limbaugh Show}, \emph{The Blaze}, and \emph{Sean Hannity}. Political articles referencing Brett Kavanaugh's nomination process were identified and subsequently scraped by including the URL for each source's coverage of the nomination in the \emph{R} script. All code for this manuscript can be found at \url{https://osf.io/5kpj7/}, and the scripts, again written with the \emph{papaja} library in \emph{R}, are provided inline with this manuscript (Aust \& Barth, 2017).
+
+\hypertarget{materials-1}{%
+\subsection{Materials}\label{materials-1}}
+
+Using the \emph{rvest} library in the statistical package \emph{R}, we pulled body text for individual articles from each of the aforementioned 10 news sources (identified using CSS language). We compiled the articles into a dataset (Wickham, 2016). Using this dataset, we identified word count and average word count per source. This process was run for articles pertaining to Kavanaugh's nomination that were published between September 13, 2018 and October 11, 2018 inclusive. This date range was selected in reference to the widely-publicized and viewed nomination hearing on September 27, 2018. We set the start date at September 13 (two weeks before the hearing) and the end date at October 11 (two weeks after the hearing) so that we could capture a large amount of data (roughly one month) during which Kavanaugh's nomination was at its peak saturation in news coverage.
+
+The same process was followed for scraping articles related to the partial U.S. Government shutdown of 2018-2019. The articles scraped were published between December 8, 2018 and February 8, 2019 inclusive. Once again, the researchers elected to scrape articles published two weeks before and after the event in question in order to capitalize on the shutdown's saturation in American news media.
+
+\hypertarget{data-analysis-1}{%
+\subsection{Data analysis}\label{data-analysis-1}}
+
+As in Experiment 1, the text was scanned with \emph{ngram}. Again, blank articles, text from the Disqus system, and duplicate articles were removed (Schmidt et al., 2017). The text was processed and stemmed in order to convert to a usable form for further analysis (Feinerer \& Hornik, 2017). Words were subsequently matched with their valences from Warriner et al. (2013). Depending on the results of Jordan et al. (2019)'s multi-trait multi-method analysis of the MFD and the Moral Foundations Questionnaire, alternative forms of the Moral Foundations Dictionary with additional words may be imported instead of the original dictionary.
+
+Using the \emph{tm} and \emph{ngram} packages in \emph{R}, the researchers processed the text in order to convert it to lowercase, fix spacing anomalies, and remove punctuation (Feinerer \& Hornik, 2017). Each individual word was reduced to its stem (i.e., \emph{diseased} was stemmed to \emph{diseas}). Once again, the same procedure was applied to the MFD words and the words in the Warriner et al. (2013) dataset. Using the Warriner et al. (2013) dictionary, the words in the MFD were assigned their respective valence. The researchers obtained the words' percent occurrence in the text. Percents were multiplied by \emph{z}-scored valence and categorized into their proper MFD category.
+
+\hypertarget{results-1}{%
+\section{Results}\label{results-1}}
+
+\hypertarget{descriptive-statistics-1}{%
+\subsection{Descriptive Statistics}\label{descriptive-statistics-1}}
+
+The researchers calculated descriptive statistics for each news source per topic in order to reveal the presence (if any) of linguistic differences in the sources' use of language. As in Experiment 1, statistics calculated include \emph{z}-scored valence, number of articles per source, total words per source, mean tokens per article in each source, mean types per article in each source, and mean readability level (using the Flesch-Kincaid Grade Level Readability formula) per source (Kincaid et al., 1975).
+
+Table \ref{tab:exp2-source-descriptives-kav} displays the descriptive statistics for sources' writing on the Kavanaugh confirmation hearing. The sources were similar in most basic linguistic aspects, except for number of articles. For example, \emph{Sean Hannity} appears to have published only 27 articles while \emph{Breitbart} published 757 articles on this topic. Valence was found to be slightly positive across all sources. \emph{Fox News} produced the most total words with the most tokens on average. This is likely due to the fact \emph{Fox News} transcribes many of their videos and publishes them in article form. \emph{Politico} featured the highest number of types on average. \emph{Rush Limbaugh} featured the lowest readability score on average by grade level while \emph{Slate} featured the highest grade-level readability score. The large standard deviations for these statistics, however, preclude conclusions regarding differences in the sources' use of language, as there is likely a lot of overlap between sources' use of language.
+
+Table \ref{tab:exp2-source-descriptives-gs} displays descriptive statistics for articles about the partial government shutdown. Like the Kavanaugh hearing, the sources were similar in average valence (slightly positive). Once again, there was variation in the number of articles published by each source on this topic. \emph{Sean Hannity}, \emph{Rush Limbaugh}, and \emph{The Blaze} published fewer than 100 articles while \emph{Fox News} published 1,013 articles. \emph{Fox News} again featured the most total words and mean tokens, but this is likely due to to the presence of a large amount of video transcriptions that the organization published as articles. \emph{Politico} had the most types on average. For this topic, \emph{Fox News} featured the lowest reading grade level while \emph{Slate} featured the highest reading grade level. For each statistic, the excessively high standard deviations render any assertions regarding linguistic differences inconclusive on a descriptive level due to the aforementioned overlap in sources' language use.
+
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:exp2-source-descriptives-kav}Kavanaugh - Descriptive Statistics by Source}
+
+\small{
+
+\begin{tabular}{lcccccclccc}
+\toprule
+Source & $M_V$ & $SD_V$ & $N_{Article}$ & $N_{Words}$ & $M_T$ & $SD_T$ & $M_{Ty}$ & $SD_{Ty}$ & $M_{FK}$ & $SD_{FK}$\\
+\midrule
+Huffington Post & 0.27 & 0.12 & 552 & 359046 & 650.45 & 462.21 & 283.07 & 129.23 & 10.80 & 1.91\\
+NPR & 0.22 & 0.25 & 366 & 108605 & 296.73 & 499.10 & 128.12 & 172.51 & 12.49 & 3.62\\
+New York Times & 0.33 & 0.13 & 653 & 723569 & 1,108.07 & 570.31 & 461.26 & 174.20 & 10.56 & 2.10\\
+Politico & 0.32 & 0.10 & 689 & 1069292 & 1,551.95 & 1,045.47 & 614.66 & 358.68 & 12.09 & 2.60\\
+Slate & 0.29 & 0.12 & 272 & 229896 & 845.21 & 612.22 & 332.42 & 168.17 & 12.35 & 2.47\\
+The Blaze & 0.25 & 0.13 & 277 & 128097 & 462.44 & 149.66 & 210.52 & 53.14 & 10.83 & 1.87\\
+Breitbart & 0.30 & 0.13 & 757 & 375848 & 496.50 & 609.91 & 230.03 & 153.62 & 11.04 & 2.17\\
+Fox News & 0.29 & 0.11 & 646 & 1304048 & 2,018.65 & 2,709.77 & 534.47 & 404.21 & 9.70 & 1.87\\
+Sean Hannity & 0.31 & 0.11 & 27 & 5926 & 219.48 & 145.98 & 121.04 & 57.26 & 11.89 & 2.37\\
+Rush Limbaugh & 0.38 & 0.13 & 172 & 267067 & 1,552.72 & 1,258.51 & 419.00 & 225.80 & 9.42 & 9.26\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
+
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:exp2-source-descriptives-gs}Government Shutdown - Descriptive Statistics by Source}
+
+\small{
+
+\begin{tabular}{lcccccclccc}
+\toprule
+Source & $M_V$ & $SD_V$ & $N_{Article}$ & $N_{Words}$ & $M_T$ & $SD_T$ & $M_{Ty}$ & $SD_{Ty}$ & $M_{FK}$ & $SD_{FK}$\\
+\midrule
+Huffington Post & 0.30 & 0.13 & 432 & 242220 & 560.69 & 425.52 & 258.27 & 130.54 & 10.69 & 1.84\\
+NPR & 0.23 & 0.22 & 434 & 151114 & 348.19 & 457.34 & 155.53 & 171.30 & 11.19 & 3.15\\
+New York Times & 0.33 & 0.13 & 751 & 831184 & 1,106.77 & 506.92 & 471.80 & 174.88 & 11.28 & 2.19\\
+Politico & 0.29 & 0.10 & 222 & 349499 & 1,574.32 & 875.63 & 638.32 & 313.34 & 11.29 & 1.24\\
+Slate & 0.30 & 0.12 & 117 & 85254 & 728.67 & 464.34 & 301.71 & 138.74 & 11.86 & 2.51\\
+The Blaze & 0.26 & 0.13 & 98 & 38983 & 397.79 & 102.10 & 185.66 & 41.93 & 10.69 & 1.85\\
+Breitbart & 0.34 & 0.15 & 309 & 102886 & 332.96 & 238.70 & 168.31 & 81.59 & 10.72 & 2.05\\
+Fox News & 0.35 & 0.13 & 1013 & 2799217 & 2,763.29 & 3,405.44 & 637.30 & 494.00 & 9.37 & 1.94\\
+Sean Hannity & 0.29 & 0.14 & 63 & 10311 & 163.67 & 33.59 & 95.13 & 16.59 & 13.41 & 4.79\\
+Rush Limbaugh & 0.37 & 0.12 & 78 & 152630 & 1,956.79 & 1,544.14 & 482.79 & 252.79 & 9.76 & 7.61\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
+
+\hypertarget{inferential-statistics-1}{%
+\subsection{Inferential Statistics}\label{inferential-statistics-1}}
+
+To analyze if news sources adhered to differences in word use based on their target audience, the researchers utilized a multilevel model (MLM) to analyze if news sources leveraged different vocabularies based on target audience. The researchers used the \emph{nlme} library in \emph{R} (Pinheiro et al., 2017). Each foundation's weighted percentage was predicted by the source's political lean, using the individual source as a random intercept to control for the nested data structure. Two separate MLMs were constructed from datasets compiled for each topic of interest: the Kavanaugh hearing and the partial government shutdown of 2018-2019.
+
+For the Kavanaugh topic, the multilevel model indicated the presence of a statistically significant effect for \emph{harm/care}, but the practical effect denoted by Cohen's \emph{d} was found to be small. There were no other significant or practical effects of political lean for any of the other four moral foundations. The effect for \emph{harm/care} was in the hypothesized direction with liberal sources tending to use more positively \emph{harm/care} words than conservative sources. Descriptive and test statistics, \emph{p}-values and effect sizes (Cohen's \emph{d}) can be found in Table \ref{tab:exp2-tablekav}.
+
+For news articles about the partial U.S. Federal Government Shutdown of 2018-2019, there were no significant or practical effects of political lean for the moral foundations. A small-to-medium effect size was observed for \emph{authority/respect}. The effect was in the predicted direction as well, as conservative sources tended to offer more positive endorsements of the foundation than liberal sources. This effect was similar to Experiment 1 in which the largest effect size was observed for \emph{authority/respect}. As noted before, the effect found in Experiment 1 was in the opposite direction as what was hypothesized. Thus, it is difficult to draw comparisons between the two studies despite the similar pattern for effect size. Owing to a lack of similar effects for either Experiment 1 or the Kavanaugh topic, there is doubt as to whether or not a practical or generalized effect exists for \emph{authority/respect}.
+
+Based on the weighted percent values for the five foundations applied to both topics, MFD words seem to make up little of the article text. A similar pattern was observed for the results in Experiment 1. As in Experiment 1, the percentages and means seem to indicate a generally positive endorsement of all five moral foundations across both political leanings.
+
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:exp2-tablekav}Kavanaugh Results - Multilevel Model}
+
+\begin{tabular}{lccccccc}
+\toprule
+Foundation & $M_C$ & $SD_C$ & $M_L$ & $SD_L$ & $t$ & $p$ & $d$\\
+\midrule
+Harm/Care & 0.39 & 1.35 & 0.66 & 1.35 & 2.89 & .020 & -0.19\\
+Fairness/Reciprocity & 1.26 & 1.27 & 1.06 & 1.27 & -1.58 & .154 & 0.16\\
+Ingroup/Loyalty & 1.15 & 1.22 & 1.06 & 1.22 & -0.63 & .549 & 0.07\\
+Authority/Respect & 0.85 & 0.99 & 0.75 & 0.99 & -0.93 & .380 & 0.10\\
+Purity/Sanctity & 0.90 & 1.28 & 1.06 & 1.28 & 0.88 & .406 & -0.11\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
+
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:exp2-tablegs}Government Shutdown Results - Multilevel Model}
+
+\begin{tabular}{lccccccc}
+\toprule
+Foundation & $M_C$ & $SD_C$ & $M_L$ & $SD_L$ & $t$ & $p$ & $d$\\
+\midrule
+Harm/Care & 0.91 & 1.27 & 1.01 & 1.27 & 1.68 & .132 & -0.07\\
+Fairness/Reciprocity & 1.22 & 1.05 & 0.91 & 1.05 & -0.76 & .468 & 0.27\\
+Ingroup/Loyalty & 1.38 & 1.16 & 1.11 & 1.16 & -0.48 & .644 & 0.21\\
+Authority/Respect & 0.87 & 1.24 & 0.36 & 1.24 & -1.38 & .203 & 0.37\\
+Purity/Sanctity & 1.29 & 1.13 & 0.99 & 1.13 & 0.03 & .979 & 0.22\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
+
+\hypertarget{discussion-1}{%
+\section{Discussion}\label{discussion-1}}
+
+The results obtained in Experiment 2 did not confirm either of the hypotheses. The researchers found little compelling evidence of an effect of partisan lean on MFD endorsement. The only significant effect was found for \emph{harm/care} in the Kavanaugh confirmation hearing dataset. While the effect was in the hypothesized direction (higher positive endorsement for liberal sources), the effect size was small. While there were no significant effects found for the government shutdown topic, a small-to-medium effect size was calculated for the \emph{authority/respect} foundation. Once again, the effect was in the hypothesized direction with conservative sources providing higher positive endorsements of the foundation relative to liberal sources.
+
+Both of these effects are consistent with both the research hypotheses as well as previous findings in Moral Foundations Theory scholarship. It should be noted these effects were found in isolation, and similar patterns were not found across the other studies. These findings undermine any inferences of political bias stemming from the content of news articles. The results obtained for Experiment 2 call into question the Moral Foundations Dictionary's efficacy as a tool for establishing differences between political news sources by partisan lean.
+
+\hypertarget{conclusions}{%
+\section{Conclusions}\label{conclusions}}
+
+Within the theoretical framework of Moral Foundations Theory (Haidt \& Graham, 2007), the researchers attempted to devise a method leveraging the Moral Foundations Dictionary (Graham et al., 2009) in order to quantify political bias stemming from content published by several prominent American news sources. The researchers downloaded news article text from the web, processed the text, matched it with the Moral Foundations Dictionary words, and calculated average valence for words in each article. To analyze the data, the researchers constructed multi-level models for each foundation in which weighted percentages were predicted by each source's political lean. Individual source was held as a random intercept to control for correlated error. This process was undertaken once in Experiment 1 for general political news and twice in Experiment 2 using articles pertaining to two specific topics in American news: Brett Kavanaugh's confirmation to the Supreme Court and the most recent (as of this writing) partial U.S. Government shutdown from December 2018 to January 2019.
+
+In Experiment 1, the researchers analyzed general political news articles from four prominent U.S. news sources: \emph{The New York Times}, \emph{NPR}, \emph{Fox News}, and \emph{Breitbart}. They hypothesized \emph{The New York Times} and \emph{NPR} would endorse moral foundations representative of liberal political views and that \emph{Fox News} and \emph{Breitbart} would endorse foundations indicative of conservative views. The researchers assigned a political lean (liberal or conservative) to the sources based upon consumer preferences established by Mitchell et al. (2014). After collecting the articles through web scraping, processing the article text, calculating percent occurrence of MFD words, and weighting that value by valence, the researchers constructed the MLM. The results obtained were not significant in any statistical or practical sense. There was a small effect found for the \emph{authority/respect} foundation according to Cohen's \emph{d}, but the effect suggested endorsement for that foundation opposite to what was hypothesized. The researchers viewed these results as an opportunity to alter their method for use in Experiment 2.
+
+In Experiment 2, the researchers adjusted their method in order to increase their potential ability to quantify political leanings in U.S. news sources. First, the researchers expanded the number of news sources from which articles were collected. They added \emph{Slate}, \emph{Politico}, and \emph{Huffington Post} to the list of liberal sources and \emph{The Blaze}, \emph{Rush Limbaugh}, and \emph{Sean Hannity} to the conservative sources. Once again, political bias groups were assigned based on Mitchell et al. (2014)'s findings. Second, they elected to collect articles and compile datasets pertaining to two specific topics in U.S. news: the Kavanaugh hearing and the government shutdown. These topics were chosen due to their relevance to multiple moral foundations. Other than those two alterations, the same method (scraping, processing, weighting, and multi-level modelling) was employed for Experiment 2.
+
+For articles pertaining to the Kavanaugh hearing, there was a statistically significant effect for \emph{harm/care}, but the effect size was modest. No other statistically or practically significant effects were found for the Kavanaugh topic. Likewise, there were no statistically or practically significant effects revealed for the government shutdown topic. However, there was a small-to-medium effect size for \emph{authority/respect}. The fact these patterns do not appear in any of the other studies undertaken herein decreases the researchers' ability to draw any valuable conclusions regarding the MFD's ability to reveal political bias in American news media.
+
+The results obtained in both experiments, while not confirmatory, provide several avenues for future investigation. Twice confronted with the failure to uncover differences in news media's political content, the researchers were unable to confirm the existence of an effect of political lean on American news writing under the auspices of Moral Foundations Theory. This does not, however, rule out the possibility that news media is biased. As Mitchell et al. (2014) has demonstrated, self-reported political partisans are drawn to separate sources, but the present research was unable to offer any content-based explanations of this phenomenon. Even when attenuating the scraping criteria to collect text concerning (what the researchers believed to be) morally resonant topics, the method failed to detect differences in MFD word use by prominent news sources. Given part of the researchers' goal with this study was to answer a method question, they must contemplate whether or not the method or the construct of interest (political lean) are the primary contributor to null results. Either the method used to detect lean was insufficient for this purpose, or political lean simply does not exist, indicating the presence of a true negative in the results.
+
+The researchers believe these results represent a false negative rather than a true negative. That is, we believe political lean exists, but that we have been unable to detect it at a content level. The researchers again turn to Mitchell et al. (2014)\enquote{s work in this area: political partisans prefer certain news outlets over others. There must be something about the sources} content that facilitates partisans' repeated usage. Otherwise, they might not express such loyalty to any one source (or group of sources) over others. Given this aspect of the news economy, the researchers still believe certain news outlets in the U.S. contain a political slant. The researchers' focus, therefore, turns toward the limitations of the method, especially the chosen theoretical framework, under which the present research was conducted.
+
+Despite the fact the results regarding political bias were inconclusive, the researchers still retain confidence in the overall structure of the methodology established in the current study. Specifically, the procedure for scraping text from the web, processing, stemming, and weighting the scores with valence seems to represent a solid method for preparing a high quantity of text passages for data analysis. The researchers implemented valence as an indicator of the directionality of endorsement due to the inherent ambiguity of simply calculating MFD word percent occurrence. This method served both to augment the face validity of the MFD by incorporating valence (thus reducing ambiguity) and to generate a score that is easy to understand and analyze.
+
+There remains an aspect of language which this method still cannot address: context. Owing to the presence of millions of words in the analyses presented in the current study, the researchers would be unable to check for context and correct endorsement scores accordingly. Graham et al. (2009) actually performed a process of human error-checking for context when formulating the MFD. While this might have helped that team fix mistakes made by the LIWC program (Pennebaker et al. (2007)), manual coding of this nature has the potential to introduce an unacceptable level of bias in the method, as perceptions of context would be dependent upon raters' interpretations and belief systems. Additionally, the numerous ways in which context affects meaning make it difficult to interpret MFD word occurrence outside of a narrow operational definition of \enquote{endorsement.} In fact, political lean may be communicated through methods other than through the use of particular words.
+
+One method through which news organizations might appeal to political partisans is through their content strategy rather than their use of MFD words. The results in the current study demonstrate a similar pattern of endorsement across both conservative and liberal sources. Specifically, the researchers found slightly positive endorsements for all five foundations no matter the political lean of the source. While this may simply be an indication of insufficient MFD word occurrence in news articles, it may also demonstrate truly equal endorsement despite political lean. While news organizations may endorse all moral foundations, they may also adopt strategies for doing so that appeal to the political partisans consuming their product. As an example, a liberal source might endorse \emph{purity/sanctity} through an appeal to reduce waste or pollution (i.e.~keeping the earth \enquote{clean}). A conservative source, on the other hand, might endorse \emph{purity/sanctity} through an argument in favor of abstinence or religious commitment (i.e.~keeping a \enquote{clean} soul, mind, or body). Both publications would register as positive endorsement of \emph{purity/sanctity} despite appropriating the concept for distinct purposes. Through these divergent strategies, liberal and conservative news organizations might be able to appeal to their fans while exhibiting similar levels of moral endorsement. This could represent a further weakness of the Moral Foundations Dictionary as an instrument, as it is unable to identify these potential strategies for communicating certain points of view.
+
+Thus, the researchers' attention turned to the instrument used to detect differences: the Moral Foundations Dictionary. As mentioned before, MFD is a measure developed from Moral Foundations Theory (Graham et al., 2009). Based upon the results obtained, it might be necessary to investigate alternative instruments that could better elucidate the differences of interest. Going beyond specific instruments, other theoretical perspectives may be more equipped to explain political differences in discourse. Likewise, an atheoretical approach in which large quantities of data are collected from which theories are formulated may be best suited to this area of research.
+
+Alternative instruments could be developed through the Linguistic Inquiry and Word Count program (LIWC) (Pennebaker et al., 2007). As stated before, the Moral Foundations Dictionary was established through an analysis of Christian sermons performed mostly with LIWC as well as some human-enforced corrections due to context (Graham et al., 2009). This approach was grounded in Moral Foundations Theory, a clear framework within which the authors developed the MFD. The original authors of the MFD established sound psychometric properties for the tool, implying its validity in several applications. For this reason, the researchers elected to utilize the MFD as their primary instrument.
+
+Instruments that improve upon the Moral Foundations Dictionary could theoretically be developed through a LIWC analysis. Researchers could obtain percent occurrence scores for words appearing in certain LIWC categories, which could then be weighted with valence scores from Warriner et al. (2013). The researchers will consider other applications of the LIWC in future studies aiming to analyze political content. Pennebaker et al. (2007) has suggested the program could be applied to analyses of cognitive, social, and emotional states. Furthermore, there is some evidence LIWC can be used to detect deception, but the reliability of the program's accuracy in this regard (67\%) calls this assertion into question (Pennebaker, 2011). Despite the promising extent of LIWC's abilities, without a firm theoretical foundation for such analyses, any such applications of LIWC would face serious questions as to their relevance, validity, and generalizability. Nevertheless, LIWC analyses may represent a path to further research into political differences in news media as well as theory formation.
+
+There is, however, another theoretical framework that could prove useful when applied to the method established in the present research. Relational Frame Theory originates in applied behavior analysis, but there exists recent scholarship that demonstrates its potential usefulness in the political realm. Relational Frame Theory (RFT) holds that stimuli, including speech and discourse, elicit responses in terms of relationships to other stimuli, even when the stimuli do not otherwise appear to be related (Blackledge, 2014). For example, an individual's equivalent fear response to a venomous snake as well as a wooded area said to \enquote{contain snakes} represents \enquote{mutual entailment.} That is, the fear response is an effect of both the snake and environment stimuli, which cause the fear response. \enquote{Combinatorial entailment} can be represented by a fear response elicited by a novel stimulus whose relationship to a well-known stimulus elicits a certain response (Blackledge, 2014). In the snake example, if another stimulus (Stimulus A), were said to be \enquote{worse than} the snake, the relationship between A and the snake would elicit a more severe fear response to Stimulus A. RFT utilizes a set of \enquote{families} describing the nature of these relationships. Such families include (among others) \enquote{coordinative,} establishing similarities between stimuli, \enquote{distinctive,} implying fundamental differences between stimuli, and \enquote{hierarchical,} implying a relation in terms of differing order or rank (Belisle, Paliliunas, Dixon, \& Tarbox, 2018). These families can be used to analyze networks of relational frames in discourse.
+
+Belisle et al. (2018) conducted a text analysis (using a computer algorithm) of several speeches made by four recent U.S. presidents under Relational Frame Theory. These speeches, representing prominent examples of political discourse, were found to differ in their use of relational frames. For example, speeches by Donald Trump were found to contain more distinctive frames than other presidents, while Barack Obama utilized more coordinative frames than his counterparts. According to Belisle et al. (2018), these observations imply President Obama, who employed more coordinative frames, utilized language emphasizing unity and similarity between people. Donald Trump, on the other hand emphasized differences and divisions between people through his use of distinctive frames (Belisle et al., 2018). At first glance, the differences appear to fall along party lines, though other factors may be involved as well. In any case, this research appears to indicate that RFT might be useful for analyzing political news content similar to the method employed in the current study.
+
+Another apparent strength of RFT is its demonstrated effectiveness in the analysis of political discourse. Unlike the development of the Moral Foundations Dictionary, this application of RFT was performed on public facing political discourse that might be more similar to news articles than the Christian sermons upon which the MFD was compiled. Additionally, there would likely be greater overlap between the speeches analyzed in Belisle et al. (2018)'s work and political news, as the media often quotes speeches by the president. Furthermore, the types or \enquote{families} of relational frames could be used as the individual constructs much like the moral foundations in the present research. In order to conform with the method established for this study, their occurrence would need to be scored, probably as a percent. This would allow for an intuitive approach to weighting by \emph{z}-scored valence if needed.
+
+While Relational Frame Theory appears to represent a viable option for further research into political news analysis, there are some drawbacks. First, RFT by itself does not purport to elucidate political differences in discourse, and its applications to political research are not yet well established. In other words, RFT represents one method by which to analyze political text by analyzing occurrence of particular frames. However, there exists the caveat that the frame families are not known to represent patterns of political ideology at this time. One of the main strengths of Moral Foundations Theory in the eyes of the researchers was that it is a theory under which endorsement patterns (direction and relationship) could be predicted based upon political affiliation. While the results obtained herein may weaken assumptions regarding the MFD's capabilities with political text, Moral Foundations Theory has been repeatedly established as a strong framework for detecting political differences along moral lines.
+
+In order to seriously consider RFT as a viable framework for this type of analysis, the researchers would like to be able to draw on further confirmatory evidence of the theory's utility in political discourse analysis. Specifically, analyses of more individuals than the four presidents addressed by Belisle et al. (2018) would be needed to further demonstrate RFT's applicability in this field. Also, though presidential speeches may be more similar to news articles than sermons, they are still a distinct form of discourse with different goals and audiences than news outlets. RFT's reliability across these forms appears to remain untested as of this writing. These potential shortcomings are testable and might be overcome through more research. As such, RFT's potential as a useful framework for political discourse analysis should not be discounted.
+
+Finally, future studies aiming to uncover political lean in discourse may benefit from a bottom-up, data-driven approach. Researchers might derive substantive insights into political lean through gathering data after which they may formulate theories that explain systematic observations obtained from that data. The availability of text corpora along with methods for extracting large amounts of text from the internet (as was demonstrated in the current study) potentially make this a feasible option. Likewise, there are several approaches to analyzing such data, including linear models (like multi-level models) and network-style models such as latent semantic analysis (Landauer, 1998). Owing to the wealth of representative data as well as the sophistication of current analytic tools, there is high potential for the explanatory power of new theories involving political discourse.
+
+The researchers aimed to utilize the Moral Foundations Dictionary and valence in the analysis of political news articles to determine whether or not bias was present. In Experiment 1, they tested general political news from four U.S. news sources - two liberal and two conservative. They were unable to find any significant evidence of political bias in that analysis. After adjusting the method to include more sources and specific topics for articles, including the Kavanaugh hearing and the government shutdown, the researchers were once again unable to uncover differences in MFD word use between conservative and liberal news sources. The results in the current study seem to demonstrate the MFD's weaknesses in applications to political discourse. MFD words simply might not appear often enough in news articles to register as endorsement for any particular moral foundation over the others. In future research, this weakness could be addressed through further alterations to the method, including alternative analyses using computer programs including LIWC, through a different theoretical perspective such as Relational Frame Theory, or through alternative strategies involving collecting data and drawing conclusions from which future theories may be derived.
+
+Never before has news media and discourse represented such fertile ground for psychological research. The plethora of options for news sources has created not only an abundance of choice but also vast quantities of text data. Along with this recent increase in the amount of text information, there is now an obligation on the part of researchers to devise proper methods for analyzing that text. Solid methodologies must be constructed and periodically improved to keep pace with evolving technologies. Likewise, a strong theoretical foundation is paramount to making sense of the current and future media ecosystem. Therefore, it is incumbent upon social scientists to continue investigating the information consumed by millions of Americans every day so that insights into the nature and consequences of political discourse can be more completely understood.
+
+\newpage
+
+\hypertarget{references}{%
+\section{References}\label{references}}
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-Aust2017}{}%
+Aust, F., \& Barth, M. (2017). papaja: Create APA manuscripts with R Markdown. Retrieved from \url{https://github.com/crsh/papaja}
+
+\leavevmode\hypertarget{ref-Axelrod2019}{}%
+Axelrod, T. (2019). Poll: Majority of Americans hold Trump and Republicans responsible for shutdown \textbar{} TheHill. Retrieved from \url{https://thehill.com/homenews/campaign/427007-poll-majority-of-americans-hold-trump-and-republicans-responsible-for}
+
+\leavevmode\hypertarget{ref-Belisle2018}{}%
+Belisle, J., Paliliunas, D., Dixon, M. R., \& Tarbox, J. (2018). Feasibility of contextual behavioral speech analyses of US presidents: Inaugural addresses of Bill Clinton, George W. Bush, Barack Obama, and Donald Trump, 1993--2017. \emph{Journal of Contextual Behavioral Science}, \emph{10}(July), 14--18. doi:\href{https://doi.org/10.1016/j.jcbs.2018.07.002}{10.1016/j.jcbs.2018.07.002}
+
+\leavevmode\hypertarget{ref-Blackledge2014}{}%
+Blackledge, J. T. (2014). An introduction to relational frame theory: Basics and applications. \emph{The Behavior Analyst Today}, \emph{3}(4), 421--433. doi:\href{https://doi.org/10.1037/h0099997}{10.1037/h0099997}
+
+\leavevmode\hypertarget{ref-Bradley1999}{}%
+Bradley, M. M., \& Lang, P. J. (1999). \emph{Affective Norms for English Words (ANEW): Instruction manual and affective ratings} (No. C-1). The Center for Research in Psychophysiology, University of Florida.
+
+\leavevmode\hypertarget{ref-Cameron2006}{}%
+Cameron, D. (2006). Ideology and language. \emph{Journal of Political Ideologies}, \emph{11}(2), 141--152. doi:\href{https://doi.org/10.1080/13569310600687916}{10.1080/13569310600687916}
+
+\leavevmode\hypertarget{ref-Clinton2014}{}%
+Clinton, J. D., \& Enamorado, T. (2014). The national news media's effect on Congress: How Fox News affected elites in Congress. \emph{The Journal of Politics}, \emph{76}(4), 928--943. doi:\href{https://doi.org/10.1017/S0022381614000425}{10.1017/S0022381614000425}
+
+\leavevmode\hypertarget{ref-Davies2014}{}%
+Davies, C. L., Sibley, C. G., \& Liu, J. H. (2014). Confirmatory factor analysis of the moral foundations questionnaire independent scale validation in a new zealand sample. \emph{Social Psychology}, \emph{45}(6), 431--436. doi:\href{https://doi.org/10.1027/1864-9335/a000201}{10.1027/1864-9335/a000201}
+
+\leavevmode\hypertarget{ref-Druckman2004}{}%
+Druckman, J. N., Jacobs, L. R., \& Ostermeier, E. (2004). Candidate strategies to prime issues and image. \emph{The Journal of Politics}, \emph{66}(4), 1180--1202. doi:\href{https://doi.org/10.1111/j.0022-3816.2004.00295.x}{10.1111/j.0022-3816.2004.00295.x}
+
+\leavevmode\hypertarget{ref-Feinerer2017}{}%
+Feinerer, I., \& Hornik, K. (2017). Text mining package. Retrieved from \url{http://tm.r-forge.r-project.org/}
+
+\leavevmode\hypertarget{ref-Gelman2006}{}%
+Gelman, A. (2006). Multilevel (hierarchical) modeling: What it can and cannot do. \emph{Technometrics}, \emph{48}(3), 432--435. doi:\href{https://doi.org/10.1198/004017005000000661}{10.1198/004017005000000661}
+
+\leavevmode\hypertarget{ref-Gilligan1982}{}%
+Gilligan, C. (1982). New maps of development: New visions of maturity. \emph{American Journal of Orthopsychiatry}, \emph{52}(2), 199--212. doi:\href{https://doi.org/10.1111/j.1939-0025.1982.tb02682.x}{10.1111/j.1939-0025.1982.tb02682.x}
+
+\leavevmode\hypertarget{ref-Graham2009}{}%
+Graham, J., Haidt, J., \& Nosek, B. A. (2009). Liberals and conservatives rely on different sets of moral foundations. \emph{Journal of Personality and Social Psychology}, \emph{96}(5), 1029--1046. doi:\href{https://doi.org/10.1037/a0015141}{10.1037/a0015141}
+
+\leavevmode\hypertarget{ref-Graham2011}{}%
+Graham, J., Nosek, B. A., Haidt, J., Iyer, R., Koleva, S., \& Ditto, P. H. (2011). Mapping the moral domain. \emph{Journal of Personality and Social Psychology}, \emph{101}(2), 366--385. doi:\href{https://doi.org/10.1037/a0021847}{10.1037/a0021847}
+
+\leavevmode\hypertarget{ref-Haidt2007}{}%
+Haidt, J., \& Graham, J. (2007). When morality opposes justice: Conservatives have moral intuitions that Liberals may not recognize. \emph{Social Justice Research}, \emph{20}(1), 98--116. doi:\href{https://doi.org/10.1007/s11211-007-0034-z}{10.1007/s11211-007-0034-z}
+
+\leavevmode\hypertarget{ref-Jordan2019}{}%
+Jordan, K. N., Buchanan, E. M., \& Padfield, W. E. (2019). \emph{A validation of the Moral Foundations Questionnaire and Dictionary}. Retrieved from \url{https://osf.io/kt9yf/}
+
+\leavevmode\hypertarget{ref-Kheel2019}{}%
+Kheel, R., \& Mitchell, E. (2019). Overnight Defense: Trump agrees to reopen government without wall funding \textbar{} Senate approves stopgap spending \textbar{} Dems ask Armed Services chair to block military funding for wall \textbar{} Coast Guard official assures workers they will receive back pay \textbar{} TheHill. Retrieved from \url{https://thehill.com/policy/defense/overnights/427045-overnight-defense-trump-agrees-to-reopen-government-without-wall}
+
+\leavevmode\hypertarget{ref-Kincaid1975}{}%
+Kincaid, J. P., Fishburne, J., Robert P., R., Richard L., C., \& Brad S. (1975). Derivation of New Readability Formulas (Automated Readability Index, Fog Count and Flesch Reading Ease Formula) for Navy Enlisted Personnel. doi:\href{https://doi.org/10.21236/ADA006655}{10.21236/ADA006655}
+
+\leavevmode\hypertarget{ref-Kohlberg1977}{}%
+Kohlberg, L., \& Hersh, R. H. (1977). Moral development: A review of the theory. \emph{Theory into Practice}, \emph{16}(2), 53--59. doi:\href{https://doi.org/10.1080/00405847709542675}{10.1080/00405847709542675}
+
+\leavevmode\hypertarget{ref-Kuperman2014}{}%
+Kuperman, V., Estes, Z., Brysbaert, M., \& Warriner, A. B. (2014). Emotion and language: Valence and arousal affect word recognition. \emph{Journal of Experimental Psychology: General}, \emph{143}(3), 1065--1081. doi:\href{https://doi.org/10.1037/a0035669}{10.1037/a0035669}
+
+\leavevmode\hypertarget{ref-Kuperman2012}{}%
+Kuperman, V., Stadthagen-Gonzalez, H., \& Brysbaert, M. (2012). Age-of-acquisition ratings for 30,000 English words. \emph{Behavior Research Methods}, \emph{44}(4), 978--990. doi:\href{https://doi.org/10.3758/s13428-012-0210-4}{10.3758/s13428-012-0210-4}
+
+\leavevmode\hypertarget{ref-Landauer1998}{}%
+Landauer, T. K. (1998). Learning and Representing Verbal Meaning. \emph{Current Directions in Psychological Science}, \emph{7}(5), 161--164. doi:\href{https://doi.org/10.1111/1467-8721.ep10836862}{10.1111/1467-8721.ep10836862}
+
+\leavevmode\hypertarget{ref-Martin2019}{}%
+Martin, M. (2019). The Moral Question Of Trump's Border Wall : NPR. NPR. Retrieved from \url{https://www.npr.org/2019/01/27/689191255/the-morality-question-of-trump-s-border-wall}
+
+\leavevmode\hypertarget{ref-Mitchell2014}{}%
+Mitchell, A., Matsa, K. E., Gottfried, J., \& Kiley, J. (2014). Political polarization \& media habits \textbar{} Pew Research Center. Retrieved from \url{http://www.journalism.org/2014/10/21/political-polarization-media-habits/}
+
+\leavevmode\hypertarget{ref-New2007}{}%
+New, B., Brysbaert, M., Veronis, J., \& Pallier, C. (2007). The use of film subtitles to estimate word frequencies. \emph{Applied Psycholinguistics}, \emph{28}(4), 661--677. doi:\href{https://doi.org/10.1017/S014271640707035X}{10.1017/S014271640707035X}
+
+\leavevmode\hypertarget{ref-OConnell2018}{}%
+O'Connell, M. (2018). Ford-Kavanaugh Ratings: Hearing Brings 20 Million viewers to cable and broadcast \textbar{} Hollywood Reporter. Retrieved from \url{https://www.hollywoodreporter.com/live-feed/ford-kavanaugh-ratings-hearing-brings-20-million-viewers-cable-broadcast-1147785}
+
+\leavevmode\hypertarget{ref-Pashler2012}{}%
+Pashler, H., Coburn, N., \& Harris, C. R. (2012). Priming of Social Distance? Failure to Replicate Effects on Social and Food Judgments. \emph{PLoS ONE}, \emph{7}(8). doi:\href{https://doi.org/10.1371/journal.pone.0042510}{10.1371/journal.pone.0042510}
+
+\leavevmode\hypertarget{ref-Pennebaker2011}{}%
+Pennebaker, J. W. (2011). Using computer analyses to identify language style and aggressive intent: The secret life of function words. \emph{Dynamics of Asymmetric Conflict}, \emph{4}(2), 92--102. doi:\href{https://doi.org/10.1080/17467586.2011.627932}{10.1080/17467586.2011.627932}
+
+\leavevmode\hypertarget{ref-Pennebaker2007}{}%
+Pennebaker, J. W., Booth, R. J., \& Frances, M. E. (2007). Liwc2007: Linguistic inquiry and word count. Austin, TX.
+
+\leavevmode\hypertarget{ref-Peoples2019}{}%
+Peoples, S., \& Swanson, E. (2019, January). Trump's approval rating sinks in new poll as he gets most blame for shutdown. Chicago.
+
+\leavevmode\hypertarget{ref-Pinheiro2017}{}%
+Pinheiro, J., Bates, D., Debroy, S., Sarkar, D., \& Team, R. C. (2017). nlme: Linear and nonlinear mixed effects models. Retrieved from \url{https://cran.r-project.org/package=nlme}
+
+\leavevmode\hypertarget{ref-Schmidt2017}{}%
+Schmidt, M. F., Gonzalez-Cabrera, I., \& Tomasello, M. (2017). Children's developing metaethical judgments. \emph{Journal of Experimental Child Psychology}, \emph{164}, 163--177. doi:\href{https://doi.org/10.1016/j.jecp.2017.07.008}{10.1016/j.jecp.2017.07.008}
+
+\leavevmode\hypertarget{ref-Suhler2011}{}%
+Suhler, C. L., Churchland, P., \& Joseph, C. (2011). Can Innate , Modular `` Foundations '' Explain Morality ? Challenges for Haidt's Moral Foundations Theory. \emph{Journal of Cognitive Neuroscience}, \emph{23}(9), 2103--2116.
+
+\leavevmode\hypertarget{ref-USGovernment2018b}{}%
+US Government. (2018a). Congressional Record. \emph{Congressional Record}, \emph{164}(146), 46. doi:\href{https://doi.org/10.1097/00017285-197507000-00018}{10.1097/00017285-197507000-00018}
+
+\leavevmode\hypertarget{ref-USGovernment2018}{}%
+US Government. (2018b). Congressional Record. \emph{Congressional Record}, \emph{164}(160), 93. doi:\href{https://doi.org/10.1097/00017285-197507000-00018}{10.1097/00017285-197507000-00018}
+
+\leavevmode\hypertarget{ref-USGovernment2018a}{}%
+US Government. (2018c). Congressional Record. \emph{Congressional Record}, \emph{164}(167), 14. doi:\href{https://doi.org/10.1097/00017285-197507000-00018}{10.1097/00017285-197507000-00018}
+
+\leavevmode\hypertarget{ref-Warriner2015}{}%
+Warriner, A. B., \& Kuperman, V. (2015). Affective biases in English are bi-dimensional. \emph{Cognition and Emotion}, \emph{29}(7), 1147--1167. doi:\href{https://doi.org/10.1080/02699931.2014.968098}{10.1080/02699931.2014.968098}
+
+\leavevmode\hypertarget{ref-Warriner2013}{}%
+Warriner, A. B., Kuperman, V., \& Brysbaert, M. (2013). Norms of valence, arousal, and dominance for 13,915 English lemmas. \emph{Behavior Research Methods}, \emph{45}(4), 1191--1207. doi:\href{https://doi.org/10.3758/s13428-012-0314-x}{10.3758/s13428-012-0314-x}
+
+\leavevmode\hypertarget{ref-Wickham2016}{}%
+Wickham, H. (2016). Package ` rvest '. Retrieved from \url{https://cran.r-project.org/package=rvest}
+
+\leavevmode\hypertarget{ref-Williams2008}{}%
+Williams, L. E., \& Bargh, J. A. (2008). Keeping one's distance. \emph{Psychological Science}, \emph{19}(3), 302--308. doi:\href{https://doi.org/10.1111/j.1467-9280.2008.02084.x}{10.1111/j.1467-9280.2008.02084.x}
+
+\endgroup
+
+\newpage
+
+\hypertarget{appendix}{%
+\section{Appendix}\label{appendix}}
+
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:appendix_mfd}Moral Foundations Dictionary}
+
+\small{
+
+\begin{tabular}{lcccc}
+\toprule
+Harm/Care & Fairness/Reciprocity & Ingroup/Loyalty & Authority/Respect & Purity/Sanctity\\
+\midrule
+abuse & balance & collect & abide & abstain\\
+attack & bias & community & authority & adultery\\
+benefit & constant & deceive & class & church\\
+care & discriminate & desert & command & clean\\
+cruel & equal & family & control & dirt\\
+crush & equate & fellow & defect & disease\\
+damage & even & foreign & defer & disgust\\
+danger & exclude & group & defy & gross\\
+defend & fair & individual & desert & innocent\\
+destroy & favor & member & duty & modest\\
+fight & honest & nation & faith & preserve\\
+guard & impartial & side & father & promiscuous\\
+harm & just & together & honor & pure\\
+hurt & justify & trait & law & right\\
+kill & prefer & unite & lead & ruin\\
+preserve & prejudice &  & legal & sacred\\
+protect & reason &  & mother & sick\\
+ruin & right &  & obey & sin\\
+safe & tolerate &  & oppose & trash\\
+shelter &  &  & order & whole\\
+spurn &  &  & permit & \\
+stomp &  &  & position & \\
+suffer &  &  & preserve & \\
+sympathy &  &  & protest & \\
+violent &  &  & refuse & \\
+war &  &  & respect & \\
+ &  &  & revere & \\
+ &  &  & serve & \\
+ &  &  & tradition & \\
+ &  &  & trait & \\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Original Moral Foundations Dictionary from Graham et al. (2009)}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
+
+
+\end{document}
