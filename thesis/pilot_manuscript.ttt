@@ -1,0 +1,270 @@
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:exp1-source-descriptives}Experiment 1 - Descriptive Statistics by Source}
+
+\begin{tabular}{lcccccclccc}
+\toprule
+Source & $M_V$ & $SD_V$ & $N_{Article}$ & $N_{Words}$ & $M_T$ & $SD_T$ & $M_{Ty}$ & $SD_{Ty}$ & $M_{FK}$ & $SD_{FK}$\\
+\midrule
+NPR & 0.28 & 0.23 & 695 & 302977 & 435.94 & 642.63 & 191.96 & 192.29 & 13.81 & 3.93\\
+New York Times & 0.30 & 0.13 & 406 & 452579 & 1,114.73 & 511.86 & 454.27 & 154.58 & 16.33 & 3.30\\
+Breitbart & 0.29 & 0.18 & 1437 & 722022 & 502.45 & 347.90 & 243.36 & 120.76 & 18.43 & 8.02\\
+Fox News & 0.29 & 0.17 & 503 & 296779 & 590.02 & 528.60 & 283.57 & 189.00 & 16.93 & 7.17\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
+\efloatseparator
+ 
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:exp1-table}Experiment 1 Results - Multilevel Model}
+
+\begin{tabular}{lccccccc}
+\toprule
+Foundation & $M_C$ & $SD_C$ & $M_L$ & $SD_L$ & $t$ & $p$ & $d$\\
+\midrule
+Harm/Care & 0.50 & 2.21 & 0.49 & 2.21 & -0.21 & .850 & 0.01\\
+Fairness/Reciprocity & 1.13 & 1.38 & 1.11 & 1.38 & -0.42 & .715 & 0.02\\
+Ingroup/Loyalty & 1.28 & 1.63 & 1.34 & 1.63 & 0.30 & .789 & -0.04\\
+Authority/Respect & 0.72 & 1.62 & 1.06 & 1.62 & 3.17 & .087 & -0.20\\
+Purity/Sanctity & 1.11 & 1.48 & 1.27 & 1.48 & 2.37 & .141 & -0.09\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
+\efloatseparator
+ 
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:exp2-source-descriptives-kav}Kavanaugh - Descriptive Statistics by Source}
+
+\small{
+
+\begin{tabular}{lcccccclccc}
+\toprule
+Source & $M_V$ & $SD_V$ & $N_{Article}$ & $N_{Words}$ & $M_T$ & $SD_T$ & $M_{Ty}$ & $SD_{Ty}$ & $M_{FK}$ & $SD_{FK}$\\
+\midrule
+Huffington Post & 0.27 & 0.12 & 552 & 359046 & 650.45 & 462.21 & 283.07 & 129.23 & 10.80 & 1.91\\
+NPR & 0.22 & 0.25 & 366 & 108605 & 296.73 & 499.10 & 128.12 & 172.51 & 12.49 & 3.62\\
+New York Times & 0.33 & 0.13 & 653 & 723569 & 1,108.07 & 570.31 & 461.26 & 174.20 & 10.56 & 2.10\\
+Politico & 0.32 & 0.10 & 689 & 1069292 & 1,551.95 & 1,045.47 & 614.66 & 358.68 & 12.09 & 2.60\\
+Slate & 0.29 & 0.12 & 272 & 229896 & 845.21 & 612.22 & 332.42 & 168.17 & 12.35 & 2.47\\
+The Blaze & 0.25 & 0.13 & 277 & 128097 & 462.44 & 149.66 & 210.52 & 53.14 & 10.83 & 1.87\\
+Breitbart & 0.30 & 0.13 & 757 & 375848 & 496.50 & 609.91 & 230.03 & 153.62 & 11.04 & 2.17\\
+Fox News & 0.29 & 0.11 & 646 & 1304048 & 2,018.65 & 2,709.77 & 534.47 & 404.21 & 9.70 & 1.87\\
+Sean Hannity & 0.31 & 0.11 & 27 & 5926 & 219.48 & 145.98 & 121.04 & 57.26 & 11.89 & 2.37\\
+Rush Limbaugh & 0.38 & 0.13 & 172 & 267067 & 1,552.72 & 1,258.51 & 419.00 & 225.80 & 9.42 & 9.26\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
+\efloatseparator
+ 
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:exp2-source-descriptives-gs}Government Shutdown - Descriptive Statistics by Source}
+
+\small{
+
+\begin{tabular}{lcccccclccc}
+\toprule
+Source & $M_V$ & $SD_V$ & $N_{Article}$ & $N_{Words}$ & $M_T$ & $SD_T$ & $M_{Ty}$ & $SD_{Ty}$ & $M_{FK}$ & $SD_{FK}$\\
+\midrule
+Huffington Post & 0.30 & 0.13 & 432 & 242220 & 560.69 & 425.52 & 258.27 & 130.54 & 10.69 & 1.84\\
+NPR & 0.23 & 0.22 & 434 & 151114 & 348.19 & 457.34 & 155.53 & 171.30 & 11.19 & 3.15\\
+New York Times & 0.33 & 0.13 & 751 & 831184 & 1,106.77 & 506.92 & 471.80 & 174.88 & 11.28 & 2.19\\
+Politico & 0.29 & 0.10 & 222 & 349499 & 1,574.32 & 875.63 & 638.32 & 313.34 & 11.29 & 1.24\\
+Slate & 0.30 & 0.12 & 117 & 85254 & 728.67 & 464.34 & 301.71 & 138.74 & 11.86 & 2.51\\
+The Blaze & 0.26 & 0.13 & 98 & 38983 & 397.79 & 102.10 & 185.66 & 41.93 & 10.69 & 1.85\\
+Breitbart & 0.34 & 0.15 & 309 & 102886 & 332.96 & 238.70 & 168.31 & 81.59 & 10.72 & 2.05\\
+Fox News & 0.35 & 0.13 & 1013 & 2799217 & 2,763.29 & 3,405.44 & 637.30 & 494.00 & 9.37 & 1.94\\
+Sean Hannity & 0.29 & 0.14 & 63 & 10311 & 163.67 & 33.59 & 95.13 & 16.59 & 13.41 & 4.79\\
+Rush Limbaugh & 0.37 & 0.12 & 78 & 152630 & 1,956.79 & 1,544.14 & 482.79 & 252.79 & 9.76 & 7.61\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
+\efloatseparator
+ 
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:exp2-tablekav}Kavanaugh Results - Multilevel Model}
+
+\begin{tabular}{lccccccc}
+\toprule
+Foundation & $M_C$ & $SD_C$ & $M_L$ & $SD_L$ & $t$ & $p$ & $d$\\
+\midrule
+Harm/Care & 0.39 & 1.35 & 0.66 & 1.35 & 2.89 & .020 & -0.19\\
+Fairness/Reciprocity & 1.26 & 1.27 & 1.06 & 1.27 & -1.58 & .154 & 0.16\\
+Ingroup/Loyalty & 1.15 & 1.22 & 1.06 & 1.22 & -0.63 & .549 & 0.07\\
+Authority/Respect & 0.85 & 0.99 & 0.75 & 0.99 & -0.93 & .380 & 0.10\\
+Purity/Sanctity & 0.90 & 1.28 & 1.06 & 1.28 & 0.88 & .406 & -0.11\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
+\efloatseparator
+ 
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:exp2-tablegs}Government Shutdown Results - Multilevel Model}
+
+\begin{tabular}{lccccccc}
+\toprule
+Foundation & $M_C$ & $SD_C$ & $M_L$ & $SD_L$ & $t$ & $p$ & $d$\\
+\midrule
+Harm/Care & 0.91 & 1.27 & 1.01 & 1.27 & 1.68 & .132 & -0.07\\
+Fairness/Reciprocity & 1.22 & 1.05 & 0.91 & 1.05 & -0.76 & .468 & 0.27\\
+Ingroup/Loyalty & 1.38 & 1.16 & 1.11 & 1.16 & -0.48 & .644 & 0.21\\
+Authority/Respect & 0.87 & 1.24 & 0.36 & 1.24 & -1.38 & .203 & 0.37\\
+Purity/Sanctity & 1.29 & 1.13 & 0.99 & 1.13 & 0.03 & .979 & 0.22\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
+\efloatseparator
+ 
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:appendix_mfd}Moral Foundations Dictionary}
+
+\small{
+
+\begin{tabular}{lcccc}
+\toprule
+Harm/Care & Fairness/Reciprocity & Ingroup/Loyalty & Authority/Respect & Purity/Sanctity\\
+\midrule
+abuse & balance & collect & abide & abstain\\
+attack & bias & community & authority & adultery\\
+benefit & constant & deceive & class & church\\
+care & discriminate & desert & command & clean\\
+cruel & equal & family & control & dirt\\
+crush & equate & fellow & defect & disease\\
+damage & even & foreign & defer & disgust\\
+danger & exclude & group & defy & gross\\
+defend & fair & individual & desert & innocent\\
+destroy & favor & member & duty & modest\\
+fight & honest & nation & faith & preserve\\
+guard & impartial & side & father & promiscuous\\
+harm & just & together & honor & pure\\
+hurt & justify & trait & law & right\\
+kill & prefer & unite & lead & ruin\\
+preserve & prejudice &  & legal & sacred\\
+protect & reason &  & mother & sick\\
+ruin & right &  & obey & sin\\
+safe & tolerate &  & oppose & trash\\
+shelter &  &  & order & whole\\
+spurn &  &  & permit & \\
+stomp &  &  & position & \\
+suffer &  &  & preserve & \\
+sympathy &  &  & protest & \\
+violent &  &  & refuse & \\
+war &  &  & respect & \\
+ &  &  & revere & \\
+ &  &  & serve & \\
+ &  &  & tradition & \\
+ &  &  & trait & \\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Original Moral Foundations Dictionary from Graham et al. (2009)}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
+\efloatseparator
+ 
