@@ -63,6 +63,11 @@ classoption       : "man"
 output            : papaja::apa6_pdf
 ---
 
+TO-DO LIST:
+1. Introduction/Lit Review for new direction using LIWC instead of MFD (KJ)
+2. Write Methods by combine data from Will's thesis and bootstrap method from LangofWar (EB)
+
+
 ```{r setup, include = FALSE}
 #install.packages(c("devtools", "rio", "forestplot", "nlme", "MOTE", "tools"))
 #devtools::install_github("crsh/papaja")
@@ -73,8 +78,8 @@ library(nlme)
 library(MOTE)
 library(tools)
 
-#setwd('C:/Users/kayla/Documents/GitHub/Will-Pilot/manuscript')
-nsim = 10
+setwd('C:/Users/kayla/Documents/GitHub/Will-Pilot/manuscript')
+nsim = 100
 
 ####make the table for study 1####
 table1 = matrix(NA, ncol = 12, nrow = 23)
@@ -208,17 +213,101 @@ exp2 <- import("exp2_merged data_LIWC.csv")
 colnames(exp2)[1:5] = c('Source', 'URL', 'Text', 'Event', 'PartisanLean')
 
 # Eliminate Missing Data
+exp2 <- na.omit(exp2)
 
 #subset with Event=='gs'
 exp2_gs <- subset(exp2, Event == "gs")
 
+# Create group labels
+exp2_gs$PartisanLean = ifelse(exp2_gs$PartisanLean=='Conservative', 0, 1)
+
+# Create IVs and DVs
+groups = c(0, 1)
+DVs = c('Analytic','Clout','Authentic','Tone','WPS','Sixltr','anger','social','family','female','male','cogproc','affiliation','achieve','power','reward','risk','focuspast','focuspresent','focusfuture','money','relig','death')
+
+# Loop over the DVs and create values 
+# This saves the difference between groups
+r = 1
+for(DV in DVs){
+  for(group in groups){
+    data = subset(exp2_gs, PartisanLean==group) #data name
+    f = as.formula(paste(DV,'~1', sep=''))
+    bs = bootstrap_values(f,data,nsim)
+    table2[r, 1] = DV
+    if(group==0){
+      table2[r, 2] = mean(bs$mean) #table name all the way down 
+      table2[r, 3] = mean(bs$sd)
+      ncon = length(na.omit(data[[DV]]))
+      table2[r, 9] = quantile(bs$mean, 0.025)
+      table2[r, 10] = quantile(bs$mean, 0.975)
+    }
+    if(group==1){
+      table2[r, 4] = mean(bs$mean)
+      table2[r, 5] = mean(bs$sd)
+      nlib = length(na.omit(data[[DV]]))
+      table2[r, 11] = quantile(bs$mean, 0.025)
+      table2[r, 12] = quantile(bs$mean, 0.975)
+    }
+  }
+  mdiff = d.ind.t(m1 = table2[r,2], m2 = table2[r,4], 
+                sd1 = table2[r,3], sd2 = table2[r,5],
+                n1 = ncon, 
+                n2 = nlib, 
+                a = .05)
+  table2[r, 6] = mdiff$d
+  table2[r, 7] = mdiff$dlow
+  table2[r, 8] = mdiff$dhigh
+  r = r + 1
+}
 
 ```
 
 ```{r bootstrap-study-2-kavanaugh-hearings}
 
 #subset with Event=='kav'
-exp2_kav ... 
+exp2_kav  <- subset(exp2, Event == "kav")
+
+# Create group labels
+exp2_kav$PartisanLean = ifelse(exp2_kav$PartisanLean=='Conservative', 0, 1)
+
+# Create IVs and DVs
+groups = c(0, 1)
+DVs = c('Analytic','Clout','Authentic','Tone','WPS','Sixltr','anger','social','family','female','male','cogproc','affiliation','achieve','power','reward','risk','focuspast','focuspresent','focusfuture','money','relig','death')
+
+# Loop over the DVs and create values 
+# This saves the difference between groups
+r = 1
+for(DV in DVs){
+  for(group in groups){
+    data = subset(exp2_kav, PartisanLean==group) #data name
+    f = as.formula(paste(DV,'~1', sep=''))
+    bs = bootstrap_values(f,data,nsim)
+    table3[r, 1] = DV
+    if(group==0){
+      table3[r, 2] = mean(bs$mean) #table name all the way down 
+      table3[r, 3] = mean(bs$sd)
+      ncon = length(na.omit(data[[DV]]))
+      table3[r, 9] = quantile(bs$mean, 0.025)
+      table3[r, 10] = quantile(bs$mean, 0.975)
+    }
+    if(group==1){
+      table3[r, 4] = mean(bs$mean)
+      table3[r, 5] = mean(bs$sd)
+      nlib = length(na.omit(data[[DV]]))
+      table3[r, 11] = quantile(bs$mean, 0.025)
+      table3[r, 12] = quantile(bs$mean, 0.975)
+    }
+  }
+  mdiff = d.ind.t(m1 = table3[r,2], m2 = table3[r,4], 
+                sd1 = table3[r,3], sd2 = table3[r,5],
+                n1 = ncon, 
+                n2 = nlib, 
+                a = .05)
+  table3[r, 6] = mdiff$d
+  table3[r, 7] = mdiff$dlow
+  table3[r, 8] = mdiff$dhigh
+  r = r + 1
+}
 ```
 
 
