@@ -79,3 +79,11 @@ top_terms %>%
   coord_flip()
 ```
 
+```{r}
+LDA_gamma <- as.data.frame(tidy(LDA_fit, matrix = "gamma"))
+LDA_gamma <- reshape(LDA_gamma, idvar = 'document', timevar = 'topic', direction = 'wide')
+
+DF$document <- row.names(DF)
+LDA_topics <- merge(DF, LDA_gamma, by = 'document')
+```
+
