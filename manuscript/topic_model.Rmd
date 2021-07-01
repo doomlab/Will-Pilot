@@ -1,0 +1,81 @@
+---
+title: "Topic Model"
+author: "Erin M. Buchanan"
+date: "7/1/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Libraries
+
+```{r}
+library(topicmodels)
+library(rio)
+library(tm)
+library(slam)
+library(ggplot2)
+library(tidyverse)
+library(tidytext)
+library(dplyr)
+```
+
+## Data
+
+```{r}
+DF <- import("finaldata_LIWC.csv")
+```
+
+## Text Cleaning
+
+```{r}
+DF$clean <- removeNumbers(DF$Text)
+DF$clean <- removePunctuation(DF$clean)
+DF$clean <- removeWords(DF$clean, stopwords(kind = "SMART"))
+DF$clean <- tolower(DF$clean)
+DF$clean <- gsub("[[:punct:]]", " ", DF$clean)
+DF$clean <- gsub("\n", " ", DF$clean)
+```
+
+## Topic Model
+
+```{r}
+import_corpus <- Corpus(VectorSource(DF$clean))
+import_matrix <- DocumentTermMatrix(import_corpus)
+import_weight <- tapply(import_matrix$v/row_sums(import_matrix)[import_matrix$i], 
+                       import_matrix$j, 
+                       mean) *
+  log2(nDocs(import_matrix)/col_sums(import_matrix > 0))
+
+import_matrix <- import_matrix[ row_sums(import_matrix) > 0, ]
+
+k <- 10 
+SEED <- 58934
+
+LDA_fit <- LDA(import_matrix, k = k, 
+              control = list(seed = SEED))
+```
+
+## Results
+
+```{r}
+terms(LDA_fit,20)
+
+LDA_fit_topics <- tidy(LDA_fit, matrix = "beta")
+top_terms <- LDA_fit_topics %>%
+   group_by(topic) %>%
+   top_n(15, beta) %>%
+   ungroup() %>%
+   arrange(topic, -beta)
+
+top_terms %>%
+  mutate(term = reorder(term, beta)) %>%
+  ggplot(aes(term, beta, fill = factor(topic))) +
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  theme_classic() +
+  coord_flip()
+```
+
