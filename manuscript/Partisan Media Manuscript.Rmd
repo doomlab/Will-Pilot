@@ -81,6 +81,11 @@ TO-DO LIST:
 1. Introduction/Lit Review for new direction using LIWC instead of MFD (KJ)
 2. Write Methods by combine data from Will's thesis and bootstrap method from LangofWar (EB)
 
+Ever increasing attention is being paid to the impacts of partisanship on how people give and receive political information. The style and content of political information can be quantified in many ways, and one of those ways is motivation. 
+
+In the current study, we explore the motivations of partisan media coverage through the lens of McClelland's classic theory of motivation. 
+
+
 
 ```{r setup, include = FALSE}
 #install.packages(c("devtools", "rio", "forestplot", "nlme", "MOTE", "tools"))
@@ -95,7 +100,7 @@ library(tools)
 nsim = 100
 
 ####make the table for study 1####
-table1 = matrix(NA, ncol = 12, nrow = 23)
+table1 = matrix(NA, ncol = 12, nrow = 10)
 colnames(table1) = c("DV", "Mconservative", 
                      "SDconservative", "Mliberal", "SDliberal", 
                      "d", "dlow", "dhigh", "bcilowC", "bcihighC", 
@@ -103,7 +108,7 @@ colnames(table1) = c("DV", "Mconservative",
 table1 = as.data.frame(table1)
 
 ####make the table for study 2: government shutdown####
-table2 = matrix(NA, ncol = 12, nrow = 23)
+table2 = matrix(NA, ncol = 12, nrow = 10)
 colnames(table2) = c("DV", "Mconservative", 
                      "SDconservative", "Mliberal", "SDliberal", 
                      "d", "dlow", "dhigh", "bcilowC", "bcihighC", 
@@ -111,7 +116,7 @@ colnames(table2) = c("DV", "Mconservative",
 table2 = as.data.frame(table2)
 
 ####make the table for study 2: Kavanaugh Hearings####
-table3 = matrix(NA, ncol = 12, nrow = 23)
+table3 = matrix(NA, ncol = 12, nrow = 10)
 colnames(table3) = c("DV", "Mconservative", 
                      "SDconservative", "Mliberal", "SDliberal", 
                      "d", "dlow", "dhigh", "bcilowC", "bcihighC", 
@@ -482,7 +487,7 @@ exp1$PartisanLean = ifelse(exp1$PartisanLean=='Conservative', 0, 1)
 
 # Create IVs and DVs
 groups = c(0, 1)
-DVs = c('Analytic','Clout','Authentic','Tone','WPS','Sixltr','anger','social','family','female','male','cogproc','affiliation','achieve','power','reward','risk','focuspast','focuspresent','focusfuture','money','relig','death')
+DVs = c('i','you','shehe','we','they','ipron','affiliation','achieve','power')
 
 # Loop over the DVs and create values 
 # This saves the difference between groups
@@ -2367,7 +2372,7 @@ exp2_gs$PartisanLean = ifelse(exp2_gs$PartisanLean=='Conservative', 0, 1)
 
 # Create IVs and DVs
 groups = c(0, 1)
-DVs = c('Analytic','Clout','Authentic','Tone','WPS','Sixltr','anger','social','family','female','male','cogproc','affiliation','achieve','power','reward','risk','focuspast','focuspresent','focusfuture','money','relig','death')
+DVs = c('i','you','shehe','we','they','ipron','affiliation','achieve','power')
 
 # Loop over the DVs and create values 
 # This saves the difference between groups
@@ -2416,7 +2421,7 @@ exp2_kav$PartisanLean = ifelse(exp2_kav$PartisanLean=='Conservative', 0, 1)
 
 # Create IVs and DVs
 groups = c(0, 1)
-DVs = c('Analytic','Clout','Authentic','Tone','WPS','Sixltr','anger','social','family','female','male','cogproc','affiliation','achieve','power','reward','risk','focuspast','focuspresent','focusfuture','money','relig','death')
+DVs = c('i','you','shehe','we','they','ipron','affiliation','achieve','power')
 
 # Loop over the DVs and create values 
 # This saves the difference between groups
