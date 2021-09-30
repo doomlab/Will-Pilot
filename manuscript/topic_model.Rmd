@@ -109,129 +109,203 @@ aff1 = glm(affiliation~gamma.1*PartisanLean, data = LDA_topics)
 png('aff1.png')
 plot_model(aff1, type='int')
 dev.off()
+summary(aff1)
 pow1 = glm(power~gamma.1*PartisanLean, data = LDA_topics)
 png('pow1.png')
 plot_model(pow1, type='int')
 dev.off()
+summary(pow1)
 ach1 = glm(achieve~gamma.1*PartisanLean, data = LDA_topics)
 png('ach1.png')
 plot_model(ach1, type='int')
 dev.off()
+summary(ach1)
 
 aff2 = glm(affiliation~gamma.2*PartisanLean, data = LDA_topics)
 png('aff2.png')
 plot_model(aff2, type='int')
 dev.off()
+summary(aff2)
 pow2 = glm(power~gamma.2*PartisanLean, data = LDA_topics)
 png('pow2.png')
 plot_model(pow2, type='int')
 dev.off()
+summary(pow2)
 ach2 = glm(achieve~gamma.2*PartisanLean, data = LDA_topics)
 png('ach2.png')
 plot_model(ach2, type='int')
 dev.off()
+summary(ach2)
 
 aff3 = glm(affiliation~gamma.3*PartisanLean, data = LDA_topics)
 png('aff3.png')
 plot_model(aff3, type='int')
 dev.off()
+summary(aff3)
 pow3 = glm(power~gamma.3*PartisanLean, data = LDA_topics)
 png('pow3.png')
 plot_model(pow3, type='int')
 dev.off()
+summary(pow3)
 ach3 = glm(achieve~gamma.3*PartisanLean, data = LDA_topics)
 png('ach3.png')
 plot_model(ach3, type='int')
 dev.off()
+summary(ach3)
 
 aff4 = glm(affiliation~gamma.4*PartisanLean, data = LDA_topics)
 png('aff4.png')
 plot_model(aff4, type='int')
 dev.off()
+summary(aff4)
 pow4 = glm(power~gamma.4*PartisanLean, data = LDA_topics)
 png('pow4.png')
 plot_model(pow4, type='int')
 dev.off()
+summary(pow4)
 ach4 = glm(achieve~gamma.4*PartisanLean, data = LDA_topics)
 png('ach4.png')
 plot_model(ach4, type='int')
 dev.off()
+summary(ach4)
 
 aff5 = glm(affiliation~gamma.5*PartisanLean, data = LDA_topics)
 png('aff5.png')
 plot_model(aff5, type='int')
 dev.off()
+summary(aff5)
 pow5 = glm(power~gamma.5*PartisanLean, data = LDA_topics)
 png('pow5.png')
 plot_model(pow5, type='int')
 dev.off()
+summary(pow5)
 ach5 = glm(achieve~gamma.5*PartisanLean, data = LDA_topics)
 png('ach5.png')
 plot_model(ach5, type='int')
 dev.off()
+summary(ach5)
 
 aff6 = glm(affiliation~gamma.6*PartisanLean, data = LDA_topics)
 png('aff6.png')
 plot_model(aff6, type='int')
 dev.off()
+summary(aff6)
 pow6 = glm(power~gamma.6*PartisanLean, data = LDA_topics)
 png('pow6.png')
 plot_model(pow6, type='int')
 dev.off()
+summary(pow6)
 ach6 = glm(achieve~gamma.6*PartisanLean, data = LDA_topics)
 png('ach6.png')
 plot_model(ach6, type='int')
 dev.off()
+summary(ach6)
 
 aff7 = glm(affiliation~gamma.7*PartisanLean, data = LDA_topics)
 png('aff7.png')
 plot_model(aff7, type='int')
 dev.off()
+summary(aff7)
 pow7 = glm(power~gamma.7*PartisanLean, data = LDA_topics)
 png('pow7.png')
 plot_model(pow7, type='int')
 dev.off()
+summary(pow7)
 ach7 = glm(achieve~gamma.7*PartisanLean, data = LDA_topics)
 png('ach7.png')
 plot_model(ach7, type='int')
 dev.off()
+summary(ach7)
 
 aff8 = glm(affiliation~gamma.8*PartisanLean, data = LDA_topics)
 png('aff8.png')
 plot_model(aff8, type='int')
 dev.off()
+summary(aff8)
 pow8 = glm(power~gamma.8*PartisanLean, data = LDA_topics)
 png('pow8.png')
 plot_model(pow8, type='int')
 dev.off()
+summary(pow8)
 ach8 = glm(achieve~gamma.8*PartisanLean, data = LDA_topics)
 png('ach8.png')
 plot_model(ach8, type='int')
 dev.off()
+summary(ach8)
 
 aff9 = glm(affiliation~gamma.9*PartisanLean, data = LDA_topics)
 png('aff9.png')
 plot_model(aff9, type='int')
 dev.off()
+summary(aff9)
 pow9 = glm(power~gamma.9*PartisanLean, data = LDA_topics)
 png('pow9.png')
 plot_model(pow9, type='int')
 dev.off()
+summary(pow9)
 ach9 = glm(achieve~gamma.9*PartisanLean, data = LDA_topics)
 png('ach9.png')
 plot_model(ach9, type='int')
 dev.off()
+summary(ach9)
 
 aff10 = glm(affiliation~gamma.10*PartisanLean, data = LDA_topics)
 png('aff10.png')
 plot_model(aff10, type='int')
 dev.off()
+summary(aff10)
 pow10 = glm(power~gamma.10*PartisanLean, data = LDA_topics)
 png('pow10.png')
 plot_model(pow10, type='int')
 dev.off()
+summary(pow10)
 ach10 = glm(achieve~gamma.10*PartisanLean, data = LDA_topics)
 png('ach10.png')
 plot_model(ach10, type='int')
 dev.off()
+summary(ach10)
 ```
+
+
+## Interpretation of Regressions
+
+- Topic 1: Trump Impeachment
+  - Achieve:
+  - Power:
+  - Affiliation:
+- Topic 2: Immigration
+  - Achieve:
+  - Power:
+  - Affiliation:
+- Topic 3: U.S.-China Relations
+  - Achieve:
+  - Power:
+  - Affiliation:
+- Topic 4: Supreme Court
+  - Achieve:
+  - Power:
+  - Affiliation:
+- Topic 5: Party Politics
+  - Achieve:
+  - Power:
+  - Affiliation:
+- Topic 6: Military and Defense
+  - Achieve:
+  - Power:
+  - Affiliation:
+- Topic 7: U.S-Russia Relations
+  - Achieve:
+  - Power:
+  - Affiliation:
+- Topic 8: Technology
+  - Achieve:
+  - Power:
+  - Affiliation:
+- Topic 9: Congress
+  - Achieve:
+  - Power:
+  - Affiliation:
+- Topic 10: Campaign Scandals
+  - Achieve:
+  - Power:
+  - Affiliation:
