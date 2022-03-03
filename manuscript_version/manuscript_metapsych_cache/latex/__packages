@@ -11,3 +11,5 @@ tm
 ngram
 quanteda
 quanteda.textstats
+knitr
+flextable

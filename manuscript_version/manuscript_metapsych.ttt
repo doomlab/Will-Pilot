@@ -1,6 +1,6 @@
 \begin{table*}[hbt]
 \ifnextchar[{\eatarg}{}
-[pt]
+[tbp]
 
 \begin{center}
 \begin{threeparttable}
@@ -9,7 +9,7 @@
 
 \footnotesize{
 
-\begin{tabular}{lcccccclccc}
+\begin{tabular}{lcccccccccc}
 \toprule
 Source & $M_V$ & $SD_V$ & $N_{Article}$ & $N_{Words}$ & $M_T$ & $SD_T$ & $M_{Ty}$ & $SD_{Ty}$ & $M_{FK}$ & $SD_{FK}$\\
 \midrule
@@ -33,7 +33,7 @@ Fox News & 0.29 & 0.17 & 503 & 296779 & 590.02 & 528.60 & 283.56 & 189.00 & 17.2
 \end{table*}
 \begin{table*}[hbt]
 \ifnextchar[{\eatarg}{}
-[pt]
+[tbp]
 
 \begin{center}
 \begin{threeparttable}
@@ -67,16 +67,16 @@ Purity/Sanctity & 1.11 & 1.48 & 1.27 & 1.48 & 2.38 & .140 & -0.09\\
 \end{table*}
 \begin{table*}[hbt]
 \ifnextchar[{\eatarg}{}
-[pt]
+[tbp]
 
 \begin{center}
 \begin{threeparttable}
 
 \caption{\label{tab:exp2-source-descriptives-kav}Kavanaugh - Descriptive Statistics by Source}
 
-\small{
+\footnotesize{
 
-\begin{tabular}{lcccccclccc}
+\begin{tabular}{lcccccccccc}
 \toprule
 Source & $M_V$ & $SD_V$ & $N_{Article}$ & $N_{Words}$ & $M_T$ & $SD_T$ & $M_{Ty}$ & $SD_{Ty}$ & $M_{FK}$ & $SD_{FK}$\\
 \midrule
@@ -106,16 +106,16 @@ Rush Limbaugh & 0.38 & 0.13 & 172 & 267067 & 1,552.72 & 1,258.51 & 419.00 & 225.
 \end{table*}
 \begin{table*}[hbt]
 \ifnextchar[{\eatarg}{}
-[pt]
+[tbp]
 
 \begin{center}
 \begin{threeparttable}
 
 \caption{\label{tab:exp2-source-descriptives-gs}Government Shutdown - Descriptive Statistics by Source}
 
-\small{
+\footnotesize{
 
-\begin{tabular}{lcccccclccc}
+\begin{tabular}{lcccccccccc}
 \toprule
 Source & $M_V$ & $SD_V$ & $N_{Article}$ & $N_{Words}$ & $M_T$ & $SD_T$ & $M_{Ty}$ & $SD_{Ty}$ & $M_{FK}$ & $SD_{FK}$\\
 \midrule
@@ -145,7 +145,7 @@ Rush Limbaugh & 0.37 & 0.12 & 78 & 152630 & 1,956.79 & 1,544.14 & 482.79 & 252.7
 \end{table*}
 \begin{table*}[hbt]
 \ifnextchar[{\eatarg}{}
-[pt]
+[tbp]
 
 \begin{center}
 \begin{threeparttable}
@@ -179,7 +179,7 @@ Purity/Sanctity & 0.90 & 1.28 & 1.06 & 1.28 & 0.88 & .406 & -0.11\\
 \end{table*}
 \begin{table*}[hbt]
 \ifnextchar[{\eatarg}{}
-[pt]
+[tbp]
 
 \begin{center}
 \begin{threeparttable}
