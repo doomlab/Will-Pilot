@@ -29,7 +29,7 @@ keywords          : "politics, morality, psycholinguistics"
 
 bibliography      : ["metapsych_bib.bib"] #turn this off right now so it knits
 
-floatsintext      : no
+floatsintext      : yes
 figurelist        : no
 tablelist         : no
 footnotelist      : no
@@ -571,10 +571,14 @@ tableprint[ , 9] = tapply(final$uniquewords, final$Source, sd)
 tableprint[ , 10] = tapply(final$FK, final$Source, mean)
 tableprint[ , 11] = tapply(final$FK, final$Source, sd)
 
-tableprint[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint[ , c(2,3,6,7,8,9,10,11)]))
+tableprint[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint[ , c(2,3,6,7,8,9,10,11)]), big.mark = "")
 
 tableprint = tableprint[c(3, 4, 1, 2) , ]
 ```
+
+We calculated descriptive statistics for each news source in order to understand any and all fundamental linguistic differences in the sources' use of English. Statistics calculated included average *z*-scored valence of the unique words per article, number of articles per source, total number of words per source, average number of tokens (words) per article in each source, average number of types (unique words) per article in each source, and mean readability level per source. Readability statistics were calculated using the Flesch-Kincaid Grade Level Readability formula [@Kincaid1975]. Readability is calculated using a formula where the total number of syllables, words, and sentences in a given passage are determinants of its difficulty. The obtained value is intended to match up with the U.S. grade level at which one should be able to comfortably read the passage [@Kincaid1975]. For example, a text with a readability score of 11 should be easily read by a U.S. high school junior.
+
+As seen in Table \@ref(tab:exp1-source-descriptives), the sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The large standard deviations seem to indicate little to no presence of a difference in valence across sources. *NYT* published the greatest number of articles as well as total words. *Breitbart* featured the lowest number of articles, and *NPR* the lowest number of total words from all articles. Per individual article, however, *Breitbart* appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, *Fox News* articles had the lowest reading grade level on average, while *NYT* had the highest. This result might be attributable to the greater number of tokens in the average *NYT* article compared to *Fox News*. The standard deviations for readability suggest the presence of a diverse array of articles for each source, ranging from low to high reading level. Large standard deviations suggest the sources feature a lot of overlap between them in their representation of scores. 
 
 ```{r exp1-source-descriptives, results = 'asis', echo = FALSE}
 #change this to match
@@ -585,13 +589,10 @@ apa_table(as.data.frame(tableprint),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 10)), 
-          font_size = 'footnotesize'
+          font_size = 'footnotesize',
+          placement = "h"
           )
 ```
-
-We calculated descriptive statistics for each news source in order to understand any and all fundamental linguistic differences in the sources' use of English. Statistics calculated included average *z*-scored valence of the unique words per article, number of articles per source, total number of words per source, average number of tokens (words) per article in each source, average number of types (unique words) per article in each source, and mean readability level per source. Readability statistics were calculated using the Flesch-Kincaid Grade Level Readability formula [@Kincaid1975]. Readability is calculated using a formula where the total number of syllables, words, and sentences in a given passage are determinants of its difficulty. The obtained value is intended to match up with the U.S. grade level at which one should be able to comfortably read the passage [@Kincaid1975]. For example, a text with a readability score of 11 should be easily read by a U.S. high school junior.
-
-As seen in Table \@ref(tab:exp1-source-descriptives), the sources are similar in some aspects yet different in others. Valence appears to be slightly positive across all sources. The large standard deviations seem to indicate little to no presence of a difference in valence across sources. *NYT* published the greatest number of articles as well as total words. *Breitbart* featured the lowest number of articles, and *NPR* the lowest number of total words from all articles. Per individual article, however, *Breitbart* appears to feature the highest average number of words as well as unique words. Once again the standard deviations call into question any apparent differences between sources. Finally, *Fox News* articles had the lowest reading grade level on average, while *NYT* had the highest. This result might be attributable to the greater number of tokens in the average *NYT* article compared to *Fox News*. The standard deviations for readability suggest the presence of a diverse array of articles for each source, ranging from low to high reading level. Large standard deviations suggest the sources feature a lot of overlap between them in their representation of scores. 
 
 ## Inferential Statistics
 
@@ -667,7 +668,7 @@ tableprint2[5, ] = c("Purity/Sanctity", purity_d$M1, purity_d$sd1, purity_d$M2, 
                     summary(purity_model)$tTable[2,4], summary(purity_model)$tTable[2,5],
                     purity_d$d)
 
-tableprint2[ , c(2:6, 8)] = printnum(as.numeric(tableprint2[ , c(2:6, 8)]))
+tableprint2[ , c(2:6, 8)] = printnum(as.numeric(tableprint2[ , c(2:6, 8)]), big.mark = "")
 tableprint2[ , 7] = printp(as.numeric(tableprint2[ , 7]))
 ```
 
@@ -679,7 +680,8 @@ apa_table(as.data.frame(tableprint2),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 7)),
-          font_size = 'footnotesize'
+          font_size = 'footnotesize',
+          placement = "h"
           )
 ```
 
@@ -1719,8 +1721,6 @@ We calculated descriptive statistics for each news source per topic in order to 
 
 Table \@ref(tab:exp2-source-descriptives-kav) displays the descriptive statistics for sources' writing on the Kavanaugh confirmation hearing. The sources were similar in most basic linguistic aspects, except for number of articles. For example, *Sean Hannity* appears to have published only 27 articles while *Breitbart* published 757 articles on this topic. Valence was found to be slightly positive across all sources. *Fox News* produced the most total words with the most tokens on average. This is likely due to the fact *Fox News* transcribes many of their videos and publishes them in article form. *Politico* featured the highest number of types on average. *Rush Limbaugh* featured the lowest readability score on average by grade level while *Slate* featured the highest grade-level readability score. The large standard deviations for these statistics, however, preclude conclusions regarding differences in the sources' use of language, as there is likely a lot of overlap between sources' use of language. 
 
-Table \@ref(tab:exp2-source-descriptives-gs) displays descriptive statistics for articles about the partial government shutdown. Like the Kavanaugh hearing, the sources were similar in average valence (slightly positive). Once again, there was variation in the number of articles published by each source on this topic. *Sean Hannity*, *Rush Limbaugh*, and *The Blaze* published fewer than 100 articles while *Fox News* published 1,013 articles. *Fox News* again featured the most total words and mean tokens, but this is likely due to to the presence of a large amount of video transcriptions that the organization published as articles. *Politico* had the most types on average. For this topic, *Fox News* featured the lowest reading grade level while *Slate* featured the highest reading grade level. For each statistic, the excessively high standard deviations render any assertions regarding linguistic differences inconclusive on a descriptive level due to the aforementioned overlap in sources' language use. 
-
 ```{r exp2_descriptive_calculate_kav, include = F, echo = F}
 #Kav
 final_kav$uniquewords = NA
@@ -1774,7 +1774,7 @@ tableprint3[ , 8] = tapply(final_kav$uniquewords, final_kav$Source, mean, na.rm 
 tableprint3[ , 9] = tapply(final_kav$uniquewords, final_kav$Source, sd, na.rm = T)
 tableprint3[ , 10] = tapply(final_kav$FK, final_kav$Source, mean, na.rm = T)
 tableprint3[ , 11] = tapply(final_kav$FK, final_kav$Source, sd, na.rm = T)
-tableprint3[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint3[ , c(2,3,6,7,8,9,10,11)]))
+tableprint3[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint3[ , c(2,3,6,7,8,9,10,11)]), big.mark = "")
 tableprint3 = tableprint3[c(5, 6, 7, 8, 10, 1, 2, 3, 4, 9), ]
 ```
 
@@ -1787,9 +1787,12 @@ apa_table(as.data.frame(tableprint3),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 10)),
-          font_size = 'footnotesize'
+          font_size = 'footnotesize',
+          placement = "h"
           )
 ```
+
+Table \@ref(tab:exp2-source-descriptives-gs) displays descriptive statistics for articles about the partial government shutdown. Like the Kavanaugh hearing, the sources were similar in average valence (slightly positive). Once again, there was variation in the number of articles published by each source on this topic. *Sean Hannity*, *Rush Limbaugh*, and *The Blaze* published fewer than 100 articles while *Fox News* published 1,013 articles. *Fox News* again featured the most total words and mean tokens, but this is likely due to to the presence of a large amount of video transcriptions that the organization published as articles. *Politico* had the most types on average. For this topic, *Fox News* featured the lowest reading grade level while *Slate* featured the highest reading grade level. For each statistic, the excessively high standard deviations render any assertions regarding linguistic differences inconclusive on a descriptive level due to the aforementioned overlap in sources' language use. 
 
 ```{r exp2_descriptive_calculate_gs}
 #GS
@@ -1855,7 +1858,7 @@ tableprint4[ , 9] = tapply(final_gs$uniquewords, final_gs$Source, sd)
 tableprint4[ , 10] = tapply(final_gs$FK, final_gs$Source, mean)
 tableprint4[ , 11] = tapply(final_gs$FK, final_gs$Source, sd)
 
-tableprint4[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint4[ , c(2,3,6,7,8,9,10,11)]))
+tableprint4[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint4[ , c(2,3,6,7,8,9,10,11)]), big.mark = "")
 
 tableprint4 = tableprint4[c(5, 6, 7, 8, 10, 1, 2, 3, 4, 9), ]
 ```
@@ -1869,7 +1872,8 @@ apa_table(as.data.frame(tableprint4),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 10)),
-          font_size = 'footnotesize'
+          font_size = 'footnotesize',
+          placement = "h"
           )
 ```
 
@@ -1878,10 +1882,6 @@ apa_table(as.data.frame(tableprint4),
 We utilized a multilevel model (MLM) to analyze if news sources leveraged different vocabularies based on target audience in the same manner as Experiment 1. Each foundation's weighted percentage was predicted by the source's political lean, using the individual source as a random intercept to control for the nested data structure. Two separate MLMs were constructed from datasets compiled for each topic of interest: the Kavanaugh hearing and the partial government shutdown of 2018-2019.
 
 For the Kavanaugh topic, the multilevel model indicated the presence of a statistically significant effect for *harm/care*, but the practical effect denoted by Cohen's *d* was found to be small. There were no other significant or practical effects of political lean for any of the other four moral foundations. The effect for *harm/care* was in the hypothesized direction with liberal sources tending to use more positively *harm/care* words than conservative sources. Descriptive and test statistics, *p*-values and effect sizes (Cohen's *d*) can be found in Table \@ref(tab:exp2-tablekav). 
-
-For news articles about the partial U.S. Federal Government Shutdown of 2018-2019, there were no significant or practical effects of political lean for the moral foundations. A small-to-medium effect size was observed for *authority/respect*. The effect was in the predicted direction as well, as conservative sources tended to offer more positive endorsements of the foundation than liberal sources. This effect was similar to Experiment 1 in which the largest effect size was observed for *authority/respect*. As noted before, the effect found in Experiment 1 was in the opposite direction as what was hypothesized. Thus, it is difficult to draw comparisons between the two studies despite the similar pattern for effect size. Owing to a lack of similar effects for either Experiment 1 or the Kavanaugh topic, there is doubt as to whether or not a practical or generalized effect exists for *authority/respect*. 
-
-Based on the weighted percent values for the five foundations applied to both topics, MFD words seem to make up little of the article text. A similar pattern was observed for the results in Experiment 1. As in Experiment 1, the percentages and means seem to indicate a generally positive endorsement of all five moral foundations across both political leanings.
 
 ```{r exp2_kav_calc, include = F, echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
@@ -1951,7 +1951,7 @@ tableprint_kav[5, ] = c("Purity/Sanctity", purity_d_kav$M1, purity_d_kav$sd1, pu
                     summary(purity_model_kav)$tTable[2,4], summary(purity_model_kav)$tTable[2,5],
                     purity_d_kav$d)
 
-tableprint_kav[ , c(2:6, 8)] = printnum(as.numeric(tableprint_kav[ , c(2:6, 8)]))
+tableprint_kav[ , c(2:6, 8)] = printnum(as.numeric(tableprint_kav[ , c(2:6, 8)]), big.mark = "")
 tableprint_kav[ , 7] = printp(as.numeric(tableprint_kav[ , 7]))
 ```
 
@@ -1963,9 +1963,14 @@ apa_table(as.data.frame(tableprint_kav),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 7)),
-          font_size = 'footnotesize'
+          font_size = 'footnotesize',
+          placement = "h"
           )
 ```
+
+For news articles about the partial U.S. Federal Government Shutdown of 2018-2019, there were no significant or practical effects of political lean for the moral foundations (see Table \@ref(tab:exp2-tablegs)). A small-to-medium effect size was observed for *authority/respect*. The effect was in the predicted direction as well, as conservative sources tended to offer more positive endorsements of the foundation than liberal sources. This effect was similar to Experiment 1 in which the largest effect size was observed for *authority/respect*. As noted before, the effect found in Experiment 1 was in the opposite direction as what was hypothesized. Thus, it is difficult to draw comparisons between the two studies despite the similar pattern for effect size. Owing to a lack of similar effects for either Experiment 1 or the Kavanaugh topic, there is doubt as to whether or not a practical or generalized effect exists for *authority/respect*. 
+
+Based on the weighted percent values for the five foundations applied to both topics, MFD words seem to make up little of the article text. A similar pattern was observed for the results in Experiment 1. As in Experiment 1, the percentages and means seem to indicate a generally positive endorsement of all five moral foundations across both political leanings.
 
 ```{r exp2_gs_calc, include = F, echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
@@ -2035,7 +2040,7 @@ tableprint_gs[5, ] = c("Purity/Sanctity", purity_d_gs$M1, purity_d_gs$sd1, purit
                     summary(purity_model_gs)$tTable[2,4], summary(purity_model_gs)$tTable[2,5],
                     purity_d_gs$d)
 
-tableprint_gs[ , c(2:6, 8)] = printnum(as.numeric(tableprint_gs[ , c(2:6, 8)]))
+tableprint_gs[ , c(2:6, 8)] = printnum(as.numeric(tableprint_gs[ , c(2:6, 8)]), big.mark = "")
 tableprint_gs[ , 7] = printp(as.numeric(tableprint_gs[ , 7]))
 ```
 
@@ -2047,7 +2052,8 @@ apa_table(as.data.frame(tableprint_gs),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 7)),
-          font_size = 'footnotesize'
+          font_size = 'footnotesize',
+          placement = "h"
           )
 ```
 

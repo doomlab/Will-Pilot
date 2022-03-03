@@ -6,10 +6,9 @@ ggplot2
 maditr
 expss
 MOTE
+quanteda
+quanteda.textstats
 NLP
 tm
 ngram
-quanteda
-quanteda.textstats
 knitr
-flextable
