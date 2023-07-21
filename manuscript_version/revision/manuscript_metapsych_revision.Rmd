@@ -10,7 +10,7 @@ author:
     email         : "wpadfield@gmail.com"
   - name          : "Erin M. Buchanan, Ph.D."
     affiliation   : "2"
-  - name          : "Kayla N. Jordan, Ph.D."
+  - name          : "Kayden N. Jordan, Ph.D."
     affiliation   : "2"
 
 affiliation:
@@ -57,6 +57,8 @@ library(ngram)
 library(ggplot2)
 library(reshape)
 library(knitr)
+library(performance)
+library(dplyr)
 
 knitr::opts_chunk$set(cache = TRUE)
 options(tinytex.verbose = TRUE)
@@ -86,11 +88,11 @@ As a further conceptual replication of @Frimer2020, we test the liberal-conserva
 
 # Method
 
-For the first natural experiment, we approached the study with the intention to answer a method question. That is, this portion of the current research was conducted in order to solidify the best method by which to analyze political news text under the MFT framework while also alleviating some of the aforementioned valence problem observed in the MFD. We hypothesized the news sources generally perceived as liberal leaning (*NPR* and *The New York Times*) would contain MFD words and valences indicating endorsements of the individualizing moral foundations (*harm/care* and *fairness/reciprocity*). Additionally, we hypothesized the two sources generally perceived to be conservative leaning (*Fox News* and *Breitbart*) would feature MFD words and valences indicating equal endorsement of all five foundations.
+For the first study, we approached the study with the intention to answer a method question. That is, this portion of the current research was conducted in order to solidify the best method by which to analyze political news text under the MFT framework while also alleviating some of the aforementioned valence problem observed in the MFD. We hypothesized the news sources generally perceived as liberal leaning (*NPR* and *The New York Times*) would contain MFD words and valences indicating endorsements of the individualizing moral foundations (*harm/care* and *fairness/reciprocity*). Additionally, we hypothesized the two sources generally perceived to be conservative leaning (*Fox News* and *Breitbart*) would feature MFD words and valences indicating equal endorsement of all five foundations.
 
 ## Sources
 
-Political articles were collected from the websites of four notable U.S. news sources, a process known as web scraping. The sources were *NYT*, *NPR*, *Fox News*, and *Breitbart*. They were selected for their widespread recognition and the fact political partisans have strong preferences for some sources over others. We determined the political lean of each source by referencing @Mitchell2014's article demonstrating the self-reported ideological consistency represented by the consumers of several news sources. In general, the *NYT* and *NPR* are preferred by consumers reporting a liberal bias or lean. In contrast, *Fox News* and *Breitbart* are believed to have a conservative bias or lean. @Mitchell2014's article presented political ideology as a scale ranging from "consistently liberal" to "consistently conservative." In between these extremes lie more moderate positions, including "mostly liberal," "mixed," and "mostly conservative." Owing to the lower number of sources analyzed herein, we elected to categorize the sources as either "liberal" and "conservative" in order to form a basis for comparison.   
+Political articles were collected from the websites of four notable U.S. news sources, a process known as web scraping. The sources were *NYT*, *NPR*, *Fox News*, and *Breitbart*. They were selected for their widespread recognition and the fact political partisans have strong preferences for some sources over others. We determined the political lean of each source by referencing @Mitchell2014's article demonstrating the self-reported ideological consistency represented by the consumers of several news sources. In general, the *NYT* and *NPR* are preferred by consumers reporting a liberal bias or lean. In contrast, *Fox News* and *Breitbart* are believed to have a conservative bias or lean. @Mitchell2014's article presented political ideology as a scale ranging from "consistently liberal" to "consistently conservative." In between these extremes lie more moderate positions, including "mostly liberal," "mixed," and "mostly conservative." Owing to the lower number of sources analyzed herein, we elected to categorize the sources as either "liberal" and "conservative" in order to form a basis for comparison. At the time of our data collection, these sources were also selected because they were open (i.e., no subscription required to access articles), and their websites were designed in a way that made webscraping possible.
 
 Political articles in particular were identified and subsequently scraped by including the specific URL directing to each source's political content in the *R* script. For example, rather than scrape from nytimes.com, which would return undesired results (non-political features, reviews, etc.), we instead included nytimes.com/section/politics so that more or less exclusively political content was obtained. All code for this manuscript can be found at https://osf.io/5kpj7/, and the scripts are provided inline with this manuscript written with the *papaja* library [@Aust2017].
 
@@ -115,7 +117,7 @@ The article text was processed using the *tm* and *ngram* packages in *R* in ord
 
 Concurrent research by @Jordan2019 assesses the validity of both the MFQ and the MFD through a multi-trait multi-method analysis of the two instruments using multiple samples. The instruments and foundation areas are being analyzed against one another, in order to test reliability, as well as against the Congressional Record in order to test predictive validity for political orientation. We were able to identify a number of potential new words that, if added to the MFD, could comprise a dictionary with greater validity, and less likelihood of zero percent texts, as this often occurs with the current MFD. Those results have informed this analysis, and their updated findings may change the underlying dictionary used in this analysis (albeit, we do not expect any changes in the results presented below).
 
-The source article words were compiled into a dataset where they were matched up with their counterparts in the MFD along with their valence and a percentage of their occurrence. Therefore, for each article, the percentage of the number of *harm/care* words occurring in the articles were calculated, and this process was repeated for each of the foundations. Words' percent occurrence were multiplied by their *z*-scored valence. Valences were *z*-scored in order to eliminate any ambiguity regarding the direction of the valence. Positive values indicate positive valence, and negative values indicate negative valence. Words were categorized in accordance to their MFD affiliation, creating a weighted sum for each moral foundation.
+A complete list of the words for each moral foundation area was created from previous experiments. The total number of times each of those words was used in an article was calculated. This information was merged with the valence values from the @Warriner2013 dataset. A weighted score was calculated by multiplying the frequency of occurrence within a document times the *z*-scored valence values and divided by the word count for that article. The final score was multiplied by 100 to represented a weighted percentage. Finally, the weighted scores were summed within in each article to get a total weighted percentage of the use of moral area specific words by article. Valences were *z*-scored in order to eliminate any ambiguity regarding the direction of the valence. Positive values indicate positive valence, and negative values indicate negative valence. Words were categorized in accordance to their MFD affiliation, creating a weighted sum for each moral foundation. See Table \@ref(tab:example-weight) for an example. 
 
 ```{r stem_text, eval=TRUE, include=FALSE}
 final = read.csv("../exp1_data/finaldata.csv", stringsAsFactors = F)
@@ -184,7 +186,7 @@ harm_final_data$valence = vlookup(harm_final_data$Var1, #index in original data
 #fought, safer, spurn
 harm_final_data$valence[harm_final_data$Var1 == "fought"] = warriner$V.Mean.Sum[warriner$Word2 == "fight"]
 harm_final_data$valence[harm_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
-#no spurn avaliable
+#no spurn available
 ```
 
 ```{r create_datasets_fair, include=FALSE}
@@ -385,12 +387,28 @@ harm_final_temp$Source[grepl("npr.org", harm_final_temp$URL)] = "NPR"
 harm_final_temp$Source[grepl("foxnews.com", harm_final_temp$URL)] = "Fox"
 harm_final_temp$Source[grepl("breitbart.com", harm_final_temp$URL)] = "Breitbart"
 
+harm_icc <- lme(MFDweight ~ 1, 
+                data = harm_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source)
+                )
+
 harm_model = lme(MFDweight ~ lean,
                  data = harm_final_temp,
                  method = "ML",
                  na.action = "na.omit",
-                 random = list(~1|Source))
+                 random = list(~1|Source)
+                 )
 summary(harm_model)
+
+# check linearity
+random <- rchisq(nrow(harm_final_temp), 7)
+residuals <- scale(residuals(harm_model))
+fitted <- scale(fitted(harm_model))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 ```{r analysis_fair, include = FALSE}
@@ -414,12 +432,27 @@ fair_final_temp$Source[grepl("npr.org", fair_final_temp$URL)] = "NPR"
 fair_final_temp$Source[grepl("foxnews.com", fair_final_temp$URL)] = "Fox"
 fair_final_temp$Source[grepl("breitbart.com", fair_final_temp$URL)] = "Breitbart"
 
+fair_icc <- lme(MFDweight ~ 1, 
+                data = fair_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source)
+                )
+
 fair_model = lme(MFDweight ~ lean,
                  data = fair_final_temp,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(fair_model)
+
+# check linearity
+random <- rchisq(nrow(fair_final_temp), 7)
+residuals <- scale(residuals(fair_model))
+fitted <- scale(fitted(fair_model))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 ```{r analysis_ingroup, include = FALSE}
@@ -443,12 +476,26 @@ ingroup_final_temp$Source[grepl("npr.org", ingroup_final_temp$URL)] = "NPR"
 ingroup_final_temp$Source[grepl("foxnews.com", ingroup_final_temp$URL)] = "Fox"
 ingroup_final_temp$Source[grepl("breitbart.com", ingroup_final_temp$URL)] = "Breitbart"
 
+ingroup_icc = lme(MFDweight ~ 1,
+                 data = ingroup_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 ingroup_model = lme(MFDweight ~ lean,
                  data = ingroup_final_temp,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(ingroup_model)
+
+# check linearity
+random <- rchisq(nrow(ingroup_final_temp), 7)
+residuals <- scale(residuals(ingroup_model))
+fitted <- scale(fitted(ingroup_model))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 ```{r analysis_authority, include = FALSE}
@@ -472,12 +519,26 @@ authority_final_temp$Source[grepl("npr.org", authority_final_temp$URL)] = "NPR"
 authority_final_temp$Source[grepl("foxnews.com", authority_final_temp$URL)] = "Fox"
 authority_final_temp$Source[grepl("breitbart.com", authority_final_temp$URL)] = "Breitbart"
 
+authority_icc = lme(MFDweight ~ 1,
+                 data = authority_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 authority_model = lme(MFDweight ~ lean,
                  data = authority_final_temp,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(authority_model)
+
+# check linearity
+random <- rchisq(nrow(authority_final_temp), 7)
+residuals <- scale(residuals(authority_model))
+fitted <- scale(fitted(authority_model))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 ```{r analysis_purity, include = FALSE}
@@ -501,12 +562,50 @@ purity_final_temp$Source[grepl("npr.org", purity_final_temp$URL)] = "NPR"
 purity_final_temp$Source[grepl("foxnews.com", purity_final_temp$URL)] = "Fox"
 purity_final_temp$Source[grepl("breitbart.com", purity_final_temp$URL)] = "Breitbart"
 
+purity_icc = lme(MFDweight ~ 1,
+                 data = purity_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 purity_model = lme(MFDweight ~ lean,
                  data = purity_final_temp,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(purity_model)
+
+# check linearity
+random <- rchisq(nrow(purity_final_temp), 7)
+residuals <- scale(residuals(purity_model))
+fitted <- scale(fitted(purity_model))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
+```
+
+```{r example-weight, results = 'asis', include = FALSE}
+temp_table <- harm_final_data %>% 
+  filter(Freq > 0) %>% 
+  arrange(-Freq) %>% 
+  group_by(Var1) %>% 
+  slice_head() %>% 
+  group_by(URL) %>% 
+  arrange(-Freq) %>% 
+  slice_head() %>% 
+  ungroup() %>% 
+  slice_sample(n = 15, replace = F)
+
+apa_table(temp_table %>% select(-URL), 
+          note = "",
+          caption = "Example of Weighted Coding for Harm Words",
+          col.names = c("Source", "Concept", "Frequency", "Total Words", "Valence", "Weighted Score"),
+          format = "latex",
+          escape = F,
+          align = c("l", "l", rep("c", 4)),
+          font_size = 'footnotesize',
+          placement = "h"
+          )
 ```
 
 # Results
@@ -596,14 +695,14 @@ apa_table(as.data.frame(tableprint),
 
 ## Inferential Statistics
 
-To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nested structured of the data, which creates correlated error [@Gelman2006]. Using the *nlme* library in *R* [@Pinheiro2017], each foundation's weighted percentage was predicated here by the political lean of the news source, using the individual news sources as a random intercept to control for the structure of the data.
+To analyze if news sources adhered to differences in word use based on their target audience, we utilized a multilevel model (MLM) to analyze the data. MLM is a regression technique that allows one to control for the repeated measurement and nested structured of the data, which creates correlated error [@Gelman2006]. Using the *nlme* library in *R* [@Pinheiro2017], each foundation's weighted percentage was predicated here by the political lean of the news source, using the individual news sources as a random intercept to control for the structure of the data. Therefore, the models were calculated by: Weighted Score ~ Political Lean + (~1|Source). 
 
 The multilevel model did not indicate the presence of any significant or practical effect of political lean for any of the five moral foundations. The strongest effect size was observed for the *authority/respect* foundation, but the effect was in the opposite direction from what was originally hypothesized - liberal sources tended to use more *authority/respect* words than did conservative sources. Descriptive and test statistics, *p*-values and effect sizes (Cohen's *d*) can be found in Table \@ref(tab:exp1-table). To interpret the weighted scores, one can examine the mean and standard deviations for each. A zero score for the mean, with a non-zero standard deviation, would indicate a perfect balance of positive and negative words in each category, likely representing a neutral tone when all words are considered. Negative percentages would indicate more representation of the negative words in the MFD area, while positive percentages indicate an endorsement of the positive words in a MFD. Therefore, we suggest using the sign of the mean score to determine the directionality of the endorsement for the MFD (positive, neutral, negative), and the standard deviation to ensure that a zero score is not zero endorsement (i.e., a SD of zero indicates no words were used). Based on the weighted percent values for the five foundations, we observed that MFD words seem to make up a small portion of the article text. Furthermore, the observed percentages and means appear to indicate a generally positive endorsement of all five foundations across both liberal and conservative sources.
 
 ```{r exp1_table_calc, include = F, echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
-tableprint2 = matrix(NA, ncol = 8, nrow = 5)
-colnames(tableprint2) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d")
+tableprint2 = matrix(NA, ncol = 9, nrow = 5)
+colnames(tableprint2) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d", "ICC")
 
 #calculate d
 #harm
@@ -654,29 +753,30 @@ purity_d = d.ind.t(m1 = mean(purity_final_temp$MFDweight[purity_final_temp$lean 
 #put in the numbers
 tableprint2[1, ] = c("Harm/Care", harm_d$M1, harm_d$sd1, harm_d$M2, harm_d$sd1,
                     summary(harm_model)$tTable[2,4], summary(harm_model)$tTable[2,5],
-                    harm_d$d)
+                    harm_d$d, icc(harm_icc)$ICC_unadjusted)
 tableprint2[2, ] = c("Fairness/Reciprocity", fair_d$M1, fair_d$sd1, fair_d$M2, fair_d$sd1,
                     summary(fair_model)$tTable[2,4], summary(fair_model)$tTable[2,5],
-                    fair_d$d)
+                    fair_d$d, icc(fair_icc)$ICC_unadjusted)
 tableprint2[3, ] = c("Ingroup/Loyalty", ingroup_d$M1, ingroup_d$sd1, ingroup_d$M2, ingroup_d$sd1,
                     summary(ingroup_model)$tTable[2,4], summary(ingroup_model)$tTable[2,5],
-                    ingroup_d$d)
+                    ingroup_d$d, icc(ingroup_icc)$ICC_unadjusted)
 tableprint2[4, ] = c("Authority/Respect", authority_d$M1, authority_d$sd1, authority_d$M2, authority_d$sd1,
                     summary(authority_model)$tTable[2,4], summary(authority_model)$tTable[2,5],
-                    authority_d$d)
+                    authority_d$d, icc(authority_icc)$ICC_unadjusted)
 tableprint2[5, ] = c("Purity/Sanctity", purity_d$M1, purity_d$sd1, purity_d$M2, purity_d$sd1,
                     summary(purity_model)$tTable[2,4], summary(purity_model)$tTable[2,5],
-                    purity_d$d)
+                    purity_d$d, icc(purity_icc)$ICC_unadjusted)
 
 tableprint2[ , c(2:6, 8)] = printnum(as.numeric(tableprint2[ , c(2:6, 8)]), big.mark = "")
 tableprint2[ , 7] = printp(as.numeric(tableprint2[ , 7]))
+tableprint2[ , 9] = printp(as.numeric(tableprint2[ , 7]))
 ```
 
 ```{r exp1-table, results = 'asis', echo = F}
 apa_table(as.data.frame(tableprint2),
           note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
           caption = "Study 1 Results - Multilevel Model",
-          col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$"),
+          col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$", "ICC"),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 7)),
@@ -736,7 +836,7 @@ However, one possible limitation of the current data is the generalness of the c
 
 # Method
 
-In contrast to Study 1, we approached Study 2 with the intention to confirm the method employed was valid for the analysis of the scraped text as well as for any inferences drawn from the analyses. For the second natural experiment, we hypothesized that news sources perceived as liberal will exhibit positive endorsements of the individualizing moral foundations (*harm/care* and *fairness/reciprocity*) in their articles reporting on both the Kavanaugh confirmation hearing as well as the 2018-2019 government shutdown. News sources perceived as conservative are hypothesized to positively endorse all five foundations equally in their coverage of the Kavanaugh hearing and the government shutdown. We tested the hypothesis by analyzing the content scraped from news sources' web pages spanning the two weeks before (September 13, 2018) and two weeks after (October 11, 2018) Kavanaugh's confirmation hearing, owing to its prominence in the news. Likewise, we analyzed content spanning two weeks before the start of the government shutdown (December 8, 2018) to two weeks following the end of the shutdown (February 8, 2019). The content will be analyzed for valence and moral alignment under MFT.
+In contrast to Study 1, we approached Study 2 with the intention to confirm the method employed was valid for the analysis of the scraped text as well as for any inferences drawn from the analyses. For the second study, we hypothesized that news sources perceived as liberal will exhibit positive endorsements of the individualizing moral foundations (*harm/care* and *fairness/reciprocity*) in their articles reporting on both the Kavanaugh confirmation hearing as well as the 2018-2019 government shutdown. News sources perceived as conservative are hypothesized to positively endorse all five foundations equally in their coverage of the Kavanaugh hearing and the government shutdown. We tested the hypothesis by analyzing the content scraped from news sources' web pages spanning the two weeks before (September 13, 2018) and two weeks after (October 11, 2018) Kavanaugh's confirmation hearing, owing to its prominence in the news. Likewise, we analyzed content spanning two weeks before the start of the government shutdown (December 8, 2018) to two weeks following the end of the shutdown (February 8, 2019). The content will be analyzed for valence and moral alignment under MFT.
 
 ```{r include = F, echo = F}
 # please see the web_scraping.Rmd to see how we originally collected this data
@@ -744,7 +844,7 @@ In contrast to Study 1, we approached Study 2 with the intention to confirm the 
 
 ## Sources
 
-Articles pertaining to the Brett Kavanaugh Supreme Court confirmation hearing and the 2018-2019 U.S. Government shutdown were scraped from the websites of 10 U.S. news sources. As in Study 1, these sources were selected owing to their favorability among political partisans according to @Mitchell2014. The sources favored by the highest proportion of consistent liberals were the *NYT*, *NPR*, *Slate*, *Huffington Post*, and *Politico* [@Mitchell2014]. The sources favored by the highest proportion of consistent conservatives included *Fox News*, *Breitbart*, *The Rush Limbaugh Show*, *The Blaze*, and *Sean Hannity*. Political articles referencing Brett Kavanaugh's nomination process were identified and subsequently scraped by including the URL for each source's coverage of the nomination in the *R* script.
+Articles pertaining to the Brett Kavanaugh Supreme Court confirmation hearing and the 2018-2019 U.S. Government shutdown were scraped from the websites of 10 U.S. news sources. As in Study 1, these sources were selected owing to their favorability among political partisans according to @Mitchell2014. The sources favored by the highest proportion of consistent liberals were the *NYT*, *NPR*, *Slate*, *Huffington Post*, and *Politico* [@Mitchell2014]. The sources favored by the highest proportion of consistent conservatives included *Fox News*, *Breitbart*, *The Rush Limbaugh Show*, *The Blaze*, and *Sean Hannity*. These sources were primarily selected due to their political lean but also due to our ability to webscrape their contents without a subscription based service. Political articles referencing Brett Kavanaugh's nomination process were identified and subsequently scraped by including the URL for each source's coverage of the nomination in the *R* script.
 
 ## Materials
 
@@ -1335,6 +1435,13 @@ harm_final_temp_kav$Source[grepl("breitbart.com", harm_final_temp_kav$URL)] = "B
 harm_final_temp_kav$Source[grepl("rushlimbaugh.com", harm_final_temp_kav$URL)] = "Rush Limbaugh"
 harm_final_temp_kav$Source[grepl("theblaze.com", harm_final_temp_kav$URL)] = "The Blaze"
 harm_final_temp_kav$Source[grepl("hannity.com", harm_final_temp_kav$URL)] = "Sean Hannity"
+
+harm_icc_k <- lme(MFDweight ~ 1,
+                 data = harm_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 harm_model_kav = lme(MFDweight ~ lean,
                  data = harm_final_temp_kav,
                  method = "ML",
@@ -1342,6 +1449,14 @@ harm_model_kav = lme(MFDweight ~ lean,
                  random = list(~1|Source))
 summary(harm_model_kav)
 r.squaredGLMM(harm_model_kav)
+
+# check linearity
+random <- rchisq(nrow(harm_final_temp_kav), 7)
+residuals <- scale(residuals(harm_model_kav))
+fitted <- scale(fitted(harm_model_kav))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 ```{r analysis_fair_kav, include = FALSE}
@@ -1377,12 +1492,27 @@ fair_final_temp_kav$Source[grepl("breitbart.com", fair_final_temp_kav$URL)] = "B
 fair_final_temp_kav$Source[grepl("rushlimbaugh.com", fair_final_temp_kav$URL)] = "Rush Limbaugh"
 fair_final_temp_kav$Source[grepl("theblaze.com", fair_final_temp_kav$URL)] = "The Blaze"
 fair_final_temp_kav$Source[grepl("hannity.com", fair_final_temp_kav$URL)] = "Sean Hannity"
+
+fair_icc_k <- lme(MFDweight ~ 1,
+                 data = fair_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 fair_model_kav = lme(MFDweight ~ lean,
                  data = fair_final_temp_kav,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(fair_model_kav)
+
+# check linearity
+random <- rchisq(nrow(fair_final_temp_kav), 7)
+residuals <- scale(residuals(fair_model_kav))
+fitted <- scale(fitted(fair_model_kav))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 ```{r analysis_ingroup_kav, include = FALSE}
@@ -1418,12 +1548,27 @@ ingroup_final_temp_kav$Source[grepl("breitbart.com", ingroup_final_temp_kav$URL)
 ingroup_final_temp_kav$Source[grepl("rushlimbaugh.com", ingroup_final_temp_kav$URL)] = "Rush Limbaugh"
 ingroup_final_temp_kav$Source[grepl("theblaze.com", ingroup_final_temp_kav$URL)] = "The Blaze"
 ingroup_final_temp_kav$Source[grepl("hannity.com", ingroup_final_temp_kav$URL)] = "Sean Hannity"
+
+ingroup_icc_k <- lme(MFDweight ~ 1,
+                 data = ingroup_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 ingroup_model_kav = lme(MFDweight ~ lean,
                  data = ingroup_final_temp_kav,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(ingroup_model_kav)
+
+# check linearity
+random <- rchisq(nrow(ingroup_final_temp_kav), 7)
+residuals <- scale(residuals(ingroup_model_kav))
+fitted <- scale(fitted(ingroup_model_kav))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 ```{r analysis_authority_kav, include = FALSE}
@@ -1459,12 +1604,27 @@ authority_final_temp_kav$Source[grepl("breitbart.com", authority_final_temp_kav$
 authority_final_temp_kav$Source[grepl("rushlimbaugh.com", authority_final_temp_kav$URL)] = "Rush Limbaugh"
 authority_final_temp_kav$Source[grepl("theblaze.com", authority_final_temp_kav$URL)] = "The Blaze"
 authority_final_temp_kav$Source[grepl("hannity.com", authority_final_temp_kav$URL)] = "Sean Hannity"
+
+authority_icc_k <- lme(MFDweight ~ 1,
+                 data = authority_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 authority_model_kav = lme(MFDweight ~ lean,
                  data = authority_final_temp_kav,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(authority_model_kav)
+
+# check linearity
+random <- rchisq(nrow(authority_final_temp_kav), 7)
+residuals <- scale(residuals(authority_model_kav))
+fitted <- scale(fitted(authority_model_kav))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 ```{r analysis_purity_kav, include = FALSE}
@@ -1500,12 +1660,27 @@ purity_final_temp_kav$Source[grepl("breitbart.com", purity_final_temp_kav$URL)] 
 purity_final_temp_kav$Source[grepl("rushlimbaugh.com", purity_final_temp_kav$URL)] = "Rush Limbaugh"
 purity_final_temp_kav$Source[grepl("theblaze.com", purity_final_temp_kav$URL)] = "The Blaze"
 purity_final_temp_kav$Source[grepl("hannity.com", purity_final_temp_kav$URL)] = "Sean Hannity"
+
+purity_icc_k <- lme(MFDweight ~ 1,
+                 data = purity_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 purity_model_kav = lme(MFDweight ~ lean,
                  data = purity_final_temp_kav,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(purity_model_kav)
+
+# check linearity
+random <- rchisq(nrow(purity_final_temp_kav), 7)
+residuals <- scale(residuals(purity_model_kav))
+fitted <- scale(fitted(purity_model_kav))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 ```{r analysis_harm_gs, include = FALSE}
@@ -1541,12 +1716,27 @@ harm_final_temp_gs$Source[grepl("breitbart.com", harm_final_temp_gs$URL)] = "Bre
 harm_final_temp_gs$Source[grepl("rushlimbaugh.com", harm_final_temp_gs$URL)] = "Rush Limbaugh"
 harm_final_temp_gs$Source[grepl("theblaze.com", harm_final_temp_gs$URL)] = "The Blaze"
 harm_final_temp_gs$Source[grepl("hannity.com", harm_final_temp_gs$URL)] = "Sean Hannity"
+
+harm_icc_gs <- lme(MFDweight ~ 1,
+                 data = harm_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 harm_model_gs = lme(MFDweight ~ lean,
                  data = harm_final_temp_gs,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(harm_model_gs)
+
+# check linearity
+random <- rchisq(nrow(harm_final_temp_gs), 7)
+residuals <- scale(residuals(harm_model_gs))
+fitted <- scale(fitted(harm_model_gs))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 ```{r analysis_fair_gs, include = FALSE}
@@ -1582,12 +1772,27 @@ fair_final_temp_gs$Source[grepl("breitbart.com", fair_final_temp_gs$URL)] = "Bre
 fair_final_temp_gs$Source[grepl("rushlimbaugh.com", fair_final_temp_gs$URL)] = "Rush Limbaugh"
 fair_final_temp_gs$Source[grepl("theblaze.com", fair_final_temp_gs$URL)] = "The Blaze"
 fair_final_temp_gs$Source[grepl("hannity.com", fair_final_temp_gs$URL)] = "Sean Hannity"
+
+fair_icc_gs <- lme(MFDweight ~ 1,
+                 data = fair_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 fair_model_gs = lme(MFDweight ~ lean,
                  data = fair_final_temp_gs,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(fair_model_gs)
+
+# check linearity
+random <- rchisq(nrow(fair_final_temp_gs), 7)
+residuals <- scale(residuals(fair_model_gs))
+fitted <- scale(fitted(fair_model_gs))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 ```{r analysis_ingroup_gs, include = FALSE}
@@ -1623,12 +1828,27 @@ ingroup_final_temp_gs$Source[grepl("breitbart.com", ingroup_final_temp_gs$URL)] 
 ingroup_final_temp_gs$Source[grepl("rushlimbaugh.com", ingroup_final_temp_gs$URL)] = "Rush Limbaugh"
 ingroup_final_temp_gs$Source[grepl("theblaze.com", ingroup_final_temp_gs$URL)] = "The Blaze"
 ingroup_final_temp_gs$Source[grepl("hannity.com", ingroup_final_temp_gs$URL)] = "Sean Hannity"
+
+ingroup_icc_gs <- lme(MFDweight ~ 1,
+                 data = ingroup_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 ingroup_model_gs = lme(MFDweight ~ lean,
                  data = ingroup_final_temp_gs,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(ingroup_model_gs)
+
+# check linearity
+random <- rchisq(nrow(ingroup_final_temp_gs), 7)
+residuals <- scale(residuals(ingroup_model_gs))
+fitted <- scale(fitted(ingroup_model_gs))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 ```{r analysis_authority_gs, include = FALSE}
@@ -1664,12 +1884,27 @@ authority_final_temp_gs$Source[grepl("breitbart.com", authority_final_temp_gs$UR
 authority_final_temp_gs$Source[grepl("rushlimbaugh.com", authority_final_temp_gs$URL)] = "Rush Limbaugh"
 authority_final_temp_gs$Source[grepl("theblaze.com", authority_final_temp_gs$URL)] = "The Blaze"
 authority_final_temp_gs$Source[grepl("hannity.com", authority_final_temp_gs$URL)] = "Sean Hannity"
+
+authority_icc_gs <- lme(MFDweight ~ 1,
+                 data = authority_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 authority_model_gs = lme(MFDweight ~ lean,
                  data = authority_final_temp_gs,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(authority_model_gs)
+
+# check linearity
+random <- rchisq(nrow(authority_final_temp_gs), 7)
+residuals <- scale(residuals(authority_model_gs))
+fitted <- scale(fitted(authority_model_gs))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 ```{r analysis_purity_gs, include = FALSE}
@@ -1705,12 +1940,27 @@ purity_final_temp_gs$Source[grepl("breitbart.com", purity_final_temp_gs$URL)] = 
 purity_final_temp_gs$Source[grepl("rushlimbaugh.com", purity_final_temp_gs$URL)] = "Rush Limbaugh"
 purity_final_temp_gs$Source[grepl("theblaze.com", purity_final_temp_gs$URL)] = "The Blaze"
 purity_final_temp_gs$Source[grepl("hannity.com", purity_final_temp_gs$URL)] = "Sean Hannity"
+
+purity_icc_gs <- lme(MFDweight ~ 1,
+                 data = purity_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 purity_model_gs = lme(MFDweight ~ lean,
                  data = purity_final_temp_gs,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
 summary(purity_model_gs)
+
+# check linearity
+random <- rchisq(nrow(purity_final_temp_gs), 7)
+residuals <- scale(residuals(purity_model_gs))
+fitted <- scale(fitted(purity_model_gs))
+hist(residuals)
+{qqnorm(residuals); abline(0,1)}
+{plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
 # Results
@@ -1885,8 +2135,8 @@ For the Kavanaugh topic, the multilevel model indicated the presence of a statis
 
 ```{r exp2_kav_calc, include = F, echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
-tableprint_kav = matrix(NA, ncol = 8, nrow = 5)
-colnames(tableprint_kav) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d")
+tableprint_kav = matrix(NA, ncol = 9, nrow = 5)
+colnames(tableprint_kav) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d", "ICC")
 
 #calculate d
 #harm
@@ -1937,29 +2187,30 @@ purity_d_kav = d.ind.t(m1 = mean(purity_final_temp_kav$MFDweight[purity_final_te
 #put in the numbers
 tableprint_kav[1, ] = c("Harm/Care", harm_d_kav$M1, harm_d_kav$sd1, harm_d_kav$M2, harm_d_kav$sd1,
                     summary(harm_model_kav)$tTable[2,4], summary(harm_model_kav)$tTable[2,5],
-                    harm_d_kav$d)
+                    harm_d_kav$d, icc(harm_icc_k)$ICC_unadjusted)
 tableprint_kav[2, ] = c("Fairness/Reciprocity", fair_d_kav$M1, fair_d_kav$sd1, fair_d_kav$M2, fair_d_kav$sd1,
                     summary(fair_model_kav)$tTable[2,4], summary(fair_model_kav)$tTable[2,5],
-                    fair_d_kav$d)
+                    fair_d_kav$d, icc(fair_icc_k)$ICC_unadjusted)
 tableprint_kav[3, ] = c("Ingroup/Loyalty", ingroup_d_kav$M1, ingroup_d_kav$sd1, ingroup_d_kav$M2, ingroup_d_kav$sd1,
                     summary(ingroup_model_kav)$tTable[2,4], summary(ingroup_model_kav)$tTable[2,5],
-                    ingroup_d_kav$d)
+                    ingroup_d_kav$d, icc(ingroup_icc_k)$ICC_unadjusted)
 tableprint_kav[4, ] = c("Authority/Respect", authority_d_kav$M1, authority_d_kav$sd1, authority_d_kav$M2, authority_d_kav$sd1,
                     summary(authority_model_kav)$tTable[2,4], summary(authority_model_kav)$tTable[2,5],
-                    authority_d_kav$d)
+                    authority_d_kav$d, icc(authority_icc_k)$ICC_unadjusted)
 tableprint_kav[5, ] = c("Purity/Sanctity", purity_d_kav$M1, purity_d_kav$sd1, purity_d_kav$M2, purity_d_kav$sd1,
                     summary(purity_model_kav)$tTable[2,4], summary(purity_model_kav)$tTable[2,5],
-                    purity_d_kav$d)
+                    purity_d_kav$d, icc(purity_icc_k)$ICC_unadjusted)
 
 tableprint_kav[ , c(2:6, 8)] = printnum(as.numeric(tableprint_kav[ , c(2:6, 8)]), big.mark = "")
 tableprint_kav[ , 7] = printp(as.numeric(tableprint_kav[ , 7]))
+tableprint_kav[ , 9] = printp(as.numeric(tableprint_kav[ , 9]))
 ```
 
 ```{r exp2-tablekav, results = 'asis', echo = F}
 apa_table(as.data.frame(tableprint_kav),
           note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
           caption = "Kavanaugh Results - Multilevel Model",
-          col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$"),
+          col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$", "ICC"),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 7)),
@@ -1974,8 +2225,8 @@ Based on the weighted percent values for the five foundations applied to both to
 
 ```{r exp2_gs_calc, include = F, echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
-tableprint_gs = matrix(NA, ncol = 8, nrow = 5)
-colnames(tableprint_gs) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d")
+tableprint_gs = matrix(NA, ncol = 9, nrow = 5)
+colnames(tableprint_gs) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d", "ICC")
 
 #calculate d
 #harm
@@ -2026,29 +2277,30 @@ purity_d_gs = d.ind.t(m1 = mean(purity_final_temp_gs$MFDweight[purity_final_temp
 #put in the numbers
 tableprint_gs[1, ] = c("Harm/Care", harm_d_gs$M1, harm_d_gs$sd1, harm_d_gs$M2, harm_d_gs$sd1,
                     summary(harm_model_gs)$tTable[2,4], summary(harm_model_gs)$tTable[2,5],
-                    harm_d_gs$d)
+                    harm_d_gs$d, icc(harm_icc_gs)$ICC_unadjusted)
 tableprint_gs[2, ] = c("Fairness/Reciprocity", fair_d_gs$M1, fair_d_gs$sd1, fair_d_gs$M2, fair_d_gs$sd1,
                     summary(fair_model_gs)$tTable[2,4], summary(fair_model_gs)$tTable[2,5],
-                    fair_d_gs$d)
+                    fair_d_gs$d, icc(fair_icc_gs)$ICC_unadjusted)
 tableprint_gs[3, ] = c("Ingroup/Loyalty", ingroup_d_gs$M1, ingroup_d_gs$sd1, ingroup_d_gs$M2, ingroup_d_gs$sd1,
                     summary(ingroup_model_gs)$tTable[2,4], summary(ingroup_model_gs)$tTable[2,5],
-                    ingroup_d_gs$d)
+                    ingroup_d_gs$d, icc(ingroup_icc_gs)$ICC_unadjusted)
 tableprint_gs[4, ] = c("Authority/Respect", authority_d_gs$M1, authority_d_gs$sd1, authority_d_gs$M2, authority_d_gs$sd1,
                     summary(authority_model_gs)$tTable[2,4], summary(authority_model_gs)$tTable[2,5],
-                    authority_d_gs$d)
+                    authority_d_gs$d, icc(authority_icc_gs)$ICC_unadjusted)
 tableprint_gs[5, ] = c("Purity/Sanctity", purity_d_gs$M1, purity_d_gs$sd1, purity_d_gs$M2, purity_d_gs$sd1,
                     summary(purity_model_gs)$tTable[2,4], summary(purity_model_gs)$tTable[2,5],
-                    purity_d_gs$d)
+                    purity_d_gs$d, icc(purity_icc_gs)$ICC_unadjusted)
 
 tableprint_gs[ , c(2:6, 8)] = printnum(as.numeric(tableprint_gs[ , c(2:6, 8)]), big.mark = "")
 tableprint_gs[ , 7] = printp(as.numeric(tableprint_gs[ , 7]))
+tableprint_gs[ , 9] = printp(as.numeric(tableprint_gs[ , 9]))
 ```
 
 ```{r exp2-tablegs, results = 'asis', echo = F}
 apa_table(as.data.frame(tableprint_gs),
           note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
           caption = "Government Shutdown Results - Multilevel Model",
-          col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$"),
+          col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$", "ICC"),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 7)),

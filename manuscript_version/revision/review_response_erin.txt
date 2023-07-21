@@ -16,6 +16,9 @@ As described in text, mostly these were chosen due to perceived and self-describ
 Given that in many ways the first study ends up being something of a de facto pilot study for the second (which I believe adds substantially to the credibility of the latter as well as the message of the pair as a package here), this is not a major issue as five times as many sources are used in the second study with similar findings. The manuscript seems to imply that these twenty sources represent the top ten sources from each valence of lean in the Mitchel et al., article; if that is so, it may be good to state as much more clearly. If I misunderstood and more arbitrary criteria were used to select each set of ten sources from the Mitchell et al. article’s results, that may need to be clarified as well.
 
 RESPONSE: [Erin]
+We picked the ones based on Mitchell's article that also were practically usable. Therefore, we added this sentence to our second study source section as well:
+
+"These sources were primarily selected due to their political lean but also due to our ability to webscrape their contents without a subscription based service."
 
 Again, though, I do not perceive these as concerns even if there is no more specific justification given that these seem appropriate conditions for studies viewed as experiments rather than as some sort of representative source sample. That said, I am reluctant to consider these studies simply experiments per se rather than perhaps as natural experiments. I am not sure I am correct, as I have limited experience with the latter, but I wonder if it might at least be worth suggesting renaming both studies as natural experiments rather than solely as experiments. That said, I defer to the editorial staff, reviewers, and authors themselves regarding whether the manuscript would be more accurate continuing to describe these studies as experiments or if it might be a good idea to call them natural experiments.
 
@@ -44,6 +47,13 @@ RESPONSE: [Kayden; should we include the MTMM study?]
 (2) The authors extend previous research on the MFD by "augmenting" the word counts with scores from another dictionary (Warriner et al.) I don't have access to the cited papers, especially Frimer's, but if this is an original idea by the authors, it needs *much* more theoretical and methodological justification. Previous applications of the MDF have by design only tapped the salience of the different dimensions in different texts, and it's not obvious to me whether extending this to valence is as straightforward as the present paper suggests. And even if one accepts the premise that context-free ratings of word lemmas by Mturk Workers are useful measures of some kind of word "valence", it's the authors burden of proof that multiplying one set of scores with a completely different set of word scores from another task makes sense. At the very least, I'd expect a quasi-replication study to start out with the traditional application of the MFD, i.e. simple word counts/relative frequencies as outcomes, and then check if and how multiplying them by z-standardized (why btw?) valence scores changes things.
 
 RESPONSE: [Erin]
+- note if we add the MTMM, this response may be different, so waiting here. Also this person seems to think that valence ratings are not useful, so add some notes about how they are very predictive, yada yada.
+
+Critically - also - the MFD was made by just *thinking* about words right? So why is that better than the actual ratings of valence from people?
+
+As noted in text, we z-scored to help with interpretation:
+
+"Valences were z-scored in order to eliminate any ambiguity regarding the direction of the valence. Positive values indicate positive valence, and negative values indicate negative valence."
 
 (3) As a communication scholar, I find the way outlets' leanings are measured by the composition of their readers at least questionable. I know it is a convenient shortcut, but again the question is whether the inferences drawn in the paper are really about the target audience, or the journalists' attitudes and moral predispositions (or the attitudes of the politicians quoted in the news articles). I encourage the authors to more thoroughly consider what kind of theoretical foundation their own arguments (or the cited previous applications of MFT to texts) have. A helpful source could be Benoit, K., Laver, M., & Mikhaylov, S. (2009). Treating words as data with error: Uncertainty in text statements of policy positions. American Journal of Political Science, 53(2), 495-513.
 
@@ -51,10 +61,11 @@ RESPONSE: While we appreciate the complexities of measuring partisan lean of med
 
 “We determined the political lean of each source by referencing @Mitchell2014's article demonstrating the self-reported ideological consistency represented by the consumers of several news sources.”
 
-
 (4) The manuscript can be shortened by removing redundancies between study 1 and 2 descriptions. Also, if the text statistics such as readability are not used as controls or otherwise in the main analysis, why bother with them? While I appreciate the excellent documentation of the scraping, much of this can be moved to a supplement.
 
 RESPONSE: [Erin]
+- undecided here maybe something like ...
+Given no page limits for the manuscript, we have opted to include this detail for transparency and openness purposes within the manuscript. Linguistic analysis heavily relies on the pre-processing steps taken on the data, and informing readers on these actions can help contextualize interpretation.
 
 (5) I was really irritated by the use of "Experiment" 1 and 2 in the headings, when no experiments were conducted or at least reported. Please stick to study 1 and 2.
 
@@ -63,17 +74,35 @@ RESPONSE: The wording has been changed.
 (6) Reporting the ICC of the Null model with just outlet clustering would be nice and helpful to understand the data.
 
 RESPONSE: [Erin]
+These values have been added to each model table.
 
 (7) Are we sure that linear models are appropriate for the weighted frequency outcomes?
 
 RESPONSE: [Erin]
+Each model was checked for assumptions of parametric models. Linearity, normality assumptions were met with some violations of homoscedasticity.
 
 Reviewer 3
 
 In this article, the authors provide a two-study investigation of the moral leanings of news sources using an approach based on the Moral Foundations Dictionary (MFD). This paper has a number of strengths, and I do believe that we need more work carefully validating dictionary-based approaches to studying moral content (and moral foundations theory) in textual data. I would also like to emphasize that this work is especially impressive being a Master’s thesis. This being said, I also see a number of issues with this manuscript that, in my view, limit the validity of its conclusions. In short, I found myself wondering throughout the methods section(s) as to the extent to which the results observed in this manuscript are due to the analytic decisions that were made rather than due to issues with the MFD (or MFT). This concern is magnified when considering that the authors used a number of rather non-standard techniques compared to extant work. I’ll highlight a few of the most salient issues below: My first concern is the most central to my overall evaluation of the manuscript. I noticed a large number of places where critical methodological details of the analyses conducted in this manuscript were completely left out or glossed over. I appreciate that the authors provided supplemental material containing analysis code, and I’m sure that I could dig through the code and figure out the answers to many of these questions, but it’s critical that methodological choices that are central to the conclusions of the paper be provided in the manuscript itself. A couple of noticeable examples:
 •	The details of the valence-weighting procedure applied to the moral foundations words was not clear to me, even after several readings. Was the valence calculated for the moral words themselves, or for the context surrounding the words? How were the z-scores applied (within i.e. within document, within source, overall)? These details are important, because the mean valence of the MFD words varies across different MFD categories, and also because the valence of moral words is almost always contingent on their context (see e.g. Hopp et al., 2021). For example, the sanctity-assigned word “pure” could be be used to refer to “pure water” or to “pure evil.”
-•	The details of the MLM’s are also unclear. For example, it seems like political leaning is treated as a categorical variable, but that isn’t mentioned. It’s also unclear how the random intercept for source was created. Again, I could be misunderstanding something, but if source wasn’t nested within political leaning, then creating the random intercept for source would almost certainly wash out any effect that may be attributed to political leaning. I would suggest providing the equations for the models within the text to avoid these sorts of confusions.
+
 RESPONSE: [Erin]
+We added an example table of the weighting calculation and rephrased this second completely.
+
+"A complete list of the words for each moral foundation area was created from previous experiments. The total number of times each of those words was used in an article was calculated. This information was merged with the valence values from the @Warriner2013 dataset. A weighted score was calculated by multiplying the frequency of occurrence within a document times the *z*-scored valence values and divided by the word count for that article. The final score was multiplied by 100 to represented a weighted percentage. Finally, the weighted scores were summed within in each article to get a total weighted percentage of the use of moral area specific words by article."
+
+Unfortunately, as with many linguistic analyses that focus on individual words (as with the MFD), context is lost using these approaches.
+
+•	The details of the MLM’s are also unclear. For example, it seems like political leaning is treated as a categorical variable, but that isn’t mentioned. It’s also unclear how the random intercept for source was created. Again, I could be misunderstanding something, but if source wasn’t nested within political leaning, then creating the random intercept for source would almost certainly wash out any effect that may be attributed to political leaning. I would suggest providing the equations for the models within the text to avoid these sorts of confusions.
+
+As described in the text:
+
+"Owing to the lower number of sources analyzed herein, we elected to categorize the sources as either "liberal" and "conservative" in order to form a basis for comparison."
+
+We would also note that the complete manuscript and code is available on our OSF page: https://osf.io/5kpj7/. We added the equation for the multilevel model directly to the text as well:
+
+"Therefore, the models were calculated by: Weighted Score ~ Political Lean + (~1|Source)."
+
 
 My second concern stems from the first. Given the lack of methodological clarity at several key points in the manuscript, I was somewhat surprised by the forcefulness of the authors’ conclusions. To be clear, I say this as someone who is also quite skeptical of the validity of the MFD (for a more extensive treatment of why, see Hopp et al., 2021). Given that the authors used a customized version of the MFD, I don’t personally see how evidence that the predictions didn’t pan out is evidence that the MFD (much less MFT in general) is less valid.
 
