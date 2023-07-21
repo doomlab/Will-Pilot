@@ -43,11 +43,14 @@ I have several major and minor concerns:
 (1) I don't exactly understand the purpose of the paper: Is it a validation study of the MFD or an attempted application of MFT to the analysis of media content? This concerns the interpretation of the findings: Do we believe that moral foundations simply did not impact the coverage of the issues, or just that the MFD did not pick up the latent messages because it is a flawed instrument? Would the cited improved methods such as manual coding or modern large language models be more successful? We do not know because the MFD is not systematically compared to alternative approaches. Ironically, the authors mention the multi-trait-multi-method approaches related to MFT, but do not apply them themselves. However, applying on method to one sample, tells us little about the validity of the method *or* the idiosyncrasies of the sample. Therefore, I am unsure what we can learn from the paper.
 
 RESPONSE: [Kayden; should we include the MTMM study?]
+Yes we are going to do that.
 
 (2) The authors extend previous research on the MFD by "augmenting" the word counts with scores from another dictionary (Warriner et al.) I don't have access to the cited papers, especially Frimer's, but if this is an original idea by the authors, it needs *much* more theoretical and methodological justification. Previous applications of the MDF have by design only tapped the salience of the different dimensions in different texts, and it's not obvious to me whether extending this to valence is as straightforward as the present paper suggests. And even if one accepts the premise that context-free ratings of word lemmas by Mturk Workers are useful measures of some kind of word "valence", it's the authors burden of proof that multiplying one set of scores with a completely different set of word scores from another task makes sense. At the very least, I'd expect a quasi-replication study to start out with the traditional application of the MFD, i.e. simple word counts/relative frequencies as outcomes, and then check if and how multiplying them by z-standardized (why btw?) valence scores changes things.
 
 RESPONSE: [Erin]
+- look at original thesis for justification for valence
 - note if we add the MTMM, this response may be different, so waiting here. Also this person seems to think that valence ratings are not useful, so add some notes about how they are very predictive, yada yada.
+- add information from will's thesis back in there
 
 Critically - also - the MFD was made by just *thinking* about words right? So why is that better than the actual ratings of valence from people?
 
@@ -64,6 +67,7 @@ RESPONSE: While we appreciate the complexities of measuring partisan lean of med
 (4) The manuscript can be shortened by removing redundancies between study 1 and 2 descriptions. Also, if the text statistics such as readability are not used as controls or otherwise in the main analysis, why bother with them? While I appreciate the excellent documentation of the scraping, much of this can be moved to a supplement.
 
 RESPONSE: [Erin]
+- move readability stats to an appendix
 - undecided here maybe something like ...
 Given no page limits for the manuscript, we have opted to include this detail for transparency and openness purposes within the manuscript. Linguistic analysis heavily relies on the pre-processing steps taken on the data, and informing readers on these actions can help contextualize interpretation.
 
@@ -91,7 +95,7 @@ We added an example table of the weighting calculation and rephrased this second
 
 "A complete list of the words for each moral foundation area was created from previous experiments. The total number of times each of those words was used in an article was calculated. This information was merged with the valence values from the @Warriner2013 dataset. A weighted score was calculated by multiplying the frequency of occurrence within a document times the *z*-scored valence values and divided by the word count for that article. The final score was multiplied by 100 to represented a weighted percentage. Finally, the weighted scores were summed within in each article to get a total weighted percentage of the use of moral area specific words by article."
 
-Unfortunately, as with many linguistic analyses that focus on individual words (as with the MFD), context is lost using these approaches.
+Unfortunately, as with many linguistic analyses that focus on individual words (as with the MFD), context is lost using these approaches. [KAYDEN you still decided to use that word LWIC information stuff here]
 
 •	The details of the MLM’s are also unclear. For example, it seems like political leaning is treated as a categorical variable, but that isn’t mentioned. It’s also unclear how the random intercept for source was created. Again, I could be misunderstanding something, but if source wasn’t nested within political leaning, then creating the random intercept for source would almost certainly wash out any effect that may be attributed to political leaning. I would suggest providing the equations for the models within the text to avoid these sorts of confusions.
 
@@ -102,7 +106,6 @@ As described in the text:
 We would also note that the complete manuscript and code is available on our OSF page: https://osf.io/5kpj7/. We added the equation for the multilevel model directly to the text as well:
 
 "Therefore, the models were calculated by: Weighted Score ~ Political Lean + (~1|Source)."
-
 
 My second concern stems from the first. Given the lack of methodological clarity at several key points in the manuscript, I was somewhat surprised by the forcefulness of the authors’ conclusions. To be clear, I say this as someone who is also quite skeptical of the validity of the MFD (for a more extensive treatment of why, see Hopp et al., 2021). Given that the authors used a customized version of the MFD, I don’t personally see how evidence that the predictions didn’t pan out is evidence that the MFD (much less MFT in general) is less valid.
 

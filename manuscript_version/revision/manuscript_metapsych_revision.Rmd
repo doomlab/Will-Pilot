@@ -584,7 +584,7 @@ hist(residuals)
 {plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
-```{r example-weight, results = 'asis', include = FALSE}
+```{r example-weight, results = 'asis', echo = FALSE}
 temp_table <- harm_final_data %>% 
   filter(Freq > 0) %>% 
   arrange(-Freq) %>% 
@@ -597,7 +597,7 @@ temp_table <- harm_final_data %>%
   slice_sample(n = 15, replace = F)
 
 apa_table(temp_table %>% select(-URL), 
-          note = "",
+          note = "Concepts were stemmed to match datasets.",
           caption = "Example of Weighted Coding for Harm Words",
           col.names = c("Source", "Concept", "Frequency", "Total Words", "Valence", "Weighted Score"),
           format = "latex",
