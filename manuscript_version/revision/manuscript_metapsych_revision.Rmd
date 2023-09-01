@@ -60,6 +60,14 @@ library(knitr)
 library(performance)
 library(dplyr)
 library(rio)
+library(mice)
+
+# to install this package 
+# tmp <- tempfile()
+# system2("git", c("clone", "--recursive",
+#                  shQuote("https://github.com/leslie-huang/r-corpus.git"), shQuote(tmp)))
+# devtools::install(tmp)
+library(corpus)
 
 knitr::opts_chunk$set(cache = TRUE)
 options(tinytex.verbose = TRUE)
@@ -2472,7 +2480,7 @@ noout1$purityMFQ <- apply(noout1[ , 19:21], 1, sum)
 
 ### Materials and Procedure
 
-A complete example of the survey can be found online at OSF LINK. First, participants were given a description of associative memory as the relation between words that comes about through many pairings in writing and speech. Next, the free association task, similar to that used in @Nelson2004 and @SWOW_FIX_THIS was described to the participants as listing the "first word that pops into mind". The participants were then given three example free association cues, *lost*, *old*, and *article*. For each cue, participants were asked to write all the words that come to mind. To elicit free association to the moral foundation areas, participants were given the following instructions:
+A complete example of the survey can be found online at https://osf.io/5uqfn. First, participants were given a description of associative memory as the relation between words that comes about through many pairings in writing and speech. Next, the free association task, similar to that used in CITE @Nelson2004 and @SWOW_FIX_THIS was described to the participants as listing the "first word that pops into mind". The participants were then given three example free association cues, *lost*, *old*, and *article*. For each cue, participants were asked to write all the words that come to mind. To elicit free association to the moral foundation areas, participants were given the following instructions:
 
 "Moral Foundations Theory states that when making moral judgments/decisions, the concerns people have can be divided into five categories. Below are labels of each of these five categories. You will then be asked to list words you think are associated with each of the labels."
 
@@ -2480,50 +2488,49 @@ Each of the foundation pairs were listed together (i.e., *harm/care*, *fairness/
 
 ### Results 
 
-All data was screening for inaccurate responses, as well as missing data, as described in the participant section. Two participants were missing data on the political orientation scale after excluding participants with more than five percent missing data, and this data was excluded pairwise. The MFQ data was screened for multivariate outliers with Mahalanobis distance as described in @Tabachnick2012, and fourteen outliers were found using $\chi^2_{p < .001}$(`r ncol(finalsample[ , -c(1:6,22,23)])`) = `r cutoff1`. These participants were excluded from further analyses, representing `r nrow(noout1)` final participants. The final data was screened for assumptions of normality, linearity, homogeneity and homoscedasticity, and these were found to be satisfactory. 
+All data was screening for inaccurate responses, as well as missing data, as described in the participant section. Two participants were missing data on the political orientation scale after excluding participants with more than five percent missing data, and this data was excluded pairwise. The MFQ data was screened for multivariate outliers with Mahalanobis distance as described in @Tabachnick2012 CITE, and fourteen outliers were found using $\chi^2_{p < .001}$(`r ncol(finalsample[ , -c(1:6,22,23)])`) = `r apa_num(cutoff1)`. These participants were excluded from further analyses, representing `r nrow(noout1)` final participants. The final MFQ data was screened for assumptions of normality, linearity, homogeneity and homoscedasticity, and these were found to be satisfactory. 
 
-The sum of each moral foundation area was calculated in order to determine which words were linked to their respective moral foundation. The average scores were: harm (*M* = `r printnum(mean(noout1$harmMFQ))`, *SD* = `r printnum(sd(noout1$harmMFQ))`), fairness  (*M* = `r printnum(mean(noout1$fairMFQ))`, *SD* = `r printnum(sd(noout1$fairMFQ))`), ingroup (*M* = `r printnum(mean(noout1$ingroupMFQ))`, *SD* = `r printnum(sd(noout1$ingroupMFQ))`), authority  (*M* = `r printnum(mean(noout1$authorityMFQ))`, *SD* = `r printnum(sd(noout1$authorityMFQ))`), and purity (*M* = `r printnum(mean(noout1$purityMFQ))`, *SD* = `r printnum(sd(noout1$purityMFQ))`). Participants free association responses were processed using the *tm* library [@CITE] after spell checking. Each set of answers was cleaned for punctuation, English stop words (e.g., *the*, *an*, *of*) were removed, and each word was stemmed using the English library in *tm*. We did not combine related words in this section (i.e., *injure* and *injury*, which have different stems *injur* and *injuri*) to allow for maximum coverage of different word forms present in the dictionary. Additionally, with the use of automated stemmers like that present in the *tm* library, leaving both word forms in the dictionary would capture more of the concepts present in future analyses with a different corpus without the requirement on the experimenter to manuall recode all word forms. Frequency counts of the stemmed words were tabulated and only words mentioned with at least one percent frequency were used in the subsequent analyses. The complete set of word frequencies for each foundation can be found in our supplemental materials. 
+The sum of each moral foundation area was calculated in order to determine which words were linked to their respective moral foundation. The average scores were: harm (*M* = `r printnum(mean(noout1$harmMFQ))`, *SD* = `r printnum(sd(noout1$harmMFQ))`), fairness  (*M* = `r printnum(mean(noout1$fairMFQ))`, *SD* = `r printnum(sd(noout1$fairMFQ))`), ingroup (*M* = `r printnum(mean(noout1$ingroupMFQ))`, *SD* = `r printnum(sd(noout1$ingroupMFQ))`), authority  (*M* = `r printnum(mean(noout1$authorityMFQ))`, *SD* = `r printnum(sd(noout1$authorityMFQ))`), and purity (*M* = `r printnum(mean(noout1$purityMFQ))`, *SD* = `r printnum(sd(noout1$purityMFQ))`). Participants free association responses were processed using the *tm* [CITE] and *corpus* [CITE] libraries after spell checking. Each set of answers was cleaned for punctuation, English stop words (e.g., *the*, *an*, *of*) were removed, and each word was stemmed using the English library in *tm*. We did not combine related words in this section (i.e., *injure* and *injury*, which have different stems *injur* and *injuri*) to allow for maximum coverage of different word forms present in the dictionary. Additionally, with the use of automated stemmers like that present in the *tm* library, leaving both word forms in the dictionary would capture more of the concepts present in future analyses with a different corpus without the requirement on the experimenter to manually recode all word forms. Frequency counts of the stemmed words were tabulated and only words mentioned with at least one percent frequency were used in the subsequent analyses. The complete set of word frequencies for each foundation can be found in our supplemental materials. 
 
 ```{r harm-analysis-3.1, include = FALSE}
 #q27 through 34 are the writing columns
-noout1$Q27 = as.character(noout1$Q27)
+noout1$Q27 <- as.character(noout1$Q27)
 
 ##stem the data
-
 for (i in 1:nrow(noout1)) {
-  noout1$Q27[i] = paste(unlist(
+  noout1$Q27[i] <- paste(unlist(
     text_tokens(noout1$Q27[i], stemmer = "en")), collapse = " ")
 }
 
 ##create a corpus
-harm_corpus = Corpus(VectorSource(noout1$Q27))
-harm_TDM = as.matrix(TermDocumentMatrix(harm_corpus,
+harm_corpus <- Corpus(VectorSource(noout1$Q27))
+harm_TDM <- as.matrix(TermDocumentMatrix(harm_corpus,
                               control = list(removePunctuation = TRUE,
                                              stopwords = TRUE)))
 
 ##view the most frequent words
-harm_freq = data.frame(Word = rownames(harm_TDM),
+harm_freq <- data.frame(Word = rownames(harm_TDM),
                        Freq = rowSums(harm_TDM),
                        row.names = NULL)
-harm_freq$Word = as.character(harm_freq$Word)
-harm_freq$percent = harm_freq$Freq/nrow(noout1) *100
+harm_freq$Word <- as.character(harm_freq$Word)
+harm_freq$percent <- harm_freq$Freq/nrow(noout1) *100
 
-write.csv(harm_freq, "exp1_harm_freq.csv", row.names = F)
+write.csv(harm_freq, "exp3_data/study3.1_harm_freq.csv", row.names = F)
 
 ##subset out to only words with 1% mentions
-harm_words = harm_freq$Word[harm_freq$percent >=1]
+harm_words <- harm_freq$Word[harm_freq$percent >=1]
 ##turn sideways to add to dataset
-harm_TDM = as.data.frame(t(harm_TDM))
-harm_TDM = harm_TDM[ , harm_words]
+harm_TDM  <- as.data.frame(t(harm_TDM))
+harm_TDM  <- harm_TDM[ , harm_words]
 
 ##final dataset for harm
-harm_final = cbind(noout1[ , c("ResponseId", "Q15_1", "Q23", "harmMFQ")],
+harm_final <- cbind(noout1[ , c("ResponseId", "Q15_1", "Q23", "harmMFQ")],
                    harm_TDM)
 
-harm_cor = apply(harm_final[ , 5:ncol(harm_final)], 2, function (x) { cor(x, harm_final$harmMFQ)})
+harm_cor <- apply(harm_final[ , 5:ncol(harm_final)], 2, function (x) { cor(x, harm_final$harmMFQ)})
 
-harmcut = mean(harm_cor) + 2*sd(harm_cor)
-harm_words_reduce = names(harm_cor[abs(harm_cor) >= harmcut])
+harmcut <- mean(harm_cor) + 2*sd(harm_cor)
+harm_words_reduce <- names(harm_cor[abs(harm_cor) >= harmcut])
 ```
 
 ```{r fair-analysi-3.1, include = FALSE}
@@ -2532,165 +2539,165 @@ noout1$Q29 = as.character(noout1$Q29)
 
 ##stem the data
 for (i in 1:nrow(noout1)) {
-  noout1$Q29[i] = paste(unlist(
+  noout1$Q29[i] <- paste(unlist(
     text_tokens(noout1$Q29[i], stemmer = "en")), collapse = " ")
 }
 
 ##create a corpus
-fair_corpus = Corpus(VectorSource(noout1$Q29))
-fair_TDM = as.matrix(TermDocumentMatrix(fair_corpus,
+fair_corpus <- Corpus(VectorSource(noout1$Q29))
+fair_TDM <- as.matrix(TermDocumentMatrix(fair_corpus,
                               control = list(removePunctuation = TRUE,
                                              stopwords = TRUE)))
 
 ##view the most frequent words
-fair_freq = data.frame(Word = rownames(fair_TDM),
+fair_freq <- data.frame(Word = rownames(fair_TDM),
                        Freq = rowSums(fair_TDM),
                        row.names = NULL)
-fair_freq$Word = as.character(fair_freq$Word)
-fair_freq$percent = fair_freq$Freq/nrow(noout1) *100
+fair_freq$Word <- as.character(fair_freq$Word)
+fair_freq$percent <- fair_freq$Freq/nrow(noout1) *100
 
-write.csv(fair_freq, "exp1_fair_freq.csv", row.names = F)
+write.csv(fair_freq, "exp3_data/study3.1_fair_freq.csv", row.names = F)
 
 ##subset out to only words with 1% mentions
-fair_words = fair_freq$Word[fair_freq$percent >=1]
+fair_words <- fair_freq$Word[fair_freq$percent >=1]
 ##turn sideways to add to dataset
-fair_TDM = as.data.frame(t(fair_TDM))
-fair_TDM = fair_TDM[ , fair_words]
+fair_TDM <- as.data.frame(t(fair_TDM))
+fair_TDM <- fair_TDM[ , fair_words]
 
 ##final dataset for fair
-fair_final = cbind(noout1[ , c("ResponseId", "Q15_1", "Q23", "fairMFQ")],
+fair_final <- cbind(noout1[ , c("ResponseId", "Q15_1", "Q23", "fairMFQ")],
                    fair_TDM)
 
-fair_cor = apply(fair_final[ , 5:ncol(fair_final)], 2, function (x) { cor(x, fair_final$fairMFQ)})
+fair_cor <- apply(fair_final[ , 5:ncol(fair_final)], 2, function (x) { cor(x, fair_final$fairMFQ)})
 
-faircut = mean(fair_cor) + 2*sd(fair_cor)
-fair_words_reduce = names(fair_cor[abs(fair_cor) >= faircut])
+faircut <- mean(fair_cor) + 2*sd(fair_cor)
+fair_words_reduce <- names(fair_cor[abs(fair_cor) >= faircut])
 ```
 
 ```{r ingroup-analysis-3.1, include=FALSE}
 #q27 through 34 are the writing columns
-noout1$Q30 = as.character(noout1$Q30)
+noout1$Q30 <- as.character(noout1$Q30)
 
 ##stem the data
 for (i in 1:nrow(noout1)) {
-  noout1$Q30[i] = paste(unlist(
+  noout1$Q30[i] <- paste(unlist(
     text_tokens(noout1$Q30[i], stemmer = "en")), collapse = " ")
 }
 
 ##create a corpus
-ingroup_corpus = Corpus(VectorSource(noout1$Q30))
-ingroup_TDM = as.matrix(TermDocumentMatrix(ingroup_corpus,
+ingroup_corpus <- Corpus(VectorSource(noout1$Q30))
+ingroup_TDM <- as.matrix(TermDocumentMatrix(ingroup_corpus,
                               control = list(removePunctuation = TRUE,
                                              stopwords = TRUE)))
 
 ##view the most frequent words
-ingroup_freq = data.frame(Word = rownames(ingroup_TDM),
+ingroup_freq <- data.frame(Word = rownames(ingroup_TDM),
                        Freq = rowSums(ingroup_TDM),
                        row.names = NULL)
-ingroup_freq$Word = as.character(ingroup_freq$Word)
-ingroup_freq$percent = ingroup_freq$Freq/nrow(noout1) *100
+ingroup_freq$Word <- as.character(ingroup_freq$Word)
+ingroup_freq$percent <- ingroup_freq$Freq/nrow(noout1) *100
 
-write.csv(ingroup_freq, "exp1_ingroup_freq.csv", row.names = F)
+write.csv(ingroup_freq, "exp3_data/study3.1_ingroup_freq.csv", row.names = F)
 
 ##subset out to only words with 1% mentions
-ingroup_words = ingroup_freq$Word[ingroup_freq$percent >=1]
+ingroup_words <- ingroup_freq$Word[ingroup_freq$percent >=1]
 ##turn sideways to add to dataset
-ingroup_TDM = as.data.frame(t(ingroup_TDM))
-ingroup_TDM = ingroup_TDM[ , ingroup_words]
+ingroup_TDM <- as.data.frame(t(ingroup_TDM))
+ingroup_TDM <- ingroup_TDM[ , ingroup_words]
 
 ##final dataset for ingroup
-ingroup_final = cbind(noout1[ , c("ResponseId", "Q15_1", "Q23", "ingroupMFQ")],
+ingroup_final <- cbind(noout1[ , c("ResponseId", "Q15_1", "Q23", "ingroupMFQ")],
                    ingroup_TDM)
 
-ingroup_cor = apply(ingroup_final[ , 5:ncol(ingroup_final)], 2, function (x) { cor(x, ingroup_final$ingroupMFQ)})
+ingroup_cor <- apply(ingroup_final[ , 5:ncol(ingroup_final)], 2, function (x) { cor(x, ingroup_final$ingroupMFQ)})
 
-ingroupcut = mean(ingroup_cor) + 2*sd(ingroup_cor)
-ingroup_words_reduce = names(ingroup_cor[abs(ingroup_cor) >= ingroupcut])
+ingroupcut <- mean(ingroup_cor) + 2*sd(ingroup_cor)
+ingroup_words_reduce <- names(ingroup_cor[abs(ingroup_cor) >= ingroupcut])
 ```
 
 ```{r authority-analysis-3.1, include = FALSE}
 #q27 through 34 are the writing columns
-noout1$Q32 = as.character(noout1$Q32)
+noout1$Q32 <- as.character(noout1$Q32)
 
 ##stem the data
 for (i in 1:nrow(noout1)) {
-  noout1$Q32[i] = paste(unlist(
+  noout1$Q32[i] <- paste(unlist(
     text_tokens(noout1$Q32[i], stemmer = "en")), collapse = " ")
 }
 
 ##create a corpus
-authority_corpus = Corpus(VectorSource(noout1$Q32))
-authority_TDM = as.matrix(TermDocumentMatrix(authority_corpus,
+authority_corpus <- Corpus(VectorSource(noout1$Q32))
+authority_TDM <- as.matrix(TermDocumentMatrix(authority_corpus,
                               control = list(removePunctuation = TRUE,
                                              stopwords = TRUE)))
 
 ##view the most frequent words
-authority_freq = data.frame(Word = rownames(authority_TDM),
+authority_freq <- data.frame(Word = rownames(authority_TDM),
                        Freq = rowSums(authority_TDM),
                        row.names = NULL)
-authority_freq$Word = as.character(authority_freq$Word)
-authority_freq$percent = authority_freq$Freq/nrow(noout1) *100
+authority_freq$Word <- as.character(authority_freq$Word)
+authority_freq$percent <- authority_freq$Freq/nrow(noout1) *100
 
-write.csv(authority_freq, "exp1_authority_freq.csv", row.names = F)
+write.csv(authority_freq, "exp3_data/study3.1_authority_freq.csv", row.names = F)
 
 ##subset out to only words with 1% mentions
-authority_words = authority_freq$Word[authority_freq$percent >=1]
+authority_words <- authority_freq$Word[authority_freq$percent >=1]
 ##turn sideways to add to dataset
-authority_TDM = as.data.frame(t(authority_TDM))
-authority_TDM = authority_TDM[ , authority_words]
+authority_TDM <- as.data.frame(t(authority_TDM))
+authority_TDM <- authority_TDM[ , authority_words]
 
 ##final dataset for authority
-authority_final = cbind(noout1[ , c("ResponseId", "Q15_1", "Q23", "authorityMFQ")],
+authority_final <- cbind(noout1[ , c("ResponseId", "Q15_1", "Q23", "authorityMFQ")],
                    authority_TDM)
 
-authority_cor = apply(authority_final[ , 5:ncol(authority_final)], 2, function (x) { cor(x, authority_final$authorityMFQ)})
+authority_cor <- apply(authority_final[ , 5:ncol(authority_final)], 2, function (x) { cor(x, authority_final$authorityMFQ)})
 
-authoritycut = mean(authority_cor) + 2*sd(authority_cor)
-authority_words_reduce = names(authority_cor[abs(authority_cor) >= authoritycut])
+authoritycut <- mean(authority_cor) + 2*sd(authority_cor)
+authority_words_reduce <- names(authority_cor[abs(authority_cor) >= authoritycut])
 ```
 
 ```{r purity-analysis-3.1, include = FALSE}
 #q27 through 34 are the writing columns
-noout1$Q34 = as.character(noout1$Q34)
+noout1$Q34 <- as.character(noout1$Q34)
 
 ##stem the data
 for (i in 1:nrow(noout1)) {
-  noout1$Q34[i] = paste(unlist(
+  noout1$Q34[i] <- paste(unlist(
     text_tokens(noout1$Q34[i], stemmer = "en")), collapse = " ")
 }
 
 ##create a corpus
-purity_corpus = Corpus(VectorSource(noout1$Q34))
-purity_TDM = as.matrix(TermDocumentMatrix(purity_corpus,
+purity_corpus <- Corpus(VectorSource(noout1$Q34))
+purity_TDM <- as.matrix(TermDocumentMatrix(purity_corpus,
                               control = list(removePunctuation = TRUE,
                                              stopwords = TRUE)))
 
 ##view the most frequent words
-purity_freq = data.frame(Word = rownames(purity_TDM),
+purity_freq <- data.frame(Word = rownames(purity_TDM),
                        Freq = rowSums(purity_TDM),
                        row.names = NULL)
-purity_freq$Word = as.character(purity_freq$Word)
-purity_freq$percent = purity_freq$Freq/nrow(noout1) *100
+purity_freq$Word <- as.character(purity_freq$Word)
+purity_freq$percent <- purity_freq$Freq/nrow(noout1) *100
 
-write.csv(purity_freq, "exp1_purity_freq.csv", row.names = F)
+write.csv(purity_freq, "exp3_data/study3.1_purity_freq.csv", row.names = F)
 
 ##subset out to only words with 1% mentions
-purity_words = purity_freq$Word[purity_freq$percent >=1]
+purity_words <- purity_freq$Word[purity_freq$percent >=1]
 ##turn sideways to add to dataset
-purity_TDM = as.data.frame(t(purity_TDM))
-purity_TDM = purity_TDM[ , purity_words]
+purity_TDM <- as.data.frame(t(purity_TDM))
+purity_TDM <- purity_TDM[ , purity_words]
 
 ##final dataset for purity
-purity_final = cbind(noout1[ , c("ResponseId", "Q15_1", "Q23", "purityMFQ")],
+purity_final <- cbind(noout1[ , c("ResponseId", "Q15_1", "Q23", "purityMFQ")],
                    purity_TDM)
 
-purity_cor = apply(purity_final[ , 5:ncol(purity_final)], 2, function (x) { cor(x, purity_final$purityMFQ)})
+purity_cor <- apply(purity_final[ , 5:ncol(purity_final)], 2, function (x) { cor(x, purity_final$purityMFQ)})
 
-puritycut = mean(purity_cor) + 2*sd(purity_cor)
-purity_words_reduce = names(purity_cor[abs(purity_cor) >= puritycut])
+puritycut <- mean(purity_cor) + 2*sd(purity_cor)
+purity_words_reduce <- names(purity_cor[abs(purity_cor) >= puritycut])
 ```
 
-This procedure generated a large frequency of words for a new dictionary of moral foundations: harm `r length(harm_words)`, fairness `r length(fair_words)`, ingroup `r length(ingroup_words)`, authority `r length(authority_words)`, and purity `r length(purity_words)`. These concepts were included in the full dictionary used for Experiment 3. We additionally created a reduced dictionary that included only concepts correlated with their respective moral foundations scores. Correlations between word frequency and the sum of the MFQ were calculated for each foundation and set of concepts. Words were included in the reduced dictionary if their correlation was two standard deviations away from the mean correlation for that foundation. The reduced dataset included the following number of words for each foundation: harm `r length(harm_words_reduce)`, fairness `r length(fair_words_reduce)`, ingroup `r length(ingroup_words_reduce)`, authority `r length(authority_words_reduce)`, and purity `r length(purity_words_reduce)`.
+This procedure generated a large frequency of words for a new dictionary of moral foundations: harm `r length(harm_words)`, fairness `r length(fair_words)`, ingroup `r length(ingroup_words)`, authority `r length(authority_words)`, and purity `r length(purity_words)`. These concepts were included in the full dictionary used for Study 3.3. We additionally created a reduced dictionary that included only concepts correlated with their respective moral foundations scores. Correlations between word frequency and the sum of the MFQ were calculated for each foundation and set of concepts. Words were included in the reduced dictionary if their correlation was two standard deviations away from the mean correlation for that foundation. The reduced dataset included the following number of words for each foundation: harm `r length(harm_words_reduce)`, fairness `r length(fair_words_reduce)`, ingroup `r length(ingroup_words_reduce)`, authority `r length(authority_words_reduce)`, and purity `r length(purity_words_reduce)`.
 
 ## Study 3.2
 
@@ -2699,43 +2706,43 @@ this section is about the writing
 ### Participants
 
 ```{r demos-mtmm-study-3.2, include=FALSE, warning=FALSE}
-sample1 = read.csv("fixed_sample 1.csv", stringsAsFactors = F)
-sample2 = read.csv("fixed_sample 2.csv", stringsAsFactors = F)
+sample1 <- read.csv("exp3_data/study3.2_fixed_sample 1.csv", stringsAsFactors = F)
+sample2 <- read.csv("exp3_data/study3.2_fixed_sample 2.csv", stringsAsFactors = F)
 
 ##merge files together
-fullsample = merge(sample1, sample2, all = TRUE)
+fullsample <- merge(sample1, sample2, all = TRUE)
 
 ##merge together the writing samples
 #q24, q25, q26, q7 
-fullsample$writing = apply(fullsample[, c("Q24", "Q25", "Q26", "Q7")], 
+fullsample$writing <- apply(fullsample[, c("Q24", "Q25", "Q26", "Q7")], 
                            1, function(x) toString(na.omit(x)))
 
 ##clear out completely columns we don't need
-crapcolumns = c(1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 51:61)
-finalsample = fullsample[ , -crapcolumns]
+crapcolumns <- c(1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 51:61)
+finalsample <- fullsample[ , -crapcolumns]
 
 ##accuracy
 summary(finalsample[ , 2:40])
 
-finalsample$Q10 = factor(finalsample$Q10,
+finalsample$Q10 <- factor(finalsample$Q10,
                          levels = 1:2,
                          labels = c("Man", "Woman"))
-finalsample$Q11 = as.numeric(finalsample$Q11)
-finalsample$Q12 = factor(finalsample$Q12,
+finalsample$Q11 <- as.numeric(finalsample$Q11)
+finalsample$Q12 <- factor(finalsample$Q12,
                          levels = 1:7,
                          labels = c("White", "Black", 
                                     "Hispanic", "Asian",
                                     "Native American", 
                                     "Mixed", "Other"))
 
-gender = table(finalsample$Q10)/sum(table(finalsample$Q10))*100
-race = table(finalsample$Q12)/sum(table(finalsample$Q12))*100
+gender <- table(finalsample$Q10)/sum(table(finalsample$Q10))*100
+race <- table(finalsample$Q12)/sum(table(finalsample$Q12))*100
 
-write.csv(finalsample, 'exp2_finalsample.csv', row.names = FALSE)
-newMFD = read.csv('exp2_finalsample_newMFD.csv')
-colnames(newMFD)[1:41] = colnames(finalsample)[1:41]
-newMFD = newMFD[,c(1,42:55)]
-finalsample = merge(finalsample, newMFD, by="ResponseId")
+write.csv(finalsample, 'exp3_data/study3.2_finalsample.csv', row.names = FALSE)
+newMFD <- import('exp3_data/study3.2_finalsample_newMFD.csv')
+colnames(newMFD)[1:41] <- colnames(finalsample)[1:41]
+newMFD <- newMFD[,c(1,42:55)]
+finalsample <- merge(finalsample, newMFD, by = "ResponseId")
 
 ##take out the people with less than 25 words
 ##use the ngram library to examine the data
@@ -2743,29 +2750,29 @@ finalsample = merge(finalsample, newMFD, by="ResponseId")
 
 for (i in 1:nrow(finalsample)) {
   
-  finalsample$writing[i] = preprocess(finalsample$writing[i], case="lower", remove.punct=TRUE)
-  finalsample$wordcount[i] = string.summary(finalsample$writing[i])$words
+  finalsample$writing[i] <- preprocess(finalsample$writing[i], case="lower", remove.punct=TRUE)
+  finalsample$wordcount[i] <- string.summary(finalsample$writing[i])$words
   
 }
 
 #remove small words people
-finalwords = subset(finalsample, wordcount >=25)
+finalwords <- subset(finalsample, wordcount >=25)
 
 ##check out missing data
 #missing by row
-missing = apply(finalwords, 1, percentmiss)
+missing <- apply(finalwords, 1, percentmiss)
 table(missing)
-goodrows = subset(finalwords, missing <= 5)
+goodrows <- subset(finalwords, missing <= 5)
 
 #missing by column
 apply(goodrows, 2, percentmiss)
 
 ##don't fill in Q10 to the end, be sure to merge these back together
-goodcolumns = goodrows[ , -c(32:42)]
-badcolumns = goodrows[ , c(32:42)]
+goodcolumns <- goodrows[ , -c(32:42)]
+badcolumns <- goodrows[ , c(32:42)]
 
 #fill in missing data points
-library(mice)
+
 tempnomiss = mice(goodcolumns)
 nomiss = complete(tempnomiss, 1)
 summary(nomiss)
