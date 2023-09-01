@@ -27,7 +27,7 @@ abstract: |
 
 keywords          : "politics, morality, psycholinguistics"
 
-bibliography      : ["../metapsych_bib.bib"] #turn this off right now so it knits
+bibliography      : ["./metapsych_bib.bib"] #turn this off right now so it knits
 
 floatsintext      : yes
 figurelist        : no
@@ -59,9 +59,11 @@ library(reshape)
 library(knitr)
 library(performance)
 library(dplyr)
+library(rio)
 
 knitr::opts_chunk$set(cache = TRUE)
 options(tinytex.verbose = TRUE)
+percentmiss <- function(x){sum(is.na(x))/length(x)*100}
 ```
 
 The field of moral psychology has a long history with modern moral psychology beginning in the late 1960s with Lawrence Kohlberg's theory of moral development [@Kohlberg1977]. Since then, Kohlberg's theory has been highly criticized with numerous theories and hypotheses proposed to replace it. One of these theories is Moral Foundations Theory (MFT) proposed by Jonathan Haidt and Jesse Graham [@Haidt2007]. While the theory itself has been widely criticized and debated, the goal of the current work is to tackle a related measurement issue, the Moral Foundations Dictionary (MFD) [@Graham2009]. @Graham2009 developed a lexicon-based linguistic measure of MFT arguing that moral concerns and the propositions of MFT could be measured and tested with the words people use. Here we first review evidence and criticisms against this assumption. We then provide our own test of the MFD using partisan news articles.
@@ -120,7 +122,7 @@ Concurrent research by @Jordan2019 assesses the validity of both the MFQ and the
 A complete list of the words for each moral foundation area was created from previous experiments. The total number of times each of those words was used in an article was calculated. This information was merged with the valence values from the @Warriner2013 dataset. A weighted score was calculated by multiplying the frequency of occurrence within a document times the *z*-scored valence values and divided by the word count for that article. The final score was multiplied by 100 to represented a weighted percentage. Finally, the weighted scores were summed within in each article to get a total weighted percentage of the use of moral area specific words by article. Valences were *z*-scored in order to eliminate any ambiguity regarding the direction of the valence. Positive values indicate positive valence, and negative values indicate negative valence. Words were categorized in accordance to their MFD affiliation, creating a weighted sum for each moral foundation. See Table \@ref(tab:example-weight) for an example. 
 
 ```{r stem_text, eval=TRUE, include=FALSE}
-final = read.csv("../exp1_data/finaldata.csv", stringsAsFactors = F)
+final = read.csv("./exp1_data/finaldata.csv", stringsAsFactors = F)
 final = na.omit(final) #one weird NA line
 
 #process the Text column (write a loop) - save processed text as a separate column
@@ -140,7 +142,7 @@ for(i in 1:nrow(final)) {
 
 ```{r stem_warriner, include = FALSE}
 ##open the Warriner data for later
-warriner = read.csv("../exp1_data/BRM-emot-submit.csv", stringsAsFactors = F) #want v.mean.sum
+warriner = read.csv("./exp1_data/BRM-emot-submit.csv", stringsAsFactors = F) #want v.mean.sum
 warriner$V.Mean.Sum = scale(warriner$V.Mean.Sum)
 
 for(i in 1:nrow(warriner)) {
@@ -150,7 +152,7 @@ for(i in 1:nrow(warriner)) {
 
 ```{r create_datasets_harm, echo = F, include=FALSE}
 #read in the harm total words from the mtmm project
-harm_all = read.csv("../exp1_data/harm_words_total.csv", stringsAsFactors = F)
+harm_all = read.csv("./exp1_data/harm_words_total.csv", stringsAsFactors = F)
 
 harm_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -190,7 +192,7 @@ harm_final_data$valence[harm_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[w
 ```
 
 ```{r create_datasets_fair, include=FALSE}
-fair_all = read.csv("../exp1_data/fair_words_total.csv", stringsAsFactors = F)
+fair_all = read.csv("./exp1_data/fair_words_total.csv", stringsAsFactors = F)
 
 fair_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -228,7 +230,7 @@ fair_final_data$valence[fair_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[w
 ```
 
 ```{r create_datasets_ingroup, include=FALSE}
-ingroup_all = read.csv("../exp1_data/ingroup_words_total.csv", stringsAsFactors = F)
+ingroup_all = read.csv("./exp1_data/ingroup_words_total.csv", stringsAsFactors = F)
 
 ingroup_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -267,7 +269,7 @@ ingroup_final_data$valence[ingroup_final_data$Var1 == "true"] = mean(warriner$V.
 ```
 
 ```{r create_datasets_authority, include=FALSE}
-authority_all = read.csv("../exp1_data/authority_words_total.csv", stringsAsFactors = F)
+authority_all = read.csv("./exp1_data/authority_words_total.csv", stringsAsFactors = F)
 
 authority_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -307,7 +309,7 @@ authority_final_data$valence[authority_final_data$Var1 == "taken"] = mean(warrin
 ```
 
 ```{r create_datasets_purity, include=FALSE}
-purity_all = read.csv("../exp1_data/purity_words_total.csv", stringsAsFactors = F)
+purity_all = read.csv("./exp1_data/purity_words_total.csv", stringsAsFactors = F)
 
 purity_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -855,16 +857,16 @@ The same process was followed for scraping articles related to the partial U.S. 
 ```{r data_clean_kav, eval = T, echo = F}
 ##combine all kav data into one dataset
 #read it in
-NYtimes_kav = read.csv("../exp2_data/NYtimes_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-NPR_kav = read.csv("../exp2_data/NPR_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-SLATE_kav = read.csv("../exp2_data/SLATE_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-HUFFPO_kav = read.csv("../exp2_data/HUFFPO_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-POLITICO_kav = read.csv("../exp2_data/POLITICO_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-FOX_kav = read.csv("../exp2_data/FOX_kav.csv", stringsAsFactors = F) #ok
-BREITBART_kav = read.csv("../exp2_data/BREITBART_kav.csv", stringsAsFactors = F) #ok
-RUSH_kav = read.csv("../exp2_data/RUSH_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-BLAZE_kav = read.csv("../exp2_data/BLAZE_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-HANNITY_kav = read.csv("../exp2_data/HANNITY_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
+NYtimes_kav = read.csv("./exp2_data/NYtimes_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
+NPR_kav = read.csv("./exp2_data/NPR_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
+SLATE_kav = read.csv("./exp2_data/SLATE_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
+HUFFPO_kav = read.csv("./exp2_data/HUFFPO_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
+POLITICO_kav = read.csv("./exp2_data/POLITICO_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
+FOX_kav = read.csv("./exp2_data/FOX_kav.csv", stringsAsFactors = F) #ok
+BREITBART_kav = read.csv("./exp2_data/BREITBART_kav.csv", stringsAsFactors = F) #ok
+RUSH_kav = read.csv("./exp2_data/RUSH_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
+BLAZE_kav = read.csv("./exp2_data/BLAZE_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
+HANNITY_kav = read.csv("./exp2_data/HANNITY_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
 
 
 #merge it together
@@ -898,16 +900,16 @@ final_kav = nozero
 ```{r data_clean_gs, eval = T, echo = F}
 ##combine all gs data into one dataset
 #read it in
-NYtimes_gs = read.csv("../exp2_data/NYtimes_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #ok
-NPR_gs = read.csv("../exp2_data/NPR_gs.csv", stringsAsFactors = F) #ok
-SLATE_gs = read.csv("../exp2_data/SLATE_gs.csv", stringsAsFactors = F) #ok
-HUFFPO_gs = read.csv("../exp2_data/HUFFPO_gs.csv", stringsAsFactors = F) #ok
-POLITICO_gs = read.csv("../exp2_data/POLITICO_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #not ok
-FOX_gs = read.csv("../exp2_data/FOX_gs.csv", stringsAsFactors = F) #ok
-BREITBART_gs = read.csv("../exp2_data/BREITBART_gs.csv", stringsAsFactors = F) #ok
-RUSH_gs = read.csv("../exp2_data/RUSH_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #not ok
-BLAZE_gs = read.csv("../exp2_data/BLAZE_gs.csv", stringsAsFactors = F) #ok
-HANNITY_gs = read.csv("../exp2_data/HANNITY_gs.csv", stringsAsFactors = F) #ok
+NYtimes_gs = read.csv("./exp2_data/NYtimes_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #ok
+NPR_gs = read.csv("./exp2_data/NPR_gs.csv", stringsAsFactors = F) #ok
+SLATE_gs = read.csv("./exp2_data/SLATE_gs.csv", stringsAsFactors = F) #ok
+HUFFPO_gs = read.csv("./exp2_data/HUFFPO_gs.csv", stringsAsFactors = F) #ok
+POLITICO_gs = read.csv("./exp2_data/POLITICO_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #not ok
+FOX_gs = read.csv("./exp2_data/FOX_gs.csv", stringsAsFactors = F) #ok
+BREITBART_gs = read.csv("./exp2_data/BREITBART_gs.csv", stringsAsFactors = F) #ok
+RUSH_gs = read.csv("./exp2_data/RUSH_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #not ok
+BLAZE_gs = read.csv("./exp2_data/BLAZE_gs.csv", stringsAsFactors = F) #ok
+HANNITY_gs = read.csv("./exp2_data/HANNITY_gs.csv", stringsAsFactors = F) #ok
 
 #merge it together
 master_gs = rbind(NYtimes_gs, NPR_gs, SLATE_gs,
@@ -970,7 +972,7 @@ As in Study 1, the text was scanned with *ngram* [@Schmidt2017]. Again, blank ar
 
 ```{r create_datasets_harm_kav, eval = T, echo = F, include = F}
 #read in the harm total words from the mtmm project
-harm_all_kav = read.csv("../exp1_data/harm_words_total.csv", stringsAsFactors = F)
+harm_all_kav = read.csv("./exp1_data/harm_words_total.csv", stringsAsFactors = F)
 
 harm_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -1010,7 +1012,7 @@ harm_final_data_kav$valence[harm_final_data_kav$Var1 == "safer"] = warriner$V.Me
 ```
 
 ```{r create_datasets_fair_kav, include=FALSE}
-fair_all_kav = read.csv("../exp1_data/fair_words_total.csv", stringsAsFactors = F)
+fair_all_kav = read.csv("./exp1_data/fair_words_total.csv", stringsAsFactors = F)
 
 fair_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -1048,7 +1050,7 @@ fair_final_data_kav$valence[fair_final_data_kav$Var1 == "safer"] = warriner$V.Me
 ```
 
 ```{r create_datasets_ingroup_kav, include=FALSE}
-ingroup_all_kav = read.csv("../exp1_data/ingroup_words_total.csv", stringsAsFactors = F)
+ingroup_all_kav = read.csv("./exp1_data/ingroup_words_total.csv", stringsAsFactors = F)
 
 ingroup_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -1087,7 +1089,7 @@ ingroup_final_data_kav$valence[ingroup_final_data_kav$Var1 == "true"] = mean(war
 ```
 
 ```{r create_datasets_authority_kav, include=FALSE}
-authority_all_kav = read.csv("../exp1_data/authority_words_total.csv", stringsAsFactors = F)
+authority_all_kav = read.csv("./exp1_data/authority_words_total.csv", stringsAsFactors = F)
 
 authority_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -1127,7 +1129,7 @@ authority_final_data_kav$valence[authority_final_data_kav$Var1 == "taken"] = mea
 ```
 
 ```{r create_datasets_purity_kav, include=FALSE}
-purity_all_kav = read.csv("../exp1_data/purity_words_total.csv", stringsAsFactors = F)
+purity_all_kav = read.csv("./exp1_data/purity_words_total.csv", stringsAsFactors = F)
 
 purity_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -1167,7 +1169,7 @@ purity_final_data_kav$valence[purity_final_data_kav$Var1 == "women"] = mean(warr
 
 ```{r create_datasets_harm_gs, eval = T, echo = F, include = F}
 #read in the harm total words from the mtmm project
-harm_all_gs = read.csv("../exp1_data/harm_words_total.csv", stringsAsFactors = F)
+harm_all_gs = read.csv("./exp1_data/harm_words_total.csv", stringsAsFactors = F)
 
 harm_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -1207,7 +1209,7 @@ harm_final_data_gs$valence[harm_final_data_gs$Var1 == "safer"] = warriner$V.Mean
 ```
 
 ```{r create_datasets_fair_gs, echo = F, include=FALSE}
-fair_all_gs = read.csv("../exp1_data/fair_words_total.csv", stringsAsFactors = F)
+fair_all_gs = read.csv("./exp1_data/fair_words_total.csv", stringsAsFactors = F)
 
 fair_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -1245,7 +1247,7 @@ fair_final_data_gs$valence[fair_final_data_gs$Var1 == "safer"] = warriner$V.Mean
 ```
 
 ```{r create_datasets_ingroup_gs, echo = F, include=FALSE}
-ingroup_all_gs = read.csv("../exp1_data/ingroup_words_total.csv", stringsAsFactors = F)
+ingroup_all_gs = read.csv("./exp1_data/ingroup_words_total.csv", stringsAsFactors = F)
 
 ingroup_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -1284,7 +1286,7 @@ ingroup_final_data_gs$valence[ingroup_final_data_gs$Var1 == "true"] = mean(warri
 ```
 
 ```{r create_datasets_authority_gs, echo = F, include=FALSE}
-authority_all_gs = read.csv("../exp1_data/authority_words_total.csv", stringsAsFactors = F)
+authority_all_gs = read.csv("./exp1_data/authority_words_total.csv", stringsAsFactors = F)
 
 authority_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -1324,7 +1326,7 @@ authority_final_data_gs$valence[authority_final_data_gs$Var1 == "taken"] = mean(
 ```
 
 ```{r create_datasets_purity_gs, echo = F, include=FALSE}
-purity_all_gs = read.csv("../exp1_data/purity_words_total.csv", stringsAsFactors = F)
+purity_all_gs = read.csv("./exp1_data/purity_words_total.csv", stringsAsFactors = F)
 
 purity_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -2386,80 +2388,84 @@ graph_data_gs = ggplot(graphlong_gs, aes(Foundation, value, color = variable)) +
 
 # Study 3
 
-As a final test of the MFD, we had participants write about explicitly moral topics which was then analyzed with the MFD which supplemented using participant score's on the Moral Foundation Questionnaire. These changes create the best case scenario for finding the theorized differences 
+Results from Study 1 and 2 indicated that no differences were found in the MFD for Liberal and Conservative sources using the traditional dictionary and valence weighting. The MFD was developed in conjunction with the Moral Foundations Questionnaire (MFQ), using the same five latent areas. In this set of studies, we examined the MFD and MFQ within the same study. The first two sub-studies were used to develop a (potentially) larger dictionary for the MFD and collect data on both scales. The last sub-study examined the MFD and MFQ using multi-trait multi-method analysis [CITE WIDAMEN AND BYRNE].
+
+DESCRIBE MTMM
 
 ## Study 3.1
 
-this part is the association study information 
+In this study, participants were given a word association task elicit additional semantically related word forms for each moral foundation. This data was used to expand the MFD for each latent area to determine if these additional words could improve scores and test measurement relation to the MFQ in Study 3.3. 
+
+### Participants
 
 ```{r demos-mtmm-study-3.1, include = FALSE}
-exp1data = read.csv("fixed_association.csv")
+exp1data <- import("exp3_data/study3.1_fixed_associations.csv")
 
 ##clear out completely columns we don't need
-crapcolumns = c(1, 2, 3, 5:14)
-finalsample = exp1data[ , -crapcolumns]
+crapcolumns <- c(1, 2, 3, 5:14)
+finalsample <- exp1data[ , -crapcolumns]
 
 ##accuracy
 summary(finalsample) #Check Q15_1 and Q23 for in-range scores -WP
-finalsample$Q23 = factor(finalsample$Q23,
+finalsample$Q23 <- factor(finalsample$Q23,
                          levels = 1:3,
                          labels = c("Democrat", "Republican", "Independent"))
 
 #missing 
 #by people 
-missing_demo1 = apply(finalsample, 1, percentmiss) 
+missing_demo1 <- apply(finalsample, 1, percentmiss) 
 table(missing_demo1)
 
-replacepeople1 = subset(finalsample, missing_demo1 <= 5)  #we are using 5%, yes? 
+replacepeople1 <- subset(finalsample, missing_demo1 <= 5)  #we are using 5%, yes? 
 #by column 
 apply(replacepeople1, 2, percentmiss) 
 #missing data is on the politics scale which we don't want to replace 
 
-finalsample = replacepeople1
+finalsample <- replacepeople1
 summary(finalsample)
 
-party = table(finalsample$Q23)
+party <- table(finalsample$Q23)
 ##be sure to exclude the writing columns columns 2:6 
 #I take it I should also remove column 1: ResponseId? 
 ##outliers
-mahal1 = mahalanobis(finalsample[ , -c(1:6,22,23)], 
+mahal1 <- mahalanobis(finalsample[ , -c(1:6,22,23)], 
                     colMeans(finalsample[ , -c(1:6,22,23)], na.rm = TRUE),
                     cov(finalsample[ , -c(1:6,22,23)], use="pairwise.complete.obs"))
 #mahal1
-cutoff1 = qchisq(1 - .001,ncol(finalsample[ , -c(1:6,22,23)]))
+cutoff1 <- qchisq(1 - .001,ncol(finalsample[ , -c(1:6,22,23)]))
 cutoff1
 ncol(finalsample[ , -c(1:6,22,23)])
 summary(mahal1 < cutoff1) #Hmm what to do w/ NAs?? -WP
-noout1 = subset(finalsample, mahal1 < cutoff1)
+noout1 <- subset(finalsample, mahal1 < cutoff1)
 
 ##assumptions
 #correlations for MFQ
-correlations1 = cor(noout1[,-c(1:6,22,23)], use="pairwise.complete.obs")
+correlations1 <- cor(noout1[,-c(1:6,22,23)], use="pairwise.complete.obs")
 correlations1
 symnum(correlations1)
 
 #making the random stuff
-random1 = rchisq(nrow(noout1), 7)
-fake1 = lm(random1~., data=noout1[ , -c(1:6)])
+random1 <- rchisq(nrow(noout1), 7)
+fake1 <- lm(random1~., data=noout1[ , -c(1:6)])
 #normal
-standardized1 = rstudent(fake1)
+standardized1 <- rstudent(fake1)
 hist(standardized1, breaks=15) 
 
 #linear
 {qqnorm(standardized1) 
 abline(0,1)}
 #homog + s
-fitvalues1 = scale(fake1$fitted.values)
+fitvalues1 <- scale(fake1$fitted.values)
 {plot(fitvalues1, standardized1) 
 abline(0,0)
 abline(v = 0)}
 
 ####create the MFQ subscales####
-noout1$harmMFQ = apply(noout1[ , 7:9], 1, sum)
-noout1$fairMFQ = apply(noout1[ , 10:12], 1, sum)
-noout1$ingroupMFQ = apply(noout1[ , 13:15], 1, sum)
-noout1$authorityMFQ = apply(noout1[ , 16:18], 1, sum)
-noout1$purityMFQ = apply(noout1[ , 19:21], 1, sum)
+noout1$harmMFQ <- apply(noout1[ , 7:9], 1, sum)
+noout1$fairMFQ <- apply(noout1[ , 10:12], 1, sum)
+noout1$ingroupMFQ <- apply(noout1[ , 13:15], 1, sum)
+noout1$authorityMFQ <- apply(noout1[ , 16:18], 1, sum)
+noout1$purityMFQ <- apply(noout1[ , 19:21], 1, sum)
 ```
 
 `r nrow(exp1data)` participants were collected from a large Midwestern university. Participants were given course credit for their introductory psychology course for completing the study. `r nrow(finalsample)` participants had less than five percent missing data and were retained for analyses. Participants were asked to denote their political party, and `r printnum(party["Democrat"]/sum(party)*100,digits = 1)`% indicated they were Democrats, `r printnum(party["Republican"]/sum(party)*100,digits = 1)`% were Republican, and `r printnum(party["Independent"]/sum(party)*100,digits = 1)`% indicated they were Independent.
@@ -3435,6 +3441,16 @@ fitMeasures(model4.fit, fit.measures = "aic")
 ```
 
 
+
+  Data Cleaning and Descriptives. In sample 1, participants who wrote less than 50 words were deleted (*n* = 69) leaving *n* = 221 participants. The average political orientation was 4.80 (*SD* = 2.21) on a scale of 1 (*conservative*) to 10 (*liberal*). In sample 2, all 160 participants wrote at least 50 words. The mean political orientation was 5.01 (*SD* = 2.33) for sample 2. The data from sample 1 and sample 2 were combined. Before any analyses were conducted, participants who did not use any words from the MFD were deleted; 16 participants were deleted from sample 1 and 25 from sample 2. The final sample size for analysis was *N* = 340 which had a mean political orientation of 4.90 (*SD* = 2.28). MFD scores were computed using NVivo *(CITE)* as both frequency for each foundation and percent coverage for each foundation. Frequency was simply the count of the number of words used from a given foundation dictionary; for example, a participant using the word *war* once and the word *peace* twice would have a frequency score of 3 for the *harm* dictionary. Percent coverage was calculated by taking the frequency and dividing by the word count; for example, given a frequency score of 3 for the *harm* dictionary and a word count of 100, then the percent coverage would be .03 for the *harm* dictionary. MFQ scores for each foundation were calculated by averaging the six items pertaining to each foundation. 
+	Reliability. Here we should talk about the reliability of the MFQ for each piece, as well as the reliability of the words for the MFD. I think to do that you might need a thing that has each word as frequency count yes/no or however the LIWC version thing was done. 
+	MTMM. BASIC SEM STUFF HERE (also that you used bayes)
+Data screening was conducted using SPSS version 22 and AMOS version 22. Participants who were missing data for the MFD, MFQ, or political orientation were deleted from all analyses. Given the distribution of the dictionary variables, participants whose writing sample were less than 2% words from the MFD were deleted resulting in a sample size of 252. Additionally, 7 outliers were deleted.
+Widaman's (1985; as cited in @Byrne2009) four-step nested method was used to test the convergent and divergent validity of the MFD and MFQ. The first step is the baseline model (Model 1), which establishes correlation among traits (*harm*, *purity*, *fairness*, *authority*, and *ingroup*) as well as correlation among methods (MFD and MFQ) but no cross correlation of traits and methods. The individual questions from the 30 item version of the MFQ and the total frequency of concepts from each foundation in the MFD were used as measured variables. 
+The fit of this first model indicated some misfit, as fit indices were a mix of poor and acceptable, $\chi$ 2 (514) = 977.46, $\chi$ 2/df = 1.90, CFI = .842, RMSEA = .061 [95% CI = .055-.067], SRMR = .0623. In this model, the MFD *harm*, *fairness*, and *ingroup* items significantly loaded onto their trait factors, while *authority* and *purity* did not. All foundations but *authority* loaded significantly on the method traits. All but two of the *ingroup* questions and one *authority* question loaded onto the MFQ trait factors. Several questions of the MFQ did not load significantly onto the methods factors; however, this result was taken as an indicator that traits variance was higher than methods variance. Generally, trait loadings were higher than method loadings for both the MFD and MFQ for *harm* and *fairness* traits. However, the *purity*, *ingroup*, and *authority* foundations did not show this loading pattern. 
+ERIN STOPPED HERE CUZ HEADACHE. 
+The second step (Model 2) involved eliminating the latent traits from the model. This model was significantly worse than Model 1 indicating the traits are important to the model ($\delta$ $\chi$ 2 = 1141.09, $\delta$ df = 45, $\delta$ CFI = .351). This supports convergent validity for the traits measured by both methods which in this case are the five moral foundations. The third step (Model 3) involved forcing the five traits to be perfectly correlated. This model was significantly worse than Model 1 indicating the usefulness of five unique traits ($\delta$ $\chi$ 2 = 311.09, $\delta$ df = 10, $\delta$ CFI = .097). This supports discriminant validity for the existence of five unique moral foundations. The final step (Model 4) involved allowing the correlations between the traits to be freely estimated and forcing the methods to be uncorrelated. This model was similar to Model 1 indicating the methods both measure the traits but they are both unique methods ($\delta$ $\chi$ 2 = 2.23, $\delta$ df = 1, $\delta$ CFI = .001). This supports discriminant validity for the methods. This set of analyses suggests the MFD is a possibly valid measure of moral foundations but does not measure them well enough to be useful in all applications and may be measuring them differently than the MFQ. 
+	Regression predicting Political Orientation. The MFQ has predicted political orientation across many studies [@Federico2013; @Graham2009; @Haidt2009; @Weber2013]. Therefore, in addition to the MTMM analysis, we compared how well the MFD score predicted political orientation compared to how well the MFQ predicted the political orientation. First, total MFQ scores were calculated for each foundation by averaging all six items. Then, a regression analysis was conducted with the five MFQ foundation score predicting political orientation. The overall model was significant, *R2* = .35, *F* (5, 255) = 26.91, *p* < .05. Higher scores on the harm and fairness foundations predicted a more liberal political orientation with harm accounting for 3% of the variance and fairness accounting for 6%. Higher scores on ingroup, authority, and purity predicted a more conservative orientation accounting for 1%, 2%, and 8% on the variance respectively. See *table ?* for regression coefficients. Next, a regression analysis was conducted to determine how well the five MFD scores predicted political orientation. The overall model was not significant, *R2* = .16, *F* (5, 255) = 1.36, *p* = .241. Higher harm scores somewhat predicted more liberal orientation accounting for 1% of the variance in political orientation. Higher purity scores somewhat predicted more conservative orientation accounting for 1% of the variance. See *table ?* for regression coefficients.
 
 
 
