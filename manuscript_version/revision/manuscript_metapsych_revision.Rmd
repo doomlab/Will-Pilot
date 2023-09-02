@@ -61,6 +61,8 @@ library(performance)
 library(dplyr)
 library(rio)
 library(mice)
+library(semPlot)
+library(lavaan)
 
 # to install this package 
 # tmp <- tempfile()
@@ -2772,37 +2774,36 @@ goodcolumns <- goodrows[ , -c(32:42)]
 badcolumns <- goodrows[ , c(32:42)]
 
 #fill in missing data points
-
-tempnomiss = mice(goodcolumns)
-nomiss = complete(tempnomiss, 1)
+tempnomiss <- mice(goodcolumns)
+nomiss <- complete(tempnomiss, 1)
 summary(nomiss)
 #merge
-allcolumns = cbind(nomiss, badcolumns) 
+allcolumns <- cbind(nomiss, badcolumns) 
 summary(allcolumns)
 
 ##outliers
-mahal2 = mahalanobis(allcolumns[ , -c(1,46:56)], 
+mahal2 <- mahalanobis(allcolumns[ , -c(1,46:56)], 
                     colMeans(allcolumns[ , -c(1,46:56)], na.rm = TRUE),
                     cov(allcolumns[ , -c(1,46:56)], use="pairwise.complete.obs"))
 #mahal2
-cutoff2 = qchisq(1 - .001,ncol(allcolumns[ , -c(1,46:56)]))
+cutoff2 <- qchisq(1 - .001,ncol(allcolumns[ , -c(1,46:56)]))
 cutoff2
 ncol(allcolumns[ , -c(1,46:56)])
 summary(mahal2 < cutoff2) #Hmm what to do w/ NAs?? 
-noout2 = subset(allcolumns, mahal2 < cutoff2)
+noout2 <- subset(allcolumns, mahal2 < cutoff2)
 
 ##assumptions on the questions i.e., not Q10 to the end
 #correlations
-correlations2 = cor(noout2[,-c(1,46:56)], use="pairwise.complete.obs")
+correlations2 <- cor(noout2[,-c(1,46:56)], use="pairwise.complete.obs")
 #correlations2
 symnum(correlations2)
 
 #the random stuff
-random2 = rchisq(nrow(noout2), 7)
-fake2 = lm(random2~., data=noout2[ , -c(1,46:56)])
+random2 <- rchisq(nrow(noout2), 7)
+fake2 <- lm(random2~., data=noout2[ , -c(1,46:56)])
 
 #normal
-standardized2 = rstudent(fake2)
+standardized2 <- rstudent(fake2)
 hist(standardized2, breaks=15)
 
 #linear
@@ -2810,145 +2811,145 @@ hist(standardized2, breaks=15)
 abline(0,1)}    
 
 #homog + s
-fitvalues2 = scale(fake2$fitted.values)
+fitvalues2 <- scale(fake2$fitted.values)
 {plot(fitvalues2, standardized2) 
 abline(0,0)
 abline(v = 0)}
 
 ####create the MFQ subscales####
-noout2$harmMFQ = apply(noout2[ , 2:4], 1, sum)
-noout2$fairMFQ = apply(noout2[ , 5:7], 1, sum)
-noout2$ingroupMFQ = apply(noout2[ , 8:10], 1, sum)
-noout2$authorityMFQ = apply(noout2[ , 11:13], 1, sum)
-noout2$purityMFQ = apply(noout2[ , 14:16], 1, sum)
+noout2$harmMFQ <- apply(noout2[ , 2:4], 1, sum)
+noout2$fairMFQ <- apply(noout2[ , 5:7], 1, sum)
+noout2$ingroupMFQ <- apply(noout2[ , 8:10], 1, sum)
+noout2$authorityMFQ <- apply(noout2[ , 11:13], 1, sum)
+noout2$purityMFQ <- apply(noout2[ , 14:16], 1, sum)
 ```
 
-Participants were recruited in two waves as part of a larger investigation on priming political and religious attitudes [@Jordan]. Participants were recruited via an online research system (SONA) and were given course credit for their participation. `r nrow(finalsample)` participants were included in the this study. The study was mostly women (`r printnum(gender["Woman"], digits = 1)`%) and White (`r printnum(race["White"], digits = 1)`%) participants with a mix of minority participants: Black (`r printnum(race["Black"], digits = 1)`%), (`r printnum(race["Hispanic"], digits = 1)`%), (`r printnum(race["Asian"], digits = 1)`%), Native American (`r printnum(race["Native American"], digits = 1)`%), Mixed (`r printnum(race["Mixed"], digits = 1)`%) and Other (`r printnum(race["Other"], digits = 1)`%). The average listed age was `r printnum(mean(finalsample$Q11, na.rm = T))` (*SD* = `r printnum(sd(finalsample$Q11, na.rm = T))`).
+Participants were recruited in two waves as part of a larger investigation on priming political and religious attitudes. Participants were recruited via an online research system (SONA) and were given course credit for their participation. `r nrow(finalsample)` participants were included in the this study. The study was mostly women (`r printnum(gender["Woman"], digits = 1)`%) and White (`r printnum(race["White"], digits = 1)`%) participants with a mix of minority participants: Black (`r printnum(race["Black"], digits = 1)`%), (`r printnum(race["Hispanic"], digits = 1)`%), (`r printnum(race["Asian"], digits = 1)`%), Native American (`r printnum(race["Native American"], digits = 1)`%), Mixed (`r printnum(race["Mixed"], digits = 1)`%) and Other (`r printnum(race["Other"], digits = 1)`%). The average listed age was `r printnum(mean(finalsample$Q11, na.rm = T))` (*SD* = `r printnum(sd(finalsample$Q11, na.rm = T))`).
 
 ###	Materials and Procedure
 
-Data was again collected via Qualtrics. Four fake new stories were presented to participants, which were roughly 400 words each. First, all news stories included a few sentences describing the use of chemical weapons in the Syrian civil war. The news stories were manipulated with political (Republican v. Democrat) and religious (religious v. not) quotes in a 2 x 2 design. News stories can be found in the online materials. Participants also completed the 30-item version of the MFQ as described in the introduction. In addition to basic demographics (gender, age), participant political orientation was assessed with the same scale described in Experiment 1. 
+Data was again collected via Qualtrics (https://osf.io/qr3gv). Four fake new stories were presented to participants, which were roughly 400 words each. First, all news stories included a few sentences describing the use of chemical weapons in the Syrian civil war. The news stories were manipulated with political (Republican v. Democrat) and religious (religious v. not) quotes in a 2 x 2 design. News stories can be found in the online materials. Participants also completed the 30-item version of the MFQ as described previously. In addition to basic demographics (gender, age), participant political orientation was assessed with the same scale described in Study 3.1. 
 
 After consenting to participate in the study, participants were randomly shown one of the four new articles about Syria's use of chemical weapons. Participants were then asked to write for 5-10 minutes about their reaction to Syria's use of chemical weapons and the needed response from the United States. The second wave of data collection included different writing prompts designed to capture more of the moral foundation areas in their writing. The following writing prompt was used, "Please write about your attitudes on abortion (or same-sex marriage or environmentalism) as well as your reason for this stance." The three prompts were chosen to create a more varied word set by using topics that should elicit words from each moral foundations category by soliciting a moral response. In each wave of data collection (Syria prompts, moral prompts) the prompt material was randomized between participants. Participants then completed the MFQ, demographics, and the political orientation scale. 
 
 ### Results 
 
-Participant data was first spell checked and screening for inaccurate responses. Participants who did not write more than fifty words in response to a given prompt were excluded (*n* = `r nrow(finalsample) - nrow(finalwords)`). One missing datapoint was estimated using the *mice* library from *R* [@CITE] for a missing MFQ question, and all other missing data was present in the demographics sections, which were not filled in. The MFQ data were screened for outliers using Mahalanobis distance, and fourteen outliers were found at $\chi^2_{p<.001}$(`r ncol(allcolumns[ , -c(1,32:42)])`) = `r printnum(cutoff2)`. These data were excluded leading to a final sample size of `r nrow(noout2)`. Data were screened for assumptions described in Experiment 1 and were found to be satisfactory. 
+Participant data was first spell checked and screening for inaccurate responses. Participants who did not write more than fifty words in response to a given prompt were excluded (*n* = `r nrow(finalsample) - nrow(finalwords)`). One missing datapoint was estimated using the *mice* library from *R* [@CITE] for a missing MFQ question, and all other missing data was present in the demographics sections, which were not filled in. The MFQ data were screened for outliers using Mahalanobis distance, and 25 outliers were found at $\chi^2_{p<.001}$(`r ncol(allcolumns[ , -c(1,32:42)])`) = `r printnum(cutoff2)`. These data were excluded leading to a final sample size of `r nrow(noout2)`. Data were screened for assumptions described in Study 3.1 and were found to be satisfactory. 
 
 ```{r writing-analysis-3.2, include=FALSE}
 ##stem the data
 for (i in 1:nrow(noout2)) {
-  noout2$writing2[i] = paste(unlist(
+  noout2$writing2[i] <- paste(unlist(
     text_tokens(noout2$writing[i], stemmer = "en")), collapse = " ")
 }
 
 ##create a corpus
-overall_corpus = Corpus(VectorSource(noout2$writing2))
-overall_TDM = as.matrix(TermDocumentMatrix(overall_corpus,
+overall_corpus <- Corpus(VectorSource(noout2$writing2))
+overall_TDM <- as.matrix(TermDocumentMatrix(overall_corpus,
                               control = list(removePunctuation = TRUE,
                                              stopwords = TRUE)))
 
 ##view the most frequent words
-overall_freq = data.frame(Word = rownames(overall_TDM),
+overall_freq <- data.frame(Word = rownames(overall_TDM),
                           Freq = rowSums(overall_TDM),
                           row.names = NULL)
-overall_freq$Word = as.character(overall_freq$Word)
-overall_freq$percent = overall_freq$Freq/nrow(noout2)*100
+overall_freq$Word <- as.character(overall_freq$Word)
+overall_freq$percent <- overall_freq$Freq/nrow(noout2)*100
 
-write.csv(overall_freq, "exp2_freq.csv", row.names = F)
+write.csv(overall_freq, "exp3_data/study3.2_freq.csv", row.names = F)
 
 ##subset out to only words with 1% mentions
 ##this goes over 100% but mostly want to subset out things that were only mentioned
 ##a few times by participants
-all_words = overall_freq$Word[overall_freq$percent >=1]
+all_words <- overall_freq$Word[overall_freq$percent >=1]
 
 ##turn sideways to add to dataset
-overall_TDM = as.data.frame(t(overall_TDM))
-overall_TDM = overall_TDM[ , all_words]
+overall_TDM <- as.data.frame(t(overall_TDM))
+overall_TDM <- overall_TDM[ , all_words]
 
 ##final dataset
-overall_final = cbind(noout2[ , c("ResponseId", "harmMFQ", "fairMFQ",
+overall_final <- cbind(noout2[ , c("ResponseId", "harmMFQ", "fairMFQ",
                                   "authorityMFQ", "purityMFQ","ingroupMFQ")],
                    overall_TDM)
 ```
 
 ```{r mfq-cor-3.2, include = FALSE}
 ##harm
-harm_cor = apply(overall_final[ , 7:ncol(overall_final)], 2, function (x) { cor(x, overall_final$harmMFQ)})
+harm_cor <- apply(overall_final[ , 7:ncol(overall_final)], 2, function (x) { cor(x, overall_final$harmMFQ)})
 
-harmcut = mean(harm_cor) + 2*sd(harm_cor)
-harm_words_reduce_exp2 = names(harm_cor[abs(harm_cor) >= harmcut])
+harmcut <- mean(harm_cor) + 2*sd(harm_cor)
+harm_words_reduce_exp2 <- names(harm_cor[abs(harm_cor) >= harmcut])
 
 ##fair
-fair_cor = apply(overall_final[ , 7:ncol(overall_final)], 2, function (x) { cor(x, overall_final$fairMFQ)})
+fair_cor <- apply(overall_final[ , 7:ncol(overall_final)], 2, function (x) { cor(x, overall_final$fairMFQ)})
 
-faircut = mean(fair_cor) + 2*sd(fair_cor)
-fair_words_reduce_exp2 = names(fair_cor[abs(fair_cor) >= faircut])
+faircut <- mean(fair_cor) + 2*sd(fair_cor)
+fair_words_reduce_exp2 <- names(fair_cor[abs(fair_cor) >= faircut])
 
 ##purity
-purity_cor = apply(overall_final[ , 7:ncol(overall_final)], 2, function (x) { cor(x, overall_final$purityMFQ)})
+purity_cor <- apply(overall_final[ , 7:ncol(overall_final)], 2, function (x) { cor(x, overall_final$purityMFQ)})
 
-puritycut = mean(purity_cor) + 2*sd(purity_cor)
-purity_words_reduce_exp2 = names(purity_cor[abs(purity_cor) >= puritycut])
+puritycut <- mean(purity_cor) + 2*sd(purity_cor)
+purity_words_reduce_exp2 <- names(purity_cor[abs(purity_cor) >= puritycut])
 
 ##authority
-authority_cor = apply(overall_final[ , 7:ncol(overall_final)], 2, function (x) { cor(x, overall_final$authorityMFQ)})
+authority_cor <- apply(overall_final[ , 7:ncol(overall_final)], 2, function (x) { cor(x, overall_final$authorityMFQ)})
 
-authoritycut = mean(authority_cor) + 2*sd(authority_cor)
-authority_words_reduce_exp2 = names(authority_cor[abs(authority_cor) >= authoritycut])
+authoritycut <- mean(authority_cor) + 2*sd(authority_cor)
+authority_words_reduce_exp2 <- names(authority_cor[abs(authority_cor) >= authoritycut])
 
 ##ingroup
-ingroup_cor = apply(overall_final[ , 7:ncol(overall_final)], 2, function (x) { cor(x, overall_final$ingroupMFQ)})
+ingroup_cor <- apply(overall_final[ , 7:ncol(overall_final)], 2, function (x) { cor(x, overall_final$ingroupMFQ)})
 
-ingroupcut = mean(ingroup_cor) + 2*sd(ingroup_cor)
-ingroup_words_reduce_exp2 = names(ingroup_cor[abs(ingroup_cor) >= ingroupcut])
+ingroupcut <- mean(ingroup_cor) + 2*sd(ingroup_cor)
+ingroup_words_reduce_exp2 <- names(ingroup_cor[abs(ingroup_cor) >= ingroupcut])
 
 ##print out words list to look at for further analysis
-#write.csv(harm_words_reduce_exp2, "words/harm_exp2.csv", row.names = F)
-#write.csv(fair_words_reduce_exp2, "words/fair_exp2.csv", row.names = F)
-#write.csv(authority_words_reduce_exp2, "words/authority_exp2.csv", row.names = F)
-#write.csv(purity_words_reduce_exp2, "words/purity_exp2.csv", row.names = F)
-#write.csv(ingroup_words_reduce_exp2, "words/ingroup_exp2.csv", row.names = F)
+#write.csv(harm_words_reduce_exp2, "exp3_data/words/harm_exp2.csv", row.names = F)
+#write.csv(fair_words_reduce_exp2, "exp3_data/words/fair_exp2.csv", row.names = F)
+#write.csv(authority_words_reduce_exp2, "exp3_data/words/authority_exp2.csv", row.names = F)
+#write.csv(purity_words_reduce_exp2, "exp3_data/words/purity_exp2.csv", row.names = F)
+#write.csv(ingroup_words_reduce_exp2, "exp3_data/words/ingroup_exp2.csv", row.names = F)
 ```
 
-In the first study, only free association responses were collected, but in this study, full writing samples were collected. Therefore, we expected many of the words listed to be part of creating a cohesive discourse, rather than only related to the moral foundation targeted. To find only the most related words, the correlation between word frequency and moral foundation was calculated and words with correlations greater than two standard deviations outside the mean were selected for the dictionary analysis in Experiment 3.  The sum of each moral foundation area was calculated in order to determine which words were linked to their respective moral foundation. The average scores were: harm (*M* = `r printnum(mean(noout2$harmMFQ))`, *SD* = `r printnum(sd(noout2$harmMFQ))`), fairness  (*M* = `r printnum(mean(noout2$fairMFQ))`, *SD* = `r printnum(sd(noout2$fairMFQ))`), ingroup (*M* = `r printnum(mean(noout2$ingroupMFQ))`, *SD* = `r printnum(sd(noout2$ingroupMFQ))`), authority  (*M* = `r printnum(mean(noout2$authorityMFQ))`, *SD* = `r printnum(sd(noout2$authorityMFQ))`), and purity (*M* = `r printnum(mean(noout2$purityMFQ))`, *SD* = `r printnum(sd(noout2$purityMFQ))`). 
+In the first study, only free association responses were collected, but in this study, full writing samples were collected. Therefore, we expected many of the words listed to be part of creating a cohesive discourse, rather than only related to the moral foundation targeted. To find only the most related words, the correlation between word frequency and moral foundation was calculated and words with correlations greater than two standard deviations outside the mean were selected for the dictionary analysis in Study 3.3.  The sum of each moral foundation area was calculated in order to determine which words were linked to their respective moral foundation. The average scores were: harm (*M* = `r printnum(mean(noout2$harmMFQ))`, *SD* = `r printnum(sd(noout2$harmMFQ))`), fairness  (*M* = `r printnum(mean(noout2$fairMFQ))`, *SD* = `r printnum(sd(noout2$fairMFQ))`), ingroup (*M* = `r printnum(mean(noout2$ingroupMFQ))`, *SD* = `r printnum(sd(noout2$ingroupMFQ))`), authority  (*M* = `r printnum(mean(noout2$authorityMFQ))`, *SD* = `r printnum(sd(noout2$authorityMFQ))`), and purity (*M* = `r printnum(mean(noout2$purityMFQ))`, *SD* = `r printnum(sd(noout2$purityMFQ))`). 
 
 ```{r compare-ratings-3.2, include = FALSE}
-authority_erin = read.csv("words/authority_exp2 erin.csv", stringsAsFactors = F)
-authority_will = read.csv("words/authority_exp2 will.csv", stringsAsFactors = F)
+authority_erin <- read.csv("exp3_data/words/authority_study3.2 erin.csv", stringsAsFactors = F)
+authority_will <- read.csv("exp3_data/words/authority_study3.2 will.csv", stringsAsFactors = F)
 authority_erin$x[authority_erin$use != authority_will$use]
 
-authority_words_reduce_exp2 = authority_words_reduce_exp2[authority_words_reduce_exp2 %in% authority_will$x[authority_will$use == 1]]
+authority_words_reduce_exp2 <- authority_words_reduce_exp2[authority_words_reduce_exp2 %in% authority_will$x[authority_will$use == 1]]
 
-fair_erin = read.csv("words/fair_exp2 erin.csv", stringsAsFactors = F)
-fair_will = read.csv("words/fair_exp2 will.csv", stringsAsFactors = F)
+fair_erin <- read.csv("exp3_data/words/fair_study3.2 erin.csv", stringsAsFactors = F)
+fair_will <- read.csv("exp3_data/words/fair_study3.2 will.csv", stringsAsFactors = F)
 fair_erin$x[fair_erin$use != fair_will$use]
-fair_will$use[fair_will$x == "carbon"] = 0
-fair_will$use[fair_will$x == "emiss"] = 0
+fair_will$use[fair_will$x == "carbon"] <- 0
+fair_will$use[fair_will$x == "emiss"] <- 0
 #exclude carbon and emiss due to the prompt
 
-fair_words_reduce_exp2 = fair_words_reduce_exp2[fair_words_reduce_exp2 %in% fair_will$x[fair_will$use == 1]]
+fair_words_reduce_exp2 <- fair_words_reduce_exp2[fair_words_reduce_exp2 %in% fair_will$x[fair_will$use == 1]]
 
-purity_erin = read.csv("words/purity_exp2 erin.csv", stringsAsFactors = F)
-purity_will = read.csv("words/purity_exp2 will.csv", stringsAsFactors = F)
+purity_erin <- read.csv("exp3_data/words/purity_study3.2 erin.csv", stringsAsFactors = F)
+purity_will <- read.csv("exp3_data/words/purity_study3.2 will.csv", stringsAsFactors = F)
 purity_erin$x[purity_erin$use != purity_will$use]
-purity_will$use[purity_will$x == "befor"] = 1
+purity_will$use[purity_will$x == "befor"] <- 1
 #before include because of "before sex/ruined/etc."
 
 purity_words_reduce_exp2 = purity_words_reduce_exp2[purity_words_reduce_exp2 %in% purity_will$x[purity_will$use == 1]]
 
-ingroup_erin = read.csv("words/ingroup_exp2 erin.csv", stringsAsFactors = F)
-ingroup_will = read.csv("words/ingroup_exp2 will.csv", stringsAsFactors = F)
+ingroup_erin <- read.csv("exp3_data/words/ingroup_study3.2 erin.csv", stringsAsFactors = F)
+ingroup_will <- read.csv("exp3_data/words/ingroup_study3.2 will.csv", stringsAsFactors = F)
 ingroup_erin$x[ingroup_erin$use != ingroup_will$use]
-ingroup_will$use[ingroup_will$x == "mean"] = 1
+ingroup_will$use[ingroup_will$x == "mean"] <- 1
 #mean should be included
 
-ingroup_words_reduce_exp2 = ingroup_words_reduce_exp2[ingroup_words_reduce_exp2 %in% ingroup_will$x[ingroup_will$use == 1]]
+ingroup_words_reduce_exp2 <- ingroup_words_reduce_exp2[ingroup_words_reduce_exp2 %in% ingroup_will$x[ingroup_will$use == 1]]
 
-harm_erin = read.csv("words/harm_exp2 erin.csv", stringsAsFactors = F)
-harm_will = read.csv("words/harm_exp2 will.csv", stringsAsFactors = F)
+harm_erin <- read.csv("exp3_data/words/harm_study3.2 erin.csv", stringsAsFactors = F)
+harm_will <- read.csv("exp3_data/words/harm_study3.2 will.csv", stringsAsFactors = F)
 harm_erin$x[harm_erin$use != harm_will$use]
-harm_will$use[harm_will$x == "import"] = 1
+harm_will$use[harm_will$x == "import"] <- 1
 #import for important 
 
 harm_words_reduce_exp2 = harm_words_reduce_exp2[harm_words_reduce_exp2 %in% harm_will$x[harm_will$use == 1]]
@@ -2962,11 +2963,11 @@ This part is the mtmm
 
 ```{r mtmm-setup, include = FALSE}
 ##original mfd words
-original_mfd = read.csv("original_mfd.csv", stringsAsFactors = F)
+original_mfd <- read.csv("exp3_data/original_mfd.csv", stringsAsFactors = F)
 
 ##adding forms/conjugations of words to original_mfd
 #harm/care
-original_mfd[c(27:95),1] = c("abusive","abuser","abused","abusing",
+original_mfd[c(27:95),1] <- c("abusive","abuser","abused","abusing",
                              "sympathetic","sympathies","damaged",
                              "damaging","attacked","attacking","attacker",
                              "attacks","attackers", "benefits", "benefitted",
@@ -2984,7 +2985,7 @@ original_mfd[c(27:95),1] = c("abusive","abuser","abused","abusing",
                              "violence", "warring")
                              
 #fairness/reciprocity
-original_mfd[c(20:64),2] = c("balances", "balanced", "balancing","biased",
+original_mfd[c(20:64),2] <- c("balances", "balanced", "balancing","biased",
                              "biases", "discriminates", "discriminated",
                              "discriminating", "discrimination", "equals",
                              "equaled", "equaling", "equates", "equated",
@@ -2998,7 +2999,7 @@ original_mfd[c(20:64),2] = c("balances", "balanced", "balancing","biased",
                              "tolerated", "tolerating", "toleration")
 
 #ingroup/loyalty
-original_mfd[c(16:47),3] = c("collects", "collected", "collecting", "collective",
+original_mfd[c(16:47),3] <- c("collects", "collected", "collecting", "collective",
                              "communities", "deceives", "deceived", "deceiving",
                              "deception", "deceptions", "deserts", "deserted",
                              "deserting", "desertion", "families", "fellows",
@@ -3008,7 +3009,7 @@ original_mfd[c(16:47),3] = c("collects", "collected", "collecting", "collective"
                              "togetherness", "traits", "unites", "united", "uniting")
 
 #authority/respect
-original_mfd[c(31:112),4] = c("abides", "abided", "abiding", "authorities",
+original_mfd[c(31:112),4] <- c("abides", "abided", "abiding", "authorities",
                               "classes", "classed", "classing", "command",
                               "commanded", "commanding", "controls", "controlled",
                               "controlling", "defects", "defected", "defecting",
@@ -3029,7 +3030,7 @@ original_mfd[c(31:112),4] = c("abides", "abided", "abiding", "authorities",
                               "serving", "traditions", "traditional", "traits")
 
 #purity/sanctity
-original_mfd[c(21:60),5] = c("abstains", "abstained", "abstaining", "abstinence",
+original_mfd[c(21:60),5] <- c("abstains", "abstained", "abstaining", "abstinence",
                              "adulteries", "adulterous", "adulterer", "adulterers",
                              "churches", "cleans", "cleaned", "cleaning", "cleanse",
                              "cleanliness", "dirty", "diseases", "diseased", 
@@ -3042,58 +3043,56 @@ original_mfd[c(21:60),5] = c("abstains", "abstained", "abstaining", "abstinence"
 
 ##stem the original mfd
 for(i in 1:nrow(original_mfd)) {
-  original_mfd$h2[i] = stemDocument(original_mfd$h2[i], language = "english")
-  original_mfd$f2[i] = stemDocument(original_mfd$f2[i], language = "english")
-  original_mfd$i2[i] = stemDocument(original_mfd$i2[i], language = "english")
-  original_mfd$a2[i] = stemDocument(original_mfd$a2[i], language = "english")
-  original_mfd$p2[i] = stemDocument(original_mfd$p2[i], language = "english")
+  original_mfd$h2[i] <- stemDocument(original_mfd$h2[i], language = "english")
+  original_mfd$f2[i] <- stemDocument(original_mfd$f2[i], language = "english")
+  original_mfd$i2[i] <- stemDocument(original_mfd$i2[i], language = "english")
+  original_mfd$a2[i] <- stemDocument(original_mfd$a2[i], language = "english")
+  original_mfd$p2[i] <- stemDocument(original_mfd$p2[i], language = "english")
 }
 
-mtmmdata = noout2[ , c(1:31, 42) ]
+mtmmdata <- noout2[ , c(1:31, 45) ]
 
 ####figure out the percents for the exp2 data
 for (i in 1:nrow(mtmmdata)) {
   
   ##figure out the sum for just the original mfd
-  mtmmdata$harm_orig[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(original_mfd$h2[original_mfd$h2 != "" & original_mfd$h2 != "NA"])])
+  mtmmdata$harm_orig[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(original_mfd$h2[original_mfd$h2 != "" & original_mfd$h2 != "NA"])])
   
-  mtmmdata$purity_orig[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(original_mfd$p2[original_mfd$p2 != "" & original_mfd$p2 != "NA"])])
+  mtmmdata$purity_orig[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(original_mfd$p2[original_mfd$p2 != "" & original_mfd$p2 != "NA"])])
     
-  mtmmdata$fair_orig[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(original_mfd$f2[original_mfd$f2 != "" & original_mfd$f2 != "NA"])])
+  mtmmdata$fair_orig[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(original_mfd$f2[original_mfd$f2 != "" & original_mfd$f2 != "NA"])])
 
-  mtmmdata$authority_orig[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(original_mfd$a2[original_mfd$a2 != "" & original_mfd$a2 != "NA"])])
+  mtmmdata$authority_orig[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(original_mfd$a2[original_mfd$a2 != "" & original_mfd$a2 != "NA"])])
   
-  mtmmdata$ingroup_orig[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(original_mfd$i2[original_mfd$i2 != "" & original_mfd$i2 != "NA"])])
+  mtmmdata$ingroup_orig[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(original_mfd$i2[original_mfd$i2 != "" & original_mfd$i2 != "NA"])])
   
   ##figure out the sum for all words ever 
-  mtmmdata$harm_all[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$h2[original_mfd$h2 != "" & original_mfd$h2 != "NA"], harm_words, harm_words_reduce_exp2))])
+  mtmmdata$harm_all[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$h2[original_mfd$h2 != "" & original_mfd$h2 != "NA"], harm_words, harm_words_reduce_exp2))])
   
-  mtmmdata$purity_all[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$p2[original_mfd$p2 != "" & original_mfd$p2 != "NA"], purity_words, purity_words_reduce_exp2))])
+  mtmmdata$purity_all[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$p2[original_mfd$p2 != "" & original_mfd$p2 != "NA"], purity_words, purity_words_reduce_exp2))])
     
-  mtmmdata$fair_all[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$f2[original_mfd$f2 != "" & original_mfd$f2 != "NA"], fair_words, fair_words_reduce_exp2))])
+  mtmmdata$fair_all[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$f2[original_mfd$f2 != "" & original_mfd$f2 != "NA"], fair_words, fair_words_reduce_exp2))])
 
-  mtmmdata$authority_all[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$a2[original_mfd$a2 != "" & original_mfd$a2 != "NA"], authority_words, authority_words_reduce_exp2))])
+  mtmmdata$authority_all[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$a2[original_mfd$a2 != "" & original_mfd$a2 != "NA"], authority_words, authority_words_reduce_exp2))])
   
-  mtmmdata$ingroup_all[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$i2[original_mfd$i2 != "" & original_mfd$i2 != "NA"], ingroup_words, ingroup_words_reduce_exp2))])
+  mtmmdata$ingroup_all[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$i2[original_mfd$i2 != "" & original_mfd$i2 != "NA"], ingroup_words, ingroup_words_reduce_exp2))])
   
   ##figure out the sum for reduced words
-  mtmmdata$harm_reduce[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$h2[original_mfd$h2 != "" & original_mfd$h2 != "NA"], harm_words_reduce, harm_words_reduce_exp2))])
+  mtmmdata$harm_reduce[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$h2[original_mfd$h2 != "" & original_mfd$h2 != "NA"], harm_words_reduce, harm_words_reduce_exp2))])
   
-  mtmmdata$purity_reduce[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$p2[original_mfd$p2 != "" & original_mfd$p2 != "NA"], purity_words_reduce, purity_words_reduce_exp2))])
+  mtmmdata$purity_reduce[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$p2[original_mfd$p2 != "" & original_mfd$p2 != "NA"], purity_words_reduce, purity_words_reduce_exp2))])
     
-  mtmmdata$fair_reduce[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$f2[original_mfd$f2 != "" & original_mfd$f2 != "NA"], fair_words_reduce, fair_words_reduce_exp2))])
+  mtmmdata$fair_reduce[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$f2[original_mfd$f2 != "" & original_mfd$f2 != "NA"], fair_words_reduce, fair_words_reduce_exp2))])
 
-  mtmmdata$authority_reduce[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$a2[original_mfd$a2 != "" & original_mfd$a2 != "NA"], authority_words_reduce, authority_words_reduce_exp2))])
+  mtmmdata$authority_reduce[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$a2[original_mfd$a2 != "" & original_mfd$a2 != "NA"], authority_words_reduce, authority_words_reduce_exp2))])
   
-  mtmmdata$ingroup_reduce[i] = sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$i2[original_mfd$i2 != "" & original_mfd$i2 != "NA"], ingroup_words_reduce, ingroup_words_reduce_exp2))])
+  mtmmdata$ingroup_reduce[i] <- sum(overall_final[ i , colnames(overall_final) %in% unique(c(original_mfd$i2[original_mfd$i2 != "" & original_mfd$i2 != "NA"], ingroup_words_reduce, ingroup_words_reduce_exp2))])
 
 }
 
 #create percents instead of frequencies
-mtmmdata[ , c(33:47)] = mtmmdata[ , c(33:47)] / mtmmdata$wordcount * 100 
-
+mtmmdata[ , c(33:47)] <- mtmmdata[ , c(33:47)] / mtmmdata$wordcount * 100 
 summary(mtmmdata[ , 33:47])
-
 ```
 
 ```{r mtmm_orig, include = FALSE}
@@ -3102,13 +3101,9 @@ summary(mtmmdata[ , 33:47])
 ###Columns labeled Harm1/Fairness1/Loyalty1/Authority1/Purity1 are original MFD
 ###Columns labeled Harm2/Fairness2/Loyalty2/Authority2/Purity2 are revised MFD
 
-##now run some MTMM!
-library(semPlot)
-library(lavaan)
-
 ####mtmm original dictionary####
 
-{model1 = '
+{model1 <- '
 harmL =~ Q8_1+Q8_2+Q8_3+harm_orig
 fairL =~ Q8_4+Q8_5+Q8_6+fair_orig
 ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_orig
@@ -3130,12 +3125,12 @@ authorityL~~0*mfd
 purityL~~0*mfd
 '}
 
-model1.fit = cfa(model1, data=mtmmdata, std.lv=TRUE)
+model1.fit <- cfa(model1, data=mtmmdata, std.lv=TRUE)
 summary(model1.fit, rsquare=TRUE, standardized=TRUE)
 semPaths(model1.fit, whatLabels = "std", layout = "tree")
 fitMeasures(model1.fit, fit.measures = "aic")
 
-{model1.2 = '
+{model1.2 <- '
 harmL =~ Q8_1+Q8_2+Q8_3+harm_orig
 fairL =~ Q8_4+Q8_5+Q8_6+fair_orig
 ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_orig
@@ -3159,23 +3154,23 @@ authorityL~~0*mfd
 purityL~~0*mfd
 '}
 
-model1.2.fit = cfa(model1.2, data=mtmmdata, std.lv=TRUE)
+model1.2.fit <- cfa(model1.2, data=mtmmdata, std.lv=TRUE)
 summary(model1.2.fit, rsquare=TRUE, standardized=TRUE)
 semPaths(model1.2.fit, whatLabels = "std", layout = "tree")
 fitMeasures(model1.2.fit, fit.measures = "aic")
 
-{model2 ='
+{model2 <- '
 mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
 mfd =~ harm_orig+fair_orig+ingroup_orig+authority_orig+purity_orig
 
 fair_orig ~~ 1167.145*fair_orig
 '}
 
-model2.fit = cfa(model2, data=mtmmdata, std.lv=TRUE)
+model2.fit <- cfa(model2, data=mtmmdata, std.lv=TRUE)
 summary(model2.fit, rsquare=TRUE, standardized=TRUE)
 fitMeasures(model2.fit, fit.measures = "aic")
 
-{model3 = '
+{model3 <- '
 harmL =~ Q8_1+Q8_2+Q8_3+harm_orig
 fairL =~ Q8_4+Q8_5+Q8_6+fair_orig
 ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_orig
@@ -3209,11 +3204,11 @@ authorityL~~1*purityL
 fair_orig ~~ 1167.145*fair_orig
 '}
 
-model3.fit = cfa(model3, data=mtmmdata, std.lv=TRUE)
+model3.fit <- cfa(model3, data=mtmmdata, std.lv=TRUE)
 summary(model3.fit, rsquare=TRUE, standardized=TRUE)
 fitMeasures(model3.fit, fit.measures = "aic")
 
-{model4 = '
+{model4 <- '
 harmL =~ Q8_1+Q8_2+Q8_3+harm_orig
 fairL =~ Q8_4+Q8_5+Q8_6+fair_orig
 ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_orig
@@ -3238,7 +3233,7 @@ mfq ~~ 0*mfd
 fair_orig ~~ 1167.145*fair_orig
 '}
 
-model4.fit = cfa(model4, data=mtmmdata, std.lv=TRUE)
+model4.fit <- cfa(model4, data=mtmmdata, std.lv=TRUE)
 summary(model4.fit, rsquare=TRUE, standardized=TRUE)
 fitMeasures(model4.fit, fit.measures = "aic")
 ```
