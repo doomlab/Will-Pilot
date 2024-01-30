@@ -1,0 +1,25 @@
+<mxfile host="Electron" modified="2024-01-30T02:58:46.126Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="3o29N1W3tlrCChdG0FW4" version="23.0.2" type="device">
+  <diagram name="Page-1" id="3z9x0qlO_PNvsZSEQmGD">
+    <mxGraphModel dx="1266" dy="743" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="OxaD2LeppgutkAoUlKbM-1" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Harm&lt;br&gt;Care&lt;/font&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="385" y="90" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="OxaD2LeppgutkAoUlKbM-2" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Fairness&lt;br&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Reciprocity&lt;/span&gt;&lt;/font&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="385" y="190" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="OxaD2LeppgutkAoUlKbM-3" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Ingroup&lt;br&gt;Loyalty&lt;/font&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="385" y="290" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="OxaD2LeppgutkAoUlKbM-4" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Authority&lt;br&gt;Respect&lt;/font&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="385" y="390" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="OxaD2LeppgutkAoUlKbM-5" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Purity&lt;br&gt;Sanctity&lt;/font&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="385" y="490" width="80" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
