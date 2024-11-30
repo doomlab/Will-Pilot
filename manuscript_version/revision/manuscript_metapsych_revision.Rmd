@@ -23,8 +23,8 @@ authornote: |
   William Padfield completed this project as part of his thesis requirements for a master's degree candidate in Psychology at Missouri State University. Submitted to Meta-Psychology. Participate in open peer review by commenting through hypothes.is directly on this preprint. The full editorial process of all articles under review at Meta-Psychology can be found following this link: https://tinyurl.com/mp-submissions
 
 abstract: |
-  Partisan differences and diviseness have become an increasing hot topic in psychological research. Many theories have been proposed to explain these differences and divisions including Moral Foundations Theory. The current research seeks to use a linguistic measure of Moral Foundations, the Moral Foundations Dictionary (MFD), to test the theory in terms of predicted partisan differences. In Study 1, we explore the MFD-Moral Foundations Questionnaire's measurement overlap using a multi-trait multi-method model. These latent trait models were used to inform possible improvement of the MFD. Next, we examined two replication extensions of previous work exploring the differences in political articles on moral differences Through web scraping, we extracted articles from popular partisan news sources' websites, calculated MFD word frequencies, and identified words' respective valences. This process attempts to uncover news outlets' positive or negative endorsements of certain moral dimensions concomitant with a particular ideology. In Study 2, we gathered political articles from four sources. We were unable to reveal significant differences in moral endorsements, but we solidified the method to be employed in further research. In Study 3, we expanded their number of sources to 10 and analyzed articles that pertain to two specific topics: the 2018 confirmation hearings of U.S. Supreme Court Justice Brett Kavanaugh and the partial U.S. Government Shutdown of 2018-2019. Once again, no significant differences in moral endorsements were found. Together with past work, the results shed doubt on the validity of the MFD as a reliable measurement tool.
-
+  Partisan differences and diviseness have become an increasing hot topic in psychological research. Many theories have been proposed to explain these differences and divisions including Moral Foundations Theory. The current research seeks determine if a linguistic measure of Moral Foundations, the Moral Foundations Dictionary (MFD) can unveil these theoretical partisan differences. In Study 1, we explored the MFD-Moral Foundations Questionnaire's measurement overlap using a multi-trait multi-method model and determined if current predictive shortcomings of the MFD can be improved with additional linguistic content. Next, we examined two replication extensions of previous work assessing the differences in political articles on moral differences using the MFD. Through web scraping, we extracted articles from popular partisan news sources' websites, calculated MFD word frequencies, and identified words' respective valences. This process attempts to uncover news outlets' positive or negative endorsements of certain moral dimensions concomitant with a particular ideology. In Study 2, we gathered political articles from four sources. In Study 3, we expanded their number of sources to 10 and analyzed articles that pertain to two specific topics: the 2018 confirmation hearings of U.S. Supreme Court Justice Brett Kavanaugh and the partial U.S. Government Shutdown of 2018-2019. Results from all studies indicate that the MFD may not consistently show exptected partisan differences, shedding doubt on the usefulness of the MFD. 
+  
 keywords          : "politics, morality, psycholinguistics"
 
 # bibliography      : ["./metapsych_bib.bib"] # add new references 
@@ -93,12 +93,11 @@ Foundations Dictionary [MFD, @Graham2009]. @Graham2009 developed the
 MFD - a lexicon-based linguistic measure of MFT - arguing that moral
 concerns and the propositions of MFT could be measured and tested with
 the words people use. Here we first review evidence and criticisms
-against this assumption. We then provide our own test of the MFD using
-partisan news articles.
+against this assumption. We then provide our own test of the MFD using a statistical validity assessment and partisan news articles.
 
 ## Moral Foundations Measurement
 
-Haidt and Joseph [-\@haidt2004] and Haidt and Graham [-@Haidt2007]
+Haidt and Joseph [-@haidt2004] and Haidt and Graham [-@Haidt2007]
 formulated MFT as a method by which to capture the entirety of humans'
 moral domain. They argued that older theories of moral psychology were
 focused primarily on issues of justice, fairness, and caring, which are
@@ -106,10 +105,10 @@ individually focused foundations of morality that align with the beliefs
 of political liberals. In other words, moral psychology ignored the
 valid moral foundations of conservatives. MFT holds that people's moral
 domain can be mapped by quantifying their endorsement of five moral
-foundations: *harm/care*, *fairness/reciprocity*, *ingroup/loyalty*,
-*authority/respect*, and *purity/sanctity* [@Haidt2007]. Thus, they
+foundations: harm/care, fairness/reciprocity, ingroup/loyalty,
+authority/respect, and purity/sanctity [@Haidt2007]. Thus, they
 proposed that the addition of these two additional domains could
-adequately capture the broader spectrum of morality.
+adequately capture the broader spectrum of morality. Throughout the rest of the article, we will use the first word from each of these continuums to denote the foundation area. 
 
 Measurement of MFT has traditionally focused on two options: 1) the
 Moral Foundations Questionnaire (MFQ) - a typical Likert-type survey
@@ -117,37 +116,37 @@ instrument that measures moral relevance of each foundation to an
 individual and the moral judgment of various scenarios depicting each
 foundation, and 2) the Moral Foundations Dictionary (MFD) which was
 designed to capture language's role in moral reasoning and justification
-as used in speech and text [@Graham2009; @graham2011]. The MFQ is a
+as used in speech and text [@Graham2009; @Graham2011]. The MFQ is a
 30-item scale with 15 items on the moral relevance and judgment
 scenarios. The 15 moral relevance items are equally divided among the
 five foundations and examine how relevant a condition is to making a
 moral judgment on a scale of 1 (*not at all relevant*) to 6 (*extremely
 relevant*). These relevance items include examples such as: "Whether or
-not someone used violence (*harm*)," "Whether or not someone was denied
-his or her rights (*fairness*)," "Whether or not someone showed a lack
-of loyalty (*ingroup*)," "Whether or not an action caused chaos or
-disorder (*authority*)," and "Whether or not someone did something
-disgusting (*purity*)." The moral judgments items are also equally
+not someone used violence (harm)," "Whether or not someone was denied
+his or her rights (fairness)," "Whether or not someone showed a lack
+of loyalty (ingroup)," "Whether or not an action caused chaos or
+disorder (authority)," and "Whether or not someone did something
+disgusting (purity)." The moral judgments items are also equally
 divided between the foundations and ask on a six-point scale how much
 one agrees with each of the statements. These judgment items include:
 "One of the worst things a person can do is hurt a defenseless animal
-(*harm*)," "Justice is the most important requirement of a society
-(*fairness*)," "I am proud of my country's history (*ingroup*)," "Men
-and women each have different roles to play in society (*authority*),"
-and "Chastity is an important and valuable virtue (*purity*)."
+(harm)," "Justice is the most important requirement of a society
+(fairness)," "I am proud of my country's history (ingroup)," "Men
+and women each have different roles to play in society (authority),"
+and "Chastity is an important and valuable virtue (purity)."
 
 The internal consistency of the MFQ from @Graham2011 was $\alpha$ = .73
 averaged across subscales with a range of $\alpha$ = .65-.84. Across six
 studies, the MFQ was found to have an average Cronbach's alpha of .63
-for *harm*, .64 for *fairness*, .56 for *ingroup*, .59 for *authority*,
-and .71 for *purity* [@Federico2013; @Graham2009; @Graham2012;
+for harm, .64 for fairness, .56 for ingroup, .59 for authority,
+and .71 for purity [@Federico2013; @Graham2009; @Graham2012;
 @Weber2013]. Test-retest reliability was *r* = .68-.82 using a sample of
 123 college students. Confirmatory factor analysis supported a
-well-fitted five-factor model (*harm/care*, *fairness/reciprocity*,
-*ingroup/loyalty*, *authority/respect*, and *purity/sanctity*) over two,
-individual (*harm* and *fairness*) versus group (*ingroup*, *authority*,
-and *purity*) foundations, or three, autonomy (*harm*, *fairness*),
-community (*ingroup*, *authority*), and divinity (*purity*) ethics,
+well-fitted five-factor model (harm, fairness,
+ingroup, authority, and purity) over two,
+individual (harm and fairness) versus group (ingroup, authority,
+and purity) foundations, or three, autonomy (harm, fairness),
+community (ingroup, authority), and divinity (purity) ethics,
 foundations factor model. The five-factor structure also fit for
 non-Western samples, thus, providing evidence of the MFQ
 generalizability. Convergent validity was supported with correlations on
@@ -156,23 +155,23 @@ other measures of morality [@Graham2011].
 The MFD is composed of 259 words, with around 50 words assigned to each
 of the five foundations. @Graham2009 created a preliminary list of words
 that they believed would be associated with the five foundations. Words
-such as *war* and *peace* should indicate a greater concern with *harm*
+such as *war* and *peace* should indicate a greater concern with harm
 foundation whereas words such as *homeland* and *terrorism* should
-indicate a greater concern with the *ingroup* foundation. The other
-foundation dictionaries include *equal* and *justice* (*fairness*),
-*honor* and *protest* (*authority*), and *holy* and *sin* (*purity*). To
+indicate a greater concern with the ingroup foundation. The other
+foundation dictionaries include *equal* and *justice* (fairness),
+*honor* and *protest* (authority), and *holy* and *sin* (purity). To
 validate the word sets, @Graham2009 examined the frequency of MFD words
 in liberal and conservative sermons using the Linguistic Inquiry and
-Word Count [LIWC; @Pennebaker2007] computer program. They found liberal
-ministers used *harm*, *fairness*, and *ingroup* words more often than
-conservative ministers who used *authority* and *purity* words more
+Word Count [LIWC, @Pennebaker2007] computer program. They found liberal
+ministers used harm, fairness, and ingroup words more often than
+conservative ministers who used authority and purity words more
 often. Although conservative ministers were expected to use more
-*ingroup* words based on political ideology and previous research, an
-examination of the way liberal ministers used *ingroup* words revealed a
-tendency for the use of *ingroup* words to glorify rebellion and promote
-independence (i.e., the opposite direction from *ingroup* definitions).
+ingroup words based on political ideology and previous research, an
+examination of the way liberal ministers used ingroup words revealed a
+tendency for the use of ingroup words to glorify rebellion and promote
+independence (i.e., the opposite direction from ingroup definitions).
 Effect sizes indicated relatively sizable difference between liberal and
-conservative sermons with Cohen's *d* values ranging from 0.56 to 1.27.
+conservative sermons with Cohen's $d_s$ values ranging from 0.56 to 1.27.
 
 In contrast to this approach, @Sagi2014 explored how moral words were
 used paired with other co-occurring concepts using Latent Semantic
@@ -181,7 +180,7 @@ contexts to piece out specific moral words and their collocates. First,
 they looked at how moral words were used in relation to the World Trade
 Center compared to the Empire State Building in the New York Times from
 1987-2007. After 9-11, the number of moral words associated with the
-World Trade Center increased, specifically *harm* words from the MFD.
+World Trade Center increased, specifically harm words from the MFD.
 Second, they considered the changes in how moral words were paired with
 mosque used in blogs as a response to the debate of building a mosque
 near Ground Zero following 9-11. They found words from the MFD were used
@@ -189,8 +188,8 @@ more often with mosque during the main debate and then the co-occurrence
 decreased afterwards. Lastly, they examined moral language tied to the
 abortion debate in Congress. Republicans used more moral language
 overall; more specifically, Republicans tended to use more words
-associated with the *purity* foundation; while Democrats used more words
-associated with the *fairness* foundation.
+associated with the purity foundation; while Democrats used more words
+associated with the fairness foundation.
 
 ## Critiques of Moral Foundations
 
@@ -198,10 +197,10 @@ MFT has received criticism on the grounds that its assumptions regarding
 moral intuitions have little empirical basis. @Suhler2011 criticized the
 content and taxonomy of the five foundations and question whether or not
 the foundations are sufficiently distinct as to stand as their own
-foundation. Likewise, @Gray2015 argues that the measurement of the moral
+foundation. Likewise, @Gray2015 argued that the measurement of the moral
 foundations confounds morality with other constructs (such as weirdness)
-and the moral foundations lack statistical and conceptual distinction.
-@Schein2015 argues that harm-based morality is the most parsimonious and
+and that the moral foundations lack statistical and conceptual distinction.
+@Schein2015 argued that harm-based morality is the most parsimonious and
 logical explanation for MFT findings.
 
 Beyond the critiques of the theory itself, many have also provided
@@ -220,7 +219,9 @@ no differences were found for harm and fairness. Additionally,
 not only the original MFD but also the revised MFD2 as well using log
 transformed scores and raw scores. Even under the best circumstances
 (log transformed MFD2 scores), only two of the foundations showed
-theorized differences but with very small effects. Other studies have
+theorized differences but with very small effects. 
+
+Other studies have
 also found conflicting findings which fail to support the basic
 assertions of MFT. Exploring the political Twitterverse, @Sterling2018
 found differences in the MFD depend on political sophistication. For
@@ -231,19 +232,19 @@ not been extensively used (at least in published research), studies
 which have use the MFD to test partisan differences have found mixed
 results in terms of supporting MFT [@Clifford2013; @Frimer2015;
 @Sagi2014]. Like @Frimer2020, we attempt to give the MFD the best chance
-for success by incorporating a weighting method to address the
+for success by both increasing linguistic content and incorporating a weighting method to address the
 skewedness and sparsity of the linguistic data.
 
 The most successful attempts to validate a linguistic measure of moral
 foundations have used more complex methods (compared to the original
 dictionary-based approach). These attempts generally fall into two
 categories: human annotations and semantic representations. @Hopp2021
-represents the first approach where instead of relying on 'experts', a
+assessed the first approach where instead of relying on 'experts', a
 large sample of lay people were crowdsourced to manually annotate
 document for content relevant to each foundation. While
 resource-intensive, this method better captures how people may encounter
 and judge moral issues in everyday life leading to a more ecologically
-valid dictionary. @Garten2016 represents the second categories which
+valid dictionary. @Garten2016 examined the second category which
 instead relies on data-driven semantic analysis. Using shallow neural
 net models like word2vec [@mikolov_efficient_2013], moral foundations
 were measured using semantic similarity vectors rather than simple word
@@ -254,7 +255,7 @@ First, we use the MFQ and MFD in a multi-trait multi-method approach to
 determine if the dictionary can be improved and mapped into the
 theoretical MFT traits. This study examined the measurement overlap
 between these two sources, as well as the latent traits after
-controlling for the overlap. Using the results from this study, we
+controlling for method-related measurement. Using the results from this study, we
 examined two conceptual replications of @Frimer2020. We test the
 liberal-conservative difference proposed by MFT using partisan media
 content and the MFD. We first test differences in a general news corpus
@@ -401,8 +402,8 @@ categories. Below are labels of each of these five categories. You will
 then be asked to list words you think are associated with each of the
 labels."
 
-Each of the foundation pairs were listed together (i.e., *harm/care*,
-*fairness/reciprocity,* etc.) with a space for participants to list
+Each of the foundation pairs were listed together (i.e., harm,
+fairness, etc.) with a space for participants to list
 their free association concepts. After the free association task,
 participants were then given the 15-items from the moral relevance
 section of the MFQ as described in the introduction. Last, participants
@@ -859,8 +860,7 @@ demographics, and the political orientation scale.
 
 ### Results
 
-Participant data was first spell checked and screening for inaccurate
-responses. Participants who did not write more than fifty words in
+Participants who did not write more than fifty words in
 response to a given prompt were excluded (*n*  = 
 `r nrow(study1.2DF) - nrow(finalwords)`). One missing datapoint was
 estimated using the *mice* library from *R* for a missing MFQ question
@@ -1101,7 +1101,7 @@ For clarity, we programmed the following models:
 original_mfd <- read.csv("../../study1_data/original_mfd.csv", stringsAsFactors = F)
 
 ##adding forms/conjugations of words to original_mfd
-#harm/care
+#Harm
 original_mfd[c(27:95),1] <- c("abusive","abuser","abused","abusing",
                              "sympathetic","sympathies","damaged",
                              "damaging","attacked","attacking","attacker",
@@ -1119,7 +1119,7 @@ original_mfd[c(27:95),1] <- c("abusive","abuser","abused","abusing",
                              "stomping", "suffers", "suffered", "suffering",
                              "violence", "warring")
                              
-#fairness/reciprocity
+#Fairness
 original_mfd[c(20:64),2] <- c("balances", "balanced", "balancing","biased",
                              "biases", "discriminates", "discriminated",
                              "discriminating", "discrimination", "equals",
@@ -1133,7 +1133,7 @@ original_mfd[c(20:64),2] <- c("balances", "balanced", "balancing","biased",
                              "reasoned", "reasoning", "rights", "tolerates",
                              "tolerated", "tolerating", "toleration")
 
-#ingroup/loyalty
+#Ingroup
 original_mfd[c(16:47),3] <- c("collects", "collected", "collecting", "collective",
                              "communities", "deceives", "deceived", "deceiving",
                              "deception", "deceptions", "deserts", "deserted",
@@ -1143,7 +1143,7 @@ original_mfd[c(16:47),3] <- c("collects", "collected", "collecting", "collective
                              "individualizing", "members", "nations", "sides",
                              "togetherness", "traits", "unites", "united", "uniting")
 
-#authority/respect
+#Authority
 original_mfd[c(31:112),4] <- c("abides", "abided", "abiding", "authorities",
                               "classes", "classed", "classing", "command",
                               "commanded", "commanding", "controls", "controlled",
@@ -1164,7 +1164,7 @@ original_mfd[c(31:112),4] <- c("abides", "abided", "abiding", "authorities",
                               "revered", "revering", "reverence", "serves", "served",
                               "serving", "traditions", "traditional", "traits")
 
-#purity/sanctity
+#Purity
 original_mfd[c(21:60),5] <- c("abstains", "abstained", "abstaining", "abstinence",
                              "adulteries", "adulterous", "adulterer", "adulterers",
                              "churches", "cleans", "cleaned", "cleaning", "cleanse",
@@ -1322,7 +1322,7 @@ apa_table(mtmmdata.summary,
           escape = F,
           align = c("l", "l", "c", "c"),
           font_size = 'footnotesize',
-          placement = "h"
+          placement = "ht"
           )
 ```
 
@@ -1416,7 +1416,7 @@ model1.reduce.fit.results <- broom::glance(model1.fit)
 write.csv(model1.reduce.results, "mtmm_results/reduce_model1.csv", row.names = F)
 ```
 
-Fit indices from the MTMM Model 1 step are shown in Table \@ref(tab:mtmm-model1-table). The complete parameter estimates from these models are saved online for full inspection due to their length. The fit indices from these models indicate that all models showed good fit. The original and complete MFD models showed equal fit ($\Delta$ CFA <= .01), and both models were better than the reduced MFD model. We then inspected the loadings to determine the adequacy of the loadings for the MFQ and MFD. These results are shown in Table \@ref(tab:mtmm-model1-table2). All but one question for the MFQ load adequately (>.30) on each of their moral foundation areas. None of the MFD areas load onto their moral foundation area, as all loadings are close to zero (and non-significant, see online). The excellent model fit was likely due to the structure of the MFQ, as the MFD results do not show relation to their foundation area. We did not run further models, as the goal was to show that Model 1 was the best model with appropriate loadings for foundations.  
+Fit indices from the MTMM Model 1 step are shown in Table \@ref(tab:mtmm-model1-table). The complete parameter estimates from these models are saved online for full inspection due to their length. The fit indices from these models indicate that all models showed good fit. The original and complete MFD models showed equal fit ($\Delta$ CFI <= .01), and both models were better than the reduced MFD model. We then inspected the loadings to determine the adequacy of the loadings for the MFQ and MFD. These results are shown in Table \@ref(tab:mtmm-model1-table2). All but one question for the MFQ load adequately (>.30; *denied rights*) on each of their moral foundation areas. None of the MFD areas load onto their moral foundation area, as all loadings are close to zero (and non-significant, see online). The excellent model fit was likely due to the structure of the MFQ, as the MFD results do not show relation to their foundation area. We did not run further models, as the goal was to show that Model 1 was the best model with appropriate loadings for foundations.  
 
 ```{r mtmm-model1-table, results = 'asis'}
 apa_table(
@@ -1432,7 +1432,7 @@ apa_table(
           escape = F,
           align = c("l", "l", "c", "c"),
           font_size = 'footnotesize',
-          placement = "h"
+          placement = "ht"
           )
 ```
 
@@ -1459,18 +1459,40 @@ est.table <-   bind_rows(
   slice_head(n = 20) %>% 
   mutate(Latent = rep(c("Harm", "Fair", "Ingroup", "Authority", "Purity"), each = 4),
          Measured = rep(c("1", "2", "3", "MFD"), times = 5)) %>% 
-  select(Latent, Measured, Original:Reduce)
+  select(Latent, Measured, Original:Reduce) %>% 
+  mutate(Measured = c(
+    "Emotional Suffering", 
+    "Cared for Weak",
+    "Cruel",
+    "MFD", 
+    "Treated Differently", 
+    "Acted Unfairly", 
+    "Denied Rights",
+    "MFD", 
+    "Love for Country",
+    "Betray Group",
+    "Lack of Loyalty",
+    "MFD",
+    "Lack of Respect",
+    "Conformed to Tradition",
+    "Chaos or Disorder",
+    "MFD",
+    "Purity and Decency",
+    "Disgusting",
+    "Acted God",
+    "MFD"
+  ))
 
 apa_table(est.table, 
           note = "Estimates are completely standardized loadings from the model.",
-          caption = "MTMM Fit Estimates for Model 1 Loadings",
+          caption = "MTMM Parameter Estimates for Model 1 Loadings",
           col.names = c("Latent Variable", "Measured Variable", 
                         "Original", "All", "Reduced"),
           format = "latex",
           escape = F,
           align = c("l", "l", "c", "c"),
           font_size = 'footnotesize',
-          placement = "h"
+          placement = "ht"
           )
 ```
 
@@ -1485,10 +1507,7 @@ Study 1 was designed to investigate if the original MFD could be improved with a
 We hypothesized the news sources generally perceived as liberal leaning
 (*NPR* and *The New York Times*) would contain MFD words and valences
 indicating endorsements of the individualizing moral foundations
-(*harm/care* and *fairness/reciprocity*). Additionally, we hypothesized
-the two sources generally perceived to be conservative leaning (*Fox News* 
-and *Breitbart*) would feature MFD words and valences indicating
-equal endorsement of all five foundations.
+(harm and fairness), and thus, higher foundation scores in this area than conservative sources [@Sagi2014]. Additionally, we hypothesized that the two sources generally perceived to be conservative leaning (*Fox News* and *Breitbart*) would feature MFD words and valences with higher scores in the authority and purity areas. Given the previously mixed results of ingroup, we do not make a directional prediction [@Frimer2020].
 
 ### Sources
 
@@ -1529,7 +1548,7 @@ sites were structured. While in the multi-week process of scraping
 articles, we noticed word counts for *NPR* and *Fox News* were not
 growing at a similar pace as those from the *NYT* and *Breitbart*. Upon
 investigation, we found another, more robust URL for political content
-from NPR: their politics content "archive." The page structure on NPR's
+from NPR: their politics content archive. The page structure on NPR's
 website was such that only a limited selection of articles is displayed
 to the user at a given time. Scraping both the archive and the normal
 politics page ensured we were obtaining most (if not all) new articles
@@ -1560,25 +1579,9 @@ was collected in April 2018.
 # not run in the same way anymore
 ```
 
-### Data analysis
+### Data Analysis
 
-Once data collection ended, the text was scanned using the *ngram*
-package in *R* [@Schmidt2017]. This package includes a word count
-function, which was used to remove articles that came through as blank
-text, as well as to eliminate text picked up from the Disqus commenting
-system used by certain websites. At this point, duplicate articles were
-discarded.
-
-The article text was processed using the *tm* and *ngram* packages in
-*R* in order to render the text in lowercase, remove punctuation, and
-fix spacing issues [@Feinerer2017]. The individual words were then
-reduced to their stems (i.e., *abused* was stemmed to *abus*). The same
-procedure was applied to the MFD words and the words in the
-@Warriner2013 dataset. Using the @Warriner2013 dictionary, the words
-making up each of the five foundations in the MFD were matched to their
-respective valence value.
-
-The @Warriner2013 data includes nearly 14,000 English lemmas that have
+Once data collection ended, the text sources and @Warriner2013 dataset were processed as described in Study 1. The words making up each of the five foundations in the MFD were matched to their respective valence value. The @Warriner2013 data includes nearly 14,000 English lemmas that have
 been rated for their valence, arousal, and dominance [mirroring
 @bradley1999]. Word emotion ratings have been used to estimate the
 sentiment of a text - a very popular task within classification
@@ -1600,8 +1603,7 @@ average sentiment.
 Given the results from Study 1.3, we used the original MFD to calculate 
 the number of words included for each moral foundation area. We could 
 also suggest using the larger complete dataset, given that the CFI indicated 
-similar models, and we note here that the pattern of results do not change 
-if that dictionary is used instead. The total number of times each of those words
+similar models. The total number of times each of those words
 was used in an article was calculated. This information was merged with
 the valence values from the @Warriner2013 dataset. A weighted score was
 calculated by multiplying the frequency of occurrence within a document
@@ -2211,18 +2213,32 @@ temp_table <- harm_final_data %>%
   slice_sample(n = 15, replace = F)
 
 apa_table(temp_table %>% select(-URL), 
-          note = "Concepts were stemmed to match datasets.",
+          note = "Concepts were stemmed to match datasets. The frequency was divided by the total numbers and then multiply by valence and 100 to create percent weighted scores.",
           caption = "Example of Weighted Coding for Harm Words",
           col.names = c("Source", "Concept", "Frequency", "Total Words", "Valence", "Weighted Score"),
           format = "latex",
           escape = F,
           align = c("l", "l", rep("c", 4)),
           font_size = 'footnotesize',
-          placement = "h"
+          placement = "ht"
           )
 ```
 
 ## Results
+
+Descriptive and test statistics, *p*-values and effect sizes (Cohen's
+$d_s$) can be found in Table \@ref(tab:exp1-table). To interpret the
+weighted scores, one can examine the mean and standard deviations for
+each. A zero score for the mean, with a non-zero standard deviation,
+would indicate a perfect balance of positive and negative words in each
+category, likely representing a neutral sentiment when all words are
+considered. Negative percentages would indicate more representation of
+the negative words in the MFD area, while positive percentages indicate
+an endorsement of the positive words in a MFD. Therefore, we suggest
+using the sign of the mean score to determine the directionality of the
+endorsement for the MFD (positive, neutral, negative), and the standard
+deviation to ensure that a zero score is not zero endorsement (i.e., a
+SD of zero indicates no words were used).
 
 To analyze if news sources adhered to differences in word use based on
 their target audience, we utilized a multilevel model (MLM) to analyze
@@ -2232,33 +2248,9 @@ creates correlated error [@Gelman2006]. Using the *nlme* library in *R*
 [@Pinheiro2017], each foundation's weighted percentage was predicated
 here by the political lean of the news source, using the individual news
 sources as a random intercept to control for the structure of the data.
-Therefore, the models were calculated by: Weighted Score \~ Political
-Lean + (\~1\|Source).
-
-The multilevel model did not indicate the presence of any significant or
-practical effect of political lean for any of the five moral
-foundations. The strongest effect size was observed for the
-*authority/respect* foundation, but the effect was in the opposite
-direction from what was originally hypothesized - liberal sources tended
-to use more *authority/respect* words than did conservative sources.
-Descriptive and test statistics, *p*-values and effect sizes (Cohen's
-*d*) can be found in Table \@ref(tab:exp1-table). To interpret the
-weighted scores, one can examine the mean and standard deviations for
-each. A zero score for the mean, with a non-zero standard deviation,
-would indicate a perfect balance of positive and negative words in each
-category, likely representing a neutral tone when all words are
-considered. Negative percentages would indicate more representation of
-the negative words in the MFD area, while positive percentages indicate
-an endorsement of the positive words in a MFD. Therefore, we suggest
-using the sign of the mean score to determine the directionality of the
-endorsement for the MFD (positive, neutral, negative), and the standard
-deviation to ensure that a zero score is not zero endorsement (i.e., a
-SD of zero indicates no words were used). Based on the weighted percent
-values for the five foundations, we observed that MFD words seem to make
-up a small portion of the article text. Furthermore, the observed
-percentages and means appear to indicate a generally positive
-endorsement of all five foundations across both liberal and conservative
-sources.
+Therefore, the models were calculated by: `Weighted Score (or Original Percent Score) ~ Political
+Lean + (~1|Source)`. Both the valence weighted scores and original MFD scores were used as dependent variables to compare results across different scorings of the MFD. The multilevel model did not indicate the presence of any significant effects for political lean for any of the five moral
+foundations. The effect sizes ($d_s$) appear to show a similar pattern of results, but given that most are close to zero, it is difficult to know if these two scoring systems showed similar results or these results were simply null effects. The original scoring shows a small effect size for purity (considering that previous effect sizes reported were .50+, we considered .20 small) in the expected direction. 
 
 ```{r exp1_table_calc, include = F, echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
@@ -2354,36 +2346,36 @@ purity_d_p = d.ind.t(m1 = mean(purity_final_temp$percent[purity_final_temp$lean 
                  a = .05)
 
 #put in the numbers
-tableprint2[1, ] = c("Valence", "Harm/Care", harm_d$M1, harm_d$sd1, harm_d$M2, harm_d$sd1,
+tableprint2[1, ] = c("Valence", "Harm", harm_d$M1, harm_d$sd1, harm_d$M2, harm_d$sd1,
                     summary(harm_model)$tTable[2,4], summary(harm_model)$tTable[2,5],
                     harm_d$d, icc(harm_icc, tolerance = 1e-10)$ICC_unadjusted)
-tableprint2[2, ] = c("Valence", "Fairness/Reciprocity", fair_d$M1, fair_d$sd1, fair_d$M2, fair_d$sd1,
+tableprint2[2, ] = c("Valence", "Fairness", fair_d$M1, fair_d$sd1, fair_d$M2, fair_d$sd1,
                     summary(fair_model)$tTable[2,4], summary(fair_model)$tTable[2,5],
                     fair_d$d, icc(fair_icc, tolerance = 1e-10)$ICC_unadjusted)
-tableprint2[3, ] = c("Valence", "Ingroup/Loyalty", ingroup_d$M1, ingroup_d$sd1, ingroup_d$M2, ingroup_d$sd1,
+tableprint2[3, ] = c("Valence", "Ingroup", ingroup_d$M1, ingroup_d$sd1, ingroup_d$M2, ingroup_d$sd1,
                     summary(ingroup_model)$tTable[2,4], summary(ingroup_model)$tTable[2,5],
                     ingroup_d$d, icc(ingroup_icc, tolerance = 1e-10)$ICC_unadjusted)
-tableprint2[4, ] = c("Valence", "Authority/Respect", authority_d$M1, authority_d$sd1, authority_d$M2, authority_d$sd1,
+tableprint2[4, ] = c("Valence", "Authority", authority_d$M1, authority_d$sd1, authority_d$M2, authority_d$sd1,
                     summary(authority_model)$tTable[2,4], summary(authority_model)$tTable[2,5],
                     authority_d$d, icc(authority_icc, tolerance = 1e-10)$ICC_unadjusted)
-tableprint2[5, ] = c("Valence", "Purity/Sanctity", purity_d$M1, purity_d$sd1, purity_d$M2, purity_d$sd1,
+tableprint2[5, ] = c("Valence", "Purity", purity_d$M1, purity_d$sd1, purity_d$M2, purity_d$sd1,
                     summary(purity_model)$tTable[2,4], summary(purity_model)$tTable[2,5],
                     purity_d$d, icc(purity_icc, tolerance = 1e-10)$ICC_unadjusted)
 
 
-tableprint2[6, ] = c("Original", "Harm/Care", harm_d_p$M1, harm_d_p$sd1, harm_d_p$M2, harm_d_p$sd1,
+tableprint2[6, ] = c("Original", "Harm", harm_d_p$M1, harm_d_p$sd1, harm_d_p$M2, harm_d_p$sd1,
                     summary(harm_model_p)$tTable[2,4], summary(harm_model_p)$tTable[2,5],
                     harm_d_p$d, icc(harm_icc_p, tolerance = 1e-10)$ICC_unadjusted)
-tableprint2[7, ] = c("Original", "Fairness/Reciprocity", fair_d_p$M1, fair_d_p$sd1, fair_d_p$M2, fair_d_p$sd1,
+tableprint2[7, ] = c("Original", "Fairness", fair_d_p$M1, fair_d_p$sd1, fair_d_p$M2, fair_d_p$sd1,
                     summary(fair_model_p)$tTable[2,4], summary(fair_model_p)$tTable[2,5],
                     fair_d_p$d, icc(fair_icc_p, tolerance = 1e-10)$ICC_unadjusted)
-tableprint2[8, ] = c("Original", "Ingroup/Loyalty", ingroup_d_p$M1, ingroup_d_p$sd1, ingroup_d_p$M2, ingroup_d_p$sd1,
+tableprint2[8, ] = c("Original", "Ingroup", ingroup_d_p$M1, ingroup_d_p$sd1, ingroup_d_p$M2, ingroup_d_p$sd1,
                     summary(ingroup_model_p)$tTable[2,4], summary(ingroup_model_p)$tTable[2,5],
                     ingroup_d_p$d, icc(ingroup_icc_p, tolerance = 1e-10)$ICC_unadjusted)
-tableprint2[9, ] = c("Original", "Authority/Respect", authority_d_p$M1, authority_d_p$sd1, authority_d_p$M2, authority_d_p$sd1,
+tableprint2[9, ] = c("Original", "Authority", authority_d_p$M1, authority_d_p$sd1, authority_d_p$M2, authority_d_p$sd1,
                     summary(authority_model_p)$tTable[2,4], summary(authority_model_p)$tTable[2,5],
                     authority_d_p$d, icc(authority_icc_p, tolerance = 1e-10)$ICC_unadjusted)
-tableprint2[10, ] = c("Original", "Purity/Sanctity", purity_d_p$M1, purity_d_p$sd1, purity_d_p$M2, purity_d_p$sd1,
+tableprint2[10, ] = c("Original", "Purity", purity_d_p$M1, purity_d_p$sd1, purity_d_p$M2, purity_d_p$sd1,
                     summary(purity_model_p)$tTable[2,4], summary(purity_model_p)$tTable[2,5],
                     purity_d_p$d, icc(purity_icc_p, tolerance = 1e-10)$ICC_unadjusted)
 
@@ -2395,15 +2387,15 @@ tableprint2[ , 10] = printp(as.numeric(tableprint2[ , 10]))
 ```{r exp1-table, results = 'asis', echo = F}
 apa_table(as.data.frame(tableprint2),
           note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
-          caption = "Study 2 Results - Multilevel Model",
+          caption = "News Source Results - Multilevel Model",
           col.names = c("Model", 
             "Foundation", "$M_C$", "$SD_C$", "$M_L$", 
-            "$SD_L$", "$t$", "$p$", "$d$", "ICC"),
+            "$SD_L$", "$t$", "$p$", "$d_s$", "ICC"),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 7)),
           font_size = 'footnotesize',
-          placement = "h"
+          placement = "ht"
           )
 ```
 
@@ -2450,18 +2442,10 @@ dev.off()
 
 ## Discussion
 
-The results obtained in Study 2 fail to support the differences
+The results obtained in Study 2 fail to support most of the predicted differences
 predicted by MFT. First, differences between liberal and conservative
 news sources failed to reach statistical or practical (effect size)
-significance for any foundations. Second, looking purely at the
-direction of the differences, the results run completely contrary to the
-differences expected by MFT. Conservative sources scored higher on
-concern for harm and fairness while liberal sources scored higher on
-concern for loyalty, authority, and purity. Overall, the results lend
-strong support to the case against the MFD and weakens the case
-generally for MFT.
-
-However, one possible limitation of the current data is the generalness
+significance for nearly all foundations. One effect was in the predicted direction, with higher endorsement for purity words in the conservative sources. One possible limitation of the current data is the generalness
 of the corpus. The selection of the broad and amorphous topic of
 "political news" may have led to the scraping of large numbers of
 articles with little to no moral-centric content. To address this
@@ -2472,31 +2456,17 @@ focus data collection efforts on two heavily moralized events in the
 Trump administration: (1) the nomination and confirmation of Justice
 Brett Kavanaugh to the U.S. Supreme Court and the U.S. government
 shutdown in December 2018 through January 2019 over disagreements about
-funding a U.S.-Mexico border wall. Hence, Study 3 is the best test of
+funding a U.S.-Mexico border wall. Hence, Study 3 was an improved test of
 the MFT and the MFD in the context of partisan news.
 
 # Study 3
 
 ## Method
 
-In contrast to Study 2, we approached Study 3 with the intention to
-confirm the method employed was valid for the analysis of the scraped
-text as well as for any inferences drawn from the analyses. For the
-second study, we hypothesized that news sources perceived as liberal
-will exhibit positive endorsements of the individualizing moral
-foundations (*harm/care* and *fairness/reciprocity*) in their articles
-reporting on both the Kavanaugh confirmation hearing as well as the
-2018-2019 government shutdown. News sources perceived as conservative
-are hypothesized to positively endorse all five foundations equally in
-their coverage of the Kavanaugh hearing and the government shutdown. We
-tested the hypothesis by analyzing the content scraped from news
-sources' web pages spanning the two weeks before (September 13, 2018)
-and two weeks after (October 11, 2018) Kavanaugh's confirmation hearing,
-owing to its prominence in the news. Likewise, we analyzed content
+We tested the same hypotheses as described in Study 2 by analyzing the content scraped from news sources' web pages spanning the two weeks before (September 13, 2018) and two weeks after (October 11, 2018) Kavanaugh's confirmation hearing, owing to its prominence in the news. Likewise, we analyzed content
 spanning two weeks before the start of the government shutdown (December
 8, 2018) to two weeks following the end of the shutdown (February 8,
-2019). The content will be analyzed for valence and moral alignment
-under MFT.
+2019). 
 
 ```{r include = F, echo = F}
 # please see the web_scraping.Rmd to see how we originally collected this data
@@ -2515,26 +2485,15 @@ proportion of consistent conservatives included *Fox News*, *Breitbart*,
 *The Rush Limbaugh Show*, *The Blaze*, and *Sean Hannity*. These sources
 were primarily selected due to their political lean but also due to our
 ability to webscrape their contents without a subscription based
-service. Political articles referencing Brett Kavanaugh's nomination
-process were identified and subsequently scraped by including the URL
-for each source's coverage of the nomination in the *R* script.
+service. 
 
 ### Materials
 
 Using the *rvest* and *RSelenium* libraries, we pulled body text for
 individual articles from each of the aforementioned 10 news sources and
-compiled them together [@Wickham2016; @harrison_rselenium_2020]. Using
-this dataset, we identified word count and average word count per
-source. This process was run for articles pertaining to Kavanaugh's
-nomination that were published between September 13, 2018 and October
-11, 2018 inclusive. This date range was selected in reference to the
-widely-publicized and viewed nomination hearing on September 27, 2018.
-We set the start date at September 13 (two weeks before the hearing) and
-the end date at October 11 (two weeks after the hearing) so that we
+compiled them together [@Wickham2016; @harrison_rselenium_2020]. Kavanaugh's widely-publicized and viewed nomination hearing was on September 27, 2018. We set the start date at September 13 (two weeks before the hearing) and the end date at October 11 (two weeks after the hearing) so that we
 could capture a large amount of data (roughly one month) during which
-Kavanaughnaugh's nomination was at its peak saturation in news coverage.
-
-The same process was followed for scraping articles related to the
+Kavanaugh's nomination was at its peak saturation in news coverage. The same process was followed for scraping articles related to the
 partial U.S. Government shutdown of 2018-2019. The articles scraped were
 published between December 8, 2018 and February 8, 2019 inclusive. Once
 again, we elected to scrape articles published two weeks before and
@@ -2657,15 +2616,7 @@ for(i in 1:nrow(final_gs)) {
 
 ### Data analysis
 
-As in Study 1 and 2, the text was scanned with *ngram* [@Schmidt2017]. Again,
-blank articles, text from the Disqus system, and duplicate articles were
-removed. The text was processed and stemmed in order to convert to a
-usable form for further analysis [@Feinerer2017]. Each individual word
-was reduced to its stem (i.e., *diseased* was stemmed to *diseas*). Once
-again, the same procedure was applied to the MFD words and the words in
-the @Warriner2013 dataset. We obtained the words' percent occurrence in
-the text. Percents were multiplied by *z*-scored valence and categorized
-into their proper MFD category.
+The data analysis used the same procedure as Study 1 for preparing the text, and the same weighting procedure described in Study 2 for creating valence scores. 
 
 ```{r create_datasets_harm_kav, eval = T, echo = F, include = F}
 #read in the harm total words from the mtmm project
@@ -2706,7 +2657,7 @@ harm_final_data_kav$valence = vlookup(harm_final_data_kav$Var1, #index in origin
 #fought, safer, spurn
 harm_final_data_kav$valence[harm_final_data_kav$Var1 == "fought"] = warriner$V.Mean.Sum[warriner$Word2 == "fight"]
 harm_final_data_kav$valence[harm_final_data_kav$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
-#no spurn avaliable
+#no spurn available
 ```
 
 ```{r create_datasets_fair_kav, include = FALSE}
@@ -2908,7 +2859,7 @@ harm_final_data_gs$valence = vlookup(harm_final_data_gs$Var1, #index in original
 #fought, safer, spurn
 harm_final_data_gs$valence[harm_final_data_gs$Var1 == "fought"] = warriner$V.Mean.Sum[warriner$Word2 == "fight"]
 harm_final_data_gs$valence[harm_final_data_gs$Var1 == "safer"] = warriner$V.Mean.Sum[warriner$Word2 == "safe"]
-#no spurn avaliable
+#no spurn available
 ```
 
 ```{r create_datasets_fair_gs, echo = F, include = FALSE}
@@ -3867,23 +3818,9 @@ hist(residuals)
 
 ## Results
 
-We utilized a multilevel model (MLM) to analyze if news sources
-leveraged different vocabularies based on target audience in the same
-manner as Study 2. Each foundation's weighted percentage was predicted
-by the source's political lean, using the individual source as a random
-intercept to control for the nested data structure. Two separate MLMs
-were constructed from datasets compiled for each topic of interest: the
-Kavanaugh hearing and the partial government shutdown of 2018-2019.
+The same multilevel models were used to calculate the differences in news sources political lean across foundation areas using either valence weighted scoring or original MFD scoring (see Study 2 for model code). 
 
-For the Kavanaugh topic, the multilevel model indicated the presence of
-a statistically significant effect for *harm/care*, but the practical
-effect denoted by Cohen's *d* was found to be small. There were no other
-significant or practical effects of political lean for any of the other
-four moral foundations. The effect for *harm/care* was in the
-hypothesized direction with liberal sources tending to use more
-positively *harm/care* words than conservative sources. Descriptive and
-test statistics, *p*-values and effect sizes (Cohen's *d*) can be found
-in Table \@ref(tab:exp2-tablekav).
+The pattern of results is nearly identical when examining $d_s$ scores for standardization, as the scorings are set on different scales (see Table \@ref(tab:exp2-tablekav)). A few significant results were found: 1) higher fairness scores for conservatives $d_s$ ~ .40s (both), 2) higher purity scores for conservatives $d_s$ ~ .47s (original score significant, weighted scores non-significant, but effect sizes were nearly identical). In general, the variance is a bit larger for the weighted scores, which may lead to the differences in traditional significance interpretations, and we advise examining effect sizes for interpretation. The rest of the effects were nearly zero. 
 
 ```{r exp2_kav_calc, include = F, echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
@@ -3978,35 +3915,35 @@ purity_d_kav_p = d.ind.t(m1 = mean(purity_final_temp_kav$percent[purity_final_te
                  a = .05)
 
 #put in the numbers
-tableprint_kav[1, ] = c("Valence", "Harm/Care", harm_d_kav$M1, harm_d_kav$sd1, harm_d_kav$M2, harm_d_kav$sd1,
+tableprint_kav[1, ] = c("Valence", "Harm", harm_d_kav$M1, harm_d_kav$sd1, harm_d_kav$M2, harm_d_kav$sd1,
                     summary(harm_model_kav)$tTable[2,4], summary(harm_model_kav)$tTable[2,5],
                     harm_d_kav$d, icc(harm_icc_k, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_kav[2, ] = c("Valence", "Fairness/Reciprocity", fair_d_kav$M1, fair_d_kav$sd1, fair_d_kav$M2, fair_d_kav$sd1,
+tableprint_kav[2, ] = c("Valence", "Fairness", fair_d_kav$M1, fair_d_kav$sd1, fair_d_kav$M2, fair_d_kav$sd1,
                     summary(fair_model_kav)$tTable[2,4], summary(fair_model_kav)$tTable[2,5],
                     fair_d_kav$d, icc(fair_icc_k, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_kav[3, ] = c("Valence", "Ingroup/Loyalty", ingroup_d_kav$M1, ingroup_d_kav$sd1, ingroup_d_kav$M2, ingroup_d_kav$sd1,
+tableprint_kav[3, ] = c("Valence", "Ingroup", ingroup_d_kav$M1, ingroup_d_kav$sd1, ingroup_d_kav$M2, ingroup_d_kav$sd1,
                     summary(ingroup_model_kav)$tTable[2,4], summary(ingroup_model_kav)$tTable[2,5],
                     ingroup_d_kav$d, icc(ingroup_icc_k, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_kav[4, ] = c("Valence", "Authority/Respect", authority_d_kav$M1, authority_d_kav$sd1, authority_d_kav$M2, authority_d_kav$sd1,
+tableprint_kav[4, ] = c("Valence", "Authority", authority_d_kav$M1, authority_d_kav$sd1, authority_d_kav$M2, authority_d_kav$sd1,
                     summary(authority_model_kav)$tTable[2,4], summary(authority_model_kav)$tTable[2,5],
                     authority_d_kav$d, icc(authority_icc_k, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_kav[5, ] = c("Valence", "Purity/Sanctity", purity_d_kav$M1, purity_d_kav$sd1, purity_d_kav$M2, purity_d_kav$sd1,
+tableprint_kav[5, ] = c("Valence", "Purity", purity_d_kav$M1, purity_d_kav$sd1, purity_d_kav$M2, purity_d_kav$sd1,
                     summary(purity_model_kav)$tTable[2,4], summary(purity_model_kav)$tTable[2,5],
                     purity_d_kav$d, icc(purity_icc_k, tolerance = 1e-10)$ICC_unadjusted)
 
-tableprint_kav[6, ] = c("Original", "Harm/Care", harm_d_kav_p$M1, harm_d_kav_p$sd1, harm_d_kav_p$M2, harm_d_kav_p$sd1,
+tableprint_kav[6, ] = c("Original", "Harm", harm_d_kav_p$M1, harm_d_kav_p$sd1, harm_d_kav_p$M2, harm_d_kav_p$sd1,
                     summary(harm_model_kav_p)$tTable[2,4], summary(harm_model_kav_p)$tTable[2,5],
                     harm_d_kav_p$d, icc(harm_icc_k_p, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_kav[7, ] = c("Original", "Fairness/Reciprocity", fair_d_kav_p$M1, fair_d_kav_p$sd1, fair_d_kav_p$M2, fair_d_kav_p$sd1,
+tableprint_kav[7, ] = c("Original", "Fairness", fair_d_kav_p$M1, fair_d_kav_p$sd1, fair_d_kav_p$M2, fair_d_kav_p$sd1,
                     summary(fair_model_kav_p)$tTable[2,4], summary(fair_model_kav_p)$tTable[2,5],
                     fair_d_kav_p$d, icc(fair_icc_k_p, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_kav[8, ] = c("Original", "Ingroup/Loyalty", ingroup_d_kav_p$M1, ingroup_d_kav_p$sd1, ingroup_d_kav_p$M2, ingroup_d_kav_p$sd1,
+tableprint_kav[8, ] = c("Original", "Ingroup", ingroup_d_kav_p$M1, ingroup_d_kav_p$sd1, ingroup_d_kav_p$M2, ingroup_d_kav_p$sd1,
                     summary(ingroup_model_kav_p)$tTable[2,4], summary(ingroup_model_kav_p)$tTable[2,5],
                     ingroup_d_kav_p$d, icc(ingroup_icc_k_p, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_kav[9, ] = c("Original", "Authority/Respect", authority_d_kav_p$M1, authority_d_kav_p$sd1, authority_d_kav_p$M2, authority_d_kav_p$sd1,
+tableprint_kav[9, ] = c("Original", "Authority", authority_d_kav_p$M1, authority_d_kav_p$sd1, authority_d_kav_p$M2, authority_d_kav_p$sd1,
                     summary(authority_model_kav_p)$tTable[2,4], summary(authority_model_kav_p)$tTable[2,5],
                     authority_d_kav_p$d, icc(authority_icc_k_p, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_kav[10, ] = c("Original", "Purity/Sanctity", purity_d_kav_p$M1, purity_d_kav_p$sd1, purity_d_kav_p$M2, purity_d_kav_p$sd1,
+tableprint_kav[10, ] = c("Original", "Purity", purity_d_kav_p$M1, purity_d_kav_p$sd1, purity_d_kav_p$M2, purity_d_kav_p$sd1,
                     summary(purity_model_kav_p)$tTable[2,4], summary(purity_model_kav_p)$tTable[2,5],
                     purity_d_kav_p$d, icc(purity_icc_k_p, tolerance = 1e-10)$ICC_unadjusted)
 
@@ -4017,39 +3954,20 @@ tableprint_kav[ , 10] = printp(as.numeric(tableprint_kav[ , 10]))
 
 ```{r exp2-tablekav, results = 'asis', echo = F}
 apa_table(as.data.frame(tableprint_kav),
-          note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
+          note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively.",
           caption = "Kavanaugh Results - Multilevel Model",
           col.names = c("Model",
-            "Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$", "ICC"),
+            "Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d_s$", "ICC"),
           format = "latex",
           escape = F,
           align = c("l", "l", rep("c", 7)),
           font_size = 'footnotesize',
-          placement = "h"
+          placement = "ht"
           ) 
 ```
 
 For news articles about the partial U.S. Federal Government Shutdown of
-2018-2019, there were no significant or practical effects of political
-lean for the moral foundations (see Table \@ref(tab:exp2-tablegs)). A
-small-to-medium effect size was observed for *authority/respect*. The
-effect was in the predicted direction as well, as conservative sources
-tended to offer more positive endorsements of the foundation than
-liberal sources. This effect was similar to Study 2 in which the largest
-effect size was observed for *authority/respect*. As noted before, the
-effect found in Study 2 was in the opposite direction as what was
-hypothesized. Thus, it is difficult to draw comparisons between the two
-studies despite the similar pattern for effect size. Owing to a lack of
-similar effects for either Study 2 or the Kavanaugh topic, there is
-doubt as to whether or not a practical or generalized effect exists for
-*authority/respect*.
-
-Based on the weighted percent values for the five foundations applied to
-both topics, MFD words seem to make up little of the article text. A
-similar pattern was observed for the results in Study 2. As in Study 2,
-the percentages and means seem to indicate a generally positive
-endorsement of all five moral foundations across both political
-leanings.
+2018-2019, only one significant effect was found (see Table \@ref(tab:exp2-tablegs)). The original scoring for fairness indicated that conservatives endorsed more fairness related words $d_s$ = 0.75. The valence weighted scoring showed the same effect size $d_s$ = 0.74, but was non-significant in traditional null hypothesis testing interpretations. Both effects would be considered large and in line with previous findings, *except* in the opposition direction of predicted results. The same large effects can be found for the purity foundation $d_s$ = 0.85 (both), in the expected direction that conservative sources endorsed more purity words than liberal sources. 
 
 ```{r exp2_gs_calc, include = F, echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
@@ -4145,35 +4063,35 @@ purity_d_gs_p = d.ind.t(m1 = mean(purity_final_temp_gs$percent[purity_final_temp
                  a = .05)
 
 #put in the numbers
-tableprint_gs[1, ] = c("Valence", "Harm/Care", harm_d_gs$M1, harm_d_gs$sd1, harm_d_gs$M2, harm_d_gs$sd1,
+tableprint_gs[1, ] = c("Valence", "Harm", harm_d_gs$M1, harm_d_gs$sd1, harm_d_gs$M2, harm_d_gs$sd1,
                     summary(harm_model_gs)$tTable[2,4], summary(harm_model_gs)$tTable[2,5],
                     harm_d_gs$d, icc(harm_icc_gs, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_gs[2, ] = c("Valence", "Fairness/Reciprocity", fair_d_gs$M1, fair_d_gs$sd1, fair_d_gs$M2, fair_d_gs$sd1,
+tableprint_gs[2, ] = c("Valence", "Fairness", fair_d_gs$M1, fair_d_gs$sd1, fair_d_gs$M2, fair_d_gs$sd1,
                     summary(fair_model_gs)$tTable[2,4], summary(fair_model_gs)$tTable[2,5],
                     fair_d_gs$d, icc(fair_icc_gs, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_gs[3, ] = c("Valence", "Ingroup/Loyalty", ingroup_d_gs$M1, ingroup_d_gs$sd1, ingroup_d_gs$M2, ingroup_d_gs$sd1,
+tableprint_gs[3, ] = c("Valence", "Ingroup", ingroup_d_gs$M1, ingroup_d_gs$sd1, ingroup_d_gs$M2, ingroup_d_gs$sd1,
                     summary(ingroup_model_gs)$tTable[2,4], summary(ingroup_model_gs)$tTable[2,5],
                     ingroup_d_gs$d, icc(ingroup_icc_gs)$ICC_unadjusted)
-tableprint_gs[4, ] = c("Valence", "Authority/Respect", authority_d_gs$M1, authority_d_gs$sd1, authority_d_gs$M2, authority_d_gs$sd1,
+tableprint_gs[4, ] = c("Valence", "Authority", authority_d_gs$M1, authority_d_gs$sd1, authority_d_gs$M2, authority_d_gs$sd1,
                     summary(authority_model_gs)$tTable[2,4], summary(authority_model_gs)$tTable[2,5],
                     authority_d_gs$d, icc(authority_icc_gs, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_gs[5, ] = c("Valence", "Purity/Sanctity", purity_d_gs$M1, purity_d_gs$sd1, purity_d_gs$M2, purity_d_gs$sd1,
+tableprint_gs[5, ] = c("Valence", "Purity", purity_d_gs$M1, purity_d_gs$sd1, purity_d_gs$M2, purity_d_gs$sd1,
                     summary(purity_model_gs)$tTable[2,4], summary(purity_model_gs)$tTable[2,5],
                     purity_d_gs$d, icc(purity_icc_gs, tolerance = 1e-10)$ICC_unadjusted)
 
-tableprint_gs[6, ] = c("Original", "Harm/Care", harm_d_gs_p$M1, harm_d_gs_p$sd1, harm_d_gs_p$M2, harm_d_gs_p$sd1,
+tableprint_gs[6, ] = c("Original", "Harm", harm_d_gs_p$M1, harm_d_gs_p$sd1, harm_d_gs_p$M2, harm_d_gs_p$sd1,
                     summary(harm_model_gs_p)$tTable[2,4], summary(harm_model_gs_p)$tTable[2,5],
                     harm_d_gs_p$d, icc(harm_icc_gs_p, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_gs[7, ] = c("Original", "Fairness/Reciprocity", fair_d_gs_p$M1, fair_d_gs_p$sd1, fair_d_gs_p$M2, fair_d_gs_p$sd1,
+tableprint_gs[7, ] = c("Original", "Fairness", fair_d_gs_p$M1, fair_d_gs_p$sd1, fair_d_gs_p$M2, fair_d_gs_p$sd1,
                     summary(fair_model_gs_p)$tTable[2,4], summary(fair_model_gs_p)$tTable[2,5],
                     fair_d_gs_p$d, icc(fair_icc_gs_p, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_gs[8, ] = c("Original", "Ingroup/Loyalty", ingroup_d_gs_p$M1, ingroup_d_gs_p$sd1, ingroup_d_gs_p$M2, ingroup_d_gs_p$sd1,
+tableprint_gs[8, ] = c("Original", "Ingroup", ingroup_d_gs_p$M1, ingroup_d_gs_p$sd1, ingroup_d_gs_p$M2, ingroup_d_gs_p$sd1,
                     summary(ingroup_model_gs_p)$tTable[2,4], summary(ingroup_model_gs_p)$tTable[2,5],
                     ingroup_d_gs_p$d, icc(ingroup_icc_gs_p)$ICC_unadjusted)
-tableprint_gs[9, ] = c("Original", "Authority/Respect", authority_d_gs_p$M1, authority_d_gs_p$sd1, authority_d_gs_p$M2, authority_d_gs_p$sd1,
+tableprint_gs[9, ] = c("Original", "Authority", authority_d_gs_p$M1, authority_d_gs_p$sd1, authority_d_gs_p$M2, authority_d_gs_p$sd1,
                     summary(authority_model_gs_p)$tTable[2,4], summary(authority_model_gs_p)$tTable[2,5],
                     authority_d_gs_p$d, icc(authority_icc_gs_p, tolerance = 1e-10)$ICC_unadjusted)
-tableprint_gs[10, ] = c("Original", "Purity/Sanctity", purity_d_gs_p$M1, purity_d_gs_p$sd1, purity_d_gs_p$M2, purity_d_gs_p$sd1,
+tableprint_gs[10, ] = c("Original", "Purity", purity_d_gs_p$M1, purity_d_gs_p$sd1, purity_d_gs_p$M2, purity_d_gs_p$sd1,
                     summary(purity_model_gs)$tTable[2,4], summary(purity_model_gs)$tTable[2,5],
                     purity_d_gs$d, icc(purity_icc_gs, tolerance = 1e-10)$ICC_unadjusted)
 
@@ -4184,15 +4102,15 @@ tableprint_gs[ , 10] = printp(as.numeric(tableprint_gs[ , 10]))
 
 ```{r exp2-tablegs, results = 'asis', echo = F}
 apa_table(as.data.frame(tableprint_gs),
-          note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
+          note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively.",
           caption = "Government Shutdown Results - Multilevel Model",
           col.names = c("Model", 
-            "Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$", "ICC"),
+            "Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d_s$", "ICC"),
           format = "latex",
           escape = F,
           align = c("l", "l", rep("c", 7)),
           font_size = 'footnotesize',
-          placement = "h"
+          placement = "ht"
           ) 
 ```
 
@@ -4273,65 +4191,19 @@ graph_data_gs = ggplot(graphlong_gs, aes(Foundation, value, color = variable)) +
 
 ## Discussion
 
-The results obtained in Study 3 are slightly more in line with
-expectations from MFT, however, in all but one case, the differences
-were not statistically significant. The only statistically significant
-difference was in the harm foundation; liberals did endorse harm more
-than conservatives during the Kavanaugh hearings, but the effect was
-smaller than expected given @Graham2009. Generally for both the
-Kavanaugh hearings and the Government shutdown, the differences were in
-the expected direction (liberals endorsing harm more and conservatives
-endorsing authority and loyalty more), but the differences were not
-statistically significant and the practical effects much smaller than
-reported in @Graham2009. While not significant, fairness was endorsed
-more by conservatives in both cases. In contrast, purity was endorsed
-more by conservatives for the government shutdown, but more by liberals
-for the Kavanaugh hearing though neither difference was statistically
-significant.
-
-Together with Study 2 and past work, Study 3 further calls into question
-the usefulness and efficacy of the Moral Foundations as well as cast
-doubt on the predictions made by MFT. One issue that Study 3 brings up
-is that moral differences between liberals and conservatives may be
-moderated by a number of factors as shown in @Sterling2018. For example,
-here we have liberals concerned with purity for the Kavanaugh hearings
-(a moral bad for liberals and a moral good for conservatives) and
-conservatives concerned with purity during the government shutdown (a
-moral bad for conservatives and a moral good for liberals). The original
-predictions made by the Moral Foundations are very simplistic and likely
-much more complex in reality.
+The results obtained in Study 3 portrayed that focused news sources may provide a bit more evidence for the MFD to assess MFT's predictions, at least for purity. This result showed a large effect, and depending on the scoring, sometimes the traditional significance matching results from @Graham2009. The results for fairness were in the opposite direction of expectations, given the MFT and previous studies, where we found that conservatives endorsed more fairness words than liberal sources. Study 2 and 3's results indicated that the effect sizes will likely be similar for either the traditional percent or weighted scoring, as they are nearly identical in each study. We suggest using the simpler percent scoring, which can be calculated with both programming software *R* and point and click software LIWC [@Pennebaker2007]. 
 
 # Conclusions
 
-Within the theoretical framework of MFT [@Haidt2007], we attempted to improve the MFD [@Graham2009] and demonstrate its relation with other reliable measurements of moral foundations, the MFQ. In Study 1, we examined potential new concepts to add to the MFD by collecting word associations and moral related texts from participants. Several dictionary improvements were suggested, but the results of a multi-trait multi-method analysis indicate that the MFD does not relate to the moral foundations found in the MFD. Therefore, we did not find support for the use of the MFD in relation to the MFT using a convergent and divergent validity technique. 
+Within the theoretical framework of MFT [@Haidt2007], we attempted to improve the MFD [@Graham2009] and demonstrate its relation with other reliable measurements of moral foundations, the MFQ. In Study 1, we examined potential new concepts to add to the MFD by collecting word associations and moral related texts from participants. Several dictionary improvements were suggested, but the results of a multi-trait multi-method analysis indicate that the MFD does not relate to the moral foundations found in the MFD. Therefore, we did not find support for the use of the MFD in relation to the MFQ using a convergent and divergent validity technique. 
 
 In Study 2 and 3, we attempted to
-devise a method leveraging the MFD in order to quantify
-political bias stemming from content published by several prominent
-American news sources. In Study 2, the results obtained were not
-significant in any statistical or practical sense. There was a small
-effect found for the *authority/respect* foundation according to Cohen's
-*d*, but the effect suggested endorsement for that foundation opposite
-to what was hypothesized. In Study 3, the direction of the differences
-were generally in line with MFT, however, the difference were very small
-and lacks statistically significance. Building on @Frimer2020 and other
-critiques of MFT and the MFD, we show that MFD is not a useful tool for
-measuring moral language while also calling into question the validity
-of MFT in terms of theorized partisan differences.
+devise a method leveraging the MFD and valence weighting in order to replicate previous effects on political bias stemming from content published by several prominent American news sources. In Study 2, we only discovered a small effect for purity, while all other results obtained were not
+significant in any statistical or practical sense. This result was replicated in Study 3 with a larger effect size, along with differences found in fairness, albeit in the opposite direction than predicted. Building on @Frimer2020 and other critiques of MFT and the MFD, we show that MFD may not yet be a useful tool for measuring moral language while also calling into question the validity of MFT in terms of theorized partisan differences.
 
-Despite the fact the results regarding political bias were inconclusive,
-we still retain confidence in the overall structure of the methodology
-established in the current study. Specifically, the procedure for
-scraping text from the web, processing, stemming, and weighting the
-scores with valence seems to represent a solid method for preparing a
-high quantity of text passages for data analysis. We implemented valence
-as an indicator of the directionality of endorsement due to the inherent
-ambiguity of simply calculating MFD word percent occurrence. This method
-served both to augment the face validity of the MFD by incorporating
-valence (thus reducing ambiguity) and to generate a score that is easy
-to understand and analyze.
+The results from different proposed scoring methods remained consistent with the original percent scoring method. This scoring may provide insight into the sentiment of the texts. For example, the harm foundation is considered a continuum ranging from harm to care. The results from Study 2 and 3 indicate that the MFD likely measures more harm than care across the continuum in our sources. In general, given that the weighted valence scoring requires more sophisticated programming skills to implement, we suggest using the original scoring of the MFD with all results taken together. 
 
-However, political lean and other important political/moral constructs
+Political lean and other important political/moral constructs
 may be communicated through methods other than through the use of
 particular words. As mentioned before, MFD is a measure developed from
 MFT [@Graham2009]. Based upon the results obtained, it might be
@@ -4342,12 +4214,12 @@ explain political differences in discourse. Likewise, an atheoretical
 approach in which large quantities of data are collected from which
 theories are formulated may be best suited to this area of research.
 
-In critiquing MFT, @Schein2015 proposed an alternative theory explaining
+In critiquing the MFT, @Schein2015 proposed an alternative theory explaining
 moral choices and potential partisan differences: Dyadic Theory of
 Morality. Across many studies, researchers find that supposed
 differences in moral foundation can be more easily explained by a
 harm-focused morality where someone/thing is harmed by someone/thing
-else [@Gray2014, @Schein2015]. Rather than liberals and conservatives
+else [@Gray2014; @Schein2015]. Rather than liberals and conservatives
 having difference conceptions of morality, dyadic morality argues that
 they simply identify harm differently. For example, in the case of
 abortion, liberals tend to identify the primary harm to the mother
