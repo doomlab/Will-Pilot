@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.29)  30 NOV 2024 10:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.29)  30 NOV 2024 11:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -826,6 +826,15 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/Users/erinbuchanan/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 175.
+(/Users/erinbuchanan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `pcr' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+
 
 [1
 
@@ -836,27 +845,21 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 [3]
 
 [4]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 344.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 348.
 (/Users/erinbuchanan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 
 [5]
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 362.
-(/Users/erinbuchanan/Library/TinyTeX/texmf-dist/tex/latex/psnfss/t1pcr.fd
-File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-)
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `pcr' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
+
+[6]
 
 Package caption Warning: Unused \captionsetup[table] on input line 26.
 See the caption package documentation for explanation.
 
 
 
-[6] (./revision_letter.aux)
+[7] (./revision_letter.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-11-02>
@@ -871,10 +874,10 @@ Here is how much of TeX's memory you used:
  14 hyphenation exceptions out of 8191
  98i,8n,117p,1779b,620s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on revision_letter.pdf (6 pages, 85601 bytes).
+Output written on revision_letter.pdf (7 pages, 87099 bytes).
 PDF statistics:
- 88 PDF objects out of 1000 (max. 8388607)
- 45 compressed objects within 1 object stream
+ 93 PDF objects out of 1000 (max. 8388607)
+ 49 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  34973 words of extra memory for PDF output out of 35830 (max. 10000000)
 

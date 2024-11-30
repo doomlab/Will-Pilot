@@ -1,5 +1,5 @@
 ---
-title             : "Moral Foundations of U.S. Political News Organizations"
+title             : "Moral Foundations of U.S. Political News Organizations: A Replication and Methodological Study"
 shorttitle        : "MORAL NEWS"
 
 author:

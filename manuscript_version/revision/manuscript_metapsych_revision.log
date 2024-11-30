@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.29)  30 NOV 2024 10:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.29)  30 NOV 2024 11:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -861,13 +861,13 @@ L3 programming layer <2020/03/25>
 Here is how much of TeX's memory you used:
  18489 strings out of 475290
  302637 string characters out of 5767563
- 791197 words of memory out of 5000000
+ 791492 words of memory out of 5000000
  40732 multiletter control sequences out of 15000+600000
  634342 words of font info for 176 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  83i,12n,93p,2268b,655s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb></Users/erinbuchanan/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
-Output written on manuscript_metapsych_revision.pdf (45 pages, 419430 bytes).
+Output written on manuscript_metapsych_revision.pdf (45 pages, 419731 bytes).
 PDF statistics:
  592 PDF objects out of 1000 (max. 8388607)
  513 compressed objects within 6 object streams

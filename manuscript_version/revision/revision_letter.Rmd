@@ -10,11 +10,15 @@ class          : "draft"
 output         : papaja::revision_letter_pdf
 ---
 
-Dear Dr. Editor,
+Dear Dr. Elson,
 
-Thank you very much for taking the time to consider our manuscript for publication at _`r rmarkdown::metadata$journal`_. Because we made a large number of changes to the document as requested, we do not copy all the changes here, but note a few specific areas. We believe the manuscript is much improved and thank the reviewers for their thoughtful commments. 
+Thank you very much for taking the time to consider our manuscript for publication at _`r rmarkdown::metadata$journal`_. Because we made a large number of changes to the document as requested, we do not copy all the changes here, but note a few specific areas. We believe the manuscript is much improved and thank the reviewers for their thoughtful comments. 
 
 In the following we address your and each reviewers' concerns point-by-point.
+
+Preprint: https://osf.io/rmj73/
+
+OSF: https://osf.io/5kpj7/, https://osf.io/rmj73/
 
 # Reviewer \#1
 
@@ -92,7 +96,7 @@ While we appreciate the complexities of measuring partisan lean of media outlets
 (4) The manuscript can be shortened by removing redundancies between study 1 and 2 descriptions. Also, if the text statistics such as readability are not used as controls or otherwise in the main analysis, why bother with them? While I appreciate the excellent documentation of the scraping, much of this can be moved to a supplement.
 :::
 
-We have streamlined in method sections when it was repetitive refering back to previous studies. We did keep places in which analyses were different or otherwise it was necessary for clarity (given the other reviewers comments). 
+We have streamlined in method sections when it was repetitive referring back to previous studies. We did keep places in which analyses were different or otherwise it was necessary for clarity (given the other reviewers comments). 
 
 :::reviewer
 (5) I was really irritated by the use of "Experiment" 1 and 2 in the headings, when no experiments were conducted or at least reported. Please stick to study 1 and 2.
