@@ -23,11 +23,11 @@ authornote: |
   William Padfield completed this project as part of his thesis requirements for a master's degree candidate in Psychology at Missouri State University. Submitted to Meta-Psychology. Participate in open peer review by commenting through hypothes.is directly on this preprint. The full editorial process of all articles under review at Meta-Psychology can be found following this link: https://tinyurl.com/mp-submissions
 
 abstract: |
-  Partisan differences and diviseness have become an increasing hot topic in psychological research. Many theories have been proposed to explain these differences and divisions including Moral Foundations Theory. The current research seeks to use a linguistic measure of Moral Foundations, the Moral Foundations Dictionary (MFD), to test the theory in terms of predicted partisan differences. In Study 1, we explore the MFD-Moral Foundations Questionnaire's measurement overlap using a multi-trait multi-method model. These latent trait models were used to inform possible improvement of the MFD. Next, we examined two replication extensions of previous work exploring the differences in political articles on moral differences Through web scraping, we extracted articles from popular partisan news sources' websites, calculated MFD word frequencies, and identified words' respective valences. This process attempts to uncover news outlets' positive or negative endorsements of certain moral dimensions concomitant with a particular ideology. In Study 1, we gathered political articles from four sources. We were unable to reveal significant differences in moral endorsements, but we solidified the method to be employed in further research. In Study 2, we expanded their number of sources to 10 and analyzed articles that pertain to two specific topics: the 2018 confirmation hearings of U.S. Supreme Court Justice Brett Kavanaugh and the partial U.S. Government Shutdown of 2018-2019. Once again, no significant differences in moral endorsements were found. Together with past work, the results shed doubt on the validity of the MFD as a reliable measurement tool.
+  Partisan differences and diviseness have become an increasing hot topic in psychological research. Many theories have been proposed to explain these differences and divisions including Moral Foundations Theory. The current research seeks to use a linguistic measure of Moral Foundations, the Moral Foundations Dictionary (MFD), to test the theory in terms of predicted partisan differences. In Study 1, we explore the MFD-Moral Foundations Questionnaire's measurement overlap using a multi-trait multi-method model. These latent trait models were used to inform possible improvement of the MFD. Next, we examined two replication extensions of previous work exploring the differences in political articles on moral differences Through web scraping, we extracted articles from popular partisan news sources' websites, calculated MFD word frequencies, and identified words' respective valences. This process attempts to uncover news outlets' positive or negative endorsements of certain moral dimensions concomitant with a particular ideology. In Study 2, we gathered political articles from four sources. We were unable to reveal significant differences in moral endorsements, but we solidified the method to be employed in further research. In Study 3, we expanded their number of sources to 10 and analyzed articles that pertain to two specific topics: the 2018 confirmation hearings of U.S. Supreme Court Justice Brett Kavanaugh and the partial U.S. Government Shutdown of 2018-2019. Once again, no significant differences in moral endorsements were found. Together with past work, the results shed doubt on the validity of the MFD as a reliable measurement tool.
 
 keywords          : "politics, morality, psycholinguistics"
 
-bibliography      : ["./metapsych_bib.bib"] # add new references 
+# bibliography      : ["./metapsych_bib.bib"] # add new references 
 
 floatsintext      : yes
 figurelist        : no
@@ -40,7 +40,9 @@ draft             : no
 documentclass     : "apa6"
 classoption       : "man"
 output            : papaja::apa6_pdf
-bibliography: references.bib # delete this 
+bibliography: references.bib 
+appendix          :
+  - "appendix.Rmd"
 ---
 
 ```{r load_packages, include = FALSE}
@@ -64,6 +66,8 @@ library(rio)
 library(mice)
 library(semPlot)
 library(lavaan)
+library(broom)
+library(tidyr)
 
 # to install this package 
 # tmp <- tempfile()
@@ -147,7 +151,7 @@ community (*ingroup*, *authority*), and divinity (*purity*) ethics,
 foundations factor model. The five-factor structure also fit for
 non-Western samples, thus, providing evidence of the MFQ
 generalizability. Convergent validity was supported with correlations on
-other measures of morality [@Schwartz; @Graham2011].
+other measures of morality [@Graham2011].
 
 The MFD is composed of 259 words, with around 50 words assigned to each
 of the five foundations. @Graham2009 created a preliminary list of words
@@ -170,7 +174,7 @@ independence (i.e., the opposite direction from *ingroup* definitions).
 Effect sizes indicated relatively sizable difference between liberal and
 conservative sermons with Cohen's *d* values ranging from 0.56 to 1.27.
 
-In contrast to this approach, @Sagi2013 explored how moral words were
+In contrast to this approach, @Sagi2014 explored how moral words were
 used paired with other co-occurring concepts using Latent Semantic
 Analysis (LSA). They examined three different moral issues in different
 contexts to piece out specific moral words and their collocates. First,
@@ -270,8 +274,6 @@ predictions and the size of the effect compared to past studies.
 
 # Study 1
 
-# Method
-
 We approached this study with the intention to answer a method question.
 That is, this portion of the current research was conducted in order to
 solidify the best method by which to analyze political news text under
@@ -286,65 +288,6 @@ dictionary. The last sub-study examined the MFD and MFQ using
 multi-trait multi-method (MTMM) analysis using guidelines from
 @byrne2001 and @widaman1985.
 
-MTMM analyses use latent variable modeling to represent the underlying
-structure of a proposed phenomenon, while also accounting for the
-measurement of that phenomenon. As shown in Figure \@ref(fig:fig-mtmm),
-MTMM models are programmed to represent the traits that are measured
-(left hand side circles) and the methods used to measure those traits
-(right hand side circles). The squares in the middle represent the
-actual observed data, which is the MFQ questions and MFD scores. In the
-first model, *correlated traits correlated methods*, the latent
-variables are allowed to correlate on the traits and methods side, but
-not cross correlate from traits to methods. All models are then compared
-to this model to examine fit, convergent, and divergent validity. In the
-second model, *no traits correlated methods*, the trait side of the
-model is deleted and only methods are considered. The model should
-significantly degrade in fit, as the traits should be useful in
-explaining model variance for convergent validity (i.e., you do not want
-a model that suggests all the variances is due to measurement).
-
-In the third model, *perfectly correlated traits freely correlated
-methods*, the traits are added back to the model, but each correlation
-is set to one. The fit is compared to model 1, indicating if divergent
-validity of the traits has occurred. A significant degrade in fit should
-be found to indicate that trait correlations are not perfect. Last,
-model four *correlated traits uncorrelated methods*, the traits are
-allowed to naturally correlate but the methods correlations are set to
-zero. In comparison with model 1, the model should be roughly equal for
-divergent validity. This result would indicate that the methods each
-represent a different component to the measurement of the model, and do
-not represent the same measurement twice.
-
-Given the goal of improved measurement, we compared model 1 of the MTMM
-steps across several dictionaries to determine the best measurement for
-the dictionary. To assess model fit, we used the Root Mean Squared Error
-of Approximation [RMSEA, @steiger1990], the Root Mean Squared Residual
-[RMSR, @jöreskog1971], the Confirmatory Fit Index [CFI, @bentler1990],
-the Tucker-Lewis Index [TLI, @bentler1980]. The RMSEA and RMSR should be
-low for adequate model fit (\< .10) and the CFI and TLI should be high
-for adequate model fit (\> .90). For model comparison, we used a
-$\Delta$ CFI of greater than .01 to indicate a significant degradation
-in fit [@hu1999]. We will additionally use the standardized loadings for
-each of the traits to determine which model has the best measurement of
-moral foundations (\> .30 desired).
-
-For clarity, we programmed the following models:
-
-1.  Model 1 *Correlated Traits Correlated Methods*
-    a.  Original MFD Words
-    b.  Original MFD Words + Study 1.1 + Study 1.2 Words
-    c.  Original MFD Words + Study 1.1 Reduced + Study 1.2 Words
-    d.  Determine if model suggests a feasible structure (fit indices
-        adequate + loadings adequate)
-    e.  Pick the best model to continue (using model comparison)
-2.  Model 2 *No Traits Correlated Methods*
-3.  Model 3 *Perfectly Correlated Traits Correlated Methods*
-4.  Model 4 *Correlated Traits Uncorrelated Methods*
-
-```{r fig-mtmm, fig.cap="Representation of the multi-trait multi-method model for the MFD and MFQ. Not all measured variables (squares) are shown for ease of reading. The left hand side represents the traits or foundation areas of MFT, while the right hand side represents the two measurement tools for the MFT. "}
-knitr::include_graphics("mtmm_mfd.png")
-```
-
 ## Study 1.1
 
 In this study, participants were given a word association task elicit
@@ -355,7 +298,7 @@ relation to the MFQ in Study 1.3.
 
 ### Participants
 
-```{r demos-mtmm-study-3.1, include = FALSE}
+```{r demos-mtmm-study-1.1, include = FALSE}
 exp1data <- import("../../study1_data/study1.1_fixed_associations.csv")
 
 # clear out completely columns we don't need
@@ -376,36 +319,36 @@ table(missing)
 # no replacement 
 
 # outliers on MFQ only 
-mahal1 <- mahalanobis(study1.1DF[ , -c(1:6,22,23)], 
+mahal1.1 <- mahalanobis(study1.1DF[ , -c(1:6,22,23)], 
                     colMeans(study1.1DF[ , -c(1:6,22,23)], na.rm = TRUE),
-                    cov(study1.1DF[ , -c(1:6,22,23)], use="pairwise.complete.obs"))
-#mahal1
-cutoff1 <- qchisq(1 - .001, ncol(study1.1DF[ , -c(1:6,22,23)]))
-df1 <- ncol(study1.1DF[ , -c(1:6,22,23)])
-summary1 <- summary(mahal1 < cutoff1) # nas will be excluded because they don't have the full scale 
-noout1.1 <- subset(study1.1DF, mahal1 < cutoff1)
+                    cov(study1.1DF[ , -c(1:6,22,23)], use = "pairwise.complete.obs"))
+#mahal1.1
+cutoff1.1 <- qchisq(1 - .001, ncol(study1.1DF[ , -c(1:6,22,23)]))
+df1.1 <- ncol(study1.1DF[ , -c(1:6,22,23)])
+summary1.1 <- summary(mahal1.1 < cutoff1.1) # nas will be excluded because they don't have the full scale 
+noout1.1 <- subset(study1.1DF, mahal1.1 < cutoff1.1)
 
 # assumptions
 # correlations for MFQ
-correlations1 <- cor(noout1.1[,-c(1:6,22,23)], use="pairwise.complete.obs")
-correlations1
-symnum(correlations1)
+correlations1.1 <- cor(noout1.1[,-c(1:6,22,23)], use = "pairwise.complete.obs")
+correlations1.1
+symnum(correlations1.1)
 
 # making the random stuff
-random1 <- rchisq(nrow(noout1.1), 7)
-fake1 <- lm(random1 ~ ., data = noout1.1[ , -c(1:6, 22, 23)])
+random1.1 <- rchisq(nrow(noout1.1), 7)
+fake1.1 <- lm(random1.1 ~ ., data = noout1.1[ , -c(1:6, 22, 23)])
 # normal
-standardized1 <- rstudent(fake1)
-hist(standardized1, breaks=15) # some skew 
+standardized1.1 <- rstudent(fake1.1)
+hist(standardized1.1, breaks = 15) # some skew 
 
 # linear
-{qqnorm(standardized1) 
+{qqnorm(standardized1.1) 
 abline(0,1)}
 # fairly linear 
 
 # homog + s
-fitvalues1 <- scale(fake1$fitted.values)
-{plot(fitvalues1, standardized1) 
+fitvalues1.1 <- scale(fake1.1$fitted.values)
+{plot(fitvalues1.1, standardized1.1) 
 abline(0,0)
 abline(v = 0)}
 # actually pretty good minus that one outlier 
@@ -422,12 +365,12 @@ party <- table(noout1.1$Q23, useNA = "ifany")
 
 `r nrow(exp1data)` participants were assessed from a large Midwestern
 university. Participants were given course credit for their introductory
-psychology course for completing the study. `r unname(summary1[4])`
+psychology course for completing the study. `r unname(summary1.1[4])`
 participants had missing data on the MFQ and were excluded from
 analyses. The MFQ data was screened for multivariate outliers with
 Mahalanobis distance as described in @Tabachnick2012, and
-`r unname(summary1[2])` outliers were found using
-$\chi^2_{p < .001}$(`r df1`) = `r apa_num(cutoff1)`. These participants
+`r unname(summary1.1[2])` outliers were found using
+$\chi^2_{p < .001}$(`r df1.1`) = `r apa_num(cutoff1.1)`. These participants
 were excluded from further analyses, representing `r nrow(noout1.1)`
 final participants. Participants were asked to denote their political
 party, and `r printnum(party["Democrat"]/sum(party)*100,digits = 1)`%
@@ -441,7 +384,7 @@ of values were missing for this question.
 ### Materials and Procedure
 
 A complete example of the survey can be found online at
-<https://osf.io/5uqfn>. First, participants were given a description of
+<https://osf.io/6mv2g>. First, participants were given a description of
 associative memory as the relation between words that comes about
 through many pairings in writing and speech. Next, the free association
 task, similar to that used in @nelson2004 and @dedeyne2019 was described
@@ -480,15 +423,15 @@ The MFQ data was slightly skewed but otherwise linear and homoscedastic
 after accounting for skew. No transform was applied. The sum of each
 moral foundation area was calculated in order to determine which words
 were linked to their respective moral foundation. The average scores
-were: harm (*M* = `r printnum(mean(noout1.1$harmMFQ))`, *SD* =
-`r printnum(sd(noout1.1$harmMFQ))`), fairness (*M* =
-`r printnum(mean(noout1.1$fairMFQ))`, *SD* =
-`r printnum(sd(noout1.1$fairMFQ))`), ingroup (*M* =
-`r printnum(mean(noout1.1$ingroupMFQ))`, *SD* =
-`r printnum(sd(noout1.1$ingroupMFQ))`), authority (*M* =
-`r printnum(mean(noout1.1$authorityMFQ))`, *SD* =
-`r printnum(sd(noout1.1$authorityMFQ))`), and purity (*M* =
-`r printnum(mean(noout1.1$purityMFQ))`, *SD* =
+were: harm (*M* = `r printnum(mean(noout1.1$harmMFQ))`, *SD*  = 
+`r printnum(sd(noout1.1$harmMFQ))`), fairness (*M*  = 
+`r printnum(mean(noout1.1$fairMFQ))`, *SD*  = 
+`r printnum(sd(noout1.1$fairMFQ))`), ingroup (*M*  = 
+`r printnum(mean(noout1.1$ingroupMFQ))`, *SD*  = 
+`r printnum(sd(noout1.1$ingroupMFQ))`), authority (*M*  = 
+`r printnum(mean(noout1.1$authorityMFQ))`, *SD*  = 
+`r printnum(sd(noout1.1$authorityMFQ))`), and purity (*M*  = 
+`r printnum(mean(noout1.1$purityMFQ))`, *SD*  = 
 `r printnum(sd(noout1.1$purityMFQ))`). Participants free association
 responses were processed using the *tm* [@feinerer2008] and *corpus*
 [@perry2024] libraries after manual correction of spelling errors. Each
@@ -509,15 +452,14 @@ materials.
 
 For clarity, the processing pipeline for each separate domain was:
 
-1.  Manual spell checking of free association responses
-2.  Word tokenization and stemming
-3.  Create a term by document matrix
-4.  Remove punctuation and stopwords via the *tm* stopword list
-5.  Calculate percent frequency across documents (all words saved
-    online)
-6.  Remove words with less than 1% mentions across participants
+1.  Manual spell checking of free association responses.
+2.  Word tokenization and stemming.
+3.  Create a term by document matrix.
+4.  Remove punctuation and stopwords via the *tm* stopword list.
+5.  Calculate percent frequency across documents.
+6.  Remove words with less than 1% mentions across participants.
 
-```{r harm-analysis-3.1, include = FALSE}
+```{r harm-analysis-1.1, include = FALSE}
 #q27 through 34 are the writing columns
 noout1.1$Q27 <- as.character(noout1.1$Q27)
 
@@ -543,7 +485,7 @@ harm_freq$percent <- harm_freq$Freq/nrow(noout1.1) *100
 write.csv(harm_freq, "../../study1_data/study1.1_harm_freq.csv", row.names = F)
 
 # subset out to only words with 1% mentions
-harm_words <- harm_freq$Word[harm_freq$percent >=1]
+harm_words <- harm_freq$Word[harm_freq$percent >= 1]
 # turn sideways to add to dataset
 harm_TDM  <- as.data.frame(t(harm_TDM))
 harm_TDM  <- harm_TDM[ , harm_words]
@@ -558,7 +500,7 @@ harmcut <- mean(harm_cor) + 2*sd(harm_cor)
 harm_words_reduce <- names(harm_cor[abs(harm_cor) >= harmcut])
 ```
 
-```{r fair-analysi-3.1, include = FALSE}
+```{r fair-analysi-1.1, include = FALSE}
 #q27 through 34 are the writing columns
 noout1.1$Q29 <- as.character(noout1.1$Q29)
 
@@ -584,7 +526,7 @@ fair_freq$percent <- fair_freq$Freq/nrow(noout1.1) *100
 write.csv(fair_freq, "../../study1_data/study1.1_fair_freq.csv", row.names = F)
 
 # subset out to only words with 1% mentions
-fair_words <- fair_freq$Word[fair_freq$percent >=1]
+fair_words <- fair_freq$Word[fair_freq$percent >= 1]
 # turn sideways to add to dataset
 fair_TDM <- as.data.frame(t(fair_TDM))
 fair_TDM <- fair_TDM[ , fair_words]
@@ -599,7 +541,7 @@ faircut <- mean(fair_cor) + 2*sd(fair_cor)
 fair_words_reduce <- names(fair_cor[abs(fair_cor) >= faircut])
 ```
 
-```{r ingroup-analysis-3.1, include=FALSE}
+```{r ingroup-analysis-1.1, include = FALSE}
 #q27 through 34 are the writing columns
 noout1.1$Q30 <- as.character(noout1.1$Q30)
 
@@ -625,7 +567,7 @@ ingroup_freq$percent <- ingroup_freq$Freq/nrow(noout1.1) *100
 write.csv(ingroup_freq, "../../study1_data/study1.1_ingroup_freq.csv", row.names = F)
 
 # subset out to only words with 1% mentions
-ingroup_words <- ingroup_freq$Word[ingroup_freq$percent >=1]
+ingroup_words <- ingroup_freq$Word[ingroup_freq$percent >= 1]
 # turn sideways to add to dataset
 ingroup_TDM <- as.data.frame(t(ingroup_TDM))
 ingroup_TDM <- ingroup_TDM[ , ingroup_words]
@@ -640,7 +582,7 @@ ingroupcut <- mean(ingroup_cor) + 2*sd(ingroup_cor)
 ingroup_words_reduce <- names(ingroup_cor[abs(ingroup_cor) >= ingroupcut])
 ```
 
-```{r authority-analysis-3.1, include = FALSE}
+```{r authority-analysis-1.1, include = FALSE}
 #q27 through 34 are the writing columns
 noout1.1$Q32 <- as.character(noout1.1$Q32)
 
@@ -666,7 +608,7 @@ authority_freq$percent <- authority_freq$Freq/nrow(noout1.1) *100
 write.csv(authority_freq, "../../study1_data/study1.1_authority_freq.csv", row.names = F)
 
 # subset out to only words with 1% mentions
-authority_words <- authority_freq$Word[authority_freq$percent >=1]
+authority_words <- authority_freq$Word[authority_freq$percent >= 1]
 # turn sideways to add to dataset
 authority_TDM <- as.data.frame(t(authority_TDM))
 authority_TDM <- authority_TDM[ , authority_words]
@@ -681,7 +623,7 @@ authoritycut <- mean(authority_cor) + 2*sd(authority_cor)
 authority_words_reduce <- names(authority_cor[abs(authority_cor) >= authoritycut])
 ```
 
-```{r purity-analysis-3.1, include = FALSE}
+```{r purity-analysis-1.1, include = FALSE}
 #q27 through 34 are the writing columns
 noout1.1$Q34 <- as.character(noout1.1$Q34)
 
@@ -707,7 +649,7 @@ purity_freq$percent <- purity_freq$Freq/nrow(noout1.1) *100
 write.csv(purity_freq, "../../study1_data/study1.1_purity_freq.csv", row.names = F)
 
 # subset out to only words with 1% mentions
-purity_words <- purity_freq$Word[purity_freq$percent >=1]
+purity_words <- purity_freq$Word[purity_freq$percent >= 1]
 # turn sideways to add to dataset
 purity_TDM <- as.data.frame(t(purity_TDM))
 purity_TDM <- purity_TDM[ , purity_words]
@@ -741,68 +683,72 @@ ingroup `r length(ingroup_words_reduce)`, authority
 
 ## Study 1.2
 
-this section is about the writing
+In this study, participants were asked to write about chemical warfare
+(wave 1), abortion, same-sex marriage, and environmentalism (wave 2).
+These prompts were designed to elicit writing about moral concepts that
+would relate to the moral foundations areas for expansion of the
+dictionary.
 
 ### Participants
 
-```{r demos-mtmm-study-3.2, include=FALSE, warning=FALSE}
-sample1 <- read.csv("study1_data/study1.2_fixed_sample 1.csv", stringsAsFactors = F)
-sample2 <- read.csv("study1_data/study1.2_fixed_sample 2.csv", stringsAsFactors = F)
+```{r demos-mtmm-study-1.2, include = FALSE, warning = FALSE}
+sample1 <- read.csv("../../study1_data/study1.2_fixed_sample 1.csv", stringsAsFactors = F)
+sample2 <- read.csv("../../study1_data/study1.2_fixed_sample 2.csv", stringsAsFactors = F)
 
 ##merge files together
 study1.2DF <- merge(sample1, sample2, all = TRUE)
 
 ##merge together the writing samples
 #q24, q25, q26, q7 
-fullsample$writing <- apply(fullsample[, c("Q24", "Q25", "Q26", "Q7")], 
+study1.2DF$writing <- apply(study1.2DF[, c("Q24", "Q25", "Q26", "Q7")], 
                            1, function(x) toString(na.omit(x)))
 
 ##clear out completely columns we don't need
 crapcolumns <- c(1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 51:61)
-finalsample <- fullsample[ , -crapcolumns]
+study1.2DF <- study1.2DF[ , -crapcolumns]
 
 ##accuracy
-summary(finalsample[ , 2:40])
+summary(study1.2DF[ , 2:40])
 
-finalsample$Q10 <- factor(finalsample$Q10,
+study1.2DF$Q10 <- factor(study1.2DF$Q10,
                          levels = 1:2,
                          labels = c("Man", "Woman"))
-finalsample$Q11 <- as.numeric(finalsample$Q11)
-finalsample$Q12 <- factor(finalsample$Q12,
+study1.2DF$Q11 <- as.numeric(study1.2DF$Q11)
+study1.2DF$Q12 <- factor(study1.2DF$Q12,
                          levels = 1:7,
                          labels = c("White", "Black", 
                                     "Hispanic", "Asian",
                                     "Native American", 
                                     "Mixed", "Other"))
 
-gender <- table(finalsample$Q10)/sum(table(finalsample$Q10))*100
-race <- table(finalsample$Q12)/sum(table(finalsample$Q12))*100
+gender <- table(study1.2DF$Q10)/sum(table(study1.2DF$Q10))*100
+race <- table(study1.2DF$Q12)/sum(table(study1.2DF$Q12))*100
 
-write.csv(finalsample, 'study1_data/study1.2_finalsample.csv', row.names = FALSE)
-newMFD <- import('study1_data/study1.2_finalsample_newMFD.csv')
-colnames(newMFD)[1:41] <- colnames(finalsample)[1:41]
+write.csv(study1.2DF, '../../study1_data/study1.2_finalsample.csv', row.names = FALSE)
+newMFD <- import('../../study1_data/study1.2_finalsample_newMFD.csv')
+colnames(newMFD)[1:41] <- colnames(study1.2DF)[1:41]
 newMFD <- newMFD[,c(1,42:55)]
-finalsample <- merge(finalsample, newMFD, by = "ResponseId")
+study1.2DF <- merge(study1.2DF, newMFD, by = "ResponseId")
 
 ##take out the people with less than 25 words
 ##use the ngram library to examine the data
 ##preprocess only works on one string at a time, so going to use a loop go through all the rows (apply won't work because we only want to work on one column)
 
-for (i in 1:nrow(finalsample)) {
+for (i in 1:nrow(study1.2DF)) {
   
-  finalsample$writing[i] <- preprocess(finalsample$writing[i], case="lower", remove.punct=TRUE)
-  finalsample$wordcount[i] <- string.summary(finalsample$writing[i])$words
+  study1.2DF$writing[i] <- preprocess(study1.2DF$writing[i], case = "lower", remove.punct = TRUE)
+  study1.2DF$wordcount[i] <- string.summary(study1.2DF$writing[i])$words
   
 }
 
 #remove small words people
-finalwords <- subset(finalsample, wordcount >=25)
+finalwords <- subset(study1.2DF, wordcount >= 25)
 
 ##check out missing data
 #missing by row
 missing <- apply(finalwords, 1, percentmiss)
 table(missing)
-goodrows <- subset(finalwords, missing <= 5)
+goodrows <- subset(finalwords, missing <=  5)
 
 #missing by column
 apply(goodrows, 2, percentmiss)
@@ -820,52 +766,52 @@ allcolumns <- cbind(nomiss, badcolumns)
 summary(allcolumns)
 
 ##outliers
-mahal2 <- mahalanobis(allcolumns[ , -c(1,46:56)], 
+mahal1.2 <- mahalanobis(allcolumns[ , -c(1,46:56)], 
                     colMeans(allcolumns[ , -c(1,46:56)], na.rm = TRUE),
-                    cov(allcolumns[ , -c(1,46:56)], use="pairwise.complete.obs"))
-#mahal2
-cutoff2 <- qchisq(1 - .001,ncol(allcolumns[ , -c(1,46:56)]))
-cutoff2
+                    cov(allcolumns[ , -c(1,46:56)], use = "pairwise.complete.obs"))
+#mahal1.2
+cutoff1.2 <- qchisq(1 - .001,ncol(allcolumns[ , -c(1,46:56)]))
+cutoff1.2
 ncol(allcolumns[ , -c(1,46:56)])
-summary(mahal2 < cutoff2) #Hmm what to do w/ NAs?? 
-noout2 <- subset(allcolumns, mahal2 < cutoff2)
+summary(mahal1.2 < cutoff1.2) #Hmm what to do w/ NAs?? 
+noout1.2 <- subset(allcolumns, mahal1.2 < cutoff1.2)
 
 ##assumptions on the questions i.e., not Q10 to the end
 #correlations
-correlations2 <- cor(noout2[,-c(1,46:56)], use="pairwise.complete.obs")
-#correlations2
-symnum(correlations2)
+correlations1.2 <- cor(noout1.2[,-c(1,46:56)], use = "pairwise.complete.obs")
+#correlations1.2
+symnum(correlations1.2)
 
 #the random stuff
-random2 <- rchisq(nrow(noout2), 7)
-fake2 <- lm(random2~., data=noout2[ , -c(1,46:56)])
+random1.2 <- rchisq(nrow(noout1.2), 7)
+fake1.2 <- lm(random1.2 ~ ., data = noout1.2[ , -c(1,46:56)])
 
 #normal
-standardized2 <- rstudent(fake2)
-hist(standardized2, breaks=15)
+standardized1.2 <- rstudent(fake1.2)
+hist(standardized1.2, breaks = 15)
 
 #linear
-{qqnorm(standardized2)   
+{qqnorm(standardized1.2)   
 abline(0,1)}    
 
 #homog + s
-fitvalues2 <- scale(fake2$fitted.values)
-{plot(fitvalues2, standardized2) 
+fitvalues1.2 <- scale(fake1.2$fitted.values)
+{plot(fitvalues1.2, standardized1.2) 
 abline(0,0)
 abline(v = 0)}
 
 ####create the MFQ subscales####
-noout2$harmMFQ <- apply(noout2[ , 2:4], 1, sum)
-noout2$fairMFQ <- apply(noout2[ , 5:7], 1, sum)
-noout2$ingroupMFQ <- apply(noout2[ , 8:10], 1, sum)
-noout2$authorityMFQ <- apply(noout2[ , 11:13], 1, sum)
-noout2$purityMFQ <- apply(noout2[ , 14:16], 1, sum)
+noout1.2$harmMFQ <- apply(noout1.2[ , 2:4], 1, sum)
+noout1.2$fairMFQ <- apply(noout1.2[ , 5:7], 1, sum)
+noout1.2$ingroupMFQ <- apply(noout1.2[ , 8:10], 1, sum)
+noout1.2$authorityMFQ <- apply(noout1.2[ , 11:13], 1, sum)
+noout1.2$purityMFQ <- apply(noout1.2[ , 14:16], 1, sum)
 ```
 
 Participants were recruited in two waves as part of a larger
 investigation on priming political and religious attitudes. Participants
 were recruited via an online research system (SONA) and were given
-course credit for their participation. `r nrow(finalsample)`
+course credit for their participation. `r nrow(study1.2DF)`
 participants were included in the this study. The study was mostly women
 (`r printnum(gender["Woman"], digits = 1)`%) and White
 (`r printnum(race["White"], digits = 1)`%) participants with a mix of
@@ -875,62 +821,66 @@ minority participants: Black (`r printnum(race["Black"], digits = 1)`%),
 (`r printnum(race["Native American"], digits = 1)`%), Mixed
 (`r printnum(race["Mixed"], digits = 1)`%) and Other
 (`r printnum(race["Other"], digits = 1)`%). The average listed age was
-`r printnum(mean(finalsample$Q11, na.rm = T))` (*SD* =
-`r printnum(sd(finalsample$Q11, na.rm = T))`).
+`r printnum(mean(study1.2DF$Q11, na.rm = T))` (*SD*  = 
+`r printnum(sd(study1.2DF$Q11, na.rm = T))`).
 
 ### Materials and Procedure
 
-Data was again collected via Qualtrics (<https://osf.io/qr3gv>). Four
-fake new stories were presented to participants, which were roughly 400
-words each. First, all news stories included a few sentences describing
-the use of chemical weapons in the Syrian civil war. The news stories
-were manipulated with political (Republican v. Democrat) and religious
-(religious v. not) quotes in a 2 x 2 design. News stories can be found
-in the online materials. Participants also completed the 30-item version
-of the MFQ as described previously. In addition to basic demographics
-(gender, age), participant political orientation was assessed with the
-same scale described in Study 3.1.
+#### Wave 1
 
-After consenting to participate in the study, participants were randomly
-shown one of the four new articles about Syria's use of chemical
-weapons. Participants were then asked to write for 5-10 minutes about
-their reaction to Syria's use of chemical weapons and the needed
-response from the United States. The second wave of data collection
-included different writing prompts designed to capture more of the moral
-foundation areas in their writing. The following writing prompt was
-used, "Please write about your attitudes on abortion (or same-sex
-marriage or environmentalism) as well as your reason for this stance."
-The three prompts were chosen to create a more varied word set by using
-topics that should elicit words from each moral foundations category by
-soliciting a moral response. In each wave of data collection (Syria
-prompts, moral prompts) the prompt material was randomized between
-participants. Participants then completed the MFQ, demographics, and the
-political orientation scale.
+Data was again collected via Qualtrics. Four fake new stories
+were presented to participants, which were roughly 400 words each.
+First, all news stories included a few sentences describing the use of
+chemical weapons in the Syrian civil war. The news stories were
+manipulated with political (Republican v. Democrat) and religious
+(religious v. not) quotes in a 2 x 2 between-subjects design. News
+stories can be found in the online materials. After consenting to
+participate in the study, participants were randomly shown one of the
+four new articles about Syria's use of chemical weapons. Participants
+were then asked to write for 5-10 minutes about their reaction to
+Syria's use of chemical weapons and the needed response from the United
+States. Participants also completed the 30-item version of the MFQ as
+described previously. In addition to basic demographics (gender, age),
+participant political orientation was assessed with the same scale
+described in Study 1.1.
+
+#### Wave 2
+
+The second wave of data collection included different writing prompts
+designed to capture more of the moral foundation areas in their writing.
+The following writing prompt(s) were used, "Please write about your
+attitudes on abortion (or same-sex marriage or environmentalism) as well
+as your reason for this stance." The three prompts were chosen to create
+a more varied word set by using topics that should elicit words from
+each moral foundations category by soliciting a moral response. The
+writing prompts were randomized within participant, and each participant
+completed all three prompts. Participants then completed the MFQ,
+demographics, and the political orientation scale.
 
 ### Results
 
 Participant data was first spell checked and screening for inaccurate
 responses. Participants who did not write more than fifty words in
-response to a given prompt were excluded (*n* =
-`r nrow(finalsample) - nrow(finalwords)`). One missing datapoint was
-estimated using the *mice* library from *R* [@CITE] for a missing MFQ
-question, and all other missing data was present in the demographics
-sections, which were not filled in. The MFQ data were screened for
-outliers using Mahalanobis distance, and 25 outliers were found at
-$\chi^2_{p<.001}$(`r ncol(allcolumns[ , -c(1,32:42)])`) =
-`r printnum(cutoff2)`. These data were excluded leading to a final
-sample size of `r nrow(noout2)`. Data were screened for assumptions
-described in Study 3.1 and were found to be satisfactory.
+response to a given prompt were excluded (*n*  = 
+`r nrow(study1.2DF) - nrow(finalwords)`). One missing datapoint was
+estimated using the *mice* library from *R* for a missing MFQ question
+[@buuren2011], and all other missing data was present in the
+demographics sections, which were not filled in. The MFQ data were
+screened for outliers using Mahalanobis distance, and `r nrow(finalwords) - nrow(noout1.2)` outliers were
+found at $\chi^2_{p<.001}$(`r ncol(allcolumns[ , -c(1,32:42)])`)  = 
+`r printnum(cutoff1.2)`. These data were excluded leading to a final
+sample size of `r nrow(noout1.2)`. Data were screened for assumptions
+described in Study 1.1 and were found to be satisfactory.
 
-```{r writing-analysis-3.2, include=FALSE}
+```{r writing-analysis-1.2, include = FALSE}
 ##stem the data
-for (i in 1:nrow(noout2)) {
-  noout2$writing2[i] <- paste(unlist(
-    text_tokens(noout2$writing[i], stemmer = "en")), collapse = " ")
+for (i in 1:nrow(noout1.2)) {
+  noout1.2$writing2[i] <- paste(unlist(
+    text_tokens(noout1.2$writing[i], stemmer = "en")), collapse = " ")
 }
 
 ##create a corpus
-overall_corpus <- Corpus(VectorSource(noout2$writing2))
+overall_corpus <- Corpus(VectorSource(noout1.2$writing2))
 overall_TDM <- as.matrix(TermDocumentMatrix(overall_corpus,
                               control = list(removePunctuation = TRUE,
                                              stopwords = TRUE)))
@@ -940,26 +890,26 @@ overall_freq <- data.frame(Word = rownames(overall_TDM),
                           Freq = rowSums(overall_TDM),
                           row.names = NULL)
 overall_freq$Word <- as.character(overall_freq$Word)
-overall_freq$percent <- overall_freq$Freq/nrow(noout2)*100
+overall_freq$percent <- overall_freq$Freq/nrow(noout1.2)*100
 
-write.csv(overall_freq, "study1_data/study1.2_freq.csv", row.names = F)
+write.csv(overall_freq, "../../study1_data/study1.2_freq.csv", row.names = F)
 
 ##subset out to only words with 1% mentions
 ##this goes over 100% but mostly want to subset out things that were only mentioned
 ##a few times by participants
-all_words <- overall_freq$Word[overall_freq$percent >=1]
+all_words <- overall_freq$Word[overall_freq$percent >= 1]
 
 ##turn sideways to add to dataset
 overall_TDM <- as.data.frame(t(overall_TDM))
 overall_TDM <- overall_TDM[ , all_words]
 
 ##final dataset
-overall_final <- cbind(noout2[ , c("ResponseId", "harmMFQ", "fairMFQ",
+overall_final <- cbind(noout1.2[ , c("ResponseId", "harmMFQ", "fairMFQ",
                                   "authorityMFQ", "purityMFQ","ingroupMFQ")],
                    overall_TDM)
 ```
 
-```{r mfq-cor-3.2, include = FALSE}
+```{r mfq-cor-1.2, include = FALSE}
 ##harm
 harm_cor <- apply(overall_final[ , 7:ncol(overall_final)], 2, function (x) { cor(x, overall_final$harmMFQ)})
 
@@ -991,11 +941,11 @@ ingroupcut <- mean(ingroup_cor) + 2*sd(ingroup_cor)
 ingroup_words_reduce_exp2 <- names(ingroup_cor[abs(ingroup_cor) >= ingroupcut])
 
 #print out words list to look at for further analysis
-write.csv(harm_words_reduce_exp2, "../study1_data/words/harm_exp2.csv", row.names = F)
-write.csv(fair_words_reduce_exp2, "../study1_data/words/fair_exp2.csv", row.names = F)
-write.csv(authority_words_reduce_exp2, "../study1_data/words/authority_exp2.csv", row.names = F)
-write.csv(purity_words_reduce_exp2, "../study1_data/words/purity_exp2.csv", row.names = F)
-write.csv(ingroup_words_reduce_exp2, "../study1_data/words/ingroup_exp2.csv", row.names = F)
+write.csv(harm_words_reduce_exp2, "../../study1_data/words/harm_exp2.csv", row.names = F)
+write.csv(fair_words_reduce_exp2, "../../study1_data/words/fair_exp2.csv", row.names = F)
+write.csv(authority_words_reduce_exp2, "../../study1_data/words/authority_exp2.csv", row.names = F)
+write.csv(purity_words_reduce_exp2, "../../study1_data/words/purity_exp2.csv", row.names = F)
+write.csv(ingroup_words_reduce_exp2, "../../study1_data/words/ingroup_exp2.csv", row.names = F)
 ```
 
 In the first study, only free association responses were collected, but
@@ -1003,31 +953,30 @@ in this study, full writing samples were collected. Therefore, we
 expected many of the words listed to be part of creating a cohesive
 discourse, rather than only related to the moral foundation targeted. To
 find only the most related words, the correlation between word frequency
-and moral foundation was calculated and words with correlations greater
+and MFQ subscore was calculated, and words with correlations greater
 than two standard deviations outside the mean were selected for the
-dictionary analysis in Study 3.3. The sum of each moral foundation area
-was calculated in order to determine which words were linked to their
-respective moral foundation. The average scores were: harm (*M* =
-`r printnum(mean(noout2$harmMFQ))`, *SD* =
-`r printnum(sd(noout2$harmMFQ))`), fairness (*M* =
-`r printnum(mean(noout2$fairMFQ))`, *SD* =
-`r printnum(sd(noout2$fairMFQ))`), ingroup (*M* =
-`r printnum(mean(noout2$ingroupMFQ))`, *SD* =
-`r printnum(sd(noout2$ingroupMFQ))`), authority (*M* =
-`r printnum(mean(noout2$authorityMFQ))`, *SD* =
-`r printnum(sd(noout2$authorityMFQ))`), and purity (*M* =
-`r printnum(mean(noout2$purityMFQ))`, *SD* =
-`r printnum(sd(noout2$purityMFQ))`).
+dictionary analysis in Study 1.3. The sum of each MFQ subscore
+was calculated for the correlation analysis. The average scores were: harm (*M*  = 
+`r printnum(mean(noout1.2$harmMFQ))`, *SD*  = 
+`r printnum(sd(noout1.2$harmMFQ))`), fairness (*M*  = 
+`r printnum(mean(noout1.2$fairMFQ))`, *SD*  = 
+`r printnum(sd(noout1.2$fairMFQ))`), ingroup (*M*  = 
+`r printnum(mean(noout1.2$ingroupMFQ))`, *SD*  = 
+`r printnum(sd(noout1.2$ingroupMFQ))`), authority (*M*  = 
+`r printnum(mean(noout1.2$authorityMFQ))`, *SD*  = 
+`r printnum(sd(noout1.2$authorityMFQ))`), and purity (*M*  = 
+`r printnum(mean(noout1.2$purityMFQ))`, *SD*  = 
+`r printnum(sd(noout1.2$purityMFQ))`).
 
-```{r compare-ratings-3.2, include = FALSE}
-authority_erin <- read.csv("study1_data/words/authority_study1.2 erin.csv", stringsAsFactors = F)
-authority_will <- read.csv("study1_data/words/authority_study1.2 will.csv", stringsAsFactors = F)
+```{r compare-ratings-1.2, include = FALSE}
+authority_erin <- read.csv("../../study1_data/words/authority_study1.2 erin.csv", stringsAsFactors = F)
+authority_will <- read.csv("../../study1_data/words/authority_study1.2 will.csv", stringsAsFactors = F)
 authority_erin$x[authority_erin$use != authority_will$use]
 
 authority_words_reduce_exp2 <- authority_words_reduce_exp2[authority_words_reduce_exp2 %in% authority_will$x[authority_will$use == 1]]
 
-fair_erin <- read.csv("study1_data/words/fair_study1.2 erin.csv", stringsAsFactors = F)
-fair_will <- read.csv("study1_data/words/fair_study1.2 will.csv", stringsAsFactors = F)
+fair_erin <- read.csv("../../study1_data/words/fair_study1.2 erin.csv", stringsAsFactors = F)
+fair_will <- read.csv("../../study1_data/words/fair_study1.2 will.csv", stringsAsFactors = F)
 fair_erin$x[fair_erin$use != fair_will$use]
 fair_will$use[fair_will$x == "carbon"] <- 0
 fair_will$use[fair_will$x == "emiss"] <- 0
@@ -1035,24 +984,24 @@ fair_will$use[fair_will$x == "emiss"] <- 0
 
 fair_words_reduce_exp2 <- fair_words_reduce_exp2[fair_words_reduce_exp2 %in% fair_will$x[fair_will$use == 1]]
 
-purity_erin <- read.csv("study1_data/words/purity_study1.2 erin.csv", stringsAsFactors = F)
-purity_will <- read.csv("study1_data/words/purity_study1.2 will.csv", stringsAsFactors = F)
+purity_erin <- read.csv("../../study1_data/words/purity_study1.2 erin.csv", stringsAsFactors = F)
+purity_will <- read.csv("../../study1_data/words/purity_study1.2 will.csv", stringsAsFactors = F)
 purity_erin$x[purity_erin$use != purity_will$use]
 purity_will$use[purity_will$x == "befor"] <- 1
 #before include because of "before sex/ruined/etc."
 
 purity_words_reduce_exp2 = purity_words_reduce_exp2[purity_words_reduce_exp2 %in% purity_will$x[purity_will$use == 1]]
 
-ingroup_erin <- read.csv("study1_data/words/ingroup_study1.2 erin.csv", stringsAsFactors = F)
-ingroup_will <- read.csv("study1_data/words/ingroup_study1.2 will.csv", stringsAsFactors = F)
+ingroup_erin <- read.csv("../../study1_data/words/ingroup_study1.2 erin.csv", stringsAsFactors = F)
+ingroup_will <- read.csv("../../study1_data/words/ingroup_study1.2 will.csv", stringsAsFactors = F)
 ingroup_erin$x[ingroup_erin$use != ingroup_will$use]
 ingroup_will$use[ingroup_will$x == "mean"] <- 1
 #mean should be included
 
 ingroup_words_reduce_exp2 <- ingroup_words_reduce_exp2[ingroup_words_reduce_exp2 %in% ingroup_will$x[ingroup_will$use == 1]]
 
-harm_erin <- read.csv("study1_data/words/harm_study1.2 erin.csv", stringsAsFactors = F)
-harm_will <- read.csv("study1_data/words/harm_study1.2 will.csv", stringsAsFactors = F)
+harm_erin <- read.csv("../../study1_data/words/harm_study1.2 erin.csv", stringsAsFactors = F)
+harm_will <- read.csv("../../study1_data/words/harm_study1.2 will.csv", stringsAsFactors = F)
 harm_erin$x[harm_erin$use != harm_will$use]
 harm_will$use[harm_will$x == "import"] <- 1
 # import for important 
@@ -1060,8 +1009,7 @@ harm_will$use[harm_will$x == "import"] <- 1
 harm_words_reduce_exp2 = harm_words_reduce_exp2[harm_words_reduce_exp2 %in% harm_will$x[harm_will$use == 1]]
 ```
 
-This set of words was then coded by two of the authors for relevant
-words with discussion over coding constituting a tiebreaker. For
+The correlated set of words was then coded by two of the authors (EB, WP) for relevancy to the MFQ subscore and all disagreements were discussed to determine final inclusion. For
 example, for harm words in this study both *also* and *Syria* appeared
 as correlated words to the harm foundation. The first word does not meet
 face validity of correlation with the dictionary, and these type of
@@ -1075,13 +1023,82 @@ included the following number of words for each foundation: harm
 `r length(authority_words_reduce_exp2)`, and purity
 `r length(purity_words_reduce_exp2)`.
 
-## Study 3.3
+## Study 1.3
 
-This part is the mtmm
+MTMM analyses use latent variable modeling to represent the underlying
+structure of a proposed phenomenon, while also accounting for the
+measurement of that phenomenon. As shown in Figure \@ref(fig:fig-mtmm),
+MTMM models are programmed to represent the traits that are measured
+(left hand side circles) and the methods used to measure those traits
+(right hand side circles). The squares in the middle represent the
+actual observed data, which is the MFQ questions and MFD scores. In the
+first model, *correlated traits correlated methods*, the latent
+variables are allowed to correlate on the traits and methods side, but
+not cross correlate from traits to methods. All models are then compared
+to this model to examine fit, convergent, and divergent validity. In the
+second model, *no traits correlated methods*, the trait side of the
+model is deleted and only methods are considered. The model should
+significantly degrade in fit, as the traits should be useful in
+explaining model variance for convergent validity (i.e., you do not want
+a model that suggests all the variances is due to measurement).
+
+In the third model, *perfectly correlated traits freely correlated methods*, the traits are added back to the model, but each correlation
+is set to one. The fit is compared to model 1, indicating if divergent
+validity of the traits has occurred. A significant degrade in fit should
+be found to indicate that trait correlations are not perfect. Last,
+model four *correlated traits uncorrelated methods*, the traits are
+allowed to naturally correlate but the methods correlations are set to
+zero. In comparison with model 1, the model should be roughly equal for
+divergent validity. This result would indicate that the methods each
+represent a different component to the measurement of the model, and do
+not represent the same measurement twice.
+
+Given the goal of improved measurement, we compared model 1 of the MTMM
+steps across several dictionaries to determine the best measurement for
+the dictionary. To assess model fit, we used the Root Mean Squared Error
+of Approximation [RMSEA, @steiger1990], the Root Mean Squared Residual
+[RMSR, @jöreskog1971], the Confirmatory Fit Index [CFI, @bentler1990],
+the Tucker-Lewis Index [TLI, @bentler1980]. The RMSEA and RMSR should be
+low for adequate model fit (\< .10) and the CFI and TLI should be high
+for adequate model fit (\> .90). For model comparison, we used a
+$\Delta$ CFI of greater than .01 to indicate a significant degradation
+in fit [@hu1999]. We will additionally use the standardized loadings for
+each of the traits to determine which model has the best measurement of
+moral foundations (\> .30 desired).
+
+
+```{r fig-mtmm, fig.cap = "Representation of the multi-trait multi-method model for the MFD and MFQ. Not all measured variables (squares) are shown for ease of reading. The left hand side represents the traits or foundation areas of MFT, while the right hand side represents the two measurement tools for the MFT. "}
+knitr::include_graphics("mtmm_mfd.png")
+```
+
+### Method
+
+#### MFD Dictionaries  
+
+We created three versions of the MFD for separate MTMM analyses. The first dataset *original MFD* was comprised of the original concepts from the MFD. We added all versions of the original words (i.e., abuse --> abusive, abuser, abused) to ensure all forms of the words were captured within the stemming procedure. These words where then stemmed using the same procedures as the data processing described for the overall study to match the data processing completed on the participant prompt responses in Study 1.2. The *complete MFD* dataset included the original MFD concepts, all concepts listed from Study 1.1, and concepts from Study 1.2. The *reduced MFD* dataset included all concepts from the original MFD, correlated concepts from Study 1.2, and concepts from Study 1.2 (only correlated concepts were selected in Study 1.2). The percent of concepts within each moral found area was calculated on the writing prompts from Study 1.2. The percent values were calculated on the processed data excluding all stop words. These values are represented as the MFD squares in Figure \@ref(fig:fig-mtmm).
+
+#### MFQ Subscore
+
+The MFQ individual questions for each participant were used from Study 1.2. These values are represented as the MFQ Qs squares in Figure \@ref(fig:fig-mtmm). The final number of participants included in this model was `r nrow(noout1.2)`.
+
+#### Models 
+
+For clarity, we programmed the following models:
+
+1.  Model 1 *Correlated Traits Correlated Methods*
+    a.  *Original* Original MFD Words
+    b.  *Complete* Original MFD Words + Study 1.1 + Study 1.2 Words
+    c.  *Reduced* Original MFD Words + Study 1.1 Reduced + Study 1.2 Words
+    d.  Determine if model suggests a feasible structure (fit indices
+        adequate + loadings adequate)
+    e.  Pick the best model to continue (using model comparison)
+2.  Model 2 *No Traits Correlated Methods*
+3.  Model 3 *Perfectly Correlated Traits Correlated Methods*
+4.  Model 4 *Correlated Traits Uncorrelated Methods*
 
 ```{r mtmm-setup, include = FALSE}
 ##original mfd words
-original_mfd <- read.csv("study1_data/original_mfd.csv", stringsAsFactors = F)
+original_mfd <- read.csv("../../study1_data/original_mfd.csv", stringsAsFactors = F)
 
 ##adding forms/conjugations of words to original_mfd
 #harm/care
@@ -1168,7 +1185,7 @@ for(i in 1:nrow(original_mfd)) {
   original_mfd$p2[i] <- stemDocument(original_mfd$p2[i], language = "english")
 }
 
-mtmmdata <- noout2[ , c(1:31, 45) ]
+mtmmdata <- noout1.2[ , c(1:31, 45) ]
 
 ####figure out the percents for the exp2 data
 for (i in 1:nrow(mtmmdata)) {
@@ -1213,20 +1230,113 @@ mtmmdata[ , c(33:47)] <- mtmmdata[ , c(33:47)] / mtmmdata$wordcount * 100
 summary(mtmmdata[ , 33:47])
 ```
 
-```{r mtmm_orig, include = FALSE}
-###Run chunk 8: demos_study2 to update data
-###Use noout2 df as dataframe for mtmm
-###Columns labeled Harm1/Fairness1/Loyalty1/Authority1/Purity1 are original MFD
-###Columns labeled Harm2/Fairness2/Loyalty2/Authority2/Purity2 are revised MFD
+### Results
 
-####mtmm original dictionary####
+```{r tab-mtmm, results = 'asis'}
+# table of the percents for each with the means from the studies 
+mtmmdata <- mtmmdata %>% 
+  mutate(harm_total = Q8_1+Q8_2+Q8_3,
+         fair_total = Q8_4+Q8_5+Q8_6, 
+         ingroup_total = Q8_7+Q8_8+Q8_9,
+         authority_total = Q8_10+Q8_11+Q8_12,
+         purity_total = Q8_13+Q8_14+Q8_15)
 
+mtmmdata.summary <- mtmmdata %>% 
+  summarize(
+    m_harm_mfq = mean(harm_total),
+    m_fair_mfq = mean(fair_total),
+    m_ingroup_mfq = mean(ingroup_total),
+    m_authority_mfq = mean(authority_total),
+    m_purity_mfq = mean(purity_total),
+    sd_harm_mfq = sd(harm_total),
+    sd_fair_mfq = sd(fair_total),
+    sd_ingroup_mfq = sd(ingroup_total),
+    sd_authority_mfq = sd(authority_total),
+    sd_purity_mfq = sd(purity_total),
+    
+    m_harm_orig = mean(harm_orig),
+    m_fair_orig = mean(fair_orig),
+    m_ingroup_orig = mean(ingroup_orig),
+    m_authority_orig = mean(authority_orig),
+    m_purity_orig = mean(purity_orig),
+    sd_harm_orig = sd(harm_orig),
+    sd_fair_orig = sd(fair_orig),
+    sd_ingroup_orig = sd(ingroup_orig),
+    sd_authority_orig = sd(authority_orig),
+    sd_purity_orig = sd(purity_orig),
+    
+    m_harm_all = mean(harm_all),
+    m_fair_all = mean(fair_all),
+    m_ingroup_all = mean(ingroup_all),
+    m_authority_all = mean(authority_all),
+    m_purity_all = mean(purity_all),
+    sd_harm_all = sd(harm_all),
+    sd_fair_all = sd(fair_all),
+    sd_ingroup_all = sd(ingroup_all),
+    sd_authority_all = sd(authority_all),
+    sd_purity_all = sd(purity_all),
+    
+    m_harm_reduce = mean(harm_reduce),
+    m_fair_reduce = mean(fair_reduce),
+    m_ingroup_reduce = mean(ingroup_reduce),
+    m_authority_reduce = mean(authority_reduce),
+    m_purity_reduce = mean(purity_reduce),
+    sd_harm_reduce = sd(harm_reduce),
+    sd_fair_reduce = sd(fair_reduce),
+    sd_ingroup_reduce = sd(ingroup_reduce),
+    sd_authority_reduce = sd(authority_reduce),
+    sd_purity_reduce = sd(purity_reduce)
+  ) %>% 
+  pivot_longer(
+    cols = everything(),                      # Pivot all columns
+    names_to = c("Statistic", "Foundation_Area", "Dataset"),         # Split names into `type` and `variable`
+    names_sep = "_",                          # Split names on the underscore "_"
+    values_to = "value"                       # Values go into the `value` column
+  ) %>%
+  pivot_wider(
+    names_from = Statistic,                        # Pivot the `type` column (m, sd)
+    values_from = value                       # Populate `M` and `SD` columns
+  ) %>% 
+  mutate(Foundation_Area = factor(Foundation_Area, 
+                                  levels = names(table(Foundation_Area)), 
+                                  labels = c("Authority",
+                                             "Fair", 
+                                             "Harm", 
+                                             "Ingroup",
+                                             "Purity")),
+         Dataset = factor(Dataset,
+                          levels = names(table(Dataset)),
+                          labels = c("Complete", "MFQ", "Original", 
+                                     "Reduced")),
+         Dataset = factor(Dataset, levels = c("MFQ", 
+                                              "Original",
+                                              "Complete",
+                                              "Reduced"))) %>% 
+  arrange(Foundation_Area, Dataset)
+
+apa_table(mtmmdata.summary, 
+          note = "Mean percents for dictionaries, mean total subscores for the MFQ.",
+          caption = "Mean Percent Scores and MFQ Scores for Foundation Areas",
+          col.names = c("Foundation Area", "Dictionary/MFQ", "M", "SD"),
+          format = "latex",
+          escape = F,
+          align = c("l", "l", "c", "c"),
+          font_size = 'footnotesize',
+          placement = "h"
+          )
+```
+
+Table \@ref(tab:tab-mtmm) indicates the average percents found for each dictionary within each moral foundation area. The original MFD shows the lowest percentage of moral words for each foundation area, while the complete and reduced dataset show increases in the percent of text that would be considered moral words. 
+
+#### Model 1
+
+```{r mtmm-model1, include = FALSE}
 {model1 <- '
 harmL =~ Q8_1+Q8_2+Q8_3+harm_orig
 fairL =~ Q8_4+Q8_5+Q8_6+fair_orig
 ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_orig
 authorityL =~ Q8_10+Q8_11+Q8_12+authority_orig
-purityL=~ Q8_13+Q8_14+Q8_15+purity_orig 
+purityL =~ Q8_13+Q8_14+Q8_15+purity_orig 
 mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
 mfd =~ harm_orig+fair_orig+ingroup_orig+authority_orig+purity_orig
 
@@ -1243,229 +1353,18 @@ authorityL~~0*mfd
 purityL~~0*mfd
 '}
 
-model1.fit <- cfa(model1, data=mtmmdata, std.lv=TRUE)
-summary(model1.fit, rsquare=TRUE, standardized=TRUE)
-semPaths(model1.fit, whatLabels = "std", layout = "tree")
-fitMeasures(model1.fit, fit.measures = "aic")
+model1.fit <- cfa(model1, data = mtmmdata, std.lv = TRUE)
+model1.orig.results <- broom::tidy(model1.fit) 
+model1.orig.fit.results <- broom::glance(model1.fit)
 
-{model1.2 <- '
-harmL =~ Q8_1+Q8_2+Q8_3+harm_orig
-fairL =~ Q8_4+Q8_5+Q8_6+fair_orig
-ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_orig
-authorityL =~ Q8_10+Q8_11+Q8_12+authority_orig
-purityL=~ Q8_13+Q8_14+Q8_15+purity_orig 
-mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
-mfd =~ harm_orig+fair_orig+ingroup_orig+authority_orig+purity_orig
+write.csv(model1.orig.results, "mtmm_results/original_model1.csv", row.names = F)
 
-fair_orig ~~ 1167.145*fair_orig
-
-##fix the covariances
-harmL~~0*mfq
-fairL~~0*mfq
-ingroupL~~0*mfq
-authorityL~~0*mfq
-purityL~~0*mfq
-harmL~~0*mfd
-fairL~~0*mfd
-ingroupL~~0*mfd
-authorityL~~0*mfd
-purityL~~0*mfd
-'}
-
-model1.2.fit <- cfa(model1.2, data=mtmmdata, std.lv=TRUE)
-summary(model1.2.fit, rsquare=TRUE, standardized=TRUE)
-semPaths(model1.2.fit, whatLabels = "std", layout = "tree")
-fitMeasures(model1.2.fit, fit.measures = "aic")
-
-{model2 <- '
-mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
-mfd =~ harm_orig+fair_orig+ingroup_orig+authority_orig+purity_orig
-
-fair_orig ~~ 1167.145*fair_orig
-'}
-
-model2.fit <- cfa(model2, data=mtmmdata, std.lv=TRUE)
-summary(model2.fit, rsquare=TRUE, standardized=TRUE)
-fitMeasures(model2.fit, fit.measures = "aic")
-
-{model3 <- '
-harmL =~ Q8_1+Q8_2+Q8_3+harm_orig
-fairL =~ Q8_4+Q8_5+Q8_6+fair_orig
-ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_orig
-authorityL =~ Q8_10+Q8_11+Q8_12+authority_orig
-purityL=~ Q8_13+Q8_14+Q8_15+purity_orig 
-mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
-mfd =~ harm_orig+fair_orig+ingroup_orig+authority_orig+purity_orig
-
-##fix the covariances
-harmL~~0*mfq
-fairL~~0*mfq
-ingroupL~~0*mfq
-authorityL~~0*mfq
-purityL~~0*mfq
-harmL~~0*mfd
-fairL~~0*mfd
-ingroupL~~0*mfd
-authorityL~~0*mfd
-purityL~~0*mfd
-harmL~~1*fairL
-harmL~~1*ingroupL
-harmL~~1*authorityL
-harmL~~1*purityL
-fairL~~1*ingroupL
-fairL~~1*authorityL
-fairL~~1*purityL
-ingroupL~~1*authorityL
-ingroupL~~1*purityL
-authorityL~~1*purityL
-
-fair_orig ~~ 1167.145*fair_orig
-'}
-
-model3.fit <- cfa(model3, data=mtmmdata, std.lv=TRUE)
-summary(model3.fit, rsquare=TRUE, standardized=TRUE)
-fitMeasures(model3.fit, fit.measures = "aic")
-
-{model4 <- '
-harmL =~ Q8_1+Q8_2+Q8_3+harm_orig
-fairL =~ Q8_4+Q8_5+Q8_6+fair_orig
-ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_orig
-authorityL =~ Q8_10+Q8_11+Q8_12+authority_orig
-purityL=~ Q8_13+Q8_14+Q8_15+purity_orig 
-mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
-mfd =~ harm_orig+fair_orig+ingroup_orig+authority_orig+purity_orig
-
-##fix the covariances
-harmL~~0*mfq
-fairL~~0*mfq
-ingroupL~~0*mfq
-authorityL~~0*mfq
-purityL~~0*mfq
-harmL~~0*mfd
-fairL~~0*mfd
-ingroupL~~0*mfd
-authorityL~~0*mfd
-purityL~~0*mfd
-mfq ~~ 0*mfd
-
-fair_orig ~~ 1167.145*fair_orig
-'}
-
-model4.fit <- cfa(model4, data=mtmmdata, std.lv=TRUE)
-summary(model4.fit, rsquare=TRUE, standardized=TRUE)
-fitMeasures(model4.fit, fit.measures = "aic")
-```
-
-```{r mtmm_reduce, include = FALSE}
-
-{model1 = '
-harmL =~ Q8_1+Q8_2+Q8_3+harm_reduce
-fairL =~ Q8_4+Q8_5+Q8_6+fair_reduce
-ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_reduce
-authorityL =~ Q8_10+Q8_11+Q8_12+authority_reduce
-purityL=~ Q8_13+Q8_14+Q8_15+purity_reduce 
-mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
-mfd =~ harm_reduce+fair_reduce+ingroup_reduce+authority_reduce+purity_reduce
-
-##fix the covariances
-harmL~~0*mfq
-fairL~~0*mfq
-ingroupL~~0*mfq
-authorityL~~0*mfq
-purityL~~0*mfq
-harmL~~0*mfd
-fairL~~0*mfd
-ingroupL~~0*mfd
-authorityL~~0*mfd
-purityL~~0*mfd
-'}
-
-model1.fit = cfa(model1, data=mtmmdata, std.lv=TRUE)
-summary(model1.fit, rsquare=TRUE, standardized=TRUE)
-semPaths(model1.fit, whatLabels = "std", layout = "tree")
-fitMeasures(model1.fit, fit.measures = "aic")
-
-{model2 ='
-mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
-mfd =~ harm_reduce+fair_reduce+ingroup_reduce+authority_reduce+purity_reduce
-'}
-
-model2.fit = cfa(model2, data=mtmmdata, std.lv=TRUE)
-summary(model2.fit, rsquare=TRUE, standardized=TRUE)
-fitMeasures(model2.fit, fit.measures = "aic")
-
-{model3 = '
-harmL =~ Q8_1+Q8_2+Q8_3+harm_reduce
-fairL =~ Q8_4+Q8_5+Q8_6+fair_reduce
-ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_reduce
-authorityL =~ Q8_10+Q8_11+Q8_12+authority_reduce
-purityL=~ Q8_13+Q8_14+Q8_15+purity_reduce 
-mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
-mfd =~ harm_reduce+fair_reduce+ingroup_reduce+authority_reduce+purity_reduce
-
-##fix the covariances
-harmL~~0*mfq
-fairL~~0*mfq
-ingroupL~~0*mfq
-authorityL~~0*mfq
-purityL~~0*mfq
-harmL~~0*mfd
-fairL~~0*mfd
-ingroupL~~0*mfd
-authorityL~~0*mfd
-purityL~~0*mfd
-harmL~~1*fairL
-harmL~~1*ingroupL
-harmL~~1*authorityL
-harmL~~1*purityL
-fairL~~1*ingroupL
-fairL~~1*authorityL
-fairL~~1*purityL
-ingroupL~~1*authorityL
-ingroupL~~1*purityL
-authorityL~~1*purityL
-'}
-
-model3.fit = cfa(model3, data=mtmmdata, std.lv=TRUE)
-summary(model3.fit, rsquare=TRUE, standardized=TRUE)
-fitMeasures(model3.fit, fit.measures = "aic")
-
-{model4 = '
-harmL =~ Q8_1+Q8_2+Q8_3+harm_reduce
-fairL =~ Q8_4+Q8_5+Q8_6+fair_reduce
-ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_reduce
-authorityL =~ Q8_10+Q8_11+Q8_12+authority_reduce
-purityL=~ Q8_13+Q8_14+Q8_15+purity_reduce 
-mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
-mfd =~ harm_reduce+fair_reduce+ingroup_reduce+authority_reduce+purity_reduce
-
-##fix the covariances
-harmL~~0*mfq
-fairL~~0*mfq
-ingroupL~~0*mfq
-authorityL~~0*mfq
-purityL~~0*mfq
-harmL~~0*mfd
-fairL~~0*mfd
-ingroupL~~0*mfd
-authorityL~~0*mfd
-purityL~~0*mfd
-mfq ~~ 0*mfd
-'}
-
-model4.fit = cfa(model4, data=mtmmdata, std.lv=TRUE)
-summary(model4.fit, rsquare=TRUE, standardized=TRUE)
-fitMeasures(model4.fit, fit.measures = "aic")
-```
-
-```{r mtmm_all, include = FALSE}
-
-{model1 = '
+{model1 <- '
 harmL =~ Q8_1+Q8_2+Q8_3+harm_all
 fairL =~ Q8_4+Q8_5+Q8_6+fair_all
 ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_all
 authorityL =~ Q8_10+Q8_11+Q8_12+authority_all
-purityL=~ Q8_13+Q8_14+Q8_15+purity_all 
+purityL =~ Q8_13+Q8_14+Q8_15+purity_all 
 mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
 mfd =~ harm_all+fair_all+ingroup_all+authority_all+purity_all
 
@@ -1482,28 +1381,20 @@ authorityL~~0*mfd
 purityL~~0*mfd
 '}
 
-model1.fit = cfa(model1, data=mtmmdata, std.lv=TRUE)
-summary(model1.fit, rsquare=TRUE, standardized=TRUE)
-semPaths(model1.fit, whatLabels = "std", layout = "tree")
-fitMeasures(model1.fit, fit.measures = "aic")
+model1.fit <- cfa(model1, data = mtmmdata, std.lv = TRUE)
+model1.all.results <- broom::tidy(model1.fit) 
+model1.all.fit.results <- broom::glance(model1.fit)
 
-{model2 ='
+write.csv(model1.all.results, "mtmm_results/all_model1.csv", row.names = F)
+
+{model1 <- '
+harmL =~ Q8_1+Q8_2+Q8_3+harm_reduce
+fairL =~ Q8_4+Q8_5+Q8_6+fair_reduce
+ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_reduce
+authorityL =~ Q8_10+Q8_11+Q8_12+authority_reduce
+purityL =~ Q8_13+Q8_14+Q8_15+purity_reduce 
 mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
-mfd =~ harm_all+fair_all+ingroup_all+authority_all+purity_all
-'}
-
-model2.fit = cfa(model2, data=mtmmdata, std.lv=TRUE)
-summary(model2.fit, rsquare=TRUE, standardized=TRUE)
-fitMeasures(model2.fit, fit.measures = "aic")
-
-{model3 = '
-harmL =~ Q8_1+Q8_2+Q8_3+harm_all
-fairL =~ Q8_4+Q8_5+Q8_6+fair_all
-ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_all
-authorityL =~ Q8_10+Q8_11+Q8_12+authority_all
-purityL=~ Q8_13+Q8_14+Q8_15+purity_all 
-mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
-mfd =~ harm_all+fair_all+ingroup_all+authority_all+purity_all
+mfd =~ harm_reduce+fair_reduce+ingroup_reduce+authority_reduce+purity_reduce
 
 ##fix the covariances
 harmL~~0*mfq
@@ -1516,229 +1407,76 @@ fairL~~0*mfd
 ingroupL~~0*mfd
 authorityL~~0*mfd
 purityL~~0*mfd
-harmL~~1*fairL
-harmL~~1*ingroupL
-harmL~~1*authorityL
-harmL~~1*purityL
-fairL~~1*ingroupL
-fairL~~1*authorityL
-fairL~~1*purityL
-ingroupL~~1*authorityL
-ingroupL~~1*purityL
-authorityL~~1*purityL
 '}
 
-model3.fit = cfa(model3, data=mtmmdata, std.lv=TRUE)
-summary(model3.fit, rsquare=TRUE, standardized=TRUE)
-fitMeasures(model3.fit, fit.measures = "aic")
+model1.fit <- cfa(model1, data = mtmmdata, std.lv = TRUE)
+model1.reduce.results <- broom::tidy(model1.fit) 
+model1.reduce.fit.results <- broom::glance(model1.fit)
 
-{model4 = '
-harmL =~ Q8_1+Q8_2+Q8_3+harm_all
-fairL =~ Q8_4+Q8_5+Q8_6+fair_all
-ingroupL =~ Q8_7+Q8_8+Q8_9+ingroup_all
-authorityL =~ Q8_10+Q8_11+Q8_12+authority_all
-purityL=~ Q8_13+Q8_14+Q8_15+purity_all 
-mfq =~ Q8_1+Q8_2+Q8_3+Q8_4+Q8_5+Q8_6+Q8_7+Q8_8+Q8_9+Q8_10+Q8_11+Q8_12+Q8_13+Q8_14+Q8_15
-mfd =~ harm_all+fair_all+ingroup_all+authority_all+purity_all
-
-##fix the covariances
-harmL~~0*mfq
-fairL~~0*mfq
-ingroupL~~0*mfq
-authorityL~~0*mfq
-purityL~~0*mfq
-harmL~~0*mfd
-fairL~~0*mfd
-ingroupL~~0*mfd
-authorityL~~0*mfd
-purityL~~0*mfd
-mfq ~~ 0*mfd
-'}
-
-model4.fit = cfa(model4, data=mtmmdata, std.lv=TRUE)
-summary(model4.fit, rsquare=TRUE, standardized=TRUE)
-fitMeasures(model4.fit, fit.measures = "aic")
+write.csv(model1.reduce.results, "mtmm_results/reduce_model1.csv", row.names = F)
 ```
 
-Data Cleaning and Descriptives. In sample 1, participants who wrote less
-than 50 words were deleted (*n* = 69) leaving *n* = 221 participants.
-The average political orientation was 4.80 (*SD* = 2.21) on a scale of 1
-(*conservative*) to 10 (*liberal*). In sample 2, all 160 participants
-wrote at least 50 words. The mean political orientation was 5.01 (*SD* =
-2.33) for sample 2. The data from sample 1 and sample 2 were combined.
-Before any analyses were conducted, participants who did not use any
-words from the MFD were deleted; 16 participants were deleted from
-sample 1 and 25 from sample 2. The final sample size for analysis was
-*N* = 340 which had a mean political orientation of 4.90 (*SD* = 2.28).
-MFD scores were computed using NVivo *(CITE)* as both frequency for each
-foundation and percent coverage for each foundation. Frequency was
-simply the count of the number of words used from a given foundation
-dictionary; for example, a participant using the word *war* once and the
-word *peace* twice would have a frequency score of 3 for the *harm*
-dictionary. Percent coverage was calculated by taking the frequency and
-dividing by the word count; for example, given a frequency score of 3
-for the *harm* dictionary and a word count of 100, then the percent
-coverage would be .03 for the *harm* dictionary. MFQ scores for each
-foundation were calculated by averaging the six items pertaining to each
-foundation. Reliability. Here we should talk about the reliability of
-the MFQ for each piece, as well as the reliability of the words for the
-MFD. I think to do that you might need a thing that has each word as
-frequency count yes/no or however the LIWC version thing was done. MTMM.
-BASIC SEM STUFF HERE (also that you used bayes) Data screening was
-conducted using SPSS version 22 and AMOS version 22. Participants who
-were missing data for the MFD, MFQ, or political orientation were
-deleted from all analyses. Given the distribution of the dictionary
-variables, participants whose writing sample were less than 2% words
-from the MFD were deleted resulting in a sample size of 252.
-Additionally, 7 outliers were deleted. Widaman's (1985; as cited in
-@Byrne2009) four-step nested method was used to test the convergent and
-divergent validity of the MFD and MFQ. The first step is the baseline
-model (Model 1), which establishes correlation among traits (*harm*,
-*purity*, *fairness*, *authority*, and *ingroup*) as well as correlation
-among methods (MFD and MFQ) but no cross correlation of traits and
-methods. The individual questions from the 30 item version of the MFQ
-and the total frequency of concepts from each foundation in the MFD were
-used as measured variables. The fit of this first model indicated some
-misfit, as fit indices were a mix of poor and acceptable, $\chi$ 2 (514)
-= 977.46, $\chi$ 2/df = 1.90, CFI = .842, RMSEA = .061 [95% CI =
-.055-.067], SRMR = .0623. In this model, the MFD *harm*, *fairness*, and
-*ingroup* items significantly loaded onto their trait factors, while
-*authority* and *purity* did not. All foundations but *authority* loaded
-significantly on the method traits. All but two of the *ingroup*
-questions and one *authority* question loaded onto the MFQ trait
-factors. Several questions of the MFQ did not load significantly onto
-the methods factors; however, this result was taken as an indicator that
-traits variance was higher than methods variance. Generally, trait
-loadings were higher than method loadings for both the MFD and MFQ for
-*harm* and *fairness* traits. However, the *purity*, *ingroup*, and
-*authority* foundations did not show this loading pattern. ERIN STOPPED
-HERE CUZ HEADACHE. The second step (Model 2) involved eliminating the
-latent traits from the model. This model was significantly worse than
-Model 1 indicating the traits are important to the model ($\delta$
-$\chi$ 2 = 1141.09, $\delta$ df = 45, $\delta$ CFI = .351). This
-supports convergent validity for the traits measured by both methods
-which in this case are the five moral foundations. The third step (Model
-3) involved forcing the five traits to be perfectly correlated. This
-model was significantly worse than Model 1 indicating the usefulness of
-five unique traits ($\delta$ $\chi$ 2 = 311.09, $\delta$ df = 10,
-$\delta$ CFI = .097). This supports discriminant validity for the
-existence of five unique moral foundations. The final step (Model 4)
-involved allowing the correlations between the traits to be freely
-estimated and forcing the methods to be uncorrelated. This model was
-similar to Model 1 indicating the methods both measure the traits but
-they are both unique methods ($\delta$ $\chi$ 2 = 2.23, $\delta$ df = 1,
-$\delta$ CFI = .001). This supports discriminant validity for the
-methods. This set of analyses suggests the MFD is a possibly valid
-measure of moral foundations but does not measure them well enough to be
-useful in all applications and may be measuring them differently than
-the MFQ. Regression predicting Political Orientation. The MFQ has
-predicted political orientation across many studies [@Federico2013;
-@Graham2009; @Haidt2009; @Weber2013]. Therefore, in addition to the MTMM
-analysis, we compared how well the MFD score predicted political
-orientation compared to how well the MFQ predicted the political
-orientation. First, total MFQ scores were calculated for each foundation
-by averaging all six items. Then, a regression analysis was conducted
-with the five MFQ foundation score predicting political orientation. The
-overall model was significant, *R2* = .35, *F* (5, 255) = 26.91, *p* \<
-.05. Higher scores on the harm and fairness foundations predicted a more
-liberal political orientation with harm accounting for 3% of the
-variance and fairness accounting for 6%. Higher scores on ingroup,
-authority, and purity predicted a more conservative orientation
-accounting for 1%, 2%, and 8% on the variance respectively. See *table
-?* for regression coefficients. Next, a regression analysis was
-conducted to determine how well the five MFD scores predicted political
-orientation. The overall model was not significant, *R2* = .16, *F* (5,
-255) = 1.36, *p* = .241. Higher harm scores somewhat predicted more
-liberal orientation accounting for 1% of the variance in political
-orientation. Higher purity scores somewhat predicted more conservative
-orientation accounting for 1% of the variance. See *table ?* for
-regression coefficients.
+Fit indices from the MTMM Model 1 step are shown in Table \@ref(tab:mtmm-model1-table). The complete parameter estimates from these models are saved online for full inspection due to their length. The fit indices from these models indicate that all models showed good fit. The original and complete MFD models showed equal fit ($\Delta$ CFA <= .01), and both models were better than the reduced MFD model. We then inspected the loadings to determine the adequacy of the loadings for the MFQ and MFD. These results are shown in Table \@ref(tab:mtmm-model1-table2). All but one question for the MFQ load adequately (>.30) on each of their moral foundation areas. None of the MFD areas load onto their moral foundation area, as all loadings are close to zero (and non-significant, see online). The excellent model fit was likely due to the structure of the MFQ, as the MFD results do not show relation to their foundation area. We did not run further models, as the goal was to show that Model 1 was the best model with appropriate loadings for foundations.  
 
-# Participants
-
-Participants were recruited in two waves as part of a larger
-investigation on priming political and religious attitudes (???).
-Participants were recruited via an online research system (SONA) and
-were given course credit for their participation. 463 participants were
-included in the this study. The study was mostly women (53.9%) and White
-(76.4%) participants with a mix of minority participants: Black (6.1%),
-(3.6%), (4.2%), Native American (1.9%), Mixed (2.9%) and Other (4.9%).
-The average listed age was 19.75 (SD = 200 2.94).
-
-# Materials and Procedure
-
-Data was again collected via Qualtrics. Four fake new stories were
-presented to participants, which were roughly 400 words each. First, all
-news stories included a few sentences describing the use of chemical
-weapons in the Syrian civil war. The news stories were manipulated with
-political (Republican v. Democrat) and religious (religious v. not)
-quotes in a 2 x 2 design. News stories can be found in the online
-materials. Participants also completed the 30-item version of the MFQ as
-described in the introduction. In addition to basic demographics
-(gender, age), participant political orientation was assessed with the
-same scale described in Study 1.
-
-After consenting to participate in the study, participants were randomly
-shown one of the four new articles about Syria’s use of chemical
-weapons. Participants were then asked to write for 5-10 minutes about
-their reaction to Syria’s use of chemical weapons and the needed
-response from the United States. The second wave of data collection
-included different writing prompts designed to capture more of the moral
-foundation areas in their writing. The following writing prompt was
-used, “Please write about your attitudes on abortion (or same-sex
-marriage or environmentalism) as well as your reason for this stance.”
-The three prompts were chosen to create a more varied word set by using
-topics that should elicit words from each moral foundations category by
-soliciting a moral response. In each wave of data collection (Syria
-prompts, moral prompts) the prompt material was randomized between
-participants. Participants then completed the MFQ, demographics, and the
-political orientation scale.
-
-# Results
-
-# Expanding the MFD
-
-In a separate study of 466 university students, participants completed a
-free association task where we asked them to list all the words that
-came to mind from *harm/care*, *fairness/reciprocity*, *loyalty/XX*,
-*authority/XX*, *purity/XX*. They also completed the 15 item MFQ.
-Responses to the free association task were cleaned and stemmed. This
-lead to a new set of moral foundation words: harm-96, fairness-76,
-ingroup-86, authority-81, and purity-80. These concepts were included in
-the full dictionary used for Study 3.
-
-We additionally created a reduced dictionary that included only concepts
-correlated with their respective moral foundations scores. Correlations
-between word frequency and the sum of the MFQ were calculated for each
-foundation and set of concepts. Words were included in the reduced
-dictionary if their correlation was two standard deviations away from
-the mean correlation for that foundation. The reduced dataset included
-the following number of words for each foundation: harm 4, fairness 3,
-ingroup 3, authority 4, and purity 2.
-
-```{r word-association}
-#need the code for the the above stuff
+```{r mtmm-model1-table, results = 'asis'}
+apa_table(
+  bind_rows(
+  model1.orig.fit.results, model1.all.fit.results, model1.reduce.fit.results
+) %>% 
+  mutate(Model = c("Original", "Complete", "Reduced")) %>% 
+  select(Model, chisq, npar, rmsea, srmr, cfi, tli, AIC)
+  , 
+          caption = "MTMM Fit Indices for Model 1 MTMM",
+          col.names = c("Model", "Chi-Sq", "df", "RMSEA", "SRMR", "CFI", "TLI", "AIC"),
+          format = "latex",
+          escape = F,
+          align = c("l", "l", "c", "c"),
+          font_size = 'footnotesize',
+          placement = "h"
+          )
 ```
 
-[ERIN, Please do mathy-math here]
+```{r mtmm-model1-table2, results = 'asis'}
+est.table <-   bind_rows(
+  model1.orig.results %>% 
+    mutate(Model = "Original") %>% 
+    filter(op == "=~"), 
+  model1.all.results %>% 
+    mutate(Model = "All") %>% 
+    filter(op == "=~"), 
+  model1.reduce.results %>% 
+    mutate(Model = "Reduce") %>% 
+    filter(op == "=~")
+) %>% 
+  mutate(term = gsub("_orig|_all|_reduce", "", term)) %>% 
+  select(term, std.all, Model) %>% 
+  pivot_wider(
+    data = .,
+    id_cols = c(term), 
+    names_from = Model,
+    values_from = std.all
+    ) %>% 
+  slice_head(n = 20) %>% 
+  mutate(Latent = rep(c("Harm", "Fair", "Ingroup", "Authority", "Purity"), each = 4),
+         Measured = rep(c("1", "2", "3", "MFD"), times = 5)) %>% 
+  select(Latent, Measured, Original:Reduce)
 
-# Testing Model Structure
-
-Before testing the theorized differences between liberals and
-conservatives, we sought to test the validity of the MFD using
-Multi-Trait, Multi-Method modelling (MTMM) to determine if the MFD is
-measuring the same latent variables as the MFQ as it should.
-
-```{r mtmm}
-
-
+apa_table(est.table, 
+          note = "Estimates are completely standardized loadings from the model.",
+          caption = "MTMM Fit Estimates for Model 1 Loadings",
+          col.names = c("Latent Variable", "Measured Variable", 
+                        "Original", "All", "Reduced"),
+          format = "latex",
+          escape = F,
+          align = c("l", "l", "c", "c"),
+          font_size = 'footnotesize',
+          placement = "h"
+          )
 ```
 
-# Testing Group Differences
+## Discussion
 
-```{r mtmm-groupdiffs}
-
-```
+Study 1 was designed to investigate if the original MFD could be improved with additional concepts. As shown in Table \@ref(tab:tab-mtmm), the original MFD is often heavily skewed toward zero with very low percentages of moral words used in text. These results were found even when writing about concepts that should theoretically active moral values. The suggested improvements did increase percentages of included words; however, the results from the MTMM indicate that the MFD does not appear to relate to the MFQ moral foundations. In a separate set of studies, we examined if the original MFD proposed results for liberal and conservative values could be found within new sources [@Sagi2014]. Further, we examined if the MFD could be improved with markers of valence (i.e., positive, negative), rather than just inclusion of more words. 
 
 # Study 2
 
@@ -1748,11 +1486,11 @@ We hypothesized the news sources generally perceived as liberal leaning
 (*NPR* and *The New York Times*) would contain MFD words and valences
 indicating endorsements of the individualizing moral foundations
 (*harm/care* and *fairness/reciprocity*). Additionally, we hypothesized
-the two sources generally perceived to be conservative leaning (*Fox
-News* and *Breitbart*) would feature MFD words and valences indicating
+the two sources generally perceived to be conservative leaning (*Fox News* 
+and *Breitbart*) would feature MFD words and valences indicating
 equal endorsement of all five foundations.
 
-## Sources
+### Sources
 
 Political articles were collected from the websites of four notable U.S.
 news sources, a process known as web scraping. The sources were *NYT*,
@@ -1803,7 +1541,7 @@ Branch, Senate, House of Representatives, Judicial Branch, foreign
 policy, and elections. Once again, duplicates were subsequently
 eliminated from any analyses.
 
-## Materials
+### Materials
 
 Using the *rvest* library in the statistical package *R*, we pulled body
 text for individual articles from each of the aforementioned sources
@@ -1822,7 +1560,7 @@ was collected in April 2018.
 # not run in the same way anymore
 ```
 
-## Data analysis
+### Data analysis
 
 Once data collection ended, the text was scanned using the *ngram*
 package in *R* [@Schmidt2017]. This package includes a word count
@@ -1859,21 +1597,11 @@ Thus, to ensure that we anchored their valences around zero, we
 the average sentiment and positive scores represented values above the
 average sentiment.
 
-Concurrent research by @Jordan2019 assesses the validity of both the MFQ
-and the MFD through a multi-trait multi-method analysis of the two
-instruments using multiple samples. The instruments and foundation areas
-are being analyzed against one another, in order to test reliability, as
-well as against the Congressional Record in order to test predictive
-validity for political orientation. We were able to identify a number of
-potential new words that, if added to the MFD, could comprise a
-dictionary with greater validity, and less likelihood of zero percent
-texts, as this often occurs with the current MFD. Those results have
-informed this analysis, and their updated findings may change the
-underlying dictionary used in this analysis (albeit, we do not expect
-any changes in the results presented below).
-
-A complete list of the words for each moral foundation area was created
-from previous research. The total number of times each of those words
+Given the results from Study 1.3, we used the original MFD to calculate 
+the number of words included for each moral foundation area. We could 
+also suggest using the larger complete dataset, given that the CFI indicated 
+similar models, and we note here that the pattern of results do not change 
+if that dictionary is used instead. The total number of times each of those words
 was used in an article was calculated. This information was merged with
 the valence values from the @Warriner2013 dataset. A weighted score was
 calculated by multiplying the frequency of occurrence within a document
@@ -1888,8 +1616,8 @@ valence. Words were categorized in accordance to their MFD affiliation,
 creating a weighted sum for each moral foundation. See Table
 \@ref(tab:example-weight) for an example.
 
-```{r stem_text, eval=TRUE, include=FALSE}
-final = read.csv("./study1_data/finaldata.csv", stringsAsFactors = F)
+```{r stem_text, eval = TRUE, include = FALSE}
+final = read.csv("../../study2_data/finaldata.csv", stringsAsFactors = F)
 final = na.omit(final) #one weird NA line
 
 #process the Text column (write a loop) - save processed text as a separate column
@@ -1909,8 +1637,7 @@ for(i in 1:nrow(final)) {
 
 ```{r stem_warriner, include = FALSE}
 ##open the Warriner data for later
-getwd()
-warriner = read.csv("../../study1_data/BRM-emot-submit.csv", stringsAsFactors = F) #want v.mean.sum
+warriner = read.csv("../../study2_data/BRM-emot-submit.csv", stringsAsFactors = F) #want v.mean.sum
 warriner$V.Mean.Sum = scale(warriner$V.Mean.Sum)
 
 for(i in 1:nrow(warriner)) {
@@ -1918,9 +1645,10 @@ for(i in 1:nrow(warriner)) {
 }
 ```
 
-```{r create_datasets_harm, echo = F, include=FALSE}
+```{r create_datasets_harm, echo = F, include = FALSE}
 #read in the harm total words from the mtmm project
-harm_all = read.csv("./study1_data/harm_words_total.csv", stringsAsFactors = F)
+harm_all = read.csv("../../study2_data/harm_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 harm_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -1959,8 +1687,9 @@ harm_final_data$valence[harm_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[w
 #no spurn available
 ```
 
-```{r create_datasets_fair, include=FALSE}
-fair_all = read.csv("./study1_data/fair_words_total.csv", stringsAsFactors = F)
+```{r create_datasets_fair, include = FALSE}
+fair_all = read.csv("../../study2_data/fair_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 fair_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -1997,8 +1726,9 @@ fair_final_data$valence[fair_final_data$Var1 == "safer"] = warriner$V.Mean.Sum[w
 #nothing for just or plagiarism
 ```
 
-```{r create_datasets_ingroup, include=FALSE}
-ingroup_all = read.csv("./study1_data/ingroup_words_total.csv", stringsAsFactors = F)
+```{r create_datasets_ingroup, include = FALSE}
+ingroup_all = read.csv("../../study2_data/ingroup_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 ingroup_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -2036,8 +1766,9 @@ ingroup_final_data$valence[ingroup_final_data$Var1 == "indvidu"] = mean(warriner
 ingroup_final_data$valence[ingroup_final_data$Var1 == "true"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "TRUE"])
 ```
 
-```{r create_datasets_authority, include=FALSE}
-authority_all = read.csv("./study1_data/authority_words_total.csv", stringsAsFactors = F)
+```{r create_datasets_authority, include = FALSE}
+authority_all = read.csv("../../study2_data/authority_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 authority_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -2076,8 +1807,9 @@ authority_final_data$valence[authority_final_data$Var1 == "older"] = mean(warrin
 authority_final_data$valence[authority_final_data$Var1 == "taken"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "take"])
 ```
 
-```{r create_datasets_purity, include=FALSE}
-purity_all = read.csv("./study1_data/purity_words_total.csv", stringsAsFactors = F)
+```{r create_datasets_purity, include = FALSE}
+purity_all = read.csv("../../study2_data/purity_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 purity_final_data = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -2147,6 +1879,14 @@ harm_final_temp = aggregate(harm_final_data$weight,
           FUN = sum, na.rm = T)
 colnames(harm_final_temp) = c("URL", "MFDweight")
 
+harm_final_temp <- harm_final_temp %>% 
+  left_join(
+    harm_final_data %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
+  
 harm_final_temp$lean[grepl("nytimes.com", harm_final_temp$URL) |
                        grepl("npr.org", harm_final_temp$URL)] = "Liberal"
 harm_final_temp$lean[grepl("breitbart.com", harm_final_temp$URL) |
@@ -2164,13 +1904,26 @@ harm_icc <- lme(MFDweight ~ 1,
                  random = list(~1|Source)
                 )
 
+harm_icc_p <- lme(percent ~ 1, 
+                data = harm_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source)
+                )
+
 harm_model = lme(MFDweight ~ lean,
                  data = harm_final_temp,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source)
                  )
-summary(harm_model)
+
+harm_model_p = lme(percent ~ lean,
+                 data = harm_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source)
+                 )
 
 # check linearity
 random <- rchisq(nrow(harm_final_temp), 7)
@@ -2192,6 +1945,14 @@ fair_final_temp = aggregate(fair_final_data$weight,
           FUN = sum, na.rm = T)
 colnames(fair_final_temp) = c("URL", "MFDweight")
 
+fair_final_temp <- fair_final_temp %>% 
+  left_join(
+    fair_final_data %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
+
 fair_final_temp$lean[grepl("nytimes.com", fair_final_temp$URL) |
                        grepl("npr.org", fair_final_temp$URL)] = "Liberal"
 fair_final_temp$lean[grepl("breitbart.com", fair_final_temp$URL) |
@@ -2209,12 +1970,26 @@ fair_icc <- lme(MFDweight ~ 1,
                  random = list(~1|Source)
                 )
 
+fair_icc_p <- lme(percent ~ 1, 
+                data = fair_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source)
+                )
+
 fair_model = lme(MFDweight ~ lean,
                  data = fair_final_temp,
                  method = "ML",
                  na.action = "na.omit",
-                 random = list(~1|Source))
-summary(fair_model)
+                 random = list(~1|Source)
+                 )
+
+fair_model_p = lme(percent ~ lean,
+                 data = fair_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source)
+                 )
 
 # check linearity
 random <- rchisq(nrow(fair_final_temp), 7)
@@ -2236,6 +2011,14 @@ ingroup_final_temp = aggregate(ingroup_final_data$weight,
           FUN = sum, na.rm = T)
 colnames(ingroup_final_temp) = c("URL", "MFDweight")
 
+ingroup_final_temp <- ingroup_final_temp %>% 
+  left_join(
+    ingroup_final_data %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
+
 ingroup_final_temp$lean[grepl("nytimes.com", ingroup_final_temp$URL) |
                        grepl("npr.org", ingroup_final_temp$URL)] = "Liberal"
 ingroup_final_temp$lean[grepl("breitbart.com", ingroup_final_temp$URL) |
@@ -2246,18 +2029,33 @@ ingroup_final_temp$Source[grepl("npr.org", ingroup_final_temp$URL)] = "NPR"
 ingroup_final_temp$Source[grepl("foxnews.com", ingroup_final_temp$URL)] = "Fox"
 ingroup_final_temp$Source[grepl("breitbart.com", ingroup_final_temp$URL)] = "Breitbart"
 
-ingroup_icc = lme(MFDweight ~ 1,
-                 data = ingroup_final_temp,
+ingroup_icc <- lme(MFDweight ~ 1, 
+                data = ingroup_final_temp,
                  method = "ML",
                  na.action = "na.omit",
-                 random = list(~1|Source))
+                 random = list(~1|Source)
+                )
+
+ingroup_icc_p <- lme(percent ~ 1, 
+                data = ingroup_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source)
+                )
 
 ingroup_model = lme(MFDweight ~ lean,
                  data = ingroup_final_temp,
                  method = "ML",
                  na.action = "na.omit",
-                 random = list(~1|Source))
-summary(ingroup_model)
+                 random = list(~1|Source)
+                 )
+
+ingroup_model_p = lme(percent ~ lean,
+                 data = ingroup_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source)
+                 )
 
 # check linearity
 random <- rchisq(nrow(ingroup_final_temp), 7)
@@ -2279,6 +2077,14 @@ authority_final_temp = aggregate(authority_final_data$weight,
           FUN = sum, na.rm = T)
 colnames(authority_final_temp) = c("URL", "MFDweight")
 
+authority_final_temp <- authority_final_temp %>% 
+  left_join(
+    authority_final_data %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
+
 authority_final_temp$lean[grepl("nytimes.com", authority_final_temp$URL) |
                        grepl("npr.org", authority_final_temp$URL)] = "Liberal"
 authority_final_temp$lean[grepl("breitbart.com", authority_final_temp$URL) |
@@ -2289,18 +2095,33 @@ authority_final_temp$Source[grepl("npr.org", authority_final_temp$URL)] = "NPR"
 authority_final_temp$Source[grepl("foxnews.com", authority_final_temp$URL)] = "Fox"
 authority_final_temp$Source[grepl("breitbart.com", authority_final_temp$URL)] = "Breitbart"
 
-authority_icc = lme(MFDweight ~ 1,
-                 data = authority_final_temp,
+authority_icc <- lme(MFDweight ~ 1, 
+                data = authority_final_temp,
                  method = "ML",
                  na.action = "na.omit",
-                 random = list(~1|Source))
+                 random = list(~1|Source)
+                )
+
+authority_icc_p <- lme(percent ~ 1, 
+                data = authority_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source)
+                )
 
 authority_model = lme(MFDweight ~ lean,
                  data = authority_final_temp,
                  method = "ML",
                  na.action = "na.omit",
-                 random = list(~1|Source))
-summary(authority_model)
+                 random = list(~1|Source)
+                 )
+
+authority_model_p = lme(percent ~ lean,
+                 data = authority_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source)
+                 )
 
 # check linearity
 random <- rchisq(nrow(authority_final_temp), 7)
@@ -2322,6 +2143,14 @@ purity_final_temp = aggregate(purity_final_data$weight,
           FUN = sum, na.rm = T)
 colnames(purity_final_temp) = c("URL", "MFDweight")
 
+purity_final_temp <- purity_final_temp %>% 
+  left_join(
+    purity_final_data %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
+
 purity_final_temp$lean[grepl("nytimes.com", purity_final_temp$URL) |
                        grepl("npr.org", purity_final_temp$URL)] = "Liberal"
 purity_final_temp$lean[grepl("breitbart.com", purity_final_temp$URL) |
@@ -2332,18 +2161,33 @@ purity_final_temp$Source[grepl("npr.org", purity_final_temp$URL)] = "NPR"
 purity_final_temp$Source[grepl("foxnews.com", purity_final_temp$URL)] = "Fox"
 purity_final_temp$Source[grepl("breitbart.com", purity_final_temp$URL)] = "Breitbart"
 
-purity_icc = lme(MFDweight ~ 1,
-                 data = purity_final_temp,
+purity_icc <- lme(MFDweight ~ 1, 
+                data = purity_final_temp,
                  method = "ML",
                  na.action = "na.omit",
-                 random = list(~1|Source))
+                 random = list(~1|Source)
+                )
+
+purity_icc_p <- lme(percent ~ 1, 
+                data = purity_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source)
+                )
 
 purity_model = lme(MFDweight ~ lean,
                  data = purity_final_temp,
                  method = "ML",
                  na.action = "na.omit",
-                 random = list(~1|Source))
-summary(purity_model)
+                 random = list(~1|Source)
+                 )
+
+purity_model_p = lme(percent ~ lean,
+                 data = purity_final_temp,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source)
+                 )
 
 # check linearity
 random <- rchisq(nrow(purity_final_temp), 7)
@@ -2378,122 +2222,7 @@ apa_table(temp_table %>% select(-URL),
           )
 ```
 
-# Results
-
-## Descriptive Statistics
-
-```{r exp1_descriptive_calc, echo = F, include = F}
-final$uniquewords = NA
-final$valenceavg = NA
-
-for (i in 1:nrow(final)){
-
-  #add unique
-  final$uniquewords[i] = length(unique(unlist(strsplit(final$stemmed[i], " "))))
-
-  #add valence
-  tempwords = as.data.frame(unlist(strsplit(final$stemmed[i], " ")))
-  colnames(tempwords) = "theword"
-  tempwords$tempval = vlookup(tempwords$theword, #index in original data
-                    warriner, #where's the stuff you want to put in
-                    "V.Mean.Sum", #what column is the stuff you want
-                    "Word2") #what's the matching index
-
-  final$valenceavg[i] = mean(tempwords$tempval, na.rm = T)
-
-}
-
-
-# tapply(final$valenceavg, final$Source, mean)
-# tapply(final$valenceavg, final$Source, sd)
-# tapply(final$wordcount, final$Source, mean)
-# tapply(final$wordcount, final$Source, sd)
-# tapply(final$uniquewords, final$Source, mean)
-# tapply(final$uniquewords, final$Source, sd)
-# tapply(final$Source, final$Source, length)
-# tapply(final$wordcount, final$Source, sum)
-
-final$FK = NA
-
-for (i in 1:nrow(final)){
-  final$FK[i] = unlist(textstat_readability(final$Text[i],
-                     measure = "Flesch.Kincaid")$Flesch.Kincaid)
-}
-
-# tapply(final$FK, final$Source, mean)
-# tapply(final$FK, final$Source, sd)
-
-####build the table here####
-tableprint = matrix(NA, nrow=4, ncol=11)
-colnames(tableprint) = c("Source", "Mean_Valence", "SD_Valence", "Number_of_Articles", "Total_Words", "Mean_Tokens", "SD_Tokens", "Mean_Types", "SD_Types", "Mean_Readability", "SD_Readability")
-
-#tableprint[ , 1] = unique(final$Source)
-tableprint[ , 1] = c("Breitbart", "Fox News", "NPR", "New York Times")
-tableprint[ , 2] = tapply(final$valenceavg, final$Source, mean)
-tableprint[ , 3] = tapply(final$valenceavg, final$Source, sd)
-tableprint[ , 4] = tapply(final$valenceavg, final$Source, length)
-tableprint[ , 5] = tapply(final$wordcount, final$Source, sum)
-tableprint[ , 6] = tapply(final$wordcount, final$Source, mean)
-tableprint[ , 7] = tapply(final$wordcount, final$Source, sd)
-tableprint[ , 8] = tapply(final$uniquewords, final$Source, mean)
-tableprint[ , 9] = tapply(final$uniquewords, final$Source, sd)
-tableprint[ , 10] = tapply(final$FK, final$Source, mean)
-tableprint[ , 11] = tapply(final$FK, final$Source, sd)
-
-tableprint[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint[ , c(2,3,6,7,8,9,10,11)]), big.mark = "")
-
-tableprint = tableprint[c(3, 4, 1, 2) , ]
-```
-
-We calculated descriptive statistics for each news source in order to
-understand any and all fundamental linguistic differences in the
-sources' use of English. Statistics calculated included average
-*z*-scored valence of the unique words per article, number of articles
-per source, total number of words per source, average number of tokens
-(words) per article in each source, average number of types (unique
-words) per article in each source, and mean readability level per
-source. Readability statistics were calculated using the Flesch-Kincaid
-Grade Level Readability formula [@Kincaid1975]. Readability is
-calculated using a formula where the total number of syllables, words,
-and sentences in a given passage are determinants of its difficulty. The
-obtained value is intended to match up with the U.S. grade level at
-which one should be able to comfortably read the passage [@Kincaid1975].
-For example, a text with a readability score of 11 should be easily read
-by a U.S. high school junior.
-
-As seen in Table \@ref(tab:exp1-source-descriptives), the sources are
-similar in some aspects yet different in others. Valence appears to be
-slightly positive across all sources. The large standard deviations seem
-to indicate little to no presence of a difference in valence across
-sources. *NYT* published the greatest number of articles as well as
-total words. *Breitbart* featured the lowest number of articles, and
-*NPR* the lowest number of total words from all articles. Per individual
-article, however, *Breitbart* appears to feature the highest average
-number of words as well as unique words. Once again the standard
-deviations call into question any apparent differences between sources.
-Finally, *Fox News* articles had the lowest reading grade level on
-average, while *NYT* had the highest. This result might be attributable
-to the greater number of tokens in the average *NYT* article compared to
-*Fox News*. The standard deviations for readability suggest the presence
-of a diverse array of articles for each source, ranging from low to high
-reading level. Large standard deviations suggest the sources feature a
-lot of overlap between them in their representation of scores.
-
-```{r exp1-source-descriptives, results = 'asis', echo = FALSE}
-#change this to match
-apa_table(as.data.frame(tableprint),
-          note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid",
-          caption = "Study 1 - Descriptive Statistics by Source",
-          col.names = c("Source", "$M_V$", "$SD_V$", "$N_{Article}$", "$N_{Words}$", "$M_T$", "$SD_T$", "$M_{Ty}$", "$SD_{Ty}$", "$M_{FK}$", "$SD_{FK}$"),
-          format = "latex",
-          escape = F,
-          align = c("l", rep("c", 10)),
-          font_size = 'footnotesize',
-          placement = "h"
-          )
-```
-
-## Inferential Statistics
+## Results
 
 To analyze if news sources adhered to differences in word use based on
 their target audience, we utilized a multilevel model (MLM) to analyze
@@ -2533,8 +2262,9 @@ sources.
 
 ```{r exp1_table_calc, include = F, echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
-tableprint2 = matrix(NA, ncol = 9, nrow = 5)
-colnames(tableprint2) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d", "ICC")
+tableprint2 = matrix(NA, ncol = 10, nrow = 10)
+colnames(tableprint2) = c("Model",
+  "Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d", "ICC")
 
 #calculate d
 #harm
@@ -2546,6 +2276,14 @@ harm_d = d.ind.t(m1 = mean(harm_final_temp$MFDweight[harm_final_temp$lean == "Co
                  n2 = length(harm_final_temp$MFDweight[harm_final_temp$lean == "Liberal"]),
                  a = .05)
 
+harm_d_p = d.ind.t(m1 = mean(harm_final_temp$percent[harm_final_temp$lean == "Conservative"], na.rm = T),
+                 m2 = mean(harm_final_temp$percent[harm_final_temp$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(harm_final_temp$percent[harm_final_temp$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(harm_final_temp$percent[harm_final_temp$lean == "Liberal"], na.rm = T),
+                 n1 = length(harm_final_temp$percent[harm_final_temp$lean == "Conservative"]),
+                 n2 = length(harm_final_temp$percent[harm_final_temp$lean == "Liberal"]),
+                 a = .05)
+
 #fair
 fair_d = d.ind.t(m1 = mean(fair_final_temp$MFDweight[fair_final_temp$lean == "Conservative"], na.rm = T),
                  m2 = mean(fair_final_temp$MFDweight[fair_final_temp$lean == "Liberal"], na.rm = T),
@@ -2553,6 +2291,14 @@ fair_d = d.ind.t(m1 = mean(fair_final_temp$MFDweight[fair_final_temp$lean == "Co
                  sd2 = sd(fair_final_temp$MFDweight[fair_final_temp$lean == "Liberal"], na.rm = T),
                  n1 = length(fair_final_temp$MFDweight[fair_final_temp$lean == "Conservative"]),
                  n2 = length(fair_final_temp$MFDweight[fair_final_temp$lean == "Liberal"]),
+                 a = .05)
+
+fair_d_p = d.ind.t(m1 = mean(fair_final_temp$percent[fair_final_temp$lean == "Conservative"], na.rm = T),
+                 m2 = mean(fair_final_temp$percent[fair_final_temp$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(fair_final_temp$percent[fair_final_temp$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(fair_final_temp$percent[fair_final_temp$lean == "Liberal"], na.rm = T),
+                 n1 = length(fair_final_temp$percent[fair_final_temp$lean == "Conservative"]),
+                 n2 = length(fair_final_temp$percent[fair_final_temp$lean == "Liberal"]),
                  a = .05)
 
 #ingroup
@@ -2564,6 +2310,15 @@ ingroup_d = d.ind.t(m1 = mean(ingroup_final_temp$MFDweight[ingroup_final_temp$le
                  n2 = length(ingroup_final_temp$MFDweight[ingroup_final_temp$lean == "Liberal"]),
                  a = .05)
 
+ingroup_d_p = d.ind.t(m1 = mean(ingroup_final_temp$percent[ingroup_final_temp$lean == "Conservative"], na.rm = T),
+                 m2 = mean(ingroup_final_temp$percent[ingroup_final_temp$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(ingroup_final_temp$percent[ingroup_final_temp$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(ingroup_final_temp$percent[ingroup_final_temp$lean == "Liberal"], na.rm = T),
+                 n1 = length(ingroup_final_temp$percent[ingroup_final_temp$lean == "Conservative"]),
+                 n2 = length(ingroup_final_temp$percent[ingroup_final_temp$lean == "Liberal"]),
+                 a = .05)
+
+
 #authority
 authority_d = d.ind.t(m1 = mean(authority_final_temp$MFDweight[authority_final_temp$lean == "Conservative"], na.rm = T),
                  m2 = mean(authority_final_temp$MFDweight[authority_final_temp$lean == "Liberal"], na.rm = T),
@@ -2571,6 +2326,14 @@ authority_d = d.ind.t(m1 = mean(authority_final_temp$MFDweight[authority_final_t
                  sd2 = sd(authority_final_temp$MFDweight[authority_final_temp$lean == "Liberal"], na.rm = T),
                  n1 = length(authority_final_temp$MFDweight[authority_final_temp$lean == "Conservative"]),
                  n2 = length(authority_final_temp$MFDweight[authority_final_temp$lean == "Liberal"]),
+                 a = .05)
+
+authority_d_p = d.ind.t(m1 = mean(authority_final_temp$percent[authority_final_temp$lean == "Conservative"], na.rm = T),
+                 m2 = mean(authority_final_temp$percent[authority_final_temp$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(authority_final_temp$percent[authority_final_temp$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(authority_final_temp$percent[authority_final_temp$lean == "Liberal"], na.rm = T),
+                 n1 = length(authority_final_temp$percent[authority_final_temp$lean == "Conservative"]),
+                 n2 = length(authority_final_temp$percent[authority_final_temp$lean == "Liberal"]),
                  a = .05)
 
 #purity
@@ -2582,33 +2345,60 @@ purity_d = d.ind.t(m1 = mean(purity_final_temp$MFDweight[purity_final_temp$lean 
                  n2 = length(purity_final_temp$MFDweight[purity_final_temp$lean == "Liberal"]),
                  a = .05)
 
-#put in the numbers
-tableprint2[1, ] = c("Harm/Care", harm_d$M1, harm_d$sd1, harm_d$M2, harm_d$sd1,
-                    summary(harm_model)$tTable[2,4], summary(harm_model)$tTable[2,5],
-                    harm_d$d, icc(harm_icc)$ICC_unadjusted)
-tableprint2[2, ] = c("Fairness/Reciprocity", fair_d$M1, fair_d$sd1, fair_d$M2, fair_d$sd1,
-                    summary(fair_model)$tTable[2,4], summary(fair_model)$tTable[2,5],
-                    fair_d$d, icc(fair_icc)$ICC_unadjusted)
-tableprint2[3, ] = c("Ingroup/Loyalty", ingroup_d$M1, ingroup_d$sd1, ingroup_d$M2, ingroup_d$sd1,
-                    summary(ingroup_model)$tTable[2,4], summary(ingroup_model)$tTable[2,5],
-                    ingroup_d$d, icc(ingroup_icc)$ICC_unadjusted)
-tableprint2[4, ] = c("Authority/Respect", authority_d$M1, authority_d$sd1, authority_d$M2, authority_d$sd1,
-                    summary(authority_model)$tTable[2,4], summary(authority_model)$tTable[2,5],
-                    authority_d$d, icc(authority_icc)$ICC_unadjusted)
-tableprint2[5, ] = c("Purity/Sanctity", purity_d$M1, purity_d$sd1, purity_d$M2, purity_d$sd1,
-                    summary(purity_model)$tTable[2,4], summary(purity_model)$tTable[2,5],
-                    purity_d$d, icc(purity_icc)$ICC_unadjusted)
+purity_d_p = d.ind.t(m1 = mean(purity_final_temp$percent[purity_final_temp$lean == "Conservative"], na.rm = T),
+                 m2 = mean(purity_final_temp$percent[purity_final_temp$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(purity_final_temp$percent[purity_final_temp$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(purity_final_temp$percent[purity_final_temp$lean == "Liberal"], na.rm = T),
+                 n1 = length(purity_final_temp$percent[purity_final_temp$lean == "Conservative"]),
+                 n2 = length(purity_final_temp$percent[purity_final_temp$lean == "Liberal"]),
+                 a = .05)
 
-tableprint2[ , c(2:6, 8)] = printnum(as.numeric(tableprint2[ , c(2:6, 8)]), big.mark = "")
-tableprint2[ , 7] = printp(as.numeric(tableprint2[ , 7]))
-tableprint2[ , 9] = printp(as.numeric(tableprint2[ , 7]))
+#put in the numbers
+tableprint2[1, ] = c("Valence", "Harm/Care", harm_d$M1, harm_d$sd1, harm_d$M2, harm_d$sd1,
+                    summary(harm_model)$tTable[2,4], summary(harm_model)$tTable[2,5],
+                    harm_d$d, icc(harm_icc, tolerance = 1e-10)$ICC_unadjusted)
+tableprint2[2, ] = c("Valence", "Fairness/Reciprocity", fair_d$M1, fair_d$sd1, fair_d$M2, fair_d$sd1,
+                    summary(fair_model)$tTable[2,4], summary(fair_model)$tTable[2,5],
+                    fair_d$d, icc(fair_icc, tolerance = 1e-10)$ICC_unadjusted)
+tableprint2[3, ] = c("Valence", "Ingroup/Loyalty", ingroup_d$M1, ingroup_d$sd1, ingroup_d$M2, ingroup_d$sd1,
+                    summary(ingroup_model)$tTable[2,4], summary(ingroup_model)$tTable[2,5],
+                    ingroup_d$d, icc(ingroup_icc, tolerance = 1e-10)$ICC_unadjusted)
+tableprint2[4, ] = c("Valence", "Authority/Respect", authority_d$M1, authority_d$sd1, authority_d$M2, authority_d$sd1,
+                    summary(authority_model)$tTable[2,4], summary(authority_model)$tTable[2,5],
+                    authority_d$d, icc(authority_icc, tolerance = 1e-10)$ICC_unadjusted)
+tableprint2[5, ] = c("Valence", "Purity/Sanctity", purity_d$M1, purity_d$sd1, purity_d$M2, purity_d$sd1,
+                    summary(purity_model)$tTable[2,4], summary(purity_model)$tTable[2,5],
+                    purity_d$d, icc(purity_icc, tolerance = 1e-10)$ICC_unadjusted)
+
+
+tableprint2[6, ] = c("Original", "Harm/Care", harm_d_p$M1, harm_d_p$sd1, harm_d_p$M2, harm_d_p$sd1,
+                    summary(harm_model_p)$tTable[2,4], summary(harm_model_p)$tTable[2,5],
+                    harm_d_p$d, icc(harm_icc_p, tolerance = 1e-10)$ICC_unadjusted)
+tableprint2[7, ] = c("Original", "Fairness/Reciprocity", fair_d_p$M1, fair_d_p$sd1, fair_d_p$M2, fair_d_p$sd1,
+                    summary(fair_model_p)$tTable[2,4], summary(fair_model_p)$tTable[2,5],
+                    fair_d_p$d, icc(fair_icc_p, tolerance = 1e-10)$ICC_unadjusted)
+tableprint2[8, ] = c("Original", "Ingroup/Loyalty", ingroup_d_p$M1, ingroup_d_p$sd1, ingroup_d_p$M2, ingroup_d_p$sd1,
+                    summary(ingroup_model_p)$tTable[2,4], summary(ingroup_model_p)$tTable[2,5],
+                    ingroup_d_p$d, icc(ingroup_icc_p, tolerance = 1e-10)$ICC_unadjusted)
+tableprint2[9, ] = c("Original", "Authority/Respect", authority_d_p$M1, authority_d_p$sd1, authority_d_p$M2, authority_d_p$sd1,
+                    summary(authority_model_p)$tTable[2,4], summary(authority_model_p)$tTable[2,5],
+                    authority_d_p$d, icc(authority_icc_p, tolerance = 1e-10)$ICC_unadjusted)
+tableprint2[10, ] = c("Original", "Purity/Sanctity", purity_d_p$M1, purity_d_p$sd1, purity_d_p$M2, purity_d_p$sd1,
+                    summary(purity_model_p)$tTable[2,4], summary(purity_model_p)$tTable[2,5],
+                    purity_d_p$d, icc(purity_icc_p, tolerance = 1e-10)$ICC_unadjusted)
+
+tableprint2[ , c(3:7,9)] = printnum(as.numeric(tableprint2[ , c(3:7,9)]), big.mark = "")
+tableprint2[ , 8] = printp(as.numeric(tableprint2[ , 8]))
+tableprint2[ , 10] = printp(as.numeric(tableprint2[ , 10]))
 ```
 
 ```{r exp1-table, results = 'asis', echo = F}
 apa_table(as.data.frame(tableprint2),
           note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
-          caption = "Study 1 Results - Multilevel Model",
-          col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$", "ICC"),
+          caption = "Study 2 Results - Multilevel Model",
+          col.names = c("Model", 
+            "Foundation", "$M_C$", "$SD_C$", "$M_L$", 
+            "$SD_L$", "$t$", "$p$", "$d$", "ICC"),
           format = "latex",
           escape = F,
           align = c("l", rep("c", 7)),
@@ -2658,9 +2448,9 @@ dev.off()
 
 ```
 
-# Discussion
+## Discussion
 
-The results obtained in Study 1 fail to support the differences
+The results obtained in Study 2 fail to support the differences
 predicted by MFT. First, differences between liberal and conservative
 news sources failed to reach statistical or practical (effect size)
 significance for any foundations. Second, looking purely at the
@@ -2675,21 +2465,21 @@ However, one possible limitation of the current data is the generalness
 of the corpus. The selection of the broad and amorphous topic of
 "political news" may have led to the scraping of large numbers of
 articles with little to no moral-centric content. To address this
-limitation, two changes that were subsequently employed in Study 2.
+limitation, two changes that were subsequently employed in Study 3.
 First, we elected to include more news sources for web scraping and
-analysis in addition to the four used in Study 1. Second, we chose to
+analysis in addition to the four used in Study 2. Second, we chose to
 focus data collection efforts on two heavily moralized events in the
 Trump administration: (1) the nomination and confirmation of Justice
 Brett Kavanaugh to the U.S. Supreme Court and the U.S. government
 shutdown in December 2018 through January 2019 over disagreements about
-funding a U.S.-Mexico border wall. Hence, Study 2 is the best test of
+funding a U.S.-Mexico border wall. Hence, Study 3 is the best test of
 the MFT and the MFD in the context of partisan news.
 
-# Study 2
+# Study 3
 
-# Method
+## Method
 
-In contrast to Study 1, we approached Study 2 with the intention to
+In contrast to Study 2, we approached Study 3 with the intention to
 confirm the method employed was valid for the analysis of the scraped
 text as well as for any inferences drawn from the analyses. For the
 second study, we hypothesized that news sources perceived as liberal
@@ -2712,11 +2502,11 @@ under MFT.
 # please see the web_scraping.Rmd to see how we originally collected this data
 ```
 
-## Sources
+### Sources
 
 Articles pertaining to the Brett Kavanaugh Supreme Court confirmation
 hearing and the 2018-2019 U.S. Government shutdown were scraped from the
-websites of 10 U.S. news sources. As in Study 1, these sources were
+websites of 10 U.S. news sources. As in Study 2, these sources were
 selected owing to their favorability among political partisans according
 to @Mitchell2014. The sources favored by the highest proportion of
 consistent liberals were the *NYT*, *NPR*, *Slate*, *Huffington Post*,
@@ -2729,7 +2519,7 @@ service. Political articles referencing Brett Kavanaugh's nomination
 process were identified and subsequently scraped by including the URL
 for each source's coverage of the nomination in the *R* script.
 
-## Materials
+### Materials
 
 Using the *rvest* and *RSelenium* libraries, we pulled body text for
 individual articles from each of the aforementioned 10 news sources and
@@ -2754,16 +2544,16 @@ saturation in American news media.
 ```{r data_clean_kav, eval = T, echo = F}
 ##combine all kav data into one dataset
 #read it in
-NYtimes_kav = read.csv("./exp2_data/NYtimes_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-NPR_kav = read.csv("./exp2_data/NPR_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-SLATE_kav = read.csv("./exp2_data/SLATE_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-HUFFPO_kav = read.csv("./exp2_data/HUFFPO_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-POLITICO_kav = read.csv("./exp2_data/POLITICO_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-FOX_kav = read.csv("./exp2_data/FOX_kav.csv", stringsAsFactors = F) #ok
-BREITBART_kav = read.csv("./exp2_data/BREITBART_kav.csv", stringsAsFactors = F) #ok
-RUSH_kav = read.csv("./exp2_data/RUSH_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-BLAZE_kav = read.csv("./exp2_data/BLAZE_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
-HANNITY_kav = read.csv("./exp2_data/HANNITY_kav.csv", stringsAsFactors = F, fileEncoding="UTF-8") #ok
+NYtimes_kav = read.csv("../../study3_data/NYtimes_kav.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #ok
+NPR_kav = read.csv("../../study3_data/NPR_kav.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #ok
+SLATE_kav = read.csv("../../study3_data/SLATE_kav.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #ok
+HUFFPO_kav = read.csv("../../study3_data/HUFFPO_kav.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #ok
+POLITICO_kav = read.csv("../../study3_data/POLITICO_kav.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #ok
+FOX_kav = read.csv("../../study3_data/FOX_kav.csv", stringsAsFactors = F) #ok
+BREITBART_kav = read.csv("../../study3_data/BREITBART_kav.csv", stringsAsFactors = F) #ok
+RUSH_kav = read.csv("../../study3_data/RUSH_kav.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #ok
+BLAZE_kav = read.csv("../../study3_data/BLAZE_kav.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #ok
+HANNITY_kav = read.csv("../../study3_data/HANNITY_kav.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #ok
 
 
 #merge it together
@@ -2773,6 +2563,7 @@ master_kav = rbind(NYtimes_kav, NPR_kav, SLATE_kav,
                         HANNITY_kav)
 
 #fix this issue
+master_kav$Text <- iconv(master_kav$Text, from = "", to = "UTF-8", sub = "byte")
 master_kav$Text = gsub("\\.", "\\. ", master_kav$Text)
 
 ##get rid of the blank stuff
@@ -2797,16 +2588,16 @@ final_kav = nozero
 ```{r data_clean_gs, eval = T, echo = F}
 ##combine all gs data into one dataset
 #read it in
-NYtimes_gs = read.csv("./exp2_data/NYtimes_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #ok
-NPR_gs = read.csv("./exp2_data/NPR_gs.csv", stringsAsFactors = F) #ok
-SLATE_gs = read.csv("./exp2_data/SLATE_gs.csv", stringsAsFactors = F) #ok
-HUFFPO_gs = read.csv("./exp2_data/HUFFPO_gs.csv", stringsAsFactors = F) #ok
-POLITICO_gs = read.csv("./exp2_data/POLITICO_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #not ok
-FOX_gs = read.csv("./exp2_data/FOX_gs.csv", stringsAsFactors = F) #ok
-BREITBART_gs = read.csv("./exp2_data/BREITBART_gs.csv", stringsAsFactors = F) #ok
-RUSH_gs = read.csv("./exp2_data/RUSH_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #not ok
-BLAZE_gs = read.csv("./exp2_data/BLAZE_gs.csv", stringsAsFactors = F) #ok
-HANNITY_gs = read.csv("./exp2_data/HANNITY_gs.csv", stringsAsFactors = F) #ok
+NYtimes_gs = read.csv("../../study3_data/NYtimes_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #ok
+NPR_gs = read.csv("../../study3_data/NPR_gs.csv", stringsAsFactors = F) #ok
+SLATE_gs = read.csv("../../study3_data/SLATE_gs.csv", stringsAsFactors = F) #ok
+HUFFPO_gs = read.csv("../../study3_data/HUFFPO_gs.csv", stringsAsFactors = F) #ok
+POLITICO_gs = read.csv("../../study3_data/POLITICO_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #not ok
+FOX_gs = read.csv("../../study3_data/FOX_gs.csv", stringsAsFactors = F) #ok
+BREITBART_gs = read.csv("../../study3_data/BREITBART_gs.csv", stringsAsFactors = F) #ok
+RUSH_gs = read.csv("../../study3_data/RUSH_gs.csv", stringsAsFactors = F, fileEncoding = "UTF-8") #not ok
+BLAZE_gs = read.csv("../../study3_data/BLAZE_gs.csv", stringsAsFactors = F) #ok
+HANNITY_gs = read.csv("../../study3_data/HANNITY_gs.csv", stringsAsFactors = F) #ok
 
 #merge it together
 master_gs = rbind(NYtimes_gs, NPR_gs, SLATE_gs,
@@ -2815,6 +2606,7 @@ master_gs = rbind(NYtimes_gs, NPR_gs, SLATE_gs,
                         HANNITY_gs)
 
 #fix this issue
+master_gs$Text <- iconv(master_gs$Text, from = "", to = "UTF-8", sub = "byte")
 master_gs$Text = gsub("\\.", "\\. ", master_gs$Text)
 
 for (i in 1:nrow(master_gs)) {
@@ -2863,9 +2655,9 @@ for(i in 1:nrow(final_gs)) {
 
 ```
 
-## Data analysis
+### Data analysis
 
-As in Study 1, the text was scanned with *ngram* [@Schmidt2017]. Again,
+As in Study 1 and 2, the text was scanned with *ngram* [@Schmidt2017]. Again,
 blank articles, text from the Disqus system, and duplicate articles were
 removed. The text was processed and stemmed in order to convert to a
 usable form for further analysis [@Feinerer2017]. Each individual word
@@ -2877,7 +2669,8 @@ into their proper MFD category.
 
 ```{r create_datasets_harm_kav, eval = T, echo = F, include = F}
 #read in the harm total words from the mtmm project
-harm_all_kav = read.csv("./study1_data/harm_words_total.csv", stringsAsFactors = F)
+harm_all_kav = read.csv("../../study2_data/harm_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 harm_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -2916,8 +2709,9 @@ harm_final_data_kav$valence[harm_final_data_kav$Var1 == "safer"] = warriner$V.Me
 #no spurn avaliable
 ```
 
-```{r create_datasets_fair_kav, include=FALSE}
-fair_all_kav = read.csv("./study1_data/fair_words_total.csv", stringsAsFactors = F)
+```{r create_datasets_fair_kav, include = FALSE}
+fair_all_kav = read.csv("../../study2_data/fair_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 fair_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -2954,8 +2748,9 @@ fair_final_data_kav$valence[fair_final_data_kav$Var1 == "safer"] = warriner$V.Me
 #nothing for just or plagiarism
 ```
 
-```{r create_datasets_ingroup_kav, include=FALSE}
-ingroup_all_kav = read.csv("./study1_data/ingroup_words_total.csv", stringsAsFactors = F)
+```{r create_datasets_ingroup_kav, include = FALSE}
+ingroup_all_kav = read.csv("../../study2_data/ingroup_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 ingroup_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -2993,8 +2788,9 @@ ingroup_final_data_kav$valence[ingroup_final_data_kav$Var1 == "indvidu"] = mean(
 ingroup_final_data_kav$valence[ingroup_final_data_kav$Var1 == "true"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "TRUE"])
 ```
 
-```{r create_datasets_authority_kav, include=FALSE}
-authority_all_kav = read.csv("./study1_data/authority_words_total.csv", stringsAsFactors = F)
+```{r create_datasets_authority_kav, include = FALSE}
+authority_all_kav = read.csv("../../study2_data/authority_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 authority_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -3033,8 +2829,9 @@ authority_final_data_kav$valence[authority_final_data_kav$Var1 == "older"] = mea
 authority_final_data_kav$valence[authority_final_data_kav$Var1 == "taken"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "take"])
 ```
 
-```{r create_datasets_purity_kav, include=FALSE}
-purity_all_kav = read.csv("./study1_data/purity_words_total.csv", stringsAsFactors = F)
+```{r create_datasets_purity_kav, include = FALSE}
+purity_all_kav = read.csv("../../study2_data/purity_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 purity_final_data_kav = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -3074,7 +2871,8 @@ purity_final_data_kav$valence[purity_final_data_kav$Var1 == "women"] = mean(warr
 
 ```{r create_datasets_harm_gs, eval = T, echo = F, include = F}
 #read in the harm total words from the mtmm project
-harm_all_gs = read.csv("./study1_data/harm_words_total.csv", stringsAsFactors = F)
+harm_all_gs = read.csv("../../study2_data/harm_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 harm_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -3113,8 +2911,9 @@ harm_final_data_gs$valence[harm_final_data_gs$Var1 == "safer"] = warriner$V.Mean
 #no spurn avaliable
 ```
 
-```{r create_datasets_fair_gs, echo = F, include=FALSE}
-fair_all_gs = read.csv("./study1_data/fair_words_total.csv", stringsAsFactors = F)
+```{r create_datasets_fair_gs, echo = F, include = FALSE}
+fair_all_gs = read.csv("../../study2_data/fair_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 fair_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -3151,8 +2950,9 @@ fair_final_data_gs$valence[fair_final_data_gs$Var1 == "safer"] = warriner$V.Mean
 #nothing for just or plagiarism
 ```
 
-```{r create_datasets_ingroup_gs, echo = F, include=FALSE}
-ingroup_all_gs = read.csv("./study1_data/ingroup_words_total.csv", stringsAsFactors = F)
+```{r create_datasets_ingroup_gs, echo = F, include = FALSE}
+ingroup_all_gs = read.csv("../../study2_data/ingroup_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 ingroup_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -3190,8 +2990,9 @@ ingroup_final_data_gs$valence[ingroup_final_data_gs$Var1 == "indvidu"] = mean(wa
 ingroup_final_data_gs$valence[ingroup_final_data_gs$Var1 == "true"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "TRUE"])
 ```
 
-```{r create_datasets_authority_gs, echo = F, include=FALSE}
-authority_all_gs = read.csv("./study1_data/authority_words_total.csv", stringsAsFactors = F)
+```{r create_datasets_authority_gs, echo = F, include = FALSE}
+authority_all_gs = read.csv("../../study2_data/authority_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 authority_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -3230,8 +3031,9 @@ authority_final_data_gs$valence[authority_final_data_gs$Var1 == "older"] = mean(
 authority_final_data_gs$valence[authority_final_data_gs$Var1 == "taken"] = mean(warriner$V.Mean.Sum[warriner$Word2 == "take"])
 ```
 
-```{r create_datasets_purity_gs, echo = F, include=FALSE}
-purity_all_gs = read.csv("./study1_data/purity_words_total.csv", stringsAsFactors = F)
+```{r create_datasets_purity_gs, echo = F, include = FALSE}
+purity_all_gs = read.csv("../../study2_data/purity_words_total.csv", stringsAsFactors = F) %>% 
+  filter(dataset == "orig")
 
 purity_final_data_gs = data.frame("URL" = NA, "Source" = NA, "Var1" = NA, "Freq" = NA, "wordcount" = NA)
 
@@ -3320,6 +3122,14 @@ harm_final_temp_kav = aggregate(harm_final_data_kav$weight,
           FUN = sum, na.rm = T)
 colnames(harm_final_temp_kav) = c("URL", "MFDweight")
 
+harm_final_temp_kav <- harm_final_temp_kav %>% 
+  left_join(
+    harm_final_data_kav %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
+
 harm_final_temp_kav$lean[grepl("nytimes.com", harm_final_temp_kav$URL) |
                        grepl("npr.org", harm_final_temp_kav$URL) |
                         grepl("slate.com", harm_final_temp_kav$URL) |
@@ -3349,13 +3159,23 @@ harm_icc_k <- lme(MFDweight ~ 1,
                  na.action = "na.omit",
                  random = list(~1|Source))
 
+harm_icc_k_p <- lme(percent ~ 1,
+                 data = harm_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 harm_model_kav = lme(MFDweight ~ lean,
                  data = harm_final_temp_kav,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
-summary(harm_model_kav)
-r.squaredGLMM(harm_model_kav)
+
+harm_model_kav_p = lme(percent ~ lean,
+                 data = harm_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
 
 # check linearity
 random <- rchisq(nrow(harm_final_temp_kav), 7)
@@ -3376,6 +3196,15 @@ fair_final_temp_kav = aggregate(fair_final_data_kav$weight,
           by = list(fair_final_data_kav$URL),
           FUN = sum, na.rm = T)
 colnames(fair_final_temp_kav) = c("URL", "MFDweight")
+
+fair_final_temp_kav <- fair_final_temp_kav %>% 
+  left_join(
+    fair_final_data_kav %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
+
 
 fair_final_temp_kav$lean[grepl("nytimes.com", fair_final_temp_kav$URL) |
                        grepl("npr.org", fair_final_temp_kav$URL) |
@@ -3406,12 +3235,23 @@ fair_icc_k <- lme(MFDweight ~ 1,
                  na.action = "na.omit",
                  random = list(~1|Source))
 
+fair_icc_k_p <- lme(percent ~ 1,
+                 data = fair_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 fair_model_kav = lme(MFDweight ~ lean,
                  data = fair_final_temp_kav,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
-summary(fair_model_kav)
+
+fair_model_kav_p = lme(percent ~ lean,
+                 data = fair_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
 
 # check linearity
 random <- rchisq(nrow(fair_final_temp_kav), 7)
@@ -3432,6 +3272,15 @@ ingroup_final_temp_kav = aggregate(ingroup_final_data_kav$weight,
           by = list(ingroup_final_data_kav$URL),
           FUN = sum, na.rm = T)
 colnames(ingroup_final_temp_kav) = c("URL", "MFDweight")
+
+ingroup_final_temp_kav <- ingroup_final_temp_kav %>% 
+  left_join(
+    ingroup_final_data_kav %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
+
 
 ingroup_final_temp_kav$lean[grepl("nytimes.com", ingroup_final_temp_kav$URL) |
                        grepl("npr.org", ingroup_final_temp_kav$URL) |
@@ -3462,12 +3311,23 @@ ingroup_icc_k <- lme(MFDweight ~ 1,
                  na.action = "na.omit",
                  random = list(~1|Source))
 
+ingroup_icc_k_p <- lme(percent ~ 1,
+                 data = ingroup_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 ingroup_model_kav = lme(MFDweight ~ lean,
                  data = ingroup_final_temp_kav,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
-summary(ingroup_model_kav)
+
+ingroup_model_kav_p = lme(percent ~ lean,
+                 data = ingroup_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
 
 # check linearity
 random <- rchisq(nrow(ingroup_final_temp_kav), 7)
@@ -3488,6 +3348,15 @@ authority_final_temp_kav = aggregate(authority_final_data_kav$weight,
           by = list(authority_final_data_kav$URL),
           FUN = sum, na.rm = T)
 colnames(authority_final_temp_kav) = c("URL", "MFDweight")
+
+authority_final_temp_kav <- authority_final_temp_kav %>% 
+  left_join(
+    authority_final_data_kav %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
+
 
 authority_final_temp_kav$lean[grepl("nytimes.com", authority_final_temp_kav$URL) |
                        grepl("npr.org", authority_final_temp_kav$URL) |
@@ -3518,12 +3387,23 @@ authority_icc_k <- lme(MFDweight ~ 1,
                  na.action = "na.omit",
                  random = list(~1|Source))
 
+authority_icc_k_p <- lme(percent ~ 1,
+                 data = authority_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 authority_model_kav = lme(MFDweight ~ lean,
                  data = authority_final_temp_kav,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
-summary(authority_model_kav)
+
+authority_model_kav_p = lme(percent ~ lean,
+                 data = authority_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
 
 # check linearity
 random <- rchisq(nrow(authority_final_temp_kav), 7)
@@ -3544,6 +3424,15 @@ purity_final_temp_kav = aggregate(purity_final_data_kav$weight,
           by = list(purity_final_data_kav$URL),
           FUN = sum, na.rm = T)
 colnames(purity_final_temp_kav) = c("URL", "MFDweight")
+
+purity_final_temp_kav <- purity_final_temp_kav %>% 
+  left_join(
+    purity_final_data_kav %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
+
 
 purity_final_temp_kav$lean[grepl("nytimes.com", purity_final_temp_kav$URL) |
                        grepl("npr.org", purity_final_temp_kav$URL) |
@@ -3574,12 +3463,23 @@ purity_icc_k <- lme(MFDweight ~ 1,
                  na.action = "na.omit",
                  random = list(~1|Source))
 
+purity_icc_k_p <- lme(percent ~ 1,
+                 data = purity_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 purity_model_kav = lme(MFDweight ~ lean,
                  data = purity_final_temp_kav,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
-summary(purity_model_kav)
+
+purity_model_kav_p = lme(percent ~ lean,
+                 data = purity_final_temp_kav,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
 
 # check linearity
 random <- rchisq(nrow(purity_final_temp_kav), 7)
@@ -3600,6 +3500,14 @@ harm_final_temp_gs = aggregate(harm_final_data_gs$weight,
           by = list(harm_final_data_gs$URL),
           FUN = sum, na.rm = T)
 colnames(harm_final_temp_gs) = c("URL", "MFDweight")
+
+harm_final_temp_gs <- harm_final_temp_gs %>% 
+  left_join(
+    harm_final_data_gs %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
 
 harm_final_temp_gs$lean[grepl("nytimes.com", harm_final_temp_gs$URL) |
                        grepl("npr.org", harm_final_temp_gs$URL) |
@@ -3630,12 +3538,23 @@ harm_icc_gs <- lme(MFDweight ~ 1,
                  na.action = "na.omit",
                  random = list(~1|Source))
 
+harm_icc_gs_p <- lme(percent ~ 1,
+                 data = harm_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 harm_model_gs = lme(MFDweight ~ lean,
                  data = harm_final_temp_gs,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
-summary(harm_model_gs)
+
+harm_model_gs_p = lme(percent ~ lean,
+                 data = harm_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
 
 # check linearity
 random <- rchisq(nrow(harm_final_temp_gs), 7)
@@ -3656,6 +3575,14 @@ fair_final_temp_gs = aggregate(fair_final_data_gs$weight,
           by = list(fair_final_data_gs$URL),
           FUN = sum, na.rm = T)
 colnames(fair_final_temp_gs) = c("URL", "MFDweight")
+
+fair_final_temp_gs <- fair_final_temp_gs %>% 
+  left_join(
+    fair_final_data_gs %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
 
 fair_final_temp_gs$lean[grepl("nytimes.com", fair_final_temp_gs$URL) |
                        grepl("npr.org", fair_final_temp_gs$URL) |
@@ -3686,12 +3613,23 @@ fair_icc_gs <- lme(MFDweight ~ 1,
                  na.action = "na.omit",
                  random = list(~1|Source))
 
+fair_icc_gs_p <- lme(percent ~ 1,
+                 data = fair_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 fair_model_gs = lme(MFDweight ~ lean,
                  data = fair_final_temp_gs,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
-summary(fair_model_gs)
+
+fair_model_gs_p = lme(percent ~ lean,
+                 data = fair_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
 
 # check linearity
 random <- rchisq(nrow(fair_final_temp_gs), 7)
@@ -3712,6 +3650,14 @@ ingroup_final_temp_gs = aggregate(ingroup_final_data_gs$weight,
           by = list(ingroup_final_data_gs$URL),
           FUN = sum, na.rm = T)
 colnames(ingroup_final_temp_gs) = c("URL", "MFDweight")
+
+ingroup_final_temp_gs <- ingroup_final_temp_gs %>% 
+  left_join(
+    ingroup_final_data_gs %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
 
 ingroup_final_temp_gs$lean[grepl("nytimes.com", ingroup_final_temp_gs$URL) |
                        grepl("npr.org", ingroup_final_temp_gs$URL) |
@@ -3742,12 +3688,23 @@ ingroup_icc_gs <- lme(MFDweight ~ 1,
                  na.action = "na.omit",
                  random = list(~1|Source))
 
+ingroup_icc_gs_p <- lme(percent ~ 1,
+                 data = ingroup_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 ingroup_model_gs = lme(MFDweight ~ lean,
                  data = ingroup_final_temp_gs,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
-summary(ingroup_model_gs)
+
+ingroup_model_gs_p = lme(percent ~ lean,
+                 data = ingroup_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
 
 # check linearity
 random <- rchisq(nrow(ingroup_final_temp_gs), 7)
@@ -3768,6 +3725,14 @@ authority_final_temp_gs = aggregate(authority_final_data_gs$weight,
           by = list(authority_final_data_gs$URL),
           FUN = sum, na.rm = T)
 colnames(authority_final_temp_gs) = c("URL", "MFDweight")
+
+authority_final_temp_gs <- authority_final_temp_gs %>% 
+  left_join(
+    authority_final_data_gs %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
 
 authority_final_temp_gs$lean[grepl("nytimes.com", authority_final_temp_gs$URL) |
                        grepl("npr.org", authority_final_temp_gs$URL) |
@@ -3798,12 +3763,23 @@ authority_icc_gs <- lme(MFDweight ~ 1,
                  na.action = "na.omit",
                  random = list(~1|Source))
 
+authority_icc_gs_p <- lme(percent ~ 1,
+                 data = authority_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 authority_model_gs = lme(MFDweight ~ lean,
                  data = authority_final_temp_gs,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
-summary(authority_model_gs)
+
+authority_model_gs_p = lme(percent ~ lean,
+                 data = authority_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
 
 # check linearity
 random <- rchisq(nrow(authority_final_temp_gs), 7)
@@ -3824,6 +3800,14 @@ purity_final_temp_gs = aggregate(purity_final_data_gs$weight,
           by = list(purity_final_data_gs$URL),
           FUN = sum, na.rm = T)
 colnames(purity_final_temp_gs) = c("URL", "MFDweight")
+
+purity_final_temp_gs <- purity_final_temp_gs %>% 
+  left_join(
+    purity_final_data_gs %>% 
+  group_by(URL) %>% 
+  summarize(percent = sum(Freq)/unique(wordcount)*100), 
+  by = "URL"
+  )
 
 purity_final_temp_gs$lean[grepl("nytimes.com", purity_final_temp_gs$URL) |
                        grepl("npr.org", purity_final_temp_gs$URL) |
@@ -3854,12 +3838,23 @@ purity_icc_gs <- lme(MFDweight ~ 1,
                  na.action = "na.omit",
                  random = list(~1|Source))
 
+purity_icc_gs_p <- lme(percent ~ 1,
+                 data = purity_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
+
 purity_model_gs = lme(MFDweight ~ lean,
                  data = purity_final_temp_gs,
                  method = "ML",
                  na.action = "na.omit",
                  random = list(~1|Source))
-summary(purity_model_gs)
+
+purity_model_gs_p = lme(percent ~ lean,
+                 data = purity_final_temp_gs,
+                 method = "ML",
+                 na.action = "na.omit",
+                 random = list(~1|Source))
 
 # check linearity
 random <- rchisq(nrow(purity_final_temp_gs), 7)
@@ -3870,209 +3865,11 @@ hist(residuals)
 {plot(fitted, residuals); abline(h = 0); abline(v = 0)}
 ```
 
-# Results
-
-## Descriptive Statistics
-
-We calculated descriptive statistics for each news source per topic in
-order to reveal the presence (if any) of linguistic differences in the
-sources' use of language. As in Study 1, statistics calculated include
-*z*-scored valence, number of articles per source, total words per
-source, mean tokens per article in each source, mean types per article
-in each source, and mean readability level (using the Flesch-Kincaid
-Grade Level Readability formula) per source [@Kincaid1975].
-
-Table \@ref(tab:exp2-source-descriptives-kav) displays the descriptive
-statistics for sources' writing on the Kavanaughnaugh confirmation
-hearing. The sources were similar in most basic linguistic aspects,
-except for number of articles. For example, *Sean Hannity* appears to
-have published only 27 articles while *Breitbart* published 757 articles
-on this topic. Valence was found to be slightly positive across all
-sources. *Fox News* produced the most total words with the most tokens
-on average. This is likely due to the fact *Fox News* transcribes many
-of their videos and publishes them in article form. *Politico* featured
-the highest number of types on average. *Rush Limbaugh* featured the
-lowest readability score on average by grade level while *Slate*
-featured the highest grade-level readability score. The large standard
-deviations for these statistics, however, preclude conclusions regarding
-differences in the sources' use of language, as there is likely a lot of
-overlap between sources' use of language.
-
-```{r exp2_descriptive_calculate_kav, include = F, echo = F}
-#Kav
-final_kav$uniquewords = NA
-final_kav$valenceavg = NA
-for (i in 1:nrow(final_kav)){
-
-  #add unique
-  final_kav$uniquewords[i] = length(unique(unlist(strsplit(final_kav$stemmed[i], " "))))
-
-  #add valence
-  tempwords_kav = as.data.frame(unlist(strsplit(final_kav$stemmed[i], " ")))
-  colnames(tempwords_kav) = "theword"
-  tempwords_kav$tempval = vlookup(tempwords_kav$theword, #index in original data
-                    warriner, #where's the stuff you want to put in
-                    "V.Mean.Sum", #what column is the stuff you want
-                    "Word2") #what's the matching index
-
-  final_kav$valenceavg[i] = mean(tempwords_kav$tempval, na.rm = T)
-}
-# tapply(final_kav$valenceavg, final_kav$Source, mean)
-# tapply(final_kav$valenceavg, final_kav$Source, sd)
-# tapply(final_kav$wordcount, final_kav$Source, mean)
-# tapply(final_kav$wordcount, final_kav$Source, sd)
-# tapply(final_kav$uniquewords, final_kav$Source, mean)
-# tapply(final_kav$uniquewords, final_kav$Source, sd)
-# tapply(final_kav$Source, final_kav$Source, length)
-# tapply(final_kav$wordcount, final_kav$Source, sum)
-library(quanteda)
-final_kav$FK = NA
-for (i in 1:nrow(final_kav)){
-  final_kav$FK[i] = unlist(textstat_readability(final_kav$Text[i],
-                     measure = "Flesch.Kincaid")$Flesch.Kincaid)
-}
-# tapply(final_kav$FK, final_kav$Source, mean)
-# tapply(final_kav$FK, final_kav$Source, sd)
-#Kav Table
-####build the table here####
-tableprint3 = matrix(NA, nrow=10, ncol=11)
-colnames(tableprint3) = c("Source", "Mean_Valence", "SD_Valence", "Number_of_Articles", "Total_Words", "Mean_Tokens", "SD_Tokens", "Mean_Types", "SD_Types", "Mean_Readability", "SD_Readability")
-#tableprint3[ , 1] = unique(final_kav$Source)
-tableprint3[ , 1] = c("The Blaze", "Breitbart", "Fox News", "Sean Hannity",
-                     "Huffington Post", "NPR", "New York Times", "Politico",
-                     "Rush Limbaugh", "Slate")
-tableprint3[ , 2] = tapply(final_kav$valenceavg, final_kav$Source, mean, na.rm = T)
-tableprint3[ , 3] = tapply(final_kav$valenceavg, final_kav$Source, sd, na.rm = T)
-tableprint3[ , 4] = tapply(final_kav$valenceavg, final_kav$Source, length)
-tableprint3[ , 5] = tapply(final_kav$wordcount, final_kav$Source, sum, na.rm = T)
-tableprint3[ , 6] = tapply(final_kav$wordcount, final_kav$Source, mean, na.rm = T)
-tableprint3[ , 7] = tapply(final_kav$wordcount, final_kav$Source, sd)
-tableprint3[ , 8] = tapply(final_kav$uniquewords, final_kav$Source, mean, na.rm = T)
-tableprint3[ , 9] = tapply(final_kav$uniquewords, final_kav$Source, sd, na.rm = T)
-tableprint3[ , 10] = tapply(final_kav$FK, final_kav$Source, mean, na.rm = T)
-tableprint3[ , 11] = tapply(final_kav$FK, final_kav$Source, sd, na.rm = T)
-tableprint3[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint3[ , c(2,3,6,7,8,9,10,11)]), big.mark = "")
-tableprint3 = tableprint3[c(5, 6, 7, 8, 10, 1, 2, 3, 4, 9), ]
-```
-
-```{r exp2-source-descriptives-kav, results = 'asis', echo = FALSE, message = F}
-#change this to match
-apa_table(as.data.frame(tableprint3),
-          note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid",
-          caption = "Kavanaugh - Descriptive Statistics by Source",
-          col.names = c("Source", "$M_V$", "$SD_V$", "$N_{Article}$", "$N_{Words}$", "$M_T$", "$SD_T$", "$M_{Ty}$", "$SD_{Ty}$", "$M_{FK}$", "$SD_{FK}$"),
-          format = "latex",
-          escape = F,
-          align = c("l", rep("c", 10)),
-          font_size = 'footnotesize',
-          placement = "h"
-          )
-```
-
-Table \@ref(tab:exp2-source-descriptives-gs) displays descriptive
-statistics for articles about the partial government shutdown. Like the
-Kavanaugh hearing, the sources were similar in average valence (slightly
-positive). Once again, there was variation in the number of articles
-published by each source on this topic. *Sean Hannity*, *Rush Limbaugh*,
-and *The Blaze* published fewer than 100 articles while *Fox News*
-published 1,013 articles. *Fox News* again featured the most total words
-and mean tokens, but this is likely due to to the presence of a large
-amount of video transcriptions that the organization published as
-articles. *Politico* had the most types on average. For this topic, *Fox
-News* featured the lowest reading grade level while *Slate* featured the
-highest reading grade level. For each statistic, the excessively high
-standard deviations render any assertions regarding linguistic
-differences inconclusive on a descriptive level due to the
-aforementioned overlap in sources' language use.
-
-```{r exp2_descriptive_calculate_gs}
-#GS
-final_gs$uniquewords = NA
-final_gs$valenceavg = NA
-
-for (i in 1:nrow(final_gs)){
-
-  #add unique
-  final_gs$uniquewords[i] = length(unique(unlist(strsplit(final_gs$stemmed[i], " "))))
-
-  #add valence
-  tempwords_gs = as.data.frame(unlist(strsplit(final_gs$stemmed[i], " ")))
-  colnames(tempwords_gs) = "theword"
-  tempwords_gs$tempval = vlookup(tempwords_gs$theword, #index in original data
-                    warriner, #where's the stuff you want to put in
-                    "V.Mean.Sum", #what column is the stuff you want
-                    "Word2") #what's the matching index
-
-  final_gs$valenceavg[i] = mean(tempwords_gs$tempval, na.rm = T)
-
-}
-
-
-# tapply(final_gs$valenceavg, final_gs$Source, mean)
-# tapply(final_gs$valenceavg, final_gs$Source, sd)
-# tapply(final_gs$wordcount, final_gs$Source, mean)
-# tapply(final_gs$wordcount, final_gs$Source, sd)
-# tapply(final_gs$uniquewords, final_gs$Source, mean)
-# tapply(final_gs$uniquewords, final_gs$Source, sd)
-# tapply(final_gs$Source, final_gs$Source, length)
-# tapply(final_gs$wordcount, final_gs$Source, sum)
-
-library(quanteda)
-
-final_gs$FK = NA
-
-for (i in 1:nrow(final_gs)){
-  final_gs$FK[i] = unlist(textstat_readability(final_gs$Text[i],
-                     measure = "Flesch.Kincaid")$Flesch.Kincaid)
-}
-
-# tapply(final_gs$FK, final_gs$Source, mean)
-# tapply(final_gs$FK, final_gs$Source, sd)
-
-#GS Table
-####build the table here####
-tableprint4 = matrix(NA, nrow=10, ncol=11)
-colnames(tableprint4) = c("Source", "Mean_Valence", "SD_Valence", "Number_of_Articles", "Total_Words", "Mean_Tokens", "SD_Tokens", "Mean_Types", "SD_Types", "Mean_Readability", "SD_Readability")
-
-#tableprint4[ , 1] = unique(final_gs$Source)
-tableprint4[ , 1] = c("The Blaze", "Breitbart", "Fox News", "Sean Hannity",
-                     "Huffington Post", "NPR", "New York Times", "Politico",
-                     "Rush Limbaugh", "Slate")
-tableprint4[ , 2] = tapply(final_gs$valenceavg, final_gs$Source, mean)
-tableprint4[ , 3] = tapply(final_gs$valenceavg, final_gs$Source, sd)
-tableprint4[ , 4] = tapply(final_gs$valenceavg, final_gs$Source, length)
-tableprint4[ , 5] = tapply(final_gs$wordcount, final_gs$Source, sum)
-tableprint4[ , 6] = tapply(final_gs$wordcount, final_gs$Source, mean)
-tableprint4[ , 7] = tapply(final_gs$wordcount, final_gs$Source, sd)
-tableprint4[ , 8] = tapply(final_gs$uniquewords, final_gs$Source, mean)
-tableprint4[ , 9] = tapply(final_gs$uniquewords, final_gs$Source, sd)
-tableprint4[ , 10] = tapply(final_gs$FK, final_gs$Source, mean)
-tableprint4[ , 11] = tapply(final_gs$FK, final_gs$Source, sd)
-
-tableprint4[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint4[ , c(2,3,6,7,8,9,10,11)]), big.mark = "")
-
-tableprint4 = tableprint4[c(5, 6, 7, 8, 10, 1, 2, 3, 4, 9), ]
-```
-
-```{r exp2-source-descriptives-gs, results = 'asis', echo = FALSE, message = F}
-#change this to match
-apa_table(as.data.frame(tableprint4),
-          note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid",
-          caption = "Government Shutdown - Descriptive Statistics by Source",
-          col.names = c("Source", "$M_V$", "$SD_V$", "$N_{Article}$", "$N_{Words}$", "$M_T$", "$SD_T$", "$M_{Ty}$", "$SD_{Ty}$", "$M_{FK}$", "$SD_{FK}$"),
-          format = "latex",
-          escape = F,
-          align = c("l", rep("c", 10)),
-          font_size = 'footnotesize',
-          placement = "h"
-          )
-```
-
-## Inferential Statistics
+## Results
 
 We utilized a multilevel model (MLM) to analyze if news sources
 leveraged different vocabularies based on target audience in the same
-manner as Study 1. Each foundation's weighted percentage was predicted
+manner as Study 2. Each foundation's weighted percentage was predicted
 by the source's political lean, using the individual source as a random
 intercept to control for the nested data structure. Two separate MLMs
 were constructed from datasets compiled for each topic of interest: the
@@ -4090,8 +3887,9 @@ in Table \@ref(tab:exp2-tablekav).
 
 ```{r exp2_kav_calc, include = F, echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
-tableprint_kav = matrix(NA, ncol = 9, nrow = 5)
-colnames(tableprint_kav) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d", "ICC")
+tableprint_kav = matrix(NA, ncol = 10, nrow = 10)
+colnames(tableprint_kav) = c("Model", 
+  "Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d", "ICC")
 
 #calculate d
 #harm
@@ -4103,6 +3901,14 @@ harm_d_kav = d.ind.t(m1 = mean(harm_final_temp_kav$MFDweight[harm_final_temp_kav
                  n2 = length(harm_final_temp_kav$MFDweight[harm_final_temp_kav$lean == "Liberal"]),
                  a = .05)
 
+harm_d_kav_p = d.ind.t(m1 = mean(harm_final_temp_kav$percent[harm_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 m2 = mean(harm_final_temp_kav$percent[harm_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(harm_final_temp_kav$percent[harm_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(harm_final_temp_kav$percent[harm_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 n1 = length(harm_final_temp_kav$percent[harm_final_temp_kav$lean == "Conservative"]),
+                 n2 = length(harm_final_temp_kav$percent[harm_final_temp_kav$lean == "Liberal"]),
+                 a = .05)
+
 #fair
 fair_d_kav = d.ind.t(m1 = mean(fair_final_temp_kav$MFDweight[fair_final_temp_kav$lean == "Conservative"], na.rm = T),
                  m2 = mean(fair_final_temp_kav$MFDweight[fair_final_temp_kav$lean == "Liberal"], na.rm = T),
@@ -4110,6 +3916,14 @@ fair_d_kav = d.ind.t(m1 = mean(fair_final_temp_kav$MFDweight[fair_final_temp_kav
                  sd2 = sd(fair_final_temp_kav$MFDweight[fair_final_temp_kav$lean == "Liberal"], na.rm = T),
                  n1 = length(fair_final_temp_kav$MFDweight[fair_final_temp_kav$lean == "Conservative"]),
                  n2 = length(fair_final_temp_kav$MFDweight[fair_final_temp_kav$lean == "Liberal"]),
+                 a = .05)
+
+fair_d_kav_p = d.ind.t(m1 = mean(fair_final_temp_kav$percent[fair_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 m2 = mean(fair_final_temp_kav$percent[fair_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(fair_final_temp_kav$percent[fair_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(fair_final_temp_kav$percent[fair_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 n1 = length(fair_final_temp_kav$percent[fair_final_temp_kav$lean == "Conservative"]),
+                 n2 = length(fair_final_temp_kav$percent[fair_final_temp_kav$lean == "Liberal"]),
                  a = .05)
 
 #ingroup
@@ -4121,6 +3935,14 @@ ingroup_d_kav = d.ind.t(m1 = mean(ingroup_final_temp_kav$MFDweight[ingroup_final
                  n2 = length(ingroup_final_temp_kav$MFDweight[ingroup_final_temp_kav$lean == "Liberal"]),
                  a = .05)
 
+ingroup_d_kav_p = d.ind.t(m1 = mean(ingroup_final_temp_kav$percent[ingroup_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 m2 = mean(ingroup_final_temp_kav$percent[ingroup_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(ingroup_final_temp_kav$percent[ingroup_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(ingroup_final_temp_kav$percent[ingroup_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 n1 = length(ingroup_final_temp_kav$percent[ingroup_final_temp_kav$lean == "Conservative"]),
+                 n2 = length(ingroup_final_temp_kav$percent[ingroup_final_temp_kav$lean == "Liberal"]),
+                 a = .05)
+
 #authority
 authority_d_kav = d.ind.t(m1 = mean(authority_final_temp_kav$MFDweight[authority_final_temp_kav$lean == "Conservative"], na.rm = T),
                  m2 = mean(authority_final_temp_kav$MFDweight[authority_final_temp_kav$lean == "Liberal"], na.rm = T),
@@ -4128,6 +3950,14 @@ authority_d_kav = d.ind.t(m1 = mean(authority_final_temp_kav$MFDweight[authority
                  sd2 = sd(authority_final_temp_kav$MFDweight[authority_final_temp_kav$lean == "Liberal"], na.rm = T),
                  n1 = length(authority_final_temp_kav$MFDweight[authority_final_temp_kav$lean == "Conservative"]),
                  n2 = length(authority_final_temp_kav$MFDweight[authority_final_temp_kav$lean == "Liberal"]),
+                 a = .05)
+
+authority_d_kav_p = d.ind.t(m1 = mean(authority_final_temp_kav$percent[authority_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 m2 = mean(authority_final_temp_kav$percent[authority_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(authority_final_temp_kav$percent[authority_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(authority_final_temp_kav$percent[authority_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 n1 = length(authority_final_temp_kav$percent[authority_final_temp_kav$lean == "Conservative"]),
+                 n2 = length(authority_final_temp_kav$percent[authority_final_temp_kav$lean == "Liberal"]),
                  a = .05)
 
 #purity
@@ -4139,39 +3969,64 @@ purity_d_kav = d.ind.t(m1 = mean(purity_final_temp_kav$MFDweight[purity_final_te
                  n2 = length(purity_final_temp_kav$MFDweight[purity_final_temp_kav$lean == "Liberal"]),
                  a = .05)
 
-#put in the numbers
-tableprint_kav[1, ] = c("Harm/Care", harm_d_kav$M1, harm_d_kav$sd1, harm_d_kav$M2, harm_d_kav$sd1,
-                    summary(harm_model_kav)$tTable[2,4], summary(harm_model_kav)$tTable[2,5],
-                    harm_d_kav$d, icc(harm_icc_k)$ICC_unadjusted)
-tableprint_kav[2, ] = c("Fairness/Reciprocity", fair_d_kav$M1, fair_d_kav$sd1, fair_d_kav$M2, fair_d_kav$sd1,
-                    summary(fair_model_kav)$tTable[2,4], summary(fair_model_kav)$tTable[2,5],
-                    fair_d_kav$d, icc(fair_icc_k)$ICC_unadjusted)
-tableprint_kav[3, ] = c("Ingroup/Loyalty", ingroup_d_kav$M1, ingroup_d_kav$sd1, ingroup_d_kav$M2, ingroup_d_kav$sd1,
-                    summary(ingroup_model_kav)$tTable[2,4], summary(ingroup_model_kav)$tTable[2,5],
-                    ingroup_d_kav$d, icc(ingroup_icc_k)$ICC_unadjusted)
-tableprint_kav[4, ] = c("Authority/Respect", authority_d_kav$M1, authority_d_kav$sd1, authority_d_kav$M2, authority_d_kav$sd1,
-                    summary(authority_model_kav)$tTable[2,4], summary(authority_model_kav)$tTable[2,5],
-                    authority_d_kav$d, icc(authority_icc_k)$ICC_unadjusted)
-tableprint_kav[5, ] = c("Purity/Sanctity", purity_d_kav$M1, purity_d_kav$sd1, purity_d_kav$M2, purity_d_kav$sd1,
-                    summary(purity_model_kav)$tTable[2,4], summary(purity_model_kav)$tTable[2,5],
-                    purity_d_kav$d, icc(purity_icc_k)$ICC_unadjusted)
+purity_d_kav_p = d.ind.t(m1 = mean(purity_final_temp_kav$percent[purity_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 m2 = mean(purity_final_temp_kav$percent[purity_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(purity_final_temp_kav$percent[purity_final_temp_kav$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(purity_final_temp_kav$percent[purity_final_temp_kav$lean == "Liberal"], na.rm = T),
+                 n1 = length(purity_final_temp_kav$percent[purity_final_temp_kav$lean == "Conservative"]),
+                 n2 = length(purity_final_temp_kav$percent[purity_final_temp_kav$lean == "Liberal"]),
+                 a = .05)
 
-tableprint_kav[ , c(2:6, 8)] = printnum(as.numeric(tableprint_kav[ , c(2:6, 8)]), big.mark = "")
-tableprint_kav[ , 7] = printp(as.numeric(tableprint_kav[ , 7]))
-tableprint_kav[ , 9] = printp(as.numeric(tableprint_kav[ , 9]))
+#put in the numbers
+tableprint_kav[1, ] = c("Valence", "Harm/Care", harm_d_kav$M1, harm_d_kav$sd1, harm_d_kav$M2, harm_d_kav$sd1,
+                    summary(harm_model_kav)$tTable[2,4], summary(harm_model_kav)$tTable[2,5],
+                    harm_d_kav$d, icc(harm_icc_k, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_kav[2, ] = c("Valence", "Fairness/Reciprocity", fair_d_kav$M1, fair_d_kav$sd1, fair_d_kav$M2, fair_d_kav$sd1,
+                    summary(fair_model_kav)$tTable[2,4], summary(fair_model_kav)$tTable[2,5],
+                    fair_d_kav$d, icc(fair_icc_k, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_kav[3, ] = c("Valence", "Ingroup/Loyalty", ingroup_d_kav$M1, ingroup_d_kav$sd1, ingroup_d_kav$M2, ingroup_d_kav$sd1,
+                    summary(ingroup_model_kav)$tTable[2,4], summary(ingroup_model_kav)$tTable[2,5],
+                    ingroup_d_kav$d, icc(ingroup_icc_k, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_kav[4, ] = c("Valence", "Authority/Respect", authority_d_kav$M1, authority_d_kav$sd1, authority_d_kav$M2, authority_d_kav$sd1,
+                    summary(authority_model_kav)$tTable[2,4], summary(authority_model_kav)$tTable[2,5],
+                    authority_d_kav$d, icc(authority_icc_k, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_kav[5, ] = c("Valence", "Purity/Sanctity", purity_d_kav$M1, purity_d_kav$sd1, purity_d_kav$M2, purity_d_kav$sd1,
+                    summary(purity_model_kav)$tTable[2,4], summary(purity_model_kav)$tTable[2,5],
+                    purity_d_kav$d, icc(purity_icc_k, tolerance = 1e-10)$ICC_unadjusted)
+
+tableprint_kav[6, ] = c("Original", "Harm/Care", harm_d_kav_p$M1, harm_d_kav_p$sd1, harm_d_kav_p$M2, harm_d_kav_p$sd1,
+                    summary(harm_model_kav_p)$tTable[2,4], summary(harm_model_kav_p)$tTable[2,5],
+                    harm_d_kav_p$d, icc(harm_icc_k_p, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_kav[7, ] = c("Original", "Fairness/Reciprocity", fair_d_kav_p$M1, fair_d_kav_p$sd1, fair_d_kav_p$M2, fair_d_kav_p$sd1,
+                    summary(fair_model_kav_p)$tTable[2,4], summary(fair_model_kav_p)$tTable[2,5],
+                    fair_d_kav_p$d, icc(fair_icc_k_p, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_kav[8, ] = c("Original", "Ingroup/Loyalty", ingroup_d_kav_p$M1, ingroup_d_kav_p$sd1, ingroup_d_kav_p$M2, ingroup_d_kav_p$sd1,
+                    summary(ingroup_model_kav_p)$tTable[2,4], summary(ingroup_model_kav_p)$tTable[2,5],
+                    ingroup_d_kav_p$d, icc(ingroup_icc_k_p, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_kav[9, ] = c("Original", "Authority/Respect", authority_d_kav_p$M1, authority_d_kav_p$sd1, authority_d_kav_p$M2, authority_d_kav_p$sd1,
+                    summary(authority_model_kav_p)$tTable[2,4], summary(authority_model_kav_p)$tTable[2,5],
+                    authority_d_kav_p$d, icc(authority_icc_k_p, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_kav[10, ] = c("Original", "Purity/Sanctity", purity_d_kav_p$M1, purity_d_kav_p$sd1, purity_d_kav_p$M2, purity_d_kav_p$sd1,
+                    summary(purity_model_kav_p)$tTable[2,4], summary(purity_model_kav_p)$tTable[2,5],
+                    purity_d_kav_p$d, icc(purity_icc_k_p, tolerance = 1e-10)$ICC_unadjusted)
+
+tableprint_kav[ , c(3:7, 9)] = printnum(as.numeric(tableprint_kav[ ,  c(3:7, 9)]), big.mark = "")
+tableprint_kav[ , 8] = printp(as.numeric(tableprint_kav[ , 8]))
+tableprint_kav[ , 10] = printp(as.numeric(tableprint_kav[ , 10]))
 ```
 
 ```{r exp2-tablekav, results = 'asis', echo = F}
 apa_table(as.data.frame(tableprint_kav),
           note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
           caption = "Kavanaugh Results - Multilevel Model",
-          col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$", "ICC"),
+          col.names = c("Model",
+            "Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$", "ICC"),
           format = "latex",
           escape = F,
-          align = c("l", rep("c", 7)),
+          align = c("l", "l", rep("c", 7)),
           font_size = 'footnotesize',
           placement = "h"
-          )
+          ) 
 ```
 
 For news articles about the partial U.S. Federal Government Shutdown of
@@ -4180,26 +4035,27 @@ lean for the moral foundations (see Table \@ref(tab:exp2-tablegs)). A
 small-to-medium effect size was observed for *authority/respect*. The
 effect was in the predicted direction as well, as conservative sources
 tended to offer more positive endorsements of the foundation than
-liberal sources. This effect was similar to Study 1 in which the largest
+liberal sources. This effect was similar to Study 2 in which the largest
 effect size was observed for *authority/respect*. As noted before, the
-effect found in Study 1 was in the opposite direction as what was
+effect found in Study 2 was in the opposite direction as what was
 hypothesized. Thus, it is difficult to draw comparisons between the two
 studies despite the similar pattern for effect size. Owing to a lack of
-similar effects for either Study 1 or the Kavanaugh topic, there is
+similar effects for either Study 2 or the Kavanaugh topic, there is
 doubt as to whether or not a practical or generalized effect exists for
 *authority/respect*.
 
 Based on the weighted percent values for the five foundations applied to
 both topics, MFD words seem to make up little of the article text. A
-similar pattern was observed for the results in Study 1. As in Study 1,
+similar pattern was observed for the results in Study 2. As in Study 2,
 the percentages and means seem to indicate a generally positive
 endorsement of all five moral foundations across both political
 leanings.
 
 ```{r exp2_gs_calc, include = F, echo = F}
 #MFD, mean, sd, mean, sd, t, p, d
-tableprint_gs = matrix(NA, ncol = 9, nrow = 5)
-colnames(tableprint_gs) = c("Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d", "ICC")
+tableprint_gs = matrix(NA, ncol = 10, nrow = 10)
+colnames(tableprint_gs) = c("Model",
+  "Foundation", "M_C", "SD_C", "M_L", "SD_L", "t", "p", "d", "ICC")
 
 #calculate d
 #harm
@@ -4211,6 +4067,14 @@ harm_d_gs = d.ind.t(m1 = mean(harm_final_temp_gs$MFDweight[harm_final_temp_gs$le
                  n2 = length(harm_final_temp_gs$MFDweight[harm_final_temp_gs$lean == "Liberal"]),
                  a = .05)
 
+harm_d_gs_p = d.ind.t(m1 = mean(harm_final_temp_gs$percent[harm_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 m2 = mean(harm_final_temp_gs$percent[harm_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(harm_final_temp_gs$percent[harm_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(harm_final_temp_gs$percent[harm_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 n1 = length(harm_final_temp_gs$percent[harm_final_temp_gs$lean == "Conservative"]),
+                 n2 = length(harm_final_temp_gs$percent[harm_final_temp_gs$lean == "Liberal"]),
+                 a = .05)
+
 #fair
 fair_d_gs = d.ind.t(m1 = mean(fair_final_temp_gs$MFDweight[fair_final_temp_gs$lean == "Conservative"], na.rm = T),
                  m2 = mean(fair_final_temp_gs$MFDweight[fair_final_temp_gs$lean == "Liberal"], na.rm = T),
@@ -4220,6 +4084,15 @@ fair_d_gs = d.ind.t(m1 = mean(fair_final_temp_gs$MFDweight[fair_final_temp_gs$le
                  n2 = length(fair_final_temp_gs$MFDweight[fair_final_temp_gs$lean == "Liberal"]),
                  a = .05)
 
+fair_d_gs_p = d.ind.t(m1 = mean(fair_final_temp_gs$percent[fair_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 m2 = mean(fair_final_temp_gs$percent[fair_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(fair_final_temp_gs$percent[fair_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(fair_final_temp_gs$percent[fair_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 n1 = length(fair_final_temp_gs$percent[fair_final_temp_gs$lean == "Conservative"]),
+                 n2 = length(fair_final_temp_gs$percent[fair_final_temp_gs$lean == "Liberal"]),
+                 a = .05)
+
+
 #ingroup
 ingroup_d_gs = d.ind.t(m1 = mean(ingroup_final_temp_gs$MFDweight[ingroup_final_temp_gs$lean == "Conservative"], na.rm = T),
                  m2 = mean(ingroup_final_temp_gs$MFDweight[ingroup_final_temp_gs$lean == "Liberal"], na.rm = T),
@@ -4227,6 +4100,14 @@ ingroup_d_gs = d.ind.t(m1 = mean(ingroup_final_temp_gs$MFDweight[ingroup_final_t
                  sd2 = sd(ingroup_final_temp_gs$MFDweight[ingroup_final_temp_gs$lean == "Liberal"], na.rm = T),
                  n1 = length(ingroup_final_temp_gs$MFDweight[ingroup_final_temp_gs$lean == "Conservative"]),
                  n2 = length(ingroup_final_temp_gs$MFDweight[ingroup_final_temp_gs$lean == "Liberal"]),
+                 a = .05)
+
+ingroup_d_gs_p = d.ind.t(m1 = mean(ingroup_final_temp_gs$percent[ingroup_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 m2 = mean(ingroup_final_temp_gs$percent[ingroup_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(ingroup_final_temp_gs$percent[ingroup_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(ingroup_final_temp_gs$percent[ingroup_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 n1 = length(ingroup_final_temp_gs$percent[ingroup_final_temp_gs$lean == "Conservative"]),
+                 n2 = length(ingroup_final_temp_gs$percent[ingroup_final_temp_gs$lean == "Liberal"]),
                  a = .05)
 
 #authority
@@ -4238,6 +4119,14 @@ authority_d_gs = d.ind.t(m1 = mean(authority_final_temp_gs$MFDweight[authority_f
                  n2 = length(authority_final_temp_gs$MFDweight[authority_final_temp_gs$lean == "Liberal"]),
                  a = .05)
 
+authority_d_gs_p = d.ind.t(m1 = mean(authority_final_temp_gs$percent[authority_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 m2 = mean(authority_final_temp_gs$percent[authority_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(authority_final_temp_gs$percent[authority_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(authority_final_temp_gs$percent[authority_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 n1 = length(authority_final_temp_gs$percent[authority_final_temp_gs$lean == "Conservative"]),
+                 n2 = length(authority_final_temp_gs$percent[authority_final_temp_gs$lean == "Liberal"]),
+                 a = .05)
+
 #purity
 purity_d_gs = d.ind.t(m1 = mean(purity_final_temp_gs$MFDweight[purity_final_temp_gs$lean == "Conservative"], na.rm = T),
                  m2 = mean(purity_final_temp_gs$MFDweight[purity_final_temp_gs$lean == "Liberal"], na.rm = T),
@@ -4247,39 +4136,64 @@ purity_d_gs = d.ind.t(m1 = mean(purity_final_temp_gs$MFDweight[purity_final_temp
                  n2 = length(purity_final_temp_gs$MFDweight[purity_final_temp_gs$lean == "Liberal"]),
                  a = .05)
 
+purity_d_gs_p = d.ind.t(m1 = mean(purity_final_temp_gs$percent[purity_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 m2 = mean(purity_final_temp_gs$percent[purity_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 sd1 = sd(purity_final_temp_gs$percent[purity_final_temp_gs$lean == "Conservative"], na.rm = T),
+                 sd2 = sd(purity_final_temp_gs$percent[purity_final_temp_gs$lean == "Liberal"], na.rm = T),
+                 n1 = length(purity_final_temp_gs$percent[purity_final_temp_gs$lean == "Conservative"]),
+                 n2 = length(purity_final_temp_gs$percent[purity_final_temp_gs$lean == "Liberal"]),
+                 a = .05)
+
 #put in the numbers
-tableprint_gs[1, ] = c("Harm/Care", harm_d_gs$M1, harm_d_gs$sd1, harm_d_gs$M2, harm_d_gs$sd1,
+tableprint_gs[1, ] = c("Valence", "Harm/Care", harm_d_gs$M1, harm_d_gs$sd1, harm_d_gs$M2, harm_d_gs$sd1,
                     summary(harm_model_gs)$tTable[2,4], summary(harm_model_gs)$tTable[2,5],
-                    harm_d_gs$d, icc(harm_icc_gs)$ICC_unadjusted)
-tableprint_gs[2, ] = c("Fairness/Reciprocity", fair_d_gs$M1, fair_d_gs$sd1, fair_d_gs$M2, fair_d_gs$sd1,
+                    harm_d_gs$d, icc(harm_icc_gs, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_gs[2, ] = c("Valence", "Fairness/Reciprocity", fair_d_gs$M1, fair_d_gs$sd1, fair_d_gs$M2, fair_d_gs$sd1,
                     summary(fair_model_gs)$tTable[2,4], summary(fair_model_gs)$tTable[2,5],
-                    fair_d_gs$d, icc(fair_icc_gs)$ICC_unadjusted)
-tableprint_gs[3, ] = c("Ingroup/Loyalty", ingroup_d_gs$M1, ingroup_d_gs$sd1, ingroup_d_gs$M2, ingroup_d_gs$sd1,
+                    fair_d_gs$d, icc(fair_icc_gs, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_gs[3, ] = c("Valence", "Ingroup/Loyalty", ingroup_d_gs$M1, ingroup_d_gs$sd1, ingroup_d_gs$M2, ingroup_d_gs$sd1,
                     summary(ingroup_model_gs)$tTable[2,4], summary(ingroup_model_gs)$tTable[2,5],
                     ingroup_d_gs$d, icc(ingroup_icc_gs)$ICC_unadjusted)
-tableprint_gs[4, ] = c("Authority/Respect", authority_d_gs$M1, authority_d_gs$sd1, authority_d_gs$M2, authority_d_gs$sd1,
+tableprint_gs[4, ] = c("Valence", "Authority/Respect", authority_d_gs$M1, authority_d_gs$sd1, authority_d_gs$M2, authority_d_gs$sd1,
                     summary(authority_model_gs)$tTable[2,4], summary(authority_model_gs)$tTable[2,5],
-                    authority_d_gs$d, icc(authority_icc_gs)$ICC_unadjusted)
-tableprint_gs[5, ] = c("Purity/Sanctity", purity_d_gs$M1, purity_d_gs$sd1, purity_d_gs$M2, purity_d_gs$sd1,
+                    authority_d_gs$d, icc(authority_icc_gs, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_gs[5, ] = c("Valence", "Purity/Sanctity", purity_d_gs$M1, purity_d_gs$sd1, purity_d_gs$M2, purity_d_gs$sd1,
                     summary(purity_model_gs)$tTable[2,4], summary(purity_model_gs)$tTable[2,5],
-                    purity_d_gs$d, icc(purity_icc_gs)$ICC_unadjusted)
+                    purity_d_gs$d, icc(purity_icc_gs, tolerance = 1e-10)$ICC_unadjusted)
 
-tableprint_gs[ , c(2:6, 8)] = printnum(as.numeric(tableprint_gs[ , c(2:6, 8)]), big.mark = "")
-tableprint_gs[ , 7] = printp(as.numeric(tableprint_gs[ , 7]))
-tableprint_gs[ , 9] = printp(as.numeric(tableprint_gs[ , 9]))
+tableprint_gs[6, ] = c("Original", "Harm/Care", harm_d_gs_p$M1, harm_d_gs_p$sd1, harm_d_gs_p$M2, harm_d_gs_p$sd1,
+                    summary(harm_model_gs_p)$tTable[2,4], summary(harm_model_gs_p)$tTable[2,5],
+                    harm_d_gs_p$d, icc(harm_icc_gs_p, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_gs[7, ] = c("Original", "Fairness/Reciprocity", fair_d_gs_p$M1, fair_d_gs_p$sd1, fair_d_gs_p$M2, fair_d_gs_p$sd1,
+                    summary(fair_model_gs_p)$tTable[2,4], summary(fair_model_gs_p)$tTable[2,5],
+                    fair_d_gs_p$d, icc(fair_icc_gs_p, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_gs[8, ] = c("Original", "Ingroup/Loyalty", ingroup_d_gs_p$M1, ingroup_d_gs_p$sd1, ingroup_d_gs_p$M2, ingroup_d_gs_p$sd1,
+                    summary(ingroup_model_gs_p)$tTable[2,4], summary(ingroup_model_gs_p)$tTable[2,5],
+                    ingroup_d_gs_p$d, icc(ingroup_icc_gs_p)$ICC_unadjusted)
+tableprint_gs[9, ] = c("Original", "Authority/Respect", authority_d_gs_p$M1, authority_d_gs_p$sd1, authority_d_gs_p$M2, authority_d_gs_p$sd1,
+                    summary(authority_model_gs_p)$tTable[2,4], summary(authority_model_gs_p)$tTable[2,5],
+                    authority_d_gs_p$d, icc(authority_icc_gs_p, tolerance = 1e-10)$ICC_unadjusted)
+tableprint_gs[10, ] = c("Original", "Purity/Sanctity", purity_d_gs_p$M1, purity_d_gs_p$sd1, purity_d_gs_p$M2, purity_d_gs_p$sd1,
+                    summary(purity_model_gs)$tTable[2,4], summary(purity_model_gs)$tTable[2,5],
+                    purity_d_gs$d, icc(purity_icc_gs, tolerance = 1e-10)$ICC_unadjusted)
+
+tableprint_gs[ , c(3:7, 9)] = printnum(as.numeric(tableprint_gs[ , c(3:7, 9)]), big.mark = "")
+tableprint_gs[ , 8] = printp(as.numeric(tableprint_gs[ , 8]))
+tableprint_gs[ , 10] = printp(as.numeric(tableprint_gs[ , 10]))
 ```
 
 ```{r exp2-tablegs, results = 'asis', echo = F}
 apa_table(as.data.frame(tableprint_gs),
           note = "For mean and standard deviation values, 'C' and 'L' refer to 'conservative' and 'liberal,' respectively",
           caption = "Government Shutdown Results - Multilevel Model",
-          col.names = c("Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$", "ICC"),
+          col.names = c("Model", 
+            "Foundation", "$M_C$", "$SD_C$", "$M_L$", "$SD_L$", "$t$", "$p$", "$d$", "ICC"),
           format = "latex",
           escape = F,
-          align = c("l", rep("c", 7)),
+          align = c("l", "l", rep("c", 7)),
           font_size = 'footnotesize',
           placement = "h"
-          )
+          ) 
 ```
 
 ```{r conference-pic_kav, eval = F, include = F}
@@ -4357,9 +4271,9 @@ graph_data_gs = ggplot(graphlong_gs, aes(Foundation, value, color = variable)) +
 #dev.off()
 ```
 
-# Discussion
+## Discussion
 
-The results obtained in Study 2 are slightly more in line with
+The results obtained in Study 3 are slightly more in line with
 expectations from MFT, however, in all but one case, the differences
 were not statistically significant. The only statistically significant
 difference was in the harm foundation; liberals did endorse harm more
@@ -4375,9 +4289,9 @@ more by conservatives for the government shutdown, but more by liberals
 for the Kavanaugh hearing though neither difference was statistically
 significant.
 
-Together with Study 1 and past work, Study 2 further calls into question
+Together with Study 2 and past work, Study 3 further calls into question
 the usefulness and efficacy of the Moral Foundations as well as cast
-doubt on the predictions made by MFT. One issue that Study 2 brings up
+doubt on the predictions made by MFT. One issue that Study 3 brings up
 is that moral differences between liberals and conservatives may be
 moderated by a number of factors as shown in @Sterling2018. For example,
 here we have liberals concerned with purity for the Kavanaugh hearings
@@ -4389,14 +4303,16 @@ much more complex in reality.
 
 # Conclusions
 
-Within the theoretical framework of MFT [@Haidt2007], we attempted to
-devise a method leveraging the MFD [@Graham2009] in order to quantify
+Within the theoretical framework of MFT [@Haidt2007], we attempted to improve the MFD [@Graham2009] and demonstrate its relation with other reliable measurements of moral foundations, the MFQ. In Study 1, we examined potential new concepts to add to the MFD by collecting word associations and moral related texts from participants. Several dictionary improvements were suggested, but the results of a multi-trait multi-method analysis indicate that the MFD does not relate to the moral foundations found in the MFD. Therefore, we did not find support for the use of the MFD in relation to the MFT using a convergent and divergent validity technique. 
+
+In Study 2 and 3, we attempted to
+devise a method leveraging the MFD in order to quantify
 political bias stemming from content published by several prominent
-American news sources. In Study 1,the results obtained were not
+American news sources. In Study 2, the results obtained were not
 significant in any statistical or practical sense. There was a small
 effect found for the *authority/respect* foundation according to Cohen's
 *d*, but the effect suggested endorsement for that foundation opposite
-to what was hypothesized. In Study 2, the direction of the differences
+to what was hypothesized. In Study 3, the direction of the differences
 were generally in line with MFT, however, the difference were very small
 and lacks statistically significance. Building on @Frimer2020 and other
 critiques of MFT and the MFD, we show that MFD is not a useful tool for
@@ -4474,12 +4390,13 @@ understood.
 
 # References
 
-```{=tex}
-\begingroup
-```
-::: {#refs custom-style="Bibliography"}
+::: {#refs}
 :::
 
-```{=tex}
-\endgroup
+\newpage
+
+# (APPENDIX) Appendix {.unnumbered}
+
+```{r child = "appendix.Rmd"}
 ```
+

@@ -1,0 +1,316 @@
+---
+title: "appendix.Rmd"
+---
+
+# Study 2: Descriptive Statistics
+
+```{r exp1_descriptive_calc, echo = F, include = F}
+final$uniquewords = NA
+final$valenceavg = NA
+
+for (i in 1:nrow(final)){
+
+  #add unique
+  final$uniquewords[i] = length(unique(unlist(strsplit(final$stemmed[i], " "))))
+
+  #add valence
+  tempwords = as.data.frame(unlist(strsplit(final$stemmed[i], " ")))
+  colnames(tempwords) = "theword"
+  tempwords$tempval = vlookup(tempwords$theword, #index in original data
+                    warriner, #where's the stuff you want to put in
+                    "V.Mean.Sum", #what column is the stuff you want
+                    "Word2") #what's the matching index
+
+  final$valenceavg[i] = mean(tempwords$tempval, na.rm = T)
+
+}
+
+
+# tapply(final$valenceavg, final$Source, mean)
+# tapply(final$valenceavg, final$Source, sd)
+# tapply(final$wordcount, final$Source, mean)
+# tapply(final$wordcount, final$Source, sd)
+# tapply(final$uniquewords, final$Source, mean)
+# tapply(final$uniquewords, final$Source, sd)
+# tapply(final$Source, final$Source, length)
+# tapply(final$wordcount, final$Source, sum)
+
+final$FK = NA
+
+for (i in 1:nrow(final)){
+  final$FK[i] = unlist(textstat_readability(final$Text[i],
+                     measure = "Flesch.Kincaid")$Flesch.Kincaid)
+}
+
+# tapply(final$FK, final$Source, mean)
+# tapply(final$FK, final$Source, sd)
+
+####build the table here####
+tableprint = matrix(NA, nrow = 4, ncol = 11)
+colnames(tableprint) = c("Source", 
+                         "Mean_Valence", "SD_Valence", "Number_of_Articles",
+                         "Total_Words", "Mean_Tokens", "SD_Tokens", "Mean_Types",
+                         "SD_Types", "Mean_Readability", "SD_Readability")
+
+#tableprint[ , 1] = unique(final$Source)
+tableprint[ , 1] = c("Breitbart", "Fox News", "NPR", "New York Times")
+tableprint[ , 2] = tapply(final$valenceavg, final$Source, mean)
+tableprint[ , 3] = tapply(final$valenceavg, final$Source, sd)
+tableprint[ , 4] = tapply(final$valenceavg, final$Source, length)
+tableprint[ , 5] = tapply(final$wordcount, final$Source, sum)
+tableprint[ , 6] = tapply(final$wordcount, final$Source, mean)
+tableprint[ , 7] = tapply(final$wordcount, final$Source, sd)
+tableprint[ , 8] = tapply(final$uniquewords, final$Source, mean)
+tableprint[ , 9] = tapply(final$uniquewords, final$Source, sd)
+tableprint[ , 10] = tapply(final$FK, final$Source, mean)
+tableprint[ , 11] = tapply(final$FK, final$Source, sd)
+
+
+tableprint[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint[ , c(2,3,6,7,8,9,10,11)]), big.mark = "")
+
+tableprint = tableprint[c(3, 4, 1, 2) , ]
+```
+
+We calculated descriptive statistics for each news source in order to
+understand any and all fundamental linguistic differences in the
+sources' use of English. Statistics calculated included average
+*z*-scored valence of the unique words per article, number of articles
+per source, total number of words per source, average number of tokens
+(words) per article in each source, average number of types (unique
+words) per article in each source, and mean readability level per
+source. Readability statistics were calculated using the Flesch-Kincaid
+Grade Level Readability formula [@Kincaid1975]. Readability is
+calculated using a formula where the total number of syllables, words,
+and sentences in a given passage are determinants of its difficulty. The
+obtained value is intended to match up with the U.S. grade level at
+which one should be able to comfortably read the passage [@Kincaid1975].
+For example, a text with a readability score of 11 should be easily read
+by a U.S. high school junior.
+
+As seen in Table \@ref(tab:exp1-source-descriptives), the sources are
+similar in some aspects yet different in others. Valence appears to be
+slightly positive across all sources. The large standard deviations seem
+to indicate little to no presence of a difference in valence across
+sources. *NYT* published the greatest number of articles as well as
+total words. *Breitbart* featured the lowest number of articles, and
+*NPR* the lowest number of total words from all articles. Per individual
+article, however, *Breitbart* appears to feature the highest average
+number of words as well as unique words. Once again the standard
+deviations call into question any apparent differences between sources.
+Finally, *Fox News* articles had the lowest reading grade level on
+average, while *NYT* had the highest. This result might be attributable
+to the greater number of tokens in the average *NYT* article compared to
+*Fox News*. The standard deviations for readability suggest the presence
+of a diverse array of articles for each source, ranging from low to high
+reading level. Large standard deviations suggest the sources feature a
+lot of overlap between them in their representation of scores.
+
+```{r exp1-source-descriptives, results = 'asis', echo = FALSE}
+#change this to match
+apa_table(as.data.frame(tableprint),
+          note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid",
+          caption = "Study 2 - Descriptive Statistics by Source",
+          col.names = c("Source", "$M_V$", "$SD_V$", "$N_{Article}$", "$N_{Words}$", "$M_T$", "$SD_T$", "$M_{Ty}$", "$SD_{Ty}$", "$M_{FK}$", "$SD_{FK}$"),
+          format = "latex",
+          escape = F,
+          align = c("l", rep("c", 10)),
+          font_size = 'footnotesize',
+          placement = "h"
+          )
+```
+
+# Study 3: Descriptive Statistics
+
+We calculated descriptive statistics for each news source per topic in
+order to reveal the presence (if any) of linguistic differences in the
+sources' use of language. As in Study 1, statistics calculated include
+*z*-scored valence, number of articles per source, total words per
+source, mean tokens per article in each source, mean types per article
+in each source, and mean readability level (using the Flesch-Kincaid
+Grade Level Readability formula) per source [@Kincaid1975].
+
+Table \@ref(tab:exp2-source-descriptives-kav) displays the descriptive
+statistics for sources' writing on the Kavanaughnaugh confirmation
+hearing. The sources were similar in most basic linguistic aspects,
+except for number of articles. For example, *Sean Hannity* appears to
+have published only 27 articles while *Breitbart* published 757 articles
+on this topic. Valence was found to be slightly positive across all
+sources. *Fox News* produced the most total words with the most tokens
+on average. This is likely due to the fact *Fox News* transcribes many
+of their videos and publishes them in article form. *Politico* featured
+the highest number of types on average. *Rush Limbaugh* featured the
+lowest readability score on average by grade level while *Slate*
+featured the highest grade-level readability score. The large standard
+deviations for these statistics, however, preclude conclusions regarding
+differences in the sources' use of language, as there is likely a lot of
+overlap between sources' use of language.
+
+```{r exp2_descriptive_calculate_kav, include = F, echo = F}
+#Kav
+final_kav$uniquewords = NA
+final_kav$valenceavg = NA
+for (i in 1:nrow(final_kav)){
+
+  #add unique
+  final_kav$uniquewords[i] = length(unique(unlist(strsplit(final_kav$stemmed[i], " "))))
+
+  #add valence
+  tempwords_kav = as.data.frame(unlist(strsplit(final_kav$stemmed[i], " ")))
+  colnames(tempwords_kav) = "theword"
+  tempwords_kav$tempval = vlookup(tempwords_kav$theword, #index in original data
+                    warriner, #where's the stuff you want to put in
+                    "V.Mean.Sum", #what column is the stuff you want
+                    "Word2") #what's the matching index
+
+  final_kav$valenceavg[i] = mean(tempwords_kav$tempval, na.rm = T)
+}
+# tapply(final_kav$valenceavg, final_kav$Source, mean)
+# tapply(final_kav$valenceavg, final_kav$Source, sd)
+# tapply(final_kav$wordcount, final_kav$Source, mean)
+# tapply(final_kav$wordcount, final_kav$Source, sd)
+# tapply(final_kav$uniquewords, final_kav$Source, mean)
+# tapply(final_kav$uniquewords, final_kav$Source, sd)
+# tapply(final_kav$Source, final_kav$Source, length)
+# tapply(final_kav$wordcount, final_kav$Source, sum)
+library(quanteda)
+final_kav$FK = NA
+for (i in 1:nrow(final_kav)){
+  final_kav$FK[i] = unlist(textstat_readability(final_kav$Text[i],
+                     measure = "Flesch.Kincaid")$Flesch.Kincaid)
+}
+# tapply(final_kav$FK, final_kav$Source, mean)
+# tapply(final_kav$FK, final_kav$Source, sd)
+#Kav Table
+####build the table here####
+tableprint3 = matrix(NA, nrow = 10, ncol = 11)
+colnames(tableprint3) = c("Source", "Mean_Valence", "SD_Valence", "Number_of_Articles", "Total_Words", "Mean_Tokens", "SD_Tokens", "Mean_Types", "SD_Types", "Mean_Readability", "SD_Readability")
+#tableprint3[ , 1] = unique(final_kav$Source)
+tableprint3[ , 1] = c("The Blaze", "Breitbart", "Fox News", "Sean Hannity",
+                     "Huffington Post", "NPR", "New York Times", "Politico",
+                     "Rush Limbaugh", "Slate")
+tableprint3[ , 2] = tapply(final_kav$valenceavg, final_kav$Source, mean, na.rm = T)
+tableprint3[ , 3] = tapply(final_kav$valenceavg, final_kav$Source, sd, na.rm = T)
+tableprint3[ , 4] = tapply(final_kav$valenceavg, final_kav$Source, length)
+tableprint3[ , 5] = tapply(final_kav$wordcount, final_kav$Source, sum, na.rm = T)
+tableprint3[ , 6] = tapply(final_kav$wordcount, final_kav$Source, mean, na.rm = T)
+tableprint3[ , 7] = tapply(final_kav$wordcount, final_kav$Source, sd)
+tableprint3[ , 8] = tapply(final_kav$uniquewords, final_kav$Source, mean, na.rm = T)
+tableprint3[ , 9] = tapply(final_kav$uniquewords, final_kav$Source, sd, na.rm = T)
+tableprint3[ , 10] = tapply(final_kav$FK, final_kav$Source, mean, na.rm = T)
+tableprint3[ , 11] = tapply(final_kav$FK, final_kav$Source, sd, na.rm = T)
+tableprint3[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint3[ , c(2,3,6,7,8,9,10,11)]), big.mark = "")
+tableprint3 = tableprint3[c(5, 6, 7, 8, 10, 1, 2, 3, 4, 9), ]
+```
+
+```{r exp2-source-descriptives-kav, results = 'asis', echo = FALSE, message = F}
+#change this to match
+apa_table(as.data.frame(tableprint3),
+          note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid",
+          caption = "Kavanaugh - Descriptive Statistics by Source",
+          col.names = c("Source", "$M_V$", "$SD_V$", "$N_{Article}$", "$N_{Words}$", "$M_T$", "$SD_T$", "$M_{Ty}$", "$SD_{Ty}$", "$M_{FK}$", "$SD_{FK}$"),
+          format = "latex",
+          escape = F,
+          align = c("l", rep("c", 10)),
+          font_size = 'footnotesize',
+          placement = "h"
+          )
+```
+
+Table \@ref(tab:exp2-source-descriptives-gs) displays descriptive
+statistics for articles about the partial government shutdown. Like the
+Kavanaugh hearing, the sources were similar in average valence (slightly
+positive). Once again, there was variation in the number of articles
+published by each source on this topic. *Sean Hannity*, *Rush Limbaugh*,
+and *The Blaze* published fewer than 100 articles while *Fox News*
+published 1,013 articles. *Fox News* again featured the most total words
+and mean tokens, but this is likely due to to the presence of a large
+amount of video transcriptions that the organization published as
+articles. *Politico* had the most types on average. For this topic, *Fox
+News* featured the lowest reading grade level while *Slate* featured the
+highest reading grade level. For each statistic, the excessively high
+standard deviations render any assertions regarding linguistic
+differences inconclusive on a descriptive level due to the
+aforementioned overlap in sources' language use.
+
+```{r exp2_descriptive_calculate_gs}
+#GS
+final_gs$uniquewords = NA
+final_gs$valenceavg = NA
+
+for (i in 1:nrow(final_gs)){
+
+  #add unique
+  final_gs$uniquewords[i] = length(unique(unlist(strsplit(final_gs$stemmed[i], " "))))
+
+  #add valence
+  tempwords_gs = as.data.frame(unlist(strsplit(final_gs$stemmed[i], " ")))
+  colnames(tempwords_gs) = "theword"
+  tempwords_gs$tempval = vlookup(tempwords_gs$theword, #index in original data
+                    warriner, #where's the stuff you want to put in
+                    "V.Mean.Sum", #what column is the stuff you want
+                    "Word2") #what's the matching index
+
+  final_gs$valenceavg[i] = mean(tempwords_gs$tempval, na.rm = T)
+
+}
+
+
+# tapply(final_gs$valenceavg, final_gs$Source, mean)
+# tapply(final_gs$valenceavg, final_gs$Source, sd)
+# tapply(final_gs$wordcount, final_gs$Source, mean)
+# tapply(final_gs$wordcount, final_gs$Source, sd)
+# tapply(final_gs$uniquewords, final_gs$Source, mean)
+# tapply(final_gs$uniquewords, final_gs$Source, sd)
+# tapply(final_gs$Source, final_gs$Source, length)
+# tapply(final_gs$wordcount, final_gs$Source, sum)
+
+library(quanteda)
+
+final_gs$FK = NA
+
+for (i in 1:nrow(final_gs)){
+  final_gs$FK[i] = unlist(textstat_readability(final_gs$Text[i],
+                     measure = "Flesch.Kincaid")$Flesch.Kincaid)
+}
+
+# tapply(final_gs$FK, final_gs$Source, mean)
+# tapply(final_gs$FK, final_gs$Source, sd)
+
+#GS Table
+####build the table here####
+tableprint4 = matrix(NA, nrow = 10, ncol = 11)
+colnames(tableprint4) = c("Source", "Mean_Valence", "SD_Valence", "Number_of_Articles", "Total_Words", "Mean_Tokens", "SD_Tokens", "Mean_Types", "SD_Types", "Mean_Readability", "SD_Readability")
+
+#tableprint4[ , 1] = unique(final_gs$Source)
+tableprint4[ , 1] = c("The Blaze", "Breitbart", "Fox News", "Sean Hannity",
+                     "Huffington Post", "NPR", "New York Times", "Politico",
+                     "Rush Limbaugh", "Slate")
+tableprint4[ , 2] = tapply(final_gs$valenceavg, final_gs$Source, mean)
+tableprint4[ , 3] = tapply(final_gs$valenceavg, final_gs$Source, sd)
+tableprint4[ , 4] = tapply(final_gs$valenceavg, final_gs$Source, length)
+tableprint4[ , 5] = tapply(final_gs$wordcount, final_gs$Source, sum)
+tableprint4[ , 6] = tapply(final_gs$wordcount, final_gs$Source, mean)
+tableprint4[ , 7] = tapply(final_gs$wordcount, final_gs$Source, sd)
+tableprint4[ , 8] = tapply(final_gs$uniquewords, final_gs$Source, mean)
+tableprint4[ , 9] = tapply(final_gs$uniquewords, final_gs$Source, sd)
+tableprint4[ , 10] = tapply(final_gs$FK, final_gs$Source, mean)
+tableprint4[ , 11] = tapply(final_gs$FK, final_gs$Source, sd)
+
+tableprint4[ , c(2,3,6,7,8,9,10,11)] = printnum(as.numeric(tableprint4[ , c(2,3,6,7,8,9,10,11)]), big.mark = "")
+
+tableprint4 = tableprint4[c(5, 6, 7, 8, 10, 1, 2, 3, 4, 9), ]
+```
+
+```{r exp2-source-descriptives-gs, results = 'asis', echo = FALSE, message = F}
+#change this to match
+apa_table(as.data.frame(tableprint4),
+          note = "Readability statistics were calculated using the Flesch-Kincaid Grade Level readability formula. V = Valence, T = Tokens or total words, Ty = Types or unique words, FK = Flesch-Kincaid",
+          caption = "Government Shutdown - Descriptive Statistics by Source",
+          col.names = c("Source", "$M_V$", "$SD_V$", "$N_{Article}$", "$N_{Words}$", "$M_T$", "$SD_T$", "$M_{Ty}$", "$SD_{Ty}$", "$M_{FK}$", "$SD_{FK}$"),
+          format = "latex",
+          escape = F,
+          align = c("l", rep("c", 10)),
+          font_size = 'footnotesize',
+          placement = "h"
+          )
+```
